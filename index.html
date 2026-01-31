@@ -1,256 +1,201 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Kalyani Devi School of Education</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
-    :root{
-      --primary:#1e6f5c;
-      --secondary:#f4f9f4;
-      --accent:#f9b208;
-      --dark:#1b1b1b;
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: #f5f7fa;
+      color: #333;
     }
-    body{
-      margin:0;
-      font-family:'Poppins','Noto Sans Devanagari',sans-serif;
-      background:#fff;
-      color:#333;
+
+    header {
+      background: #0b4d91;
+      color: white;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
-    header{
-      background:var(--primary);
-      color:#fff;
-      padding:10px 20px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
+
+    header img {
+      height: 60px;
     }
-    header .logo{
-      display:flex;
-      align-items:center;
-      gap:10px;
+
+    header h1 {
+      margin: 0;
+      font-size: 22px;
     }
-    header img{
-      width:50px;
-      height:50px;
-      background:#fff;
-      border-radius:50%;
+
+    nav {
+      background: #083b70;
+      padding: 10px;
+      text-align: center;
     }
-    nav a{
-      color:#fff;
-      margin:0 10px;
-      text-decoration:none;
-      font-weight:500;
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: 500;
     }
-    .lang-switch{
-      background:#fff;
-      color:var(--primary);
-      border:none;
-      padding:5px 10px;
-      cursor:pointer;
-      border-radius:5px;
-      font-weight:600;
+
+    section {
+      padding: 30px 20px;
+      max-width: 1100px;
+      margin: auto;
     }
-    .hero{
-      background:url('https://images.unsplash.com/photo-1604147706283-d7119b5b822c') center/cover no-repeat;
-      padding:80px 20px;
-      text-align:center;
-      color:#fff;
+
+    h2 {
+      color: #0b4d91;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 5px;
     }
-    .hero h1{
-      font-size:36px;
-      margin-bottom:10px;
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
     }
-    .hero p{
-      max-width:700px;
-      margin:auto;
-      font-size:18px;
+
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      text-align: center;
     }
-    section{
-      padding:50px 20px;
-      max-width:1200px;
-      margin:auto;
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
     }
-    h2{
-      text-align:center;
-      color:var(--primary);
-      margin-bottom:30px;
+
+    footer {
+      background: #0b4d91;
+      color: white;
+      text-align: center;
+      padding: 15px;
     }
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-      gap:20px;
-    }
-    .card{
-      background:var(--secondary);
-      padding:20px;
-      border-radius:10px;
-      box-shadow:0 4px 10px rgba(0,0,0,0.05);
-    }
-    .gallery img{
-      width:100%;
-      height:200px;
-      object-fit:cover;
-      border-radius:10px;
-    }
-    .teacher img{
-      width:100%;
-      height:220px;
-      object-fit:cover;
-      border-radius:10px;
-    }
-    .notice{
-      background:#fff8e1;
-      padding:15px;
-      border-left:5px solid var(--accent);
-    }
-    footer{
-      background:var(--dark);
-      color:#fff;
-      padding:30px 20px;
-      text-align:center;
-    }
-    .whatsapp{
-      position:fixed;
-      right:20px;
-      bottom:20px;
-      background:#25D366;
-      color:#fff;
-      padding:15px 18px;
-      border-radius:50%;
-      font-size:22px;
-      text-decoration:none;
-    }
-    @media(max-width:600px){
-      .hero h1{font-size:26px;}
+
+    .whatsapp {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25D366;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
     }
   </style>
 </head>
+
 <body>
 
+<!-- HEADER WITH LOGO -->
 <header>
-  <div class="logo">
-    <img src="https://via.placeholder.com/100" alt="School Logo">
-    <strong>KALYANI DEVI SCHOOL OF EDUCATION</strong>
-  </div>
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#academics">Academics</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#teachers">Teachers</a>
-    <a href="#admission">Admission</a>
-    <a href="#contact">Contact</a>
-  </nav>
-  <button class="lang-switch" onclick="toggleLang()">हिंदी</button>
+  <img src="images/logo.png" alt="School Logo">
+  <h1>KALYANI DEVI SCHOOL OF EDUCATION</h1>
 </header>
 
-<div class="hero" id="home">
-  <h1 data-en="Welcome to Kalyani Devi School of Education" data-hi="कल्याणी देवी स्कूल ऑफ एजुकेशन में आपका स्वागत है"></h1>
-  <p data-en="A perfect blend of Indian values and modern education for village, town and city students."
-     data-hi="गाँव, कस्बे और शहर के विद्यार्थियों के लिए संस्कार और आधुनिक शिक्षा का संगम।"></p>
-</div>
+<!-- NAVIGATION -->
+<nav>
+  <a href="#about">About</a>
+  <a href="#academics">Academics</a>
+  <a href="#teachers">Teachers</a>
+  <a href="#gallery">Gallery</a>
+  <a href="#sports">Sports</a>
+  <a href="#results">Result</a>
+  <a href="#contact">Contact</a>
+</nav>
 
+<!-- ABOUT -->
 <section id="about">
-  <h2 data-en="About Our School" data-hi="हमारे विद्यालय के बारे में"></h2>
-  <p data-en="Kalyani Devi School of Education is dedicated to quality education, discipline and overall development of children."
-     data-hi="कल्याणी देवी स्कूल ऑफ एजुकेशन बच्चों के सर्वांगीण विकास, अनुशासन और गुणवत्तापूर्ण शिक्षा के लिए समर्पित है।"></p>
-</section>
-
-<section id="academics">
-  <h2 data-en="Academics" data-hi="शैक्षणिक स्तर"></h2>
-  <div class="grid">
-    <div class="card">Pre-Primary</div>
-    <div class="card">Primary</div>
-    <div class="card">Secondary</div>
-  </div>
-</section>
-
-<section id="gallery">
-  <h2 data-en="Photo Gallery" data-hi="फोटो गैलरी"></h2>
-  <div class="grid gallery">
-    <img src="https://images.unsplash.com/photo-1588072432836-e10032774350">
-    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7">
-    <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f">
-  </div>
-</section>
-
-<section id="teachers">
-  <h2 data-en="Our Teachers" data-hi="हमारे शिक्षक"></h2>
-  <div class="grid">
-    <div class="card teacher">
-      <img src="https://via.placeholder.com/300x220">
-      <h3>Teacher Name</h3>
-      <p>M.A., B.Ed</p>
-    </div>
-    <div class="card teacher">
-      <img src="https://via.placeholder.com/300x220">
-      <h3>Teacher Name</h3>
-      <p>B.Sc., B.Ed</p>
-    </div>
-  </div>
-</section>
-
-<section id="admission">
-  <h2 data-en="Online Admission" data-hi="ऑनलाइन प्रवेश"></h2>
-  <p data-en="Click below to fill the online admission form."
-     data-hi="ऑनलाइन प्रवेश फॉर्म भरने के लिए नीचे क्लिक करें।"></p>
-  <p style="text-align:center;">
-    <a href="https://forms.gle/" target="_blank" style="background:var(--primary);color:#fff;padding:10px 20px;border-radius:5px;text-decoration:none;">Admission Form</a>
+  <h2>विद्यालय के बारे में</h2>
+  <p>
+    Kalyani Devi School of Education एक संस्कारी, आधुनिक और गुणवत्तापूर्ण शिक्षा
+    प्रदान करने वाला विद्यालय है, जहाँ बच्चों के सर्वांगीण विकास पर विशेष ध्यान दिया जाता है।
   </p>
 </section>
 
-<section id="notice">
-  <h2 data-en="Notice Board" data-hi="सूचना पट्ट"></h2>
-  <div class="notice">📢 प्रवेश फॉर्म भरने की अंतिम तिथि 31 मार्च 2026</div>
-  <div class="notice">📢 वार्षिक परीक्षा अप्रैल 2026 से प्रारंभ</div>
-</section>
-
-<section id="results">
-  <h2 data-en="Results & Downloads" data-hi="परिणाम / डाउनलोड"></h2>
+<!-- ACADEMICS -->
+<section id="academics">
+  <h2>Academics</h2>
   <ul>
-    <li><a href="#">📄 Class 10 Result 2025</a></li>
-    <li><a href="#">📄 Holiday Homework PDF</a></li>
-    <li><a href="#">📄 Admission Prospectus</a></li>
+    <li>Pre-Primary</li>
+    <li>Primary</li>
+    <li>Secondary</li>
   </ul>
 </section>
 
-<section id="sports">
-  <h2 data-en="Sports & Activities" data-hi="खेल एवं गतिविधियाँ"></h2>
+<!-- TEACHERS -->
+<section id="teachers">
+  <h2>हमारे शिक्षक</h2>
+
   <div class="grid">
-    <div class="card">⚽ Football</div>
-    <div class="card">🏏 Cricket</div>
-    <div class="card">🧘 Yoga</div>
-    <div class="card">🎭 Cultural Activities</div>
+    <div class="card">
+      <img src="images/paras-ram-kashyap.jpg" alt="Paras Ram Kashyap">
+      <h3>Paras Ram Kashyap</h3>
+      <p>Qualification: M.A</p>
+    </div>
   </div>
 </section>
 
-<section id="contact">
-  <h2 data-en="Contact Us" data-hi="संपर्क करें"></h2>
-  <p>📍 Address: Your School Address</p>
-  <p>📞 Phone: +91-XXXXXXXXXX</p>
-  <p>✉ Email: info@kdse.com</p>
+<!-- GALLERY -->
+<section id="gallery">
+  <h2>Photo Gallery</h2>
+
+  <div class="grid">
+    <div class="card"><img src="images/gallery1.jpg"></div>
+    <div class="card"><img src="images/gallery2.jpg"></div>
+  </div>
 </section>
 
+<!-- SPORTS -->
+<section id="sports">
+  <h2>Sports & Activities</h2>
+
+  <div class="grid">
+    <div class="card"><img src="images/sports1.jpg"></div>
+    <div class="card"><img src="images/sports2.jpg"></div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+  <h2>Result / Download</h2>
+  <ul>
+    <li><a href="results/class10-result.pdf" target="_blank">📄 Class 10 Result</a></li>
+    <li><a href="results/class12-result.pdf" target="_blank">📄 Class 12 Result</a></li>
+  </ul>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <h2>Contact Us</h2>
+  <p>📍 Saraswati Shishu Mandir, Piparkhunta, Lormi, Mungeli, Chhattisgarh – 495115</p>
+  <p>📞 Phone / WhatsApp: 8224821843</p>
+  <p>✉ Email: kdse1227@gmail.com</p>
+</section>
+
+<!-- FOOTER -->
 <footer>
-  <p>© 2026 Kalyani Devi School of Education | All Rights Reserved</p>
+  © 2026 Kalyani Devi School of Education
 </footer>
 
-<a class="whatsapp" href="https://wa.me/91XXXXXXXXXX" target="_blank">💬</a>
-
-<script>
-  let currentLang = 'en';
-  function toggleLang(){
-    currentLang = currentLang === 'en' ? 'hi' : 'en';
-    document.querySelectorAll('[data-en]').forEach(el=>{
-      el.innerText = el.getAttribute('data-'+currentLang);
-    });
-    document.querySelector('.lang-switch').innerText = currentLang === 'en' ? 'हिंदी' : 'English';
-  }
-  toggleLang();
-</script>
+<!-- WHATSAPP BUTTON -->
+<a class="whatsapp" href="https://wa.me/918224821843" target="_blank">
+  WhatsApp
+</a>
 
 </body>
 </html>
