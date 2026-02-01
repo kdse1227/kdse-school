@@ -1,38 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Admin Login</title>
-  <style>
-    body { font-family: Arial; background:#f2f2f2; }
-    .box {
-      max-width:350px; margin:100px auto;
-      background:white; padding:20px;
-      border-radius:8px; text-align:center;
-    }
-    input { width:90%; padding:10px; margin:10px 0; }
-    button { padding:10px 20px; background:#0b4d91; color:white; border:none; }
-  </style>
+<meta charset="UTF-8">
+<title>KDSE Admin</title>
+<style>
+body{font-family:Segoe UI;background:#f5f7fa;display:flex;justify-content:center;align-items:center;height:100vh}
+.box{background:#fff;padding:30px;border-radius:10px;width:320px;box-shadow:0 5px 15px rgba(0,0,0,.2)}
+input,textarea,button{width:100%;padding:10px;margin-top:10px}
+button{background:#0b4d91;color:#fff;border:none;cursor:pointer}
+</style>
 </head>
-<body>
 
+<body>
 <div class="box">
-  <h2>Admin Login</h2>
-  <input type="password" id="pass" placeholder="Enter Password">
-  <button onclick="login()">Login</button>
+<h2>🔐 Admin Login</h2>
+<input type="password" id="pass" placeholder="Password">
+<button onclick="login()">Login</button>
+
+<div id="panel" style="display:none">
+<hr>
+<textarea id="notice" placeholder="Notice text"></textarea>
+<input id="pdf" placeholder="Notice PDF link">
+<input id="slide" placeholder="Slider image link">
+<button onclick="save()">Save All</button>
+</div>
 </div>
 
 <script>
 function login(){
-  let p = document.getElementById("pass").value;
-  if(p === "kdseadmin"){
-    window.location.href = "https://drive.google.com";
-  } else {
-    alert("Wrong Password");
-  }
+if(document.getElementById("pass").value==="KDSE@123"){
+document.getElementById("panel").style.display="block";
+}else alert("Wrong password");
+}
+function save(){
+localStorage.setItem("notice",notice.value);
+localStorage.setItem("noticePDF",pdf.value);
+localStorage.setItem("newSlide",slide.value);
+alert("Updated Successfully");
 }
 </script>
-
 </body>
 </html>
-
-if(p === "YOUR_PASSWORD")
