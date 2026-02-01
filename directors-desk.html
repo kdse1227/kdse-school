@@ -59,7 +59,7 @@
 
     section.message p {
       margin-top: 15px;
-      white-space: pre-line; /* preserve line breaks */
+      white-space: pre-line;
     }
 
     /* Director section */
@@ -73,8 +73,16 @@
 
     .director-section img {
       width: 180px;
-      border-radius: 50%;
+      height: 180px;       
+      object-fit: cover;   
+      border-radius: 50%;  
       border: 4px solid #0b4d91;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .director-section img:hover {
+      transform: scale(1.08);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
 
     .director-info {
@@ -95,7 +103,7 @@
       margin: 3px 0 0 0;
     }
 
-    /* Quotes section (magazine-style) */
+    /* Quotes section */
     .quotes-section {
       max-width: 1000px;
       margin: 50px auto;
@@ -115,25 +123,29 @@
       font-family: 'Roboto', sans-serif;
       box-shadow: 0 8px 25px rgba(0,0,0,0.15);
       overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      white-space: pre-line; /* preserve line breaks */
+      white-space: pre-line;
+      
+      /* Animation */
+      transform: translateY(20px);
+      opacity: 0;
+      animation: fadeUp 0.8s forwards;
     }
 
+    .quote-box:nth-child(1) { animation-delay: 0.1s; background: linear-gradient(135deg, #6a11cb, #2575fc);}
+    .quote-box:nth-child(2) { animation-delay: 0.2s; background: linear-gradient(135deg, #ff7e5f, #feb47b); color:#333;}
+    .quote-box:nth-child(3) { animation-delay: 0.3s; background: linear-gradient(135deg, #43cea2, #185a9d);}
+    .quote-box:nth-child(4) { animation-delay: 0.4s; background: linear-gradient(135deg, #ff9966, #ff5e62);}
+    .quote-box:nth-child(5) { animation-delay: 0.5s; background: linear-gradient(135deg, #00c6ff, #0072ff);}
+    .quote-box:nth-child(6) { animation-delay: 0.6s; background: linear-gradient(135deg, #f7971e, #ffd200); color:#333;}
+    .quote-box:nth-child(7) { animation-delay: 0.7s; background: linear-gradient(135deg, #c471f5, #fa71cd);}
+    .quote-box:nth-child(8) { animation-delay: 0.8s; background: linear-gradient(135deg, #11998e, #38ef7d);}
+
+    /* Hover zoom */
     .quote-box:hover {
       transform: scale(1.05);
       box-shadow: 0 12px 35px rgba(0,0,0,0.3);
       z-index: 10;
     }
-
-    /* Gradient backgrounds for variety */
-    .quote-box:nth-child(1) { background: linear-gradient(135deg, #6a11cb, #2575fc); }
-    .quote-box:nth-child(2) { background: linear-gradient(135deg, #ff7e5f, #feb47b); color: #333; }
-    .quote-box:nth-child(3) { background: linear-gradient(135deg, #43cea2, #185a9d); }
-    .quote-box:nth-child(4) { background: linear-gradient(135deg, #ff9966, #ff5e62); }
-    .quote-box:nth-child(5) { background: linear-gradient(135deg, #00c6ff, #0072ff); }
-    .quote-box:nth-child(6) { background: linear-gradient(135deg, #f7971e, #ffd200); color: #333; }
-    .quote-box:nth-child(7) { background: linear-gradient(135deg, #c471f5, #fa71cd); }
-    .quote-box:nth-child(8) { background: linear-gradient(135deg, #11998e, #38ef7d); }
 
     /* Quotation marks */
     .quote-box::before {
@@ -156,6 +168,13 @@
       font-family: 'Montserrat', sans-serif;
     }
 
+    @keyframes fadeUp {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
     @media(max-width:700px){
       .director-section {
         flex-direction: column;
@@ -176,7 +195,6 @@
   <h1>From the Director's Desk</h1>
 </header>
 
-<!-- Container box for message + director -->
 <div class="message-container">
   <section class="message">
     <h2>प्रिय अभिभावकों एवं विद्यार्थियों,</h2>
@@ -198,9 +216,8 @@
     </p>
   </section>
 
-  <!-- Director section inside same box -->
   <div class="director-section">
-    <img src="https://via.placeholder.com/180" alt="Director Paras Ram Kashyap">
+    <img src="https://img.sanishtech.com/u/4b61eae6dd8d6d45822f05d0276476ee.jpg" alt="Director Paras Ram Kashyap">
     <div class="director-info">
       <h3>Paras Ram Kashyap</h3>
       <p>Director</p>
@@ -209,7 +226,6 @@
   </div>
 </div>
 
-<!-- Quotes Section (magazine-style) -->
 <div class="quotes-section">
   <div class="quote-box">शिक्षा केवल ज्ञान नहीं, बल्कि सही सोच और सही चरित्र का निर्माण है।</div>
   <div class="quote-box">हर बच्चा विशेष होता है — हमारा कार्य उसकी क्षमता को पहचानना और निखारना है।</div>
