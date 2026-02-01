@@ -24,6 +24,9 @@ footer{background:#0b4d91;color:#fff;text-align:center;padding:15px}
 .slide{display:none;width:100%;height:420px;object-fit:cover}
 .prev,.next{position:absolute;top:50%;padding:12px;font-size:24px;color:#fff;background:rgba(0,0,0,.5);cursor:pointer;border-radius:50%;transform:translateY(-50%)}
 .prev{left:15px}.next{right:15px}
+
+/* Clickable marquee */
+.marquee a{color:#0b4d91;text-decoration:none;font-weight:bold}
 </style>
 </head>
 
@@ -41,6 +44,7 @@ footer{background:#0b4d91;color:#fff;text-align:center;padding:15px}
 <a href="#teachers">Teachers</a>
 <a href="#gallery">Gallery</a>
 <a href="#sports">Sports</a>
+<a href="#results">Results</a>
 <a href="#notice">Notice</a>
 <a href="#contact">Contact</a>
 </nav>
@@ -49,18 +53,17 @@ footer{background:#0b4d91;color:#fff;text-align:center;padding:15px}
 <img class="slide" src="images/slider/slide1.jpg">
 <img class="slide" src="images/slider/slide2.jpg">
 <img class="slide" src="images/slider/slide3.jpg">
-<img class="slide" id="adminSlide">
 <span class="prev" onclick="changeSlide(-1)">❮</span>
 <span class="next" onclick="changeSlide(1)">❯</span>
 </div>
 
-<marquee style="background:#e8f0fe;padding:10px;font-weight:bold;color:#0b4d91">
-📢 Admission Open 2026 | 📄 Latest Notice Available
+<marquee class="marquee" style="background:#e8f0fe;padding:10px;">
+<a href="#notice">📢 Admission Open 2026 | 📄 Latest Notice Available</a>
 </marquee>
 
 <section id="about">
 <h2>विद्यालय के बारे में</h2>
-<p>Kalyani Devi School of Education एक संस्कारी एवं आधुनिक विद्यालय है जो बच्चों के सर्वांगीण विकास पर केंद्रित है।</p>
+<p>Kalyani Devi School of Education एक संस्कारी, आधुनिक और गुणवत्तापूर्ण शिक्षा प्रदान करने वाला विद्यालय है।</p>
 </section>
 
 <section id="academics">
@@ -70,10 +73,6 @@ footer{background:#0b4d91;color:#fff;text-align:center;padding:15px}
 <li>Primary</li>
 <li>Secondary</li>
 </ul>
-<a href="https://docs.google.com/forms/d/e/1FAIpQLSf-example" target="_blank"
-style="background:#0b4d91;color:#fff;padding:12px 20px;border-radius:6px;text-decoration:none">
-📝 Online Admission Form
-</a>
 </section>
 
 <section id="teachers">
@@ -103,30 +102,56 @@ style="background:#0b4d91;color:#fff;padding:12px 20px;border-radius:6px;text-de
 </div>
 </section>
 
+<!-- RESULT SECTION RESTORED -->
+<section id="results">
+<h2>📄 Result / Download</h2>
+<ul>
+<li><a href="results/class10-result.pdf" target="_blank">Class 10 Result</a></li>
+<li><a href="results/class12-result.pdf" target="_blank">Class 12 Result</a></li>
+</ul>
+</section>
+
 <section id="notice">
 <h2>📢 Notice Board</h2>
-<p id="liveNotice">Loading...</p>
-<p>
-📄 <a id="pdfNotice" target="_blank">Download Notice PDF</a>
-</p>
+<p id="liveNotice">Latest notice will appear here</p>
+<p><a id="pdfNotice" target="_blank">Download Notice PDF</a></p>
 </section>
 
 <section id="contact">
 <h2>Contact Us</h2>
+
 <p>📍 Saraswati Shishu Mandir, Piparkhunta, Lormi, Mungeli, Chhattisgarh – 495115</p>
-<p>📞 <a href="tel:+918224821843">8224821843</a></p>
+
+<p>
+📞 
+<a href="tel:+918224821843"
+style="background:#28a745;color:#fff;padding:8px 14px;border-radius:6px;text-decoration:none">
+Call Now
+</a>
+</p>
+
 <p>✉ kdse1227@gmail.com</p>
 
+<p>
 <a href="https://www.google.com/maps/dir/?api=1&destination=22.1947379,81.7505496"
 target="_blank"
-style="background:#0b4d91;color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none">
+style="background:#0b4d91;color:#fff;padding:8px 14px;border-radius:6px;text-decoration:none">
 📍 Get Directions
 </a>
+</p>
 
+<!-- EMBED MAP -->
 <div style="margin-top:15px;border-radius:10px;overflow:hidden">
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4382.045056313084!2d81.75054967586424!3d22.194737946712323!5e1!3m2!1sen!2sin"
-width="100%" height="300" style="border:0" loading="lazy"></iframe>
+<iframe
+src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4382.045056313084!2d81.75054967586424!3d22.194737946712323!5e1!3m2!1sen!2sin"
+width="100%" height="320" style="border:0" loading="lazy">
+</iframe>
 </div>
+
+<p style="margin-top:10px;">
+<a href="https://www.google.com/maps/place/Saraswati+shishu+mandir+piparkhunta"
+target="_blank"><b>🌐 Open Map Full Screen</b></a>
+</p>
 </section>
 
 <footer>© 2026 Kalyani Devi School of Education</footer>
@@ -145,15 +170,11 @@ function changeSlide(n){i+=n;show(i);}
 setInterval(()=>{i++;show(i)},5000);
 show(0);
 
-// Admin data
 document.getElementById("liveNotice").innerText =
 localStorage.getItem("notice") || "No new notice";
 
 let pdf=localStorage.getItem("noticePDF");
 if(pdf) document.getElementById("pdfNotice").href=pdf;
-
-let slide=localStorage.getItem("newSlide");
-if(slide) document.getElementById("adminSlide").src=slide;
 </script>
 
 </body>
