@@ -96,9 +96,64 @@
       text-decoration: none;
       font-weight: bold;
     }
+    .slider-container {
+  position: relative;
+  max-width: 100%;
+  height: 420px;
+  overflow: hidden;
+}
+
+.slide {
+  display: none;
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+}
+
+.prev, .next {
+  position: absolute;
+  top: 50%;
+  padding: 12px;
+  color: white;
+  font-size: 24px;
+  background: rgba(0,0,0,0.5);
+  cursor: pointer;
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+
+.prev { left: 15px; }
+.next { right: 15px; }
   </style>
 </head>
 
+<script>
+let slideIndex = 0;
+showSlide(slideIndex);
+
+function showSlide(n) {
+  let slides = document.getElementsByClassName("slide");
+  if (n >= slides.length) slideIndex = 0;
+  if (n < 0) slideIndex = slides.length - 1;
+
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  slides[slideIndex].style.display = "block";
+}
+
+function changeSlide(n) {
+  slideIndex += n;
+  showSlide(slideIndex);
+}
+
+// Auto slide
+setInterval(() => {
+  slideIndex++;
+  showSlide(slideIndex);
+}, 5000);
+</script>
+  
 <body>
 
 <!-- HEADER WITH LOGO -->
@@ -117,10 +172,19 @@
   <a href="#sports">Sports</a>
   <a href="#results">Result</a>
   <a href="#contact">Contact</a>
+  <a href="#notice">Notice Board</a>
+  <div class="slider-container">
+  <img class="slide" src="images/slider/slide1.jpg">
+  <img class="slide" src="images/slider/slide2.jpg">
+  <img class="slide" src="images/slider/slide3.jpg">
+
+  <span class="prev" onclick="changeSlide(-1)">❮</span>
+  <span class="next" onclick="changeSlide(1)">❯</span>
+</div>
 </nav>
 
-<marquee behavior="scroll" direction="left" style="background:#fff3cd; padding:10px; font-weight:bold;">
-📢 Admission Open 2026 | 📄 Class 10 & 12 Result Uploaded | 🎉 Annual Sports Day on 15 Feb
+<marquee style="background:#e8f0fe; padding:10px; font-weight:bold; color:#0b4d91;">
+📢 Admission Open 2026 | 📄 New Notice Uploaded | 📝 Online Form Available
 </marquee>
 <section style="padding:0;">
   <img src="images/school.jpg"
@@ -184,6 +248,33 @@ style="display:inline-block; background:#0b4d91; color:white; padding:12px 20px;
   </div>
 </section>
 
+ <!-- NOTICE BOARD -->
+<section id="notice">
+  <h2>📢 Notice Board</h2>
+
+  <div class="card" style="text-align:left;">
+    <ul style="line-height:2;">
+      <li>
+        📄 <a href="notices/admission-notice.pdf" target="_blank">
+        Admission Notice 2026
+        </a>
+      </li>
+
+      <li>
+        📄 <a href="notices/holiday-list.pdf" target="_blank">
+        Holiday List
+        </a>
+      </li>
+
+      <li>
+        📄 <a href="notices/exam-notice.pdf" target="_blank">
+        Exam Schedule
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>
+ 
 <!-- RESULTS -->
 <section id="results">
   <h2>Result / Download</h2>
