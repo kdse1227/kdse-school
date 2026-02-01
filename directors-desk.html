@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <title>From the Director's Desk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      background: #f0f4f8;
+      color: #333;
+    }
+
+    header {
+      background: #0b4d91;
+      color: white;
+      padding: 20px 15px;
+      text-align: center;
+      font-family: 'Montserrat', sans-serif;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    header h1 {
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-size: 28px;
+    }
+
+    section {
+      max-width: 900px;
+      margin: 30px auto 20px;
+      padding: 30px 25px;
+      line-height: 1.8;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      font-size: 16px;
+    }
+
+    section h2 {
+      color: #0b4d91;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .quotes-section {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .quote-box {
+      position: relative;
+      padding: 25px 20px;
+      border-radius: 15px;
+      font-size: 16px;
+      line-height: 1.7;
+      color: #fff;
+      font-family: 'Roboto', sans-serif;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .quote-box:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    }
+
+    /* Gradient backgrounds for variety */
+    .quote-box:nth-child(1) { background: linear-gradient(135deg, #6a11cb, #2575fc); }
+    .quote-box:nth-child(2) { background: linear-gradient(135deg, #ff7e5f, #feb47b); }
+    .quote-box:nth-child(3) { background: linear-gradient(135deg, #43cea2, #185a9d); }
+    .quote-box:nth-child(4) { background: linear-gradient(135deg, #ff9966, #ff5e62); }
+    .quote-box:nth-child(5) { background: linear-gradient(135deg, #00c6ff, #0072ff); }
+    .quote-box:nth-child(6) { background: linear-gradient(135deg, #f7971e, #ffd200); color: #333; }
+    .quote-box:nth-child(7) { background: linear-gradient(135deg, #c471f5, #fa71cd); }
+    .quote-box:nth-child(8) { background: linear-gradient(135deg, #11998e, #38ef7d); }
+
+    /* Quotation marks */
+    .quote-box::before {
+      content: "“";
+      font-size: 40px;
+      position: absolute;
+      top: 10px;
+      left: 15px;
+      opacity: 0.2;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .quote-box::after {
+      content: "”";
+      font-size: 40px;
+      position: absolute;
+      bottom: 10px;
+      right: 15px;
+      opacity: 0.2;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    @media(max-width:600px){
+      .quotes-section {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>From the Director's Desk</h1>
+</header>
+
+<section>
+  <h2>प्रिय अभिभावकों एवं विद्यार्थियों,</h2>
+
+  <p>
+    शिक्षा जीवन का सबसे मजबूत आधार है।
+    हमारा विद्यालय बच्चों को केवल परीक्षा के लिए नहीं,
+    बल्कि जीवन के लिए तैयार करता है।
+  </p>
+
+  <p>
+    अनुशासन, संस्कार और आधुनिक शिक्षा —
+    यही हमारे विद्यालय की पहचान है।
+  </p>
+
+  <p>
+    हम निरंतर प्रयास करते हैं कि हर बच्चा
+    आत्मनिर्भर और जिम्मेदार नागरिक बने।
+  </p>
+
+  <p style="margin-top:20px; font-weight:bold;">
+    धन्यवाद 🙏  
+    <br>Paras Ram Kashyap  
+    <br>Director  
+    <br>Kalyani Devi School of Education
+  </p>
+</section>
+
+<div class="quotes-section">
+  <div class="quote-box">शिक्षा केवल ज्ञान नहीं, बल्कि सही सोच और सही चरित्र का निर्माण है।</div>
+  <div class="quote-box">हर बच्चा विशेष होता है — हमारा कार्य उसकी क्षमता को पहचानना और निखारना है।</div>
+  <div class="quote-box">अनुशासन और संस्कार के बिना शिक्षा अधूरी है।</div>
+  <div class="quote-box">हम बच्चों को परीक्षा के लिए नहीं, जीवन के लिए तैयार करते हैं।</div>
+  <div class="quote-box">आधुनिक शिक्षा के साथ भारतीय मूल्यों का संतुलन ही सच्ची शिक्षा है।</div>
+  <div class="quote-box">सफलता वही है जो ज्ञान के साथ नैतिकता भी सिखाए।</div>
+  <div class="quote-box">एक शिक्षक भविष्य गढ़ता है और एक विद्यालय राष्ट्र का निर्माण करता है।</div>
+  <div class="quote-box">हमारा लक्ष्य केवल अच्छे विद्यार्थी नहीं, अच्छे इंसान बनाना है।</div>
+</div>
+
+</body>
+</html>
