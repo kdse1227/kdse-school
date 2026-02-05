@@ -273,6 +273,127 @@ img{
   border:2px solid gold;
   background:linear-gradient(180deg,#fffbea,#ffffff);
 }
+
+/* ===================================================
+   🌟 GALLERY & SPORTS – PREMIUM FULL IMAGE STYLE
+   =================================================== */
+
+/* ===== Grid for gallery ===== */
+#gallery .grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+/* Gallery & sports cards */
+#gallery .card,
+#sports .sports-slider{
+  overflow:hidden;
+  border-radius:14px;
+  position:relative;
+}
+
+/* Gallery images */
+#gallery .card img{
+  width:100%;
+  height:240px;
+  object-fit:cover;
+  border-radius:12px;
+  cursor:pointer;
+  transition:transform 0.5s ease, filter 0.5s ease;
+}
+
+#gallery .card:hover img{
+  transform:scale(1.08);
+  filter:brightness(1.05);
+}
+
+/* Lightbox */
+.lightbox{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.85);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:999999;
+}
+
+.lightbox img{
+  max-width:90%;
+  max-height:90%;
+  border-radius:12px;
+  animation:zoomIn 0.4s ease;
+}
+
+.lightbox-close{
+  position:absolute;
+  top:20px;
+  right:25px;
+  font-size:28px;
+  color:#fff;
+  cursor:pointer;
+}
+
+@keyframes zoomIn{
+  from{transform:scale(.6);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+/* Sports Slider */
+.sports-slider{
+  position:relative;
+  height:260px;
+  overflow:hidden;
+  border-radius:14px;
+}
+
+.sport-slide{
+  width:100%;
+  height:260px;
+  object-fit:cover;
+  position:absolute;
+  top:0;
+  left:0;
+  opacity:0;
+  transition:opacity 1s ease;
+}
+
+.sport-slide.active{
+  opacity:1;
+  z-index:1;
+}
+
+/* Slider arrows */
+.prev, .next{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(0,0,0,0.5);
+  color:#fff;
+  padding:12px;
+  font-size:24px;
+  border-radius:50%;
+  cursor:pointer;
+  z-index:2;
+  user-select:none;
+}
+
+.prev{left:15px;}
+.next{right:15px;}
+
+/* Mobile */
+@media(max-width:600px){
+  #gallery .card img,
+  .sports-slider,
+  .sport-slide{
+    height:180px;
+  }
+  .prev, .next{
+    padding:8px;
+    font-size:20px;
+  }
+}
 </style>
 </head>
 
@@ -603,20 +724,41 @@ img{
   </div>
 </section>
 
+<!-- ===== GALLERY SECTION ===== -->
 <section id="gallery">
-<h2>Gallery</h2>
-<div class="grid">
-<div class="card"><img src="images/gallery1.jpg"></div>
-<div class="card"><img src="images/gallery2.jpg"></div>
-</div>
+  <h2>Gallery</h2>
+  <div class="grid">
+    <div class="card">
+      <img src="images/gallery1.jpg" onclick="openLightbox(this.src)" alt="Gallery 1">
+    </div>
+    <div class="card">
+      <img src="images/gallery2.jpg" onclick="openLightbox(this.src)" alt="Gallery 2">
+    </div>
+    <div class="card">
+      <img src="images/gallery3.jpg" onclick="openLightbox(this.src)" alt="Gallery 3">
+    </div>
+    <div class="card">
+      <img src="images/gallery4.jpg" onclick="openLightbox(this.src)" alt="Gallery 4">
+    </div>
+  </div>
 </section>
 
-<section id="sports">
-<h2>Sports & Activities</h2>
-<div class="grid">
-<div class="card"><img src="images/sports1.jpg"></div>
-<div class="card"><img src="images/sports2.jpg"></div>
+<!-- Lightbox Popup -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close" onclick="closeLightbox()">✖</span>
+  <img id="lightboxImg">
 </div>
+
+<!-- ===== SPORTS SECTION ===== -->
+<section id="sports">
+  <h2>Sports & Activities</h2>
+  <div class="sports-slider">
+    <span class="prev" onclick="changeSportSlide(-1)">❮</span>
+    <span class="next" onclick="changeSportSlide(1)">❯</span>
+    <img class="sport-slide active" src="images/sports1.jpg" alt="Sports 1">
+    <img class="sport-slide" src="images/sports2.jpg" alt="Sports 2">
+    <img class="sport-slide" src="images/sports3.jpg" alt="Sports 3">
+  </div>
 </section>
 
 <!-- RESULT SECTION RESTORED -->
@@ -765,6 +907,40 @@ function openTeacher(name, subject){
     "B.Ed.",
     "images/teacher1.jpg"
   );
+}
+
+/* ===== Lightbox ===== */
+function openLightbox(src){
+  const lb = document.getElementById("lightbox");
+  document.getElementById("lightboxImg").src = src;
+  lb.style.display = "flex";
+}
+function closeLightbox(){
+  document.getElementById("lightbox").style.display = "none";
+}
+
+/* ===== Sports Auto Slider ===== */
+let sportIndex = 0;
+function showSportSlide(){
+  let slides = document.getElementsByClassName("sport-slide");
+  for(let i=0;i<slides.length;i++){
+    slides[i].classList.remove("active");
+  }
+  sportIndex++;
+  if(sportIndex > slides.length) sportIndex = 1;
+  slides[sportIndex-1].classList.add("active");
+}
+
+/* Auto play every 3.5 sec */
+let sportTimer = setInterval(showSportSlide, 3500);
+showSportSlide();
+
+/* Manual arrows */
+function changeSportSlide(n){
+  clearInterval(sportTimer); // Stop auto timer temporarily
+  sportIndex += n - 1; // adjust because showSportSlide increments
+  showSportSlide();
+  sportTimer = setInterval(showSportSlide, 3500);
 }
 </script>
 
