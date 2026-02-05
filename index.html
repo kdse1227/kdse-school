@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Kalyani Devi School of Education</title>
+
+<!-- ✅ SEO META TAGS -->
+<meta name="description" content="Kalyani Devi School of Education, Lormi – quality education with values and discipline. Admissions open.">
+<meta name="keywords" content="Kalyani Devi School, Lormi school, CBSE school Mungeli, education Chhattisgarh">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -13,11 +18,51 @@ nav{background:#083b70;padding:10px;text-align:center}
 nav a{color:#fff;text-decoration:none;margin:0 10px;font-weight:500}
 section{padding:30px 20px;max-width:1100px;margin:auto}
 h2{color:#0b4d91;border-bottom:2px solid #ddd}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:20px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:25px;
+}
 .card{background:#fff;padding:15px;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,.08);text-align:center}
 .card img{width:100%;height:200px;object-fit:cover;border-radius:8px}
 footer{background:#0b4d91;color:#fff;text-align:center;padding:15px}
-.whatsapp{position:fixed;bottom:20px;right:20px;background:#25D366;color:#fff;padding:12px 18px;border-radius:50px;text-decoration:none;font-weight:bold}
+
+/* 🔥 Premium WhatsApp Button */
+.whatsapp{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#25D366;
+  color:#fff;
+  padding:14px 22px;
+  border-radius:50px;
+  font-size:16px;
+  font-weight:600;
+  text-decoration:none;
+  box-shadow:0 6px 15px rgba(0,0,0,0.3);
+  z-index:9999;
+  transition:all 0.3s ease;
+}
+
+.whatsapp img{
+  width:22px;
+  height:22px;
+}
+
+.whatsapp:hover{
+  transform:scale(1.06);
+  box-shadow:0 8px 18px rgba(0,0,0,0.4);
+}
+
+@media(max-width:600px){
+  .whatsapp{
+    padding:12px 18px;
+    font-size:15px;
+  }
+}
 
 /* Slider */
 .slider{position:relative;height:420px;overflow:hidden}
@@ -27,6 +72,62 @@ footer{background:#0b4d91;color:#fff;text-align:center;padding:15px}
 
 /* Clickable marquee */
 .marquee a{color:#0b4d91;text-decoration:none;font-weight:bold}
+
+/* ✅ Universal image fix */
+img{
+  max-width:100%;
+  height:auto;
+  display:block;
+}
+
+/* 📱 Slider responsive */
+@media(max-width:768px){
+  .slider,
+  .slide{
+    height:240px;
+  }
+}
+
+/* 🖼️ Teacher / Gallery image fix */
+.card img{
+  object-fit:cover;
+  object-position:center;
+}
+
+/* ===== MOBILE HAMBURGER MENU ===== */
+.menu-toggle{
+  display:none;
+  font-size:26px;
+  color:#fff;
+  cursor:pointer;
+}
+
+@media (max-width:768px){
+  nav{
+    position:relative;
+    text-align:left;
+  }
+
+  /* menu links default HIDDEN */
+  nav a{
+    display:none;
+    margin:0;
+    padding:12px 15px;
+    border-bottom:1px solid rgba(255,255,255,0.2);
+  }
+
+  /* ☰ click ke baad SHOW */
+  nav.open a{
+    display:block;
+  }
+
+  .menu-toggle{
+    display:block;
+    position:absolute;
+    right:15px;
+    top:10px;
+  }
+}
 </style>
 </head>
 
@@ -38,6 +139,8 @@ footer{background:#0b4d91;color:#fff;text-align:center;padding:15px}
 </header>
 
 <nav>
+  <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+
 <a href="#">Home</a>
 <a href="#about">About</a>
 <a href="#academics">Academics</a>
@@ -51,9 +154,9 @@ footer{background:#0b4d91;color:#fff;text-align:center;padding:15px}
 </nav>
 
 <div class="slider">
-<img class="slide" src="images/slider/slide1.jpg">
-<img class="slide" src="images/slider/slide2.jpg">
-<img class="slide" src="images/slider/slide3.jpg">
+<img class="slide" src="images/slider/slide1.jpg" loading="lazy">
+<img class="slide" src="images/slider/slide2.jpg" loading="lazy">
+<img class="slide" src="images/slider/slide3.jpg" loading="lazy">
 <span class="prev" onclick="changeSlide(-1)">❮</span>
 <span class="next" onclick="changeSlide(1)">❯</span>
 </div>
@@ -275,22 +378,37 @@ target="_blank"><b>🌐 Open Map Full Screen</b></a>
 
 <footer>© 2026 Kalyani Devi School of Education</footer>
 
-<a class="whatsapp" href="https://wa.me/918224821843" target="_blank">WhatsApp</a>
+<a class="whatsapp"
+   href="https://wa.me/918224821843?text=Hello%20Kalyani%20Devi%20School%20of%20Education,%20I%20want%20admission%20information."
+   target="_blank">
+
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+  Chat on WhatsApp
+
+</a>
 
 <script>
+/* ===== MOBILE HAMBURGER MENU ===== */
+function toggleMenu(){
+  document.querySelector("nav").classList.toggle("open");
+}
+
+/* ===== SLIDER CODE ===== */
 let i=0;
 function show(n){
-let s=document.getElementsByClassName("slide");
-if(n>=s.length)i=0;if(n<0)i=s.length-1;
-for(let x of s)x.style.display="none";
-s[i].style.display="block";
+  let s=document.getElementsByClassName("slide");
+  if(n>=s.length)i=0;
+  if(n<0)i=s.length-1;
+  for(let x of s)x.style.display="none";
+  s[i].style.display="block";
 }
 function changeSlide(n){i+=n;show(i);}
 setInterval(()=>{i++;show(i)},5000);
 show(0);
 
+/* ===== NOTICE BOARD ===== */
 document.getElementById("liveNotice").innerText =
-localStorage.getItem("notice") || "No new notice";
+  localStorage.getItem("notice") || "No new notice";
 
 let pdf=localStorage.getItem("noticePDF");
 if(pdf) document.getElementById("pdfNotice").href=pdf;
