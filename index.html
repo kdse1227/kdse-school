@@ -93,42 +93,7 @@ img{
   object-fit:cover;
   object-position:center;
 }
-
-/* ===== MOBILE HAMBURGER MENU ===== */
-.menu-toggle{
-  display:none;
-  font-size:26px;
-  color:#fff;
-  cursor:pointer;
-}
-
-@media (max-width:768px){
-  nav{
-    position:relative;
-    text-align:left;
-  }
-
-  /* menu links default HIDDEN */
-  nav a{
-    display:none;
-    margin:0;
-    padding:12px 15px;
-    border-bottom:1px solid rgba(255,255,255,0.2);
-  }
-
-  /* ☰ click ke baad SHOW */
-  nav.open a{
-    display:block;
-  }
-
-  .menu-toggle{
-    display:block;
-    position:absolute;
-    right:15px;
-    top:10px;
-  }
-}
-
+  
 /* ===== CARD HOVER EFFECT ===== */
 .card{
   background:#fff;
@@ -393,6 +358,50 @@ img{
     padding:8px;
     font-size:20px;
   }
+
+  /* ===== HEADER FIX ===== */
+header{
+  position:sticky;
+  top:0;
+  z-index:10000;
+}
+
+/* ===== HAMBURGER ===== */
+.menu-toggle{
+  display:none;
+  font-size:28px;
+  cursor:pointer;
+  margin-left:auto;
+}
+
+/* ===== MOBILE MENU ===== */
+@media(max-width:768px){
+
+  .menu-toggle{
+    display:block;
+  }
+
+  nav{
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    background:#083b70;
+    display:none;
+    flex-direction:column;
+    z-index:9999;
+  }
+
+  nav a{
+    display:block;
+    padding:14px;
+    border-bottom:1px solid rgba(255,255,255,0.2);
+    text-align:left;
+  }
+
+  nav.open{
+    display:block;
+  }
 }
 </style>
 </head>
@@ -400,23 +409,24 @@ img{
 <body>
 
 <header>
-<img src="images/logo.png">
-<h1>KALYANI DEVI SCHOOL OF EDUCATION</h1>
+  <img src="images/logo.png">
+  <h1>KALYANI DEVI SCHOOL OF EDUCATION</h1>
+
+  <!-- HAMBURGER -->
+  <span class="menu-toggle" onclick="toggleMenu()">☰</span>
 </header>
 
-<nav>
-  <span class="menu-toggle" onclick="toggleMenu()">☰</span>
-
-<a href="#">Home</a>
-<a href="#about">About</a>
-<a href="#academics">Academics</a>
-<a href="#teachers">Teachers</a>
-<a href="#gallery">Gallery</a>
-<a href="#sports">Sports</a>
-<a href="#results">Results</a>
-<a href="#notice">Notice</a>
-<a href="#contact">Contact</a>
-<a href="directors-desk.html">Director’s Desk</a>
+<nav id="mainNav">
+  <a href="#">Home</a>
+  <a href="#about">About</a>
+  <a href="#academics">Academics</a>
+  <a href="#teachers">Teachers</a>
+  <a href="#gallery">Gallery</a>
+  <a href="#sports">Sports</a>
+  <a href="#results">Results</a>
+  <a href="#notice">Notice</a>
+  <a href="#contact">Contact</a>
+  <a href="directors-desk.html">Director’s Desk</a>
 </nav>
 
 <div class="slider">
@@ -832,7 +842,7 @@ target="_blank"><b>🌐 Open Map Full Screen</b></a>
 <script>
 /* ===== MOBILE HAMBURGER MENU ===== */
 function toggleMenu(){
-  document.querySelector("nav").classList.toggle("open");
+  document.getElementById("mainNav").classList.toggle("open");
 }
 
 /* ===== SLIDER CODE ===== */
