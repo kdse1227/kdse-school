@@ -247,6 +247,32 @@ img{
 .popup.director h3{
   color:#b8860b;
 }
+
+/* ===== MOBILE OPTIMIZATION ===== */
+@media(max-width:600px){
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+  .card img{
+    width:80px;
+    height:80px;
+  }
+}
+
+/* ===== PREMIUM CARD ANIMATION ===== */
+.card{
+  transition:transform .35s ease, box-shadow .35s ease;
+}
+.card:hover{
+  transform:translateY(-8px) scale(1.02);
+  box-shadow:0 14px 30px rgba(0,0,0,.18);
+}
+
+/* Director highlight */
+.director-card{
+  border:2px solid gold;
+  background:linear-gradient(180deg,#fffbea,#ffffff);
+}
 </style>
 </head>
 
@@ -362,14 +388,13 @@ img{
   </a>
 </section>
 
-<!-- MANAGEMENT & TEACHERS -->
 <section id="management">
   <h2>👥 Our Management & Teachers</h2>
 
   <div class="grid">
 
     <!-- DIRECTOR -->
-    <div class="card">
+    <div class="card director-card">
       <img src="images/director.jpg" alt="Director">
       <h3>Paras Ram Kashyap</h3>
       <div class="director-badge">⭐ Founder & Director</div>
@@ -380,51 +405,163 @@ img{
     <div class="card">
       <img src="images/principal.jpg" alt="Principal">
       <h3>Principal Name</h3>
-      <p><strong>Principal</strong></p>
+      <p>Principal</p>
       <button class="view-btn" onclick="openPrincipal()">View Profile</button>
     </div>
 
-    <!-- TEACHER 1 -->
+    <!-- ===== TEACHERS (15) ===== -->
+
     <div class="card">
-      <img src="images/teacher1.jpg" alt="Teacher">
+      <img src="images/teacher1.jpg">
       <h3>Teacher 1</h3>
       <p>Hindi</p>
-      <button class="view-btn" onclick="openTeacher('Teacher 1','Hindi')">View Profile</button>
+      <button class="view-btn"
+        onclick="openProfile('Teacher 1','Hindi Teacher','M.A., B.Ed.','images/teacher1.jpg')">
+        View Profile
+      </button>
     </div>
 
-    <!-- TEACHER 2 -->
     <div class="card">
-      <img src="images/teacher2.jpg" alt="Teacher">
+      <img src="images/teacher2.jpg">
       <h3>Teacher 2</h3>
       <p>Math</p>
-      <button class="view-btn" onclick="openTeacher('Teacher 2','Math')">View Profile</button>
+      <button class="view-btn"
+        onclick="openProfile('Teacher 2','Math Teacher','M.Sc., B.Ed.','images/teacher2.jpg')">
+        View Profile
+      </button>
     </div>
 
-    <!-- TEACHER 3 -->
     <div class="card">
-      <img src="images/teacher3.jpg" alt="Teacher">
+      <img src="images/teacher3.jpg">
       <h3>Teacher 3</h3>
       <p>English</p>
-      <button class="view-btn" onclick="openTeacher('Teacher 3','English')">View Profile</button>
+      <button class="view-btn"
+        onclick="openProfile('Teacher 3','English Teacher','M.A., B.Ed.','images/teacher3.jpg')">
+        View Profile
+      </button>
     </div>
 
-<!-- TEACHER 4 -->
-<div class="card">
-  <img src="images/teacher4.jpg" alt="Teacher">
-  <h3>Teacher 4</h3>
-  <p>Science</p>
-  <button class="view-btn"
-    onclick="openProfile(
-      'Teacher 4',
-      'Science Teacher',
-      'B.Sc., B.Ed.',
-      'images/teacher4.jpg'
-    )">
-    View Profile
-  </button>
-</div>
+    <div class="card">
+      <img src="images/teacher4.jpg">
+      <h3>Teacher 4</h3>
+      <p>Science</p>
+      <button class="view-btn"
+        onclick="openProfile('Teacher 4','Science Teacher','B.Sc., B.Ed.','images/teacher4.jpg')">
+        View Profile
+      </button>
+    </div>
 
-</div>
+    <div class="card">
+      <img src="images/teacher5.jpg">
+      <h3>Teacher 5</h3>
+      <p>Social Science</p>
+      <button class="view-btn"
+        onclick="openProfile('Teacher 5','Social Science','M.A., B.Ed.','images/teacher5.jpg')">
+        View Profile
+      </button>
+    </div>
+
+    <div class="card">
+      <img src="images/teacher6.jpg">
+      <h3>Teacher 6</h3>
+      <p>Physics</p>
+      <button class="view-btn"
+        onclick="openProfile('Teacher 6','Physics Teacher','M.Sc., B.Ed.','images/teacher6.jpg')">
+        View Profile
+      </button>
+    </div>
+
+    <div class="card">
+      <img src="images/teacher7.jpg">
+      <h3>Teacher 7</h3>
+      <p>Chemistry</p>
+      <button class="view-btn"
+        onclick="openProfile('Teacher 7','Chemistry Teacher','M.Sc., B.Ed.','images/teacher7.jpg')">
+        View Profile
+      </button>
+    </div>
+
+    <div class="card">
+      <img src="images/teacher8.jpg">
+      <h3>Teacher 8</h3>
+      <p>Biology</p>
+      <button class="view-btn"
+        onclick="openProfile('Teacher 8','Biology Teacher','M.Sc., B.Ed.','images/teacher8.jpg')">
+        View Profile
+      </button>
+    </div>
+
+    <div class="card">
+      <img src="images/teacher9.jpg">
+      <h3>Teacher 9</h3>
+      <p>Computer</p>
+      <button class="view-btn"
+        onclick="openProfile('Teacher 9','Computer Teacher','BCA, MCA','images/teacher9.jpg')">
+        View Profile
+      </button>
+    </div>
+
+    <div class="card">
+      <img src="images/teacher10.jpg">
+      <h3>Teacher 10</h3>
+      <p>Sanskrit</p>
+      <button class="view-btn"
+        onclick="openProfile('Teacher 10','Sanskrit Teacher','M.A., B.Ed.','images/teacher10.jpg')">
+        View Profile
+      </button>
+    </div>
+
+    <div class="card">
+      <img src="images/teacher11.jpg">
+      <h3>Teacher 11</h3>
+      <p>Geography</p>
+      <button class="view-btn"
+        onclick="openProfile('Teacher 11','Geography Teacher','M.A., B.Ed.','images/teacher11.jpg')">
+        View Profile
+      </button>
+    </div>
+
+    <div class="card">
+      <img src="images/teacher12.jpg">
+      <h3>Teacher 12</h3>
+      <p>History</p>
+      <button class="view-btn"
+        onclick="openProfile('Teacher 12','History Teacher','M.A., B.Ed.','images/teacher12.jpg')">
+        View Profile
+      </button>
+    </div>
+
+    <div class="card">
+      <img src="images/teacher13.jpg">
+      <h3>Teacher 13</h3>
+      <p>Economics</p>
+      <button class="view-btn"
+        onclick="openProfile('Teacher 13','Economics Teacher','M.A., B.Ed.','images/teacher13.jpg')">
+        View Profile
+      </button>
+    </div>
+
+    <div class="card">
+      <img src="images/teacher14.jpg">
+      <h3>Teacher 14</h3>
+      <p>Political Science</p>
+      <button class="view-btn"
+        onclick="openProfile('Teacher 14','Political Science','M.A., B.Ed.','images/teacher14.jpg')">
+        View Profile
+      </button>
+    </div>
+
+    <div class="card">
+      <img src="images/teacher15.jpg">
+      <h3>Teacher 15</h3>
+      <p>Physical Education</p>
+      <button class="view-btn"
+        onclick="openProfile('Teacher 15','Physical Education','B.P.Ed., M.P.Ed.','images/teacher15.jpg')">
+        View Profile
+      </button>
+    </div>
+
+  </div>
 </section>
 
 <!-- ===== PROFILE POPUP (STEP 3) ===== -->
