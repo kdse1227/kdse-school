@@ -3,14 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <title>Kalyani Devi School of Education</title>
+<!-- 🔥 ADVANCED SEO -->
+<meta name="robots" content="index, follow">
+<meta name="author" content="Kalyani Devi School of Education">
+<meta name="theme-color" content="#0b4d91">
+
+<!-- Open Graph (WhatsApp / Facebook Preview) -->
+<meta property="og:title" content="Kalyani Devi School of Education, Lormi">
+<meta property="og:description" content="Quality education with values & discipline. Admissions open.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://yourdomain.com/images/logo.png">
+<meta property="og:url" content="https://yourdomain.com">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
 
 <!-- ✅ SEO META TAGS -->
 <meta name="description" content="Kalyani Devi School of Education, Lormi – quality education with values and discipline. Admissions open.">
-<meta name="keywords" content="Kalyani Devi School, Lormi school, CBSE school Mungeli, education Chhattisgarh">
-
+<meta name="keywords" content="Kalyani Devi School, Lormi school, CGSE school Mungeli, education Chhattisgarh">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+
 <style>
+
 body{margin:0;font-family:Segoe UI;background:#f5f7fa;color:#333}
 header{background:#0b4d91;color:#fff;padding:15px;display:flex;align-items:center;gap:15px}
 header img{height:60px}
@@ -305,6 +321,63 @@ img{
   to{transform:scale(1);opacity:1}
 }
 
+/* ================= HEADER FIX (FINAL) ================= */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:50000;
+  background:#0b4d91;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:15px 20px;
+  transition:all 0.35s ease;
+}
+
+header img{
+  height:70px;
+  width:auto;
+}
+
+header h1{
+  font-family:"Poppins","Segoe UI",sans-serif;
+  font-weight:700;
+  font-size:26px;
+  white-space:nowrap;
+}
+
+/* Shrink */
+header.shrink{
+  padding:8px 15px;
+}
+header.shrink img{height:50px;}
+header.shrink h1{font-size:18px;}
+
+/* Tablet */
+@media(max-width:1024px){
+  header img{height:60px;}
+  header h1{font-size:22px;}
+}
+
+/* Mobile */
+@media(max-width:600px){
+  header{
+    justify-content:center;
+    text-align:center;
+  }
+  header img{height:52px;}
+  header h1{
+    font-size:16px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .menu-toggle{
+    position:absolute;
+    right:15px;
+  }
+}
+
 /* Sports Slider */
 .sports-slider{
   position:relative;
@@ -358,20 +431,14 @@ img{
     padding:8px;
     font-size:20px;
   }
+} 
 
-  /* ===== HEADER FIX ===== */
+/* ===== HEADER ===== */
 header{
   position:sticky;
   top:0;
-  z-index:10000;
-}
-
-/* ===== HAMBURGER ===== */
-.menu-toggle{
-  display:none;
-  font-size:28px;
-  cursor:pointer;
-  margin-left:auto;
+  z-index:50000;
+  background:#0b4d91;
 }
 
 /* ===== MOBILE MENU ===== */
@@ -379,28 +446,297 @@ header{
 
   .menu-toggle{
     display:block;
+    font-size:30px;
+    cursor:pointer;
+    margin-left:auto;
   }
 
   nav{
-    position:absolute;
-    top:100%;
+    position:fixed;
+    top:88px;                  /* 🔥 header height match */
     left:0;
     width:100%;
     background:#083b70;
     display:none;
     flex-direction:column;
-    z-index:9999;
-  }
-
-  nav a{
-    display:block;
-    padding:14px;
-    border-bottom:1px solid rgba(255,255,255,0.2);
-    text-align:left;
+    z-index:45000;
+    box-shadow:0 12px 30px rgba(0,0,0,0.35);
   }
 
   nav.open{
-    display:block;
+    display:flex;
+  }
+
+  nav a{
+    padding:16px 20px;
+    font-size:16px;
+    border-bottom:1px solid rgba(255,255,255,0.25);
+  }
+  
+  /* ===== MENU OPEN EFFECT ===== */
+body.menu-open{
+  overflow:hidden;
+}
+
+body.menu-open::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.45);
+  backdrop-filter:blur(4px);
+  z-index:40000;
+}
+
+/* ===== SLIDE ANIMATION ===== */
+
+/* Tablet */
+@media(max-width:1024px){
+  header img{
+    height:60px;
+  }
+}
+
+/* Mobile */
+@media(max-width:600px){
+  header img{
+    height:52px;
+  }
+  
+  header h1{
+  font-family: "Poppins", "Segoe UI", sans-serif;
+  font-weight:700;
+  letter-spacing:1px;
+  margin:0;
+}
+
+/* Desktop */
+header h1{
+  font-size:26px;
+}
+
+/* Tablet */
+@media(max-width:1024px){
+  header h1{
+    font-size:22px;
+  }
+}
+
+/* Mobile */
+@media(max-width:600px){
+  header h1{
+    font-size:18px;
+    line-height:1.3;
+  }
+  
+  header{
+  transition:all 0.35s ease;
+}
+
+header.shrink{
+  padding:8px 15px;
+}
+
+header.shrink img{
+  height:50px;
+}
+
+header.shrink h1{
+  font-size:18px;
+}
+
+header img,
+header h1{
+  animation:fadeSlide 0.9s ease;
+}
+
+@keyframes fadeSlide{
+  from{
+    opacity:0;
+    transform:translateY(-12px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* ================= FINAL HEADER OVERRIDE ================= */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:60000;
+  background:#0b4d91;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  padding:14px 20px;
+}
+
+/* Logo */
+header img{
+  height:72px;
+  width:auto;
+}
+
+/* School Name */
+header h1{
+  font-family:"Poppins","Segoe UI",sans-serif;
+  font-weight:700;
+  font-size:26px;
+  letter-spacing:1px;
+  white-space:nowrap;          /* 🔥 ONE LINE FIX */
+  overflow:hidden;
+  text-overflow:ellipsis;
+  margin:0;
+}
+
+/* Tablet */
+@media(max-width:1024px){
+  header img{height:60px;}
+  header h1{font-size:22px;}
+}
+
+/* Mobile */
+@media(max-width:600px){
+  header{
+    padding:12px 15px;
+  }
+
+  header img{
+    height:52px;
+  }
+
+  header h1{
+    font-size:16px;
+    max-width:75vw;             /* 🔥 one line safe */
+  }
+
+  .menu-toggle{
+    position:absolute;
+    right:15px;
+    font-size:28px;
+  }
+  
+  /* ===== SCHOOL NAME AUTO SWITCH ===== */
+
+.school-name{
+  font-family:"Poppins","Segoe UI",sans-serif;
+  font-weight:700;
+  letter-spacing:1px;
+  white-space:nowrap;
+}
+
+/* Hide short name by default */
+.short-name{
+  display:none;
+}
+
+/* 📱 Mobile only */
+@media(max-width:600px){
+  .full-name{
+    display:none;
+  }
+  .short-name{
+    display:inline-block;
+    font-size:18px;
+  }
+  
+  @media(max-width:600px){
+  .short-name{
+    letter-spacing:2px;
+    color:#ffe082;
+  }
+  
+  /* ================= GLASS HEADER ================= */
+
+.glass-header{
+  position:sticky;
+  top:0;
+  z-index:50000;
+  backdrop-filter:blur(12px);
+  background:rgba(11,77,145,0.75);
+  border-bottom:1px solid rgba(255,255,255,0.25);
+}
+
+/* Header layout */
+.header-inner{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px 20px;
+  transition:all 0.35s ease;
+}
+
+/* Logo */
+.header-inner img{
+  height:70px;
+  transition:0.35s;
+}
+
+/* School name */
+.school-name{
+  font-family:"Poppins","Segoe UI",sans-serif;
+  font-weight:700;
+  letter-spacing:1px;
+  white-space:nowrap;
+  color:#fff;
+}
+
+/* Hide short name by default */
+.short-name{display:none}
+
+/* ===== SHRINK ON SCROLL ===== */
+header.shrink .header-inner{
+  padding:8px 15px;
+}
+header.shrink img{height:50px}
+header.shrink .school-name{font-size:18px}
+
+/* ================= MOBILE MAGIC ================= */
+
+@media(max-width:600px){
+
+  /* Center logo + KDSE */
+  .header-inner{
+    justify-content:center;
+    text-align:center;
+  }
+
+  .menu-toggle{
+    position:absolute;
+    right:15px;
+    font-size:28px;
+  }
+
+  /* Switch name */
+  .full-name{display:none}
+  .short-name{
+    display:inline-block;
+    font-size:20px;
+    letter-spacing:3px;
+    color:#ffe082;
+    animation:kdsePop 0.9s ease;
+  }
+
+  .header-inner img{
+    height:52px;
+  }
+}
+
+/* ===== KDSE ANIMATION ===== */
+@keyframes kdsePop{
+  0%{
+    opacity:0;
+    transform:scale(0.6) translateY(-10px);
+  }
+  60%{
+    opacity:1;
+    transform:scale(1.15);
+  }
+  100%{
+    transform:scale(1);
   }
 }
 </style>
@@ -408,12 +744,18 @@ header{
 
 <body>
 
-<header>
-  <img src="images/logo.png">
-  <h1>KALYANI DEVI SCHOOL OF EDUCATION</h1>
+  <header class="glass-header">
+  <div class="header-inner">
+    <img src="images/logo.png" alt="Kalyani Devi School Logo">
+    
+    <h1 class="school-name">
+      <span class="full-name">KALYANI DEVI SCHOOL OF EDUCATION</span>
+      <span class="short-name">KDSE</span>
+    </h1>
 
-  <!-- HAMBURGER -->
-  <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+    <!-- Hamburger -->
+    <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+  </div>
 </header>
 
 <nav id="mainNav">
@@ -842,8 +1184,18 @@ target="_blank"><b>🌐 Open Map Full Screen</b></a>
 <script>
 /* ===== MOBILE HAMBURGER MENU ===== */
 function toggleMenu(){
-  document.getElementById("mainNav").classList.toggle("open");
+  const nav = document.getElementById("mainNav");
+  nav.classList.toggle("open");
+  document.body.classList.toggle("menu-open");
 }
+
+/* Close menu on link click (mobile UX 🔥) */
+document.querySelectorAll("#mainNav a").forEach(link=>{
+  link.addEventListener("click",()=>{
+    document.getElementById("mainNav").classList.remove("open");
+    document.body.classList.remove("menu-open");
+  });
+});
 
 /* ===== SLIDER CODE ===== */
 let i=0;
@@ -952,6 +1304,15 @@ function changeSportSlide(n){
   showSportSlide();
   sportTimer = setInterval(showSportSlide, 3500);
 }
+
+window.addEventListener("scroll",()=>{
+  const header = document.querySelector("header");
+  if(window.scrollY > 60){
+    header.classList.add("shrink");
+  }else{
+    header.classList.remove("shrink");
+  }
+});
 </script>
 
 </body>
