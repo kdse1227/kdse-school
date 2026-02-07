@@ -3,761 +3,140 @@
 <head>
 <meta charset="UTF-8">
 <title>Kalyani Devi School of Education</title>
-<!-- 🔥 ADVANCED SEO -->
-<meta name="robots" content="index, follow">
-<meta name="author" content="Kalyani Devi School of Education">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Kalyani Devi School of Education, Lormi – Quality education with values & discipline.">
+<meta name="keywords" content="Kalyani Devi School, Lormi school, CGSE school, Chhattisgarh">
 <meta name="theme-color" content="#0b4d91">
 
-<!-- Open Graph (WhatsApp / Facebook Preview) -->
-<meta property="og:title" content="Kalyani Devi School of Education, Lormi">
-<meta property="og:description" content="Quality education with values & discipline. Admissions open.">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://yourdomain.com/images/logo.png">
-<meta property="og:url" content="https://yourdomain.com">
-
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-
-<!-- ✅ SEO META TAGS -->
-<meta name="description" content="Kalyani Devi School of Education, Lormi – quality education with values and discipline. Admissions open.">
-<meta name="keywords" content="Kalyani Devi School, Lormi school, CGSE school Mungeli, education Chhattisgarh">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
+/* ================= RESET & BASE ================= */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Poppins','Segoe UI',sans-serif;background:#f5f7fa;color:#333;line-height:1.6;}
+a{text-decoration:none;color:inherit;}
+img{max-width:100%;display:block;height:auto;}
 
-body{margin:0;font-family:Segoe UI;background:#f5f7fa;color:#333}
-header{background:#0b4d91;color:#fff;padding:15px;display:flex;align-items:center;gap:15px}
-header img{height:60px}
-nav{background:#083b70;padding:10px;text-align:center}
-nav a{color:#fff;text-decoration:none;margin:0 10px;font-weight:500}
-section{padding:30px 20px;max-width:1100px;margin:auto}
-h2{color:#0b4d91;border-bottom:2px solid #ddd}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:25px;
+/* ================= HEADER ================= */
+header{
+  position:sticky; top:0; z-index:6000;
+  background:#0b4d91; color:#fff;
+  display:flex; justify-content:center; align-items:center; gap:14px;
+  padding:14px 20px; transition:all 0.35s ease;
 }
-.card{background:#fff;padding:15px;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,.08);text-align:center}
-.card img{width:100%;height:200px;object-fit:cover;border-radius:8px}
-footer{background:#0b4d91;color:#fff;text-align:center;padding:15px}
+header img{height:72px; width:auto; transition:0.35s;}
+header .school-name{font-weight:700; font-size:26px; white-space:nowrap;}
+header .short-name{display:none;}
+header.shrink img{height:50px;}
+header.shrink .school-name{font-size:18px;}
+.menu-toggle{display:none; font-size:28px; cursor:pointer; position:absolute; right:15px;}
 
-/* 🔥 Premium WhatsApp Button */
-.whatsapp{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  background:#25D366;
-  color:#fff;
-  padding:14px 22px;
-  border-radius:50px;
-  font-size:16px;
-  font-weight:600;
-  text-decoration:none;
-  box-shadow:0 6px 15px rgba(0,0,0,0.3);
-  z-index:9999;
-  transition:all 0.3s ease;
-}
-
-.whatsapp img{
-  width:22px;
-  height:22px;
-}
-
-.whatsapp:hover{
-  transform:scale(1.06);
-  box-shadow:0 8px 18px rgba(0,0,0,0.4);
-}
-
-@media(max-width:600px){
-  .whatsapp{
-    padding:12px 18px;
-    font-size:15px;
-  }
-}
-
-/* Slider */
-.slider{position:relative;height:420px;overflow:hidden}
-.slide{display:none;width:100%;height:420px;object-fit:cover}
-.prev,.next{position:absolute;top:50%;padding:12px;font-size:24px;color:#fff;background:rgba(0,0,0,.5);cursor:pointer;border-radius:50%;transform:translateY(-50%)}
-.prev{left:15px}.next{right:15px}
-
-/* Clickable marquee */
-.marquee a{color:#0b4d91;text-decoration:none;font-weight:bold}
-
-/* ✅ Universal image fix */
-img{
-  max-width:100%;
-  height:auto;
-  display:block;
-}
-
-/* 📱 Slider responsive */
+/* ================= NAV ================= */
+nav{background:#083b70; text-align:center;}
+nav a{display:inline-block; color:#fff; font-weight:500; margin:0 10px; padding:10px;}
 @media(max-width:768px){
-  .slider,
-  .slide{
-    height:240px;
-  }
+  .menu-toggle{display:block;}
+  nav{position:fixed; top:72px; left:0; width:100%; flex-direction:column; display:none; z-index:5000;}
+  nav.open{display:flex;}
+  nav a{border-bottom:1px solid rgba(255,255,255,0.25);}
+  body.menu-open{overflow:hidden;}
 }
 
-/* 🖼️ Teacher / Gallery image fix */
-.card img{
-  object-fit:cover;
-  object-position:center;
-}
-  
-/* ===== CARD HOVER EFFECT ===== */
-.card{
-  background:#fff;
-  padding:12px;
-  text-align:center;
-  border-radius:10px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.1);
-  transition:transform 0.3s ease, box-shadow 0.3s ease;
-}
-.card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 10px 25px rgba(0,0,0,0.15);
-}
+/* ================= SLIDER ================= */
+.slider{position:relative; overflow:hidden; height:420px;}
+.slide{display:none; width:100%; height:420px; object-fit:cover;}
+.prev,.next{position:absolute; top:50%; transform:translateY(-50%);
+  background:rgba(0,0,0,0.5); color:#fff; padding:12px; font-size:24px; border-radius:50%; cursor:pointer;}
+.prev{left:15px;} .next{right:15px;}
+@media(max-width:768px){.slider, .slide{height:240px;}}
 
-/* ===== CARD IMAGE ===== */
-.card img{
-  width:90px;
-  height:90px;
-  object-fit:cover;
-  border-radius:50%;
-}
+/* ================= MARQUEE ================= */
+.marquee{background:#e8f0fe; padding:10px; text-align:center; margin-top:10px;}
+.marquee a{font-weight:bold; color:#0b4d91;}
 
-/* ===== GRID ===== */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:15px;
-}
+/* ================= SECTIONS ================= */
+section{padding:30px 20px; max-width:1100px; margin:auto;}
+h2{color:#0b4d91; margin-bottom:20px; border-bottom:2px solid #ddd; padding-bottom:6px;}
 
-/* ===== VIEW PROFILE BUTTON ===== */
-.view-btn{
-  margin-top:8px;
-  padding:8px 18px;
-  background:#0b4d91;
-  color:#fff;
-  border:none;
-  border-radius:20px;
-  font-size:14px;
-  cursor:pointer;
+/* ================= ABOUT ================= */
+.about-box{
+  background: linear-gradient(135deg,#e8f0fe,#fff);
+  border-left:6px solid #0b4d91;
+  border-radius:14px;
+  padding:35px 25px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+.about-box p{margin-bottom:15px;}
+.slogan{text-align:center;font-weight:700;color:#0b4d91;margin:15px 0 25px; font-size:18px;}
+
+/* ================= ACADEMICS ================= */
+#acadmics a, #academics a{
+  display:inline-block; margin-top:15px;
+  background:red; color:#fff; padding:10px 18px; border-radius:8px;
+  font-weight:600; box-shadow:0 3px 10px rgba(0,0,0,0.2);
   transition:0.3s;
 }
-.view-btn:hover{
-  background:#083b70;
-}
+#acadmics a:hover, #academics a:hover{background:#b30000;}
 
-/* ===== DIRECTOR GOLD BADGE ===== */
-.director-badge{
-  display:inline-block;
-  margin-top:6px;
-  padding:4px 12px;
-  font-size:12px;
-  font-weight:800;
-  color:#7a5200;
-  background:linear-gradient(135deg,#ffd700,#fff1a8,#f5c542);
-  border-radius:20px;
-  box-shadow:0 3px 8px rgba(0,0,0,0.3);
-}
+/* ================= GRID & CARDS ================= */
+.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:15px;}
+.card{background:#fff; padding:12px; text-align:center; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.1); transition:transform 0.35s ease, box-shadow 0.35s ease;}
+.card:hover{transform:translateY(-8px) scale(1.02); box-shadow:0 14px 30px rgba(0,0,0,0.18);}
+.card img{width:90px; height:90px; object-fit:cover; border-radius:50%; margin-bottom:8px;}
+.view-btn{margin-top:8px; padding:8px 18px; background:#0b4d91; color:#fff; border:none; border-radius:20px; cursor:pointer;}
+.view-btn:hover{background:#083b70;}
+.director-card{border:3px solid gold; background:linear-gradient(180deg,#fffbea,#ffffff);}
 
 /* ================= POPUP ================= */
-
-/* popup background */
-.popup{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:99999;
-}
-
-/* popup box */
-.popup-box{
-  background:#fff;
-  width:90%;
-  max-width:420px;
-  padding:25px;
-  border-radius:16px;
-  text-align:center;
-  position:relative;
-  animation:popIn 0.4s ease;
-}
-
-/* popup animation */
-@keyframes popIn{
-  from{transform:scale(0.7);opacity:0}
-  to{transform:scale(1);opacity:1}
-}
-
-/* popup image */
-.popup-box img{
-  width:130px;
-  height:130px;
-  object-fit:cover;
-  border-radius:50%;
-  margin-bottom:15px;
-}
-
-/* popup close */
-.popup .close{
-  position:absolute;
-  top:12px;
-  right:15px;
-  font-size:22px;
-  cursor:pointer;
-}
-
-/* ===== DIRECTOR POPUP SPECIAL ===== */
-.popup.director .popup-box{
-  border:4px solid gold;
-  background:linear-gradient(180deg,#fff9e6,#ffffff);
-  box-shadow:0 0 30px rgba(218,165,32,0.9);
-}
-
-.popup.director h2,
-.popup.director h3{
-  color:#b8860b;
-}
-
-/* ===== MOBILE OPTIMIZATION ===== */
-@media(max-width:600px){
-  .grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-  .card img{
-    width:80px;
-    height:80px;
-  }
-}
-
-/* ===== PREMIUM CARD ANIMATION ===== */
-.card{
-  transition:transform .35s ease, box-shadow .35s ease;
-}
-.card:hover{
-  transform:translateY(-8px) scale(1.02);
-  box-shadow:0 14px 30px rgba(0,0,0,.18);
-}
-
-/* Director highlight */
-.director-card{
-  border:2px solid gold;
-  background:linear-gradient(180deg,#fffbea,#ffffff);
-}
-
-/* ===================================================
-   🌟 GALLERY & SPORTS – PREMIUM FULL IMAGE STYLE
-   =================================================== */
-
-/* ===== Grid for gallery ===== */
-#gallery .grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
-}
-
-/* Gallery & sports cards */
-#gallery .card,
-#sports .sports-slider{
-  overflow:hidden;
-  border-radius:14px;
-  position:relative;
-}
-
-/* Gallery images */
-#gallery .card img{
-  width:100%;
-  height:240px;
-  object-fit:cover;
-  border-radius:12px;
-  cursor:pointer;
-  transition:transform 0.5s ease, filter 0.5s ease;
-}
-
-#gallery .card:hover img{
-  transform:scale(1.08);
-  filter:brightness(1.05);
-}
-
-/* Lightbox */
-.lightbox{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.85);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:999999;
-}
-
-.lightbox img{
-  max-width:90%;
-  max-height:90%;
-  border-radius:12px;
-  animation:zoomIn 0.4s ease;
-}
-
-.lightbox-close{
-  position:absolute;
-  top:20px;
-  right:25px;
-  font-size:28px;
-  color:#fff;
-  cursor:pointer;
-}
-
-@keyframes zoomIn{
-  from{transform:scale(.6);opacity:0}
-  to{transform:scale(1);opacity:1}
-}
-
-/* ================= HEADER FIX (FINAL) ================= */
-
-header{
-  position:sticky;
-  top:0;
-  z-index:50000;
-  background:#0b4d91;
-  display:flex;
-  align-items:center;
-  gap:14px;
-  padding:15px 20px;
-  transition:all 0.35s ease;
-}
-
-header img{
-  height:70px;
-  width:auto;
-}
-
-header h1{
-  font-family:"Poppins","Segoe UI",sans-serif;
-  font-weight:700;
-  font-size:26px;
-  white-space:nowrap;
-}
-
-/* Shrink */
-header.shrink{
-  padding:8px 15px;
-}
-header.shrink img{height:50px;}
-header.shrink h1{font-size:18px;}
-
-/* Tablet */
-@media(max-width:1024px){
-  header img{height:60px;}
-  header h1{font-size:22px;}
-}
-
-/* Mobile */
-@media(max-width:600px){
-  header{
-    justify-content:center;
-    text-align:center;
-  }
-  header img{height:52px;}
-  header h1{
-    font-size:16px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
-  .menu-toggle{
-    position:absolute;
-    right:15px;
-  }
-}
-
-/* Sports Slider */
-.sports-slider{
-  position:relative;
-  height:260px;
-  overflow:hidden;
-  border-radius:14px;
-}
-
-.sport-slide{
-  width:100%;
-  height:260px;
-  object-fit:cover;
-  position:absolute;
-  top:0;
-  left:0;
-  opacity:0;
-  transition:opacity 1s ease;
-}
-
-.sport-slide.active{
-  opacity:1;
-  z-index:1;
-}
-
-/* Slider arrows */
-.prev, .next{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  background:rgba(0,0,0,0.5);
-  color:#fff;
-  padding:12px;
-  font-size:24px;
-  border-radius:50%;
-  cursor:pointer;
-  z-index:2;
-  user-select:none;
-}
-
-.prev{left:15px;}
-.next{right:15px;}
-
-/* Mobile */
-@media(max-width:600px){
-  #gallery .card img,
-  .sports-slider,
-  .sport-slide{
-    height:180px;
-  }
-  .prev, .next{
-    padding:8px;
-    font-size:20px;
-  }
-} 
-
-/* ===== HEADER ===== */
-header{
-  position:sticky;
-  top:0;
-  z-index:50000;
-  background:#0b4d91;
-}
-
-/* ===== MOBILE MENU ===== */
-@media(max-width:768px){
-
-  .menu-toggle{
-    display:block;
-    font-size:30px;
-    cursor:pointer;
-    margin-left:auto;
-  }
-
-  nav{
-    position:fixed;
-    top:88px;                  /* 🔥 header height match */
-    left:0;
-    width:100%;
-    background:#083b70;
-    display:none;
-    flex-direction:column;
-    z-index:45000;
-    box-shadow:0 12px 30px rgba(0,0,0,0.35);
-  }
-
-  nav.open{
-    display:flex;
-  }
-
-  nav a{
-    padding:16px 20px;
-    font-size:16px;
-    border-bottom:1px solid rgba(255,255,255,0.25);
-  }
-  
-  /* ===== MENU OPEN EFFECT ===== */
-body.menu-open{
-  overflow:hidden;
-}
-
-body.menu-open::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.45);
-  backdrop-filter:blur(4px);
-  z-index:40000;
-}
-
-/* ===== SLIDE ANIMATION ===== */
-
-/* Tablet */
-@media(max-width:1024px){
-  header img{
-    height:60px;
-  }
-}
-
-/* Mobile */
-@media(max-width:600px){
-  header img{
-    height:52px;
-  }
-  
-  header h1{
-  font-family: "Poppins", "Segoe UI", sans-serif;
-  font-weight:700;
-  letter-spacing:1px;
-  margin:0;
-}
-
-/* Desktop */
-header h1{
-  font-size:26px;
-}
-
-/* Tablet */
-@media(max-width:1024px){
-  header h1{
-    font-size:22px;
-  }
-}
-
-/* Mobile */
-@media(max-width:600px){
-  header h1{
-    font-size:18px;
-    line-height:1.3;
-  }
-  
-  header{
-  transition:all 0.35s ease;
-}
-
-header.shrink{
-  padding:8px 15px;
-}
-
-header.shrink img{
-  height:50px;
-}
-
-header.shrink h1{
-  font-size:18px;
-}
-
-header img,
-header h1{
-  animation:fadeSlide 0.9s ease;
-}
-
-@keyframes fadeSlide{
-  from{
-    opacity:0;
-    transform:translateY(-12px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-/* ================= FINAL HEADER OVERRIDE ================= */
-
-header{
-  position:sticky;
-  top:0;
-  z-index:60000;
-  background:#0b4d91;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:14px;
-  padding:14px 20px;
-}
-
-/* Logo */
-header img{
-  height:72px;
-  width:auto;
-}
-
-/* School Name */
-header h1{
-  font-family:"Poppins","Segoe UI",sans-serif;
-  font-weight:700;
-  font-size:26px;
-  letter-spacing:1px;
-  white-space:nowrap;          /* 🔥 ONE LINE FIX */
-  overflow:hidden;
-  text-overflow:ellipsis;
-  margin:0;
-}
-
-/* Tablet */
-@media(max-width:1024px){
-  header img{height:60px;}
-  header h1{font-size:22px;}
-}
-
-/* Mobile */
-@media(max-width:600px){
-  header{
-    padding:12px 15px;
-  }
-
-  header img{
-    height:52px;
-  }
-
-  header h1{
-    font-size:16px;
-    max-width:75vw;             /* 🔥 one line safe */
-  }
-
-  .menu-toggle{
-    position:absolute;
-    right:15px;
-    font-size:28px;
-  }
-  
-  /* ===== SCHOOL NAME AUTO SWITCH ===== */
-
-.school-name{
-  font-family:"Poppins","Segoe UI",sans-serif;
-  font-weight:700;
-  letter-spacing:1px;
-  white-space:nowrap;
-}
-
-/* Hide short name by default */
-.short-name{
-  display:none;
-}
-
-/* 📱 Mobile only */
-@media(max-width:600px){
-  .full-name{
-    display:none;
-  }
-  .short-name{
-    display:inline-block;
-    font-size:18px;
-  }
-  
-  @media(max-width:600px){
-  .short-name{
-    letter-spacing:2px;
-    color:#ffe082;
-  }
-  
-  /* ================= GLASS HEADER ================= */
-
-.glass-header{
-  position:sticky;
-  top:0;
-  z-index:50000;
-  backdrop-filter:blur(12px);
-  background:rgba(11,77,145,0.75);
-  border-bottom:1px solid rgba(255,255,255,0.25);
-}
-
-/* Header layout */
-.header-inner{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  padding:14px 20px;
-  transition:all 0.35s ease;
-}
-
-/* Logo */
-.header-inner img{
-  height:70px;
-  transition:0.35s;
-}
-
-/* School name */
-.school-name{
-  font-family:"Poppins","Segoe UI",sans-serif;
-  font-weight:700;
-  letter-spacing:1px;
-  white-space:nowrap;
-  color:#fff;
-}
-
-/* Hide short name by default */
-.short-name{display:none}
-
-/* ===== SHRINK ON SCROLL ===== */
-header.shrink .header-inner{
-  padding:8px 15px;
-}
-header.shrink img{height:50px}
-header.shrink .school-name{font-size:18px}
-
-/* ================= MOBILE MAGIC ================= */
-
-@media(max-width:600px){
-
-  /* Center logo + KDSE */
-  .header-inner{
-    justify-content:center;
-    text-align:center;
-  }
-
-  .menu-toggle{
-    position:absolute;
-    right:15px;
-    font-size:28px;
-  }
-
-  /* Switch name */
-  .full-name{display:none}
-  .short-name{
-    display:inline-block;
-    font-size:20px;
-    letter-spacing:3px;
-    color:#ffe082;
-    animation:kdsePop 0.9s ease;
-  }
-
-  .header-inner img{
-    height:52px;
-  }
-}
-
-/* ===== KDSE ANIMATION ===== */
-@keyframes kdsePop{
-  0%{
-    opacity:0;
-    transform:scale(0.6) translateY(-10px);
-  }
-  60%{
-    opacity:1;
-    transform:scale(1.15);
-  }
-  100%{
-    transform:scale(1);
-  }
-}
+.popup{position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; justify-content:center; align-items:center; z-index:9999;}
+.popup-box{background:#fff; width:90%; max-width:420px; padding:25px; border-radius:16px; text-align:center; animation:popIn 0.4s ease; position:relative;}
+.popup-box img{width:130px; height:130px; object-fit:cover; border-radius:50%; margin-bottom:15px;}
+.popup .close{position:absolute; top:12px; right:15px; font-size:22px; cursor:pointer;}
+.popup.director .popup-box{border:4px solid gold; background:linear-gradient(180deg,#fff9e6,#fff);}
+@keyframes popIn{from{transform:scale(0.7);opacity:0} to{transform:scale(1);opacity:1;}}
+.qual-badge{display:inline-block;background:#e8f0fe;margin:4px 4px;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:bold;}
+
+/* ================= GALLERY ================= */
+#gallery .card img{height:240px; object-fit:cover; border-radius:12px; cursor:pointer; transition:transform 0.5s ease, filter 0.5s ease;}
+#gallery .card:hover img{transform:scale(1.08); filter:brightness(1.05);}
+.lightbox{position:fixed; inset:0; background:rgba(0,0,0,0.85); display:none; justify-content:center; align-items:center; z-index:9999;}
+.lightbox img{max-width:90%; max-height:90%; border-radius:12px; animation:zoomIn 0.4s ease;}
+.lightbox-close{position:absolute; top:20px; right:25px; font-size:28px; color:#fff; cursor:pointer;}
+@keyframes zoomIn{from{transform:scale(.6);opacity:0} to{transform:scale(1);opacity:1}}
+
+/* ================= SPORTS ================= */
+.sports-slider{position:relative; height:260px; overflow:hidden; border-radius:14px;}
+.sport-slide{position:absolute; top:0; left:0; width:100%; height:260px; object-fit:cover; opacity:0; transition:opacity 1s ease;}
+.sport-slide.active{opacity:1; z-index:1;}
+.sports-slider .prev,.sports-slider .next{position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:#fff; padding:12px; font-size:22px; border-radius:50%; cursor:pointer;}
+.sports-slider .prev{left:10px;} .sports-slider .next{right:10px;}
+
+/* ================= CONTACT ================= */
+#contact a{display:inline-block; margin-top:5px; color:#fff; text-decoration:none;}
+#contact a.call-btn{background:#28a745;padding:8px 14px;border-radius:6px;}
+#contact a.map-btn{background:#0b4d91;padding:8px 14px;border-radius:6px;}
+
+/* ================= WHATSAPP ================= */
+.whatsapp{position:fixed; bottom:20px; right:20px; display:flex; align-items:center; gap:10px; background:#25D366; color:#fff; padding:14px 22px; border-radius:50px; font-weight:600; box-shadow:0 6px 15px rgba(0,0,0,0.3); z-index:9999;}
+.whatsapp img{width:22px;height:22px;}
+.whatsapp:hover{transform:scale(1.06); box-shadow:0 8px 18px rgba(0,0,0,0.4);}
+
+/* ================= FOOTER ================= */
+footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-top:20px;}
+@media(max-width:600px){.grid{grid-template-columns:repeat(2,1fr);}.card img{width:80px;height:80px;}.sport-slide,.sports-slider{height:180px;}}
 </style>
 </head>
-
 <body>
 
-  <header class="glass-header">
-  <div class="header-inner">
-    <img src="images/logo.png" alt="Kalyani Devi School Logo">
-    
-    <h1 class="school-name">
-      <span class="full-name">KALYANI DEVI SCHOOL OF EDUCATION</span>
-      <span class="short-name">KDSE</span>
-    </h1>
-
-    <!-- Hamburger -->
-    <span class="menu-toggle" onclick="toggleMenu()">☰</span>
-  </div>
+<!-- HEADER -->
+<header>
+<img src="images/logo.png" alt="KDSE Logo">
+<h1 class="school-name"><span class="full-name">KALYANI DEVI SCHOOL OF EDUCATION</span><span class="short-name">KDSE</span></h1>
+<span class="menu-toggle" onclick="toggleMenu()">☰</span>
 </header>
 
+<!-- NAVIGATION -->
 <nav id="mainNav">
   <a href="#">Home</a>
   <a href="#about">About</a>
@@ -768,352 +147,102 @@ header.shrink .school-name{font-size:18px}
   <a href="#results">Results</a>
   <a href="#notice">Notice</a>
   <a href="#contact">Contact</a>
-  <a href="directors-desk.html">Director’s Desk</a>
+  <a href="#director-message">Director’s Desk</a>
 </nav>
 
+<!-- SLIDER -->
 <div class="slider">
-<img class="slide" src="images/slider/slide1.jpg" loading="lazy">
-<img class="slide" src="images/slider/slide2.jpg" loading="lazy">
-<img class="slide" src="images/slider/slide3.jpg" loading="lazy">
+<img class="slide" src="images/slider/slide1.jpg">
+<img class="slide" src="images/slider/slide2.jpg">
+<img class="slide" src="images/slider/slide3.jpg">
 <span class="prev" onclick="changeSlide(-1)">❮</span>
 <span class="next" onclick="changeSlide(1)">❯</span>
 </div>
 
-<marquee class="marquee" style="background:#e8f0fe;padding:10px;">
-<a href="#notice">📢 Admission Open 2026 | 📄 Latest Notice Available</a>
+<!-- MARQUEE -->
+<marquee class="marquee">
+  <a href="#notice">📢 Admission Open 2026 | 📄 Latest Notice Available</a>
 </marquee>
 
-<!-- ABOUT SECTION -->
+<!-- ABOUT -->
 <section id="about" class="about-box">
-  <h2>विद्यालय के बारे में</h2>
-
-  <p class="slogan">🌟 “ज्ञान • संस्कार • उज्ज्वल भविष्य” 🌟</p>
-
-  <p>
-    कल्याणी देवी स्कूल ऑफ एजुकेशन एक समर्पित शिक्षण संस्थान है, जहाँ बच्चों के
-    सर्वांगीण विकास पर विशेष ध्यान दिया जाता है। विद्यालय में गुणवत्तापूर्ण
-    शिक्षा के साथ-साथ अनुशासन, संस्कार और नैतिक मूल्यों को भी प्राथमिकता
-    दी जाती है।
-  </p>
-
-  <p>
-    अनुभवी एवं प्रेरणादायक शिक्षक बच्चों को सही दिशा में मार्गदर्शन प्रदान
-    करते हैं, जिससे वे आत्मविश्वास के साथ सीखें और अपने भविष्य को उज्ज्वल
-    बना सकें। हमारा उद्देश्य है शिक्षा के माध्यम से बच्चों में ज्ञान, समझ
-    और जिम्मेदारी का विकास करना।
-  </p>
+<h2>विद्यालय के बारे में</h2>
+<p class="slogan">🌟 “ज्ञान • संस्कार • उज्ज्वल भविष्य” 🌟</p>
+<p>कल्याणी देवी स्कूल ऑफ एजुकेशन बच्चों के सर्वांगीण विकास पर ध्यान देता है।</p>
+<p>अनुभवी शिक्षक बच्चों को आत्मविश्वास और शिक्षा के माध्यम से उज्ज्वल भविष्य की दिशा में मार्गदर्शन करते हैं।</p>
 </section>
-
-<!-- ABOUT SECTION CSS -->
-<style>
-.about-box{
-  background: linear-gradient(135deg, #e8f0fe, #ffffff);
-  border-left: 6px solid #0b4d91;
-  border-radius: 14px;
-  padding: 35px 25px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-}
-
-.about-box h2{
-  margin-top: 0;
-}
-
-.about-box p{
-  font-size: 16px;
-  line-height: 1.9;
-}
-
-.slogan{
-  text-align: center;
-  font-size: 18px;
-  font-weight: 700;
-  color: #0b4d91;
-  margin: 15px 0 25px;
-}
-</style>
 
 <!-- ACADEMICS -->
 <section id="academics">
-  <h2>Academics</h2>
-
-  <ul>
-    <li>Pre-Primary</li>
-    <li>Primary</li>
-    <li>Secondary</li>
-  </ul>
-
-  <!-- ADMISSION FORM BUTTON -->
-  <a href="https://docs.google.com/forms/d/e/1FAIpQLScmKeHyExJFw2RWrZ298YawPTNY0PWVLgKj76FBThu1mdVTmw/viewform?usp=dialog"
-     target="_blank"
-     style="
-       display:inline-block;
-       margin-top:15px;
-       background:#d32f2f;
-       color:white;
-       padding:14px 26px;
-       border-radius:8px;
-       font-size:16px;
-       font-weight:bold;
-       text-decoration:none;
-       box-shadow:0 4px 10px rgba(0,0,0,0.2);
-     ">
-    📝 Online Admission Form
-  </a>
+<h2>Academics</h2>
+<ul>
+<li>Pre-Primary</li>
+<li>Primary</li>
+<li>Secondary</li>
+</ul>
+<a href="https://docs.google.com/forms/d/e/1FAIpQLScmKeHyExJFw2RWrZ298YawPTNY0PWVLgKj76FBThu1mdVTmw/viewform?usp=dialog" target="_blank">📝 Online Admission Form</a>
 </section>
-
-<section id="management">
-  <h2>👥 Our Management & Teachers</h2>
-
-  <div class="grid">
-
-    <!-- DIRECTOR -->
-    <div class="card director-card">
-      <img src="images/director.jpg" alt="Director">
-      <h3>Paras Ram Kashyap</h3>
-      <div class="director-badge">⭐ Founder & Director</div>
-      <button class="view-btn" onclick="openDirector()">View Profile</button>
-    </div>
-
-    <!-- PRINCIPAL -->
-    <div class="card">
-      <img src="images/principal.jpg" alt="Principal">
-      <h3>Principal Name</h3>
-      <p>Principal</p>
-      <button class="view-btn" onclick="openPrincipal()">View Profile</button>
-    </div>
-
-    <!-- ===== TEACHERS (15) ===== -->
-
-    <div class="card">
-      <img src="images/teacher1.jpg">
-      <h3>Teacher 1</h3>
-      <p>Hindi</p>
-      <button class="view-btn"
-        onclick="openProfile('Teacher 1','Hindi Teacher','M.A., B.Ed.','images/teacher1.jpg')">
-        View Profile
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="images/teacher2.jpg">
-      <h3>Teacher 2</h3>
-      <p>Math</p>
-      <button class="view-btn"
-        onclick="openProfile('Teacher 2','Math Teacher','M.Sc., B.Ed.','images/teacher2.jpg')">
-        View Profile
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="images/teacher3.jpg">
-      <h3>Teacher 3</h3>
-      <p>English</p>
-      <button class="view-btn"
-        onclick="openProfile('Teacher 3','English Teacher','M.A., B.Ed.','images/teacher3.jpg')">
-        View Profile
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="images/teacher4.jpg">
-      <h3>Teacher 4</h3>
-      <p>Science</p>
-      <button class="view-btn"
-        onclick="openProfile('Teacher 4','Science Teacher','B.Sc., B.Ed.','images/teacher4.jpg')">
-        View Profile
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="images/teacher5.jpg">
-      <h3>Teacher 5</h3>
-      <p>Social Science</p>
-      <button class="view-btn"
-        onclick="openProfile('Teacher 5','Social Science','M.A., B.Ed.','images/teacher5.jpg')">
-        View Profile
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="images/teacher6.jpg">
-      <h3>Teacher 6</h3>
-      <p>Physics</p>
-      <button class="view-btn"
-        onclick="openProfile('Teacher 6','Physics Teacher','M.Sc., B.Ed.','images/teacher6.jpg')">
-        View Profile
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="images/teacher7.jpg">
-      <h3>Teacher 7</h3>
-      <p>Chemistry</p>
-      <button class="view-btn"
-        onclick="openProfile('Teacher 7','Chemistry Teacher','M.Sc., B.Ed.','images/teacher7.jpg')">
-        View Profile
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="images/teacher8.jpg">
-      <h3>Teacher 8</h3>
-      <p>Biology</p>
-      <button class="view-btn"
-        onclick="openProfile('Teacher 8','Biology Teacher','M.Sc., B.Ed.','images/teacher8.jpg')">
-        View Profile
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="images/teacher9.jpg">
-      <h3>Teacher 9</h3>
-      <p>Computer</p>
-      <button class="view-btn"
-        onclick="openProfile('Teacher 9','Computer Teacher','BCA, MCA','images/teacher9.jpg')">
-        View Profile
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="images/teacher10.jpg">
-      <h3>Teacher 10</h3>
-      <p>Sanskrit</p>
-      <button class="view-btn"
-        onclick="openProfile('Teacher 10','Sanskrit Teacher','M.A., B.Ed.','images/teacher10.jpg')">
-        View Profile
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="images/teacher11.jpg">
-      <h3>Teacher 11</h3>
-      <p>Geography</p>
-      <button class="view-btn"
-        onclick="openProfile('Teacher 11','Geography Teacher','M.A., B.Ed.','images/teacher11.jpg')">
-        View Profile
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="images/teacher12.jpg">
-      <h3>Teacher 12</h3>
-      <p>History</p>
-      <button class="view-btn"
-        onclick="openProfile('Teacher 12','History Teacher','M.A., B.Ed.','images/teacher12.jpg')">
-        View Profile
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="images/teacher13.jpg">
-      <h3>Teacher 13</h3>
-      <p>Economics</p>
-      <button class="view-btn"
-        onclick="openProfile('Teacher 13','Economics Teacher','M.A., B.Ed.','images/teacher13.jpg')">
-        View Profile
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="images/teacher14.jpg">
-      <h3>Teacher 14</h3>
-      <p>Political Science</p>
-      <button class="view-btn"
-        onclick="openProfile('Teacher 14','Political Science','M.A., B.Ed.','images/teacher14.jpg')">
-        View Profile
-      </button>
-    </div>
-
-    <div class="card">
-      <img src="images/teacher15.jpg">
-      <h3>Teacher 15</h3>
-      <p>Physical Education</p>
-      <button class="view-btn"
-        onclick="openProfile('Teacher 15','Physical Education','B.P.Ed., M.P.Ed.','images/teacher15.jpg')">
-        View Profile
-      </button>
-    </div>
-
-  </div>
-</section>
-
-<!-- ===== PROFILE POPUP (STEP 3) ===== -->
-<div id="popup" class="popup" onclick="closePopup()">
-
-  <div class="popup-box" onclick="event.stopPropagation()">
-
-    <span class="close" onclick="closePopup()">✖</span>
-
-    <img id="pImg" src="" alt="Profile">
-
-    <h2 id="pName"></h2>
-    <p id="pRole"></p>
-    <p id="pQual"></p>
-
-  </div>
-</div>
 
 <!-- DIRECTOR MESSAGE -->
 <section id="director-message">
-  <h2>✍️ Director's Message</h2>
-
-  <div class="card" style="text-align:left; line-height:1.8;">
-    <p>
-      शिक्षा केवल पुस्तकों तक सीमित नहीं होनी चाहिए।  
-      हमारा उद्देश्य बच्चों में संस्कार, आत्मविश्वास और
-      जिम्मेदारी की भावना विकसित करना है।
-    </p>
-
-    <p>
-      Kalyani Devi School of Education में हम बच्चों को
-      आधुनिक शिक्षा के साथ-साथ नैतिक मूल्यों से भी जोड़ते हैं।
-    </p>
-
-    <p style="margin-top:15px; font-weight:bold;">
-      — Paras Ram Kashyap  
-      <br>Director
-    </p>
-  </div>
+<h2>✍️ Message from Founder & Director</h2>
+<div class="card">
+<p>शिक्षा केवल पुस्तकों तक सीमित नहीं होनी चाहिए। हमारा उद्देश्य बच्चों में संस्कार, आत्मविश्वास और जिम्मेदारी की भावना विकसित करना है।</p>
+<p>Kalyani Devi School of Education में हम बच्चों को आधुनिक शिक्षा के साथ-साथ नैतिक मूल्यों से भी जोड़ते हैं।</p>
+<p style="margin-top:15px;font-weight:bold;">— Paras Ram Kashyap, Director</p>
+</div>
 </section>
 
-<!-- ===== GALLERY SECTION ===== -->
-<section id="gallery">
-  <h2>Gallery</h2>
-  <div class="grid">
-    <div class="card">
-      <img src="images/gallery1.jpg" onclick="openLightbox(this.src)" alt="Gallery 1">
-    </div>
-    <div class="card">
-      <img src="images/gallery2.jpg" onclick="openLightbox(this.src)" alt="Gallery 2">
-    </div>
-    <div class="card">
-      <img src="images/gallery3.jpg" onclick="openLightbox(this.src)" alt="Gallery 3">
-    </div>
-    <div class="card">
-      <img src="images/gallery4.jpg" onclick="openLightbox(this.src)" alt="Gallery 4">
-    </div>
-  </div>
+<!-- TEACHERS -->
+<section id="teachers">
+<h2>👥 Our Management & Teachers</h2>
+<div class="grid" id="teachersGrid"></div>
 </section>
 
-<!-- Lightbox Popup -->
-<div id="lightbox" class="lightbox" onclick="closeLightbox()">
-  <span class="lightbox-close" onclick="closeLightbox()">✖</span>
-  <img id="lightboxImg">
+<!-- PROFILE POPUP -->
+<div id="profilePopup" class="popup" onclick="closePopup()">
+<div class="popup-box" onclick="event.stopPropagation()">
+<span class="close" onclick="closePopup()">✖</span>
+<img id="popImg" src="">
+<h2 id="popName"></h2>
+<p id="popRole"></p>
+<div class="qualifications" id="popQual"></div>
+<div class="popup-actions">
+<a id="popCall" class="call-btn" href="#">📞 Call</a>
+<a id="popWhatsApp" class="wa-btn" href="#" target="_blank">💬 WhatsApp</a>
+</div>
+</div>
 </div>
 
-<!-- ===== SPORTS SECTION ===== -->
-<section id="sports">
-  <h2>Sports & Activities</h2>
-  <div class="sports-slider">
-    <span class="prev" onclick="changeSportSlide(-1)">❮</span>
-    <span class="next" onclick="changeSportSlide(1)">❯</span>
-    <img class="sport-slide active" src="images/sports1.jpg" alt="Sports 1">
-    <img class="sport-slide" src="images/sports2.jpg" alt="Sports 2">
-    <img class="sport-slide" src="images/sports3.jpg" alt="Sports 3">
-  </div>
+<!-- GALLERY -->
+<section id="gallery">
+<h2>Gallery</h2>
+<div class="grid">
+<div class="card"><img src="images/gallery1.jpg" onclick="openLightbox(this.src)"></div>
+<div class="card"><img src="images/gallery2.jpg" onclick="openLightbox(this.src)"></div>
+<div class="card"><img src="images/gallery3.jpg" onclick="openLightbox(this.src)"></div>
+<div class="card"><img src="images/gallery4.jpg" onclick="openLightbox(this.src)"></div>
+</div>
 </section>
 
-<!-- RESULT SECTION RESTORED -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+<span class="lightbox-close" onclick="closeLightbox()">✖</span>
+<img id="lightboxImg">
+</div>
+
+<!-- SPORTS -->
+<section id="sports">
+<h2>Sports & Activities</h2>
+<div class="sports-slider">
+<span class="prev" onclick="changeSportSlide(-1)">❮</span>
+<span class="next" onclick="changeSportSlide(1)">❯</span>
+<img class="sport-slide active" src="images/sports1.jpg">
+<img class="sport-slide" src="images/sports2.jpg">
+<img class="sport-slide" src="images/sports3.jpg">
+</div>
+</section>
+
+<!-- RESULTS -->
 <section id="results">
 <h2>📄 Result / Download</h2>
 <ul>
@@ -1122,197 +251,103 @@ header.shrink .school-name{font-size:18px}
 </ul>
 </section>
 
+<!-- NOTICE -->
 <section id="notice">
 <h2>📢 Notice Board</h2>
 <p id="liveNotice">Latest notice will appear here</p>
 <p><a id="pdfNotice" target="_blank">Download Notice PDF</a></p>
 </section>
 
+<!-- CONTACT -->
 <section id="contact">
 <h2>Contact Us</h2>
-
 <p>📍 Saraswati Shishu Mandir, Piparkhunta, Lormi, Mungeli, Chhattisgarh – 495115</p>
-
-<p>
-📞 
-<a href="tel:+918224821843"
-style="background:#28a745;color:#fff;padding:8px 14px;border-radius:6px;text-decoration:none">
-Call Now
-</a>
-</p>
-
+<p>📞 <a class="call-btn" href="tel:+918224821843">Call Now</a></p>
 <p>✉ kdse1227@gmail.com</p>
-
-<p>
-<a href="https://www.google.com/maps/dir/?api=1&destination=22.1947379,81.7505496"
-target="_blank"
-style="background:#0b4d91;color:#fff;padding:8px 14px;border-radius:6px;text-decoration:none">
-📍 Get Directions
-</a>
-</p>
-
-<!-- EMBED MAP -->
+<p><a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=22.1947379,81.7505496" target="_blank">📍 Get Directions</a></p>
 <div style="margin-top:15px;border-radius:10px;overflow:hidden">
-<iframe
-  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4382.045056313084!2d81.7483602!3d22.1947811!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a283b5d7020048d%3A0xe11af95c23284b53!2sSaraswati%20Shishu%20Mandir%20Piparkhunta!5e0!3m2!1sen!2sin!4v1738323200000"
-  width="100%"
-  height="350"
-  style="border:0;"
-  allowfullscreen=""
-  loading="lazy"
-  referrerpolicy="no-referrer-when-downgrade">
-</iframe>
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4382.045056313084!2d81.7483602!3d22.1947811!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a283b5d7020048d%3A0xe11af95c23284b53!2sSaraswati%20Shishu%20Mandir%20Piparkhunta!5e0!3m2!1sen!2sin!4v1678648286932!5m2!1sen!2sin" width="100%" height="240" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
 </div>
-
-<p style="margin-top:10px;">
-<a href="https://www.google.com/maps/place/Saraswati+shishu+mandir+piparkhunta"
-target="_blank"><b>🌐 Open Map Full Screen</b></a>
-</p>
 </section>
 
-<footer>© 2026 Kalyani Devi School of Education</footer>
-
-<a class="whatsapp"
-   href="https://wa.me/918224821843?text=Hello%20Kalyani%20Devi%20School%20of%20Education,%20I%20want%20admission%20information."
-   target="_blank">
-
-  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-  Chat on WhatsApp
-
+<!-- WHATSAPP -->
+<a href="https://wa.me/918224821843" class="whatsapp" target="_blank">
+<img src="images/whatsapp.png" alt="WhatsApp"> WhatsApp
 </a>
 
+<!-- FOOTER -->
+<footer>
+<p>&copy; 2026 Kalyani Devi School of Education, Lormi. All rights reserved.</p>
+</footer>
+
+<!-- ================= JS ================= -->
 <script>
-/* ===== MOBILE HAMBURGER MENU ===== */
-function toggleMenu(){
-  const nav = document.getElementById("mainNav");
-  nav.classList.toggle("open");
-  document.body.classList.toggle("menu-open");
-}
+// ===== MENU =====
+function toggleMenu(){document.getElementById('mainNav').classList.toggle('open');document.body.classList.toggle('menu-open');}
+window.addEventListener('scroll',()=>{document.querySelector('header').classList.toggle('shrink',window.scrollY>60);});
 
-/* Close menu on link click (mobile UX 🔥) */
-document.querySelectorAll("#mainNav a").forEach(link=>{
-  link.addEventListener("click",()=>{
-    document.getElementById("mainNav").classList.remove("open");
-    document.body.classList.remove("menu-open");
-  });
+// ===== SLIDER =====
+let slideIndex=0;
+const slides=document.querySelectorAll('.slide');
+function showSlide(n){
+  slides.forEach(s=>s.style.display='none');
+  slideIndex=(n+slides.length)%slides.length;
+  slides[slideIndex].style.display='block';
+}
+function changeSlide(n){showSlide(slideIndex+n);}
+showSlide(slideIndex);
+setInterval(()=>changeSlide(1),5000);
+
+// ===== TEACHERS DATA =====
+const teachersData=[
+{name:"Paras Ram Kashyap",role:"Founder & Director",img:"images/teachers/director.jpg",qual:["M.Ed","B.Ed"],call:"8224821843",wa:"918224821843",isDirector:true},
+{name:"Sunita Verma",role:"Math Teacher",img:"images/teachers/teacher1.jpg",qual:["M.Sc Maths","B.Ed"],call:"8224821111",wa:"9182242111",isDirector:false},
+{name:"Ramesh Sharma",role:"Science Teacher",img:"images/teachers/teacher2.jpg",qual:["M.Sc Physics","B.Ed"],call:"8224822222",wa:"9182242222",isDirector:false},
+{name:"Anita Patel",role:"English Teacher",img:"images/teachers/teacher3.jpg",qual:["M.A English","B.Ed"],call:"8224823333",wa:"9182243333",isDirector:false}
+];
+
+// ===== GENERATE TEACHER CARDS =====
+const grid=document.getElementById("teachersGrid");
+teachersData.forEach((t,index)=>{
+  let card=document.createElement("div");
+  card.className="card "+(t.isDirector?"director-card":"");
+  card.innerHTML=`<img src="${t.img}" alt="${t.name}">
+  <h3>${t.name}</h3>
+  <p><b>${t.role}</b></p>
+  <button class="view-btn" onclick="openTeacherPopup(${index})">View Profile</button>`;
+  grid.appendChild(card);
 });
 
-/* ===== SLIDER CODE ===== */
-let i=0;
-function show(n){
-  let s=document.getElementsByClassName("slide");
-  if(n>=s.length)i=0;
-  if(n<0)i=s.length-1;
-  for(let x of s)x.style.display="none";
-  s[i].style.display="block";
+// ===== POPUP =====
+function openTeacherPopup(idx){
+  const t=teachersData[idx];
+  document.getElementById('popImg').src=t.img;
+  document.getElementById('popName').innerText=t.name;
+  document.getElementById('popRole').innerHTML='<b>'+t.role+'</b>';
+  document.getElementById('popQual').innerHTML=t.qual.map(q=>'<span class="qual-badge">'+q+'</span>').join(' ');
+  document.getElementById('popCall').href='tel:+91'+t.call;
+  document.getElementById('popWhatsApp').href='https://wa.me/'+t.wa;
+  document.getElementById('profilePopup').style.display='flex';
 }
-function changeSlide(n){i+=n;show(i);}
-setInterval(()=>{i++;show(i)},5000);
-show(0);
+function closePopup(){document.getElementById('profilePopup').style.display='none';}
 
-/* ===== NOTICE BOARD ===== */
-document.getElementById("liveNotice").innerText =
-  localStorage.getItem("notice") || "No new notice";
-
-let pdf=localStorage.getItem("noticePDF");
-if(pdf) document.getElementById("pdfNotice").href=pdf;
-
-/* ===== PROFILE POPUP FUNCTIONS ===== */
-
-function openProfile(name, role, qual, img, type="teacher"){
-  const popup = document.getElementById("popup");
-
-  document.getElementById("pName").innerText = name;
-  document.getElementById("pRole").innerText = role;
-  document.getElementById("pQual").innerText = qual;
-  document.getElementById("pImg").src = img;
-
-  popup.classList.remove("director");
-
-  if(type === "director"){
-    popup.classList.add("director");
-  }
-
-  popup.style.display = "flex";
-}
-
-function closePopup(){
-  document.getElementById("popup").style.display = "none";
-}
-
-/* ===== DIRECTOR BUTTON ===== */
-function openDirector(){
-  openProfile(
-    "Paras Ram Kashyap",
-    "Founder & Director",
-    "M.A., B.Ed., Educationist",
-    "images/director.jpg",
-    "director"
-  );
-}
-
-/* ===== PRINCIPAL BUTTON ===== */
-function openPrincipal(){
-  openProfile(
-    "Principal Name",
-    "Principal",
-    "M.Sc., B.Ed.",
-    "images/principal.jpg"
-  );
-}
-
-/* ===== TEACHER (OLD BUTTON SUPPORT) ===== */
-function openTeacher(name, subject){
-  openProfile(
-    name,
-    subject + " Teacher",
-    "B.Ed.",
-    "images/teacher1.jpg"
-  );
-}
-
-/* ===== Lightbox ===== */
+// ===== GALLERY LIGHTBOX =====
 function openLightbox(src){
-  const lb = document.getElementById("lightbox");
-  document.getElementById("lightboxImg").src = src;
-  lb.style.display = "flex";
+  document.getElementById('lightboxImg').src=src;
+  document.getElementById('lightbox').style.display='flex';
 }
-function closeLightbox(){
-  document.getElementById("lightbox").style.display = "none";
+function closeLightbox(){document.getElementById('lightbox').style.display='none';}
+
+// ===== SPORTS SLIDER =====
+let sportIndex=0;
+const sportSlides=document.querySelectorAll('.sport-slide');
+function showSportSlide(n){
+  sportSlides.forEach(s=>s.classList.remove('active'));
+  sportIndex=(n+sportSlides.length)%sportSlides.length;
+  sportSlides[sportIndex].classList.add('active');
 }
-
-/* ===== Sports Auto Slider ===== */
-let sportIndex = 0;
-function showSportSlide(){
-  let slides = document.getElementsByClassName("sport-slide");
-  for(let i=0;i<slides.length;i++){
-    slides[i].classList.remove("active");
-  }
-  sportIndex++;
-  if(sportIndex > slides.length) sportIndex = 1;
-  slides[sportIndex-1].classList.add("active");
-}
-
-/* Auto play every 3.5 sec */
-let sportTimer = setInterval(showSportSlide, 3500);
-showSportSlide();
-
-/* Manual arrows */
-function changeSportSlide(n){
-  clearInterval(sportTimer); // Stop auto timer temporarily
-  sportIndex += n - 1; // adjust because showSportSlide increments
-  showSportSlide();
-  sportTimer = setInterval(showSportSlide, 3500);
-}
-
-window.addEventListener("scroll",()=>{
-  const header = document.querySelector("header");
-  if(window.scrollY > 60){
-    header.classList.add("shrink");
-  }else{
-    header.classList.remove("shrink");
-  }
-});
+function changeSportSlide(n){showSportSlide(sportIndex+n);}
+setInterval(()=>changeSportSlide(1),6000);
 </script>
 
 </body>
