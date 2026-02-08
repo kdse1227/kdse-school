@@ -490,34 +490,46 @@ function showPopup(i){
 }
 function closePopup(){document.getElementById('profilePopup').style.display='none';}
 
-// ===== LIVE NOTICE FETCH =====
-async function fetchNotice(){
-  try{
-    const res=await fetch('notice.json');
-    if(!res.ok) throw new Error('Failed to fetch notice');
-    const data=await res.json();
+// ===== LIVE NOTICE FETCH (MULTIPLE) =====
+async function fetchNotice() {
+  try {
+    const res = await fetch('notice.json');
+    if (!res.ok) throw new Error('Failed to fetch notice');
+    const data = await res.json();
 
-    // Update Notice Section
-    document.getElementById('liveNotice').textContent=data.latest;
-    const pdfLink=document.getElementById('pdfNotice');
-    pdfLink.href=data.pdf;
-    pdfLink.textContent="📄 Download Notice PDF";
+    const liveNoticeContainer = document.getElementById('liveNotice');
+    const pdfNoticeContainer = document.getElementById('pdfNotice');
+    const marquee = document.getElementById('marqueeNotice');
 
-    // Update Marquee
-    const marquee=document.getElementById('marqueeNotice');
-    marquee.textContent=data.latest;
-    marquee.href=data.pdf;
+    if (!data.notices || data.notices.length === 0) throw new Error('No notices found');
 
-  }catch(err){
-    console.error('Notice error:',err);
-    document.getElementById('liveNotice').textContent="Notice not available at the moment.";
-    document.getElementById('pdfNotice').style.display="none";
-    document.getElementById('marqueeNotice').textContent="Notice not available.";
-    document.getElementById('marqueeNotice').href="#";
+    // ===== Display Latest Notice =====
+    const latest = data.notices[0];
+    liveNoticeContainer.textContent = latest.text;
+    pdfNoticeContainer.href = latest.pdf;
+    pdfNoticeContainer.textContent = "📄 Download Notice PDF";
+
+    // ===== Create Marquee Text =====
+    marquee.textContent = "";
+    let marqueeText = "";
+    data.notices.forEach((n, i) => {
+      marqueeText += n.text + "  ✦  ";
+    });
+    marquee.textContent = marqueeText.trim();
+    marquee.href = latest.pdf; // link goes to latest PDF
+
+  } catch (err) {
+    console.error('Notice error:', err);
+    document.getElementById('liveNotice').textContent = "Notice not available at the moment.";
+    document.getElementById('pdfNotice').style.display = "none";
+    document.getElementById('marqueeNotice').textContent = "Notice not available.";
+    document.getElementById('marqueeNotice').href = "#";
   }
 }
+
+// Fetch on load + refresh every 5 mins
 fetchNotice();
-setInterval(fetchNotice,5*60*1000); // refresh every 5 minutes
+setInterval(fetchNotice, 5*60*1000);
 </script>
 
 </body>
