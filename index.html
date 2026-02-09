@@ -292,13 +292,14 @@ footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-t
 </div>
 </section>
 
-<!-- RESULTS -->
 <section id="results">
-<h2>📄 Result / Download</h2>
-<ul>
-<li><a href="results/class10-result.pdf" target="_blank">Class 10 Result</a></li>
-<li><a href="results/class12-result.pdf" target="_blank">Class 12 Result</a></li>
-</ul>
+  <h2>📄 Result / Download</h2>
+
+  <!-- Year selection dropdown -->
+  <label for="year-select">Select Year:</label>
+  <select id="year-select"></select>
+
+  <ul id="results-list"></ul>
 </section>
 
 <!-- NOTICE -->
@@ -542,7 +543,60 @@ function showSportSlide(n){
 }
 function changeSportSlide(n){ showSportSlide(sIndex+n); }
 showSportSlide(sIndex);
-</script>
 
+const resultsFiles = [
+    { class: 'Class 10', file: 'class10-result.pdf' },
+    { class: 'Class 12', file: 'class12-result.pdf' }
+  ];
+
+  const yearSelect = document.getElementById('year-select');
+  const ul = document.getElementById('results-list');
+
+  // Fetch available years dynamically from JSON
+  fetch('results/years.json')
+    .then(response => response.json())
+    .then(availableYears => {
+      // Populate dropdown
+      availableYears.forEach(year => {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        yearSelect.appendChild(option);
+      });
+
+      // Set current year as default if available
+      const currentYear = new Date().getFullYear().toString();
+      if (availableYears.includes(currentYear)) {
+        yearSelect.value = currentYear;
+      } else {
+        yearSelect.value = availableYears[0]; // fallback
+      }
+
+      renderResults(yearSelect.value);
+
+      // Update results on dropdown change
+      yearSelect.addEventListener('change', e => {
+        renderResults(e.target.value);
+      });
+    })
+    .catch(err => {
+      ul.innerHTML = "<li>Error loading results</li>";
+      console.error(err);
+    });
+
+  // Function to render results
+  function renderResults(year) {
+    ul.innerHTML = '';
+    resultsFiles.forEach(r => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `results/${year}/${r.file}`;
+      a.target = "_blank";
+      a.textContent = `${r.class} Result`;
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+  }
+</script>
 </body>
 </html>
