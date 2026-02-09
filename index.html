@@ -544,59 +544,60 @@ function showSportSlide(n){
 function changeSportSlide(n){ showSportSlide(sIndex+n); }
 showSportSlide(sIndex);
 
+// ===== RESULTS DROPDOWN & PDF LINKS =====
 const resultsFiles = [
-    { class: 'Class 10', file: 'class10-result.pdf' },
-    { class: 'Class 12', file: 'class12-result.pdf' }
-  ];
+  { class: 'Class 10', file: 'class10-result.pdf' },
+  { class: 'Class 12', file: 'class12-result.pdf' }
+];
 
-  const yearSelect = document.getElementById('year-select');
-  const ul = document.getElementById('results-list');
+const yearSelect = document.getElementById('year-select');
+const resultsList = document.getElementById('results-list');
 
-  // Fetch available years dynamically from JSON
-  fetch('results/years.json')
-    .then(response => response.json())
-    .then(availableYears => {
-      // Populate dropdown
-      availableYears.forEach(year => {
-        const option = document.createElement('option');
-        option.value = year;
-        option.textContent = year;
-        yearSelect.appendChild(option);
-      });
-
-      // Set current year as default if available
-      const currentYear = new Date().getFullYear().toString();
-      if (availableYears.includes(currentYear)) {
-        yearSelect.value = currentYear;
-      } else {
-        yearSelect.value = availableYears[0]; // fallback
-      }
-
-      renderResults(yearSelect.value);
-
-      // Update results on dropdown change
-      yearSelect.addEventListener('change', e => {
-        renderResults(e.target.value);
-      });
-    })
-    .catch(err => {
-      ul.innerHTML = "<li>Error loading results</li>";
-      console.error(err);
+// Fetch years from JSON
+fetch('results/years.json')
+  .then(res => {
+    if (!res.ok) throw new Error('Years file not found');
+    return res.json();
+  })
+  .then(years => {
+    // Populate dropdown
+    years.forEach(year => {
+      const option = document.createElement('option');
+      option.value = year;
+      option.textContent = year;
+      yearSelect.appendChild(option);
     });
 
-  // Function to render results
-  function renderResults(year) {
-    ul.innerHTML = '';
-    resultsFiles.forEach(r => {
-      const li = document.createElement('li');
-      const a = document.createElement('a');
-      a.href = `results/${year}/${r.file}`;
-      a.target = "_blank";
-      a.textContent = `${r.class} Result`;
-      li.appendChild(a);
-      ul.appendChild(li);
+    // Set default year
+    const currentYear = new Date().getFullYear().toString();
+    yearSelect.value = years.includes(currentYear) ? currentYear : years[0];
+
+    // Render initial results
+    renderResults(yearSelect.value);
+
+    // Change results on year change
+    yearSelect.addEventListener('change', e => {
+      renderResults(e.target.value);
     });
-  }
+  })
+  .catch(err => {
+    resultsList.innerHTML = "<li>PDF not available</li>";
+    console.error(err);
+  });
+
+// Render results function
+function renderResults(year) {
+  resultsList.innerHTML = '';
+  resultsFiles.forEach(r => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = `results/${year}/${r.file}`;
+    a.target = "_blank";
+    a.textContent = `${r.class} Result`;
+    li.appendChild(a);
+    resultsList.appendChild(li);
+  });
+}
 </script>
 </body>
 </html>
