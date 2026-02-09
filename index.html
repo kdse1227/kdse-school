@@ -96,7 +96,15 @@ h2{color:#0b4d91; margin-bottom:20px; border-bottom:2px solid #ddd; padding-bott
 .card img{width:90px; height:90px; object-fit:cover; border-radius:50%; margin-bottom:8px;}
 .view-btn{margin-top:8px; padding:8px 18px; background:#0b4d91; color:#fff; border:none; border-radius:20px; cursor:pointer;}
 .view-btn:hover{background:#083b70;}
-.director-card{border:3px solid gold; background:linear-gradient(180deg,#fffbea,#ffffff);}
+.director-card {
+  border: 3px solid gold;
+  background: linear-gradient(180deg,#fffbea,#ffffff);
+}
+
+.principal-card {
+  border: 3px solid silver;
+  background: linear-gradient(180deg,#f0f0f0,#fff);
+}
 
 /* ================= POPUP ================= */
 .popup{position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; justify-content:center; align-items:center; z-index:9999;}
@@ -503,27 +511,53 @@ function formatDate(d){
 
 // ===== TEACHERS POPUP =====
 const teachers = [
-  {name:"Paras Ram Kashyap", role:"Director", img:"images/teachers/paras.jpg", qual:"B.Ed, M.Ed", phone:"+918224821843"},
-  {name:"Sita Devi", role:"Principal", img:"images/teachers/sita.jpg", qual:"M.Ed", phone:"+918224821844"}
+  {name:"Paras Ram Kashyap", role:"Director", img:"images/teachers/paras.jpg", qual:"B.Ed, M.Ed", phone:"+918224821843", type:"director"},
+  {name:"Sita Devi", role:"Principal", img:"images/teachers/sita.jpg", qual:"M.Ed", phone:"+918224821844", type:"principal"},
+  {name:"Ramesh Kumar", role:"Teacher", img:"images/teachers/ramesh.jpg", qual:"B.Ed", phone:"+918224821845", type:"teacher"},
+  {name:"Geeta Sharma", role:"Teacher", img:"images/teachers/geeta.jpg", qual:"B.Ed", phone:"+918224821846", type:"teacher"}
 ];
+
 const teachersGrid = document.getElementById('teachersGrid');
 teachers.forEach((t,i)=>{
   let card = document.createElement('div');
-  card.className='card'+(t.role==='Director'?' director-card':'');
-  card.innerHTML=`<img src="${t.img}"><h3>${t.name}</h3><p>${t.role}</p><button class="view-btn" onclick="showProfile(${i})">View Profile</button>`;
+  card.className='card '+(t.type==='director' ? 'director-card' : t.type==='principal' ? 'principal-card' : 'teacher-card');
+  card.innerHTML=`
+    <img src="${t.img}" alt="${t.name}">
+    <h3>${t.name}</h3>
+    <p>${t.role}</p>
+    <button class="view-btn" onclick="showProfile(${i})">View Profile</button>
+  `;
   teachersGrid.appendChild(card);
 });
+
+// SHOW POPUP
 function showProfile(i){
-  const t=teachers[i];
-  document.getElementById('popImg').src=t.img;
-  document.getElementById('popName').innerText=t.name;
-  document.getElementById('popRole').innerText=t.role;
-  document.getElementById('popQual').innerText=t.qual;
-  document.getElementById('popCall').href=`tel:${t.phone}`;
-  document.getElementById('popWhatsApp').href=`https://api.whatsapp.com/send?phone=${t.phone.replace('+','')}&text=Hello`;
-  document.getElementById('profilePopup').style.display='flex';
+  const t = teachers[i];
+  const popup = document.getElementById('profilePopup');
+  const box = popup.querySelector('.popup-box');
+
+  // Add type class for popup color
+  box.className = 'popup-box ' + t.type;
+
+  document.getElementById('popImg').src = t.img;
+  document.getElementById('popName').innerText = t.name;
+  document.getElementById('popRole').innerText = t.role;
+  document.getElementById('popQual').innerText = t.qual;
+
+  // Buttons
+  const popCall = document.getElementById('popCall');
+  const popWhatsApp = document.getElementById('popWhatsApp');
+  popCall.href = `tel:${t.phone}`;
+  popWhatsApp.href = `https://api.whatsapp.com/send?phone=${t.phone.replace('+','')}&text=Hello`;
+  popWhatsApp.className = 'whatsapp-btn';
+  popWhatsApp.innerHTML = `<img src="images/whatsapp.svg" alt="WhatsApp"> WhatsApp`;
+
+  popup.style.display='flex';
 }
-function closePopup(){ document.getElementById('profilePopup').style.display='none'; }
+
+function closePopup(){ 
+  document.getElementById('profilePopup').style.display='none';
+}
 
 // ===== GALLERY SLIDER =====
 let gIndex=0;
