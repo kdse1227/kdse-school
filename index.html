@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="hi-IN">
 <head>
 <meta charset="UTF-8">
 <title>Kalyani Devi School of Education</title>
@@ -51,7 +51,7 @@ header.shrink .full-name{font-size:13px;}
 nav{background:#083b70; text-align:center;}
 nav a{display:inline-block; color:#fff; font-weight:500; margin:0 10px; padding:10px;}
 @media(max-width:768px){
-  nav{position:fixed; top:72px; left:0; width:100%; flex-direction:column; display:none; z-index:5000;}
+  nav{position:fixed; top:110px; left:0; width:100%; flex-direction:column; display:none; z-index:5000;}
   nav.open{display:flex;}
   nav a{border-bottom:1px solid rgba(255,255,255,0.25);}
   body.menu-open{overflow:hidden;}
@@ -140,6 +140,36 @@ h2{color:#0b4d91; margin-bottom:20px; border-bottom:2px solid #ddd; padding-bott
 
 /* ================= FOOTER ================= */
 footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-top:20px;}
+
+/* ===== NOTICE STYLES ===== */
+.notice-latest{
+  background:#fff0f0;
+  border-left:5px solid #d90000;
+  padding:8px 10px;
+  margin-bottom:8px;
+  border-radius:6px;
+}
+
+.notice-latest a{
+  color:#b30000;
+  font-weight:600;
+}
+
+.notice-year{
+  margin-top:18px;
+  font-weight:700;
+  color:#0b4d91;
+}
+
+.new-badge{
+  background:red;
+  color:#fff;
+  font-size:11px;
+  padding:2px 6px;
+  border-radius:6px;
+  margin-left:6px;
+  font-weight:700;
+}
 </style>
 </head>
 <body>
@@ -274,8 +304,19 @@ footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-t
 <!-- NOTICE -->
 <section id="notice">
 <h2>📢 Notice Board</h2>
-<p id="liveNotice">Latest notice will appear here</p>
-<p><a id="pdfNotice" target="_blank">Download Notice PDF</a></p>
+
+<div id="liveNotice"></div>
+
+<p style="margin-top:10px;">
+  <a id="pdfNotice" target="_blank">📄 Download Latest Notice</a>
+</p>
+
+<label style="font-weight:600;">🔍 Filter by Year:</label>
+<select id="yearFilter" style="margin-left:8px;padding:6px;border-radius:6px;">
+  <option value="all">All</option>
+</select>
+
+<div id="noticeArchive"></div>
 </section>
 
 <!-- CONTACT -->
@@ -340,10 +381,124 @@ function showSlide(n){
 function changeSlide(n){ showSlide(slideIndex+n); }
 showSlide(slideIndex);
 
-// ===== MARQUEE =====
-const marqueeTrack = document.getElementById('marqueeTrack');
-marqueeTrack.innerHTML = '<a href="#">Notice 1: Admission Open</a><a href="#">Notice 2: Parent Meeting</a><a href="#">Notice 3: Sports Day</a>';
-marqueeTrack.classList.add('scrolling');
+// ===== NOTICE SYSTEM WITH YEAR FILTER + DOWNLOAD BUTTON =====
+let noticeData = [];
+
+fetch('notice.json')
+  .then(res => {
+    if(!res.ok) throw new Error("Notice file not found");
+    return res.json();
+  })
+  .then(data => {
+    noticeData = data.notices;
+
+    const marqueeTrack = document.getElementById('marqueeTrack');
+    const liveNotice = document.getElementById('liveNotice');
+    const yearFilter = document.getElementById('yearFilter');
+    const pdfNotice = document.getElementById('pdfNotice');
+
+    marqueeTrack.innerHTML = '';
+    liveNotice.innerHTML = '';
+
+    const years = new Set();
+
+    noticeData.forEach(n => {
+      years.add(n.year);
+
+      // marquee
+      const a = document.createElement('a');
+      a.href = n.link;
+      a.target = "_blank";
+      a.textContent = `📢 ${n.title} (${formatDate(n.date)})`;
+      marqueeTrack.appendChild(a);
+
+      // latest (red highlight)
+      if(n.latest){
+        const div = document.createElement('div');
+        div.className = "notice-latest";
+        div.innerHTML = `
+          🗓 ${formatDate(n.date)} –
+          <a href="${n.link}" target="_blank">${n.title}</a>
+          ${n.new === true ? '<span class="new-badge">NEW</span>' : ''}
+        `;
+        liveNotice.appendChild(div);
+      }
+    });
+
+    // populate year dropdown
+    [...years].sort((a,b)=>b-a).forEach(y=>{
+      const opt = document.createElement('option');
+      opt.value = y;
+      opt.textContent = y;
+      yearFilter.appendChild(opt);
+    });
+
+    // ===== DOWNLOAD BUTTON =====
+    const firstLatest = noticeData.find(n => n.latest);
+    if(firstLatest){
+      pdfNotice.href = firstLatest.link;
+      pdfNotice.innerText = "📄 Download Latest Notice";
+    } else {
+      pdfNotice.style.display = "none";
+    }
+
+    renderArchive("all");
+    marqueeTrack.classList.add('scrolling');
+  })
+  .catch(err => {
+    const marqueeTrack = document.getElementById('marqueeTrack');
+    marqueeTrack.innerText = "⚠️ Notices unavailable";
+    console.error(err);
+  });
+
+// ===== RENDER ARCHIVE =====
+function renderArchive(year){
+  const archive = document.getElementById('noticeArchive');
+  archive.innerHTML = '';
+
+  const filtered = year === "all"
+    ? noticeData
+    : noticeData.filter(n => n.year == year);
+
+  const grouped = {};
+  filtered.forEach(n => {
+    if(!grouped[n.year]) grouped[n.year] = [];
+    grouped[n.year].push(n);
+  });
+
+  Object.keys(grouped)
+    .sort((a,b) => b - a)   // latest year first
+    .forEach(y => {
+      const h = document.createElement('div');
+      h.className = "notice-year";
+      h.innerText = "📂 Notices " + y;
+      archive.appendChild(h);
+
+      grouped[y].forEach(n => {
+        const p = document.createElement('p');
+        p.innerHTML = `• ${formatDate(n.date)} –
+          <a href="${n.link}" target="_blank">${n.title}</a>
+          ${n.new === true ? '<span class="new-badge">NEW</span>' : ''}
+        `;
+        archive.appendChild(p);
+      });
+    });
+}
+
+// ===== FILTER CHANGE =====
+document.getElementById('yearFilter').addEventListener('change', function(){
+  renderArchive(this.value);
+});
+
+// ===== DATE FORMAT =====
+function formatDate(d){
+  const date = new Date(d);
+  return date.toLocaleDateString('hi-IN',{
+    day:'2-digit',
+    month:'short',
+    year:'numeric'
+  });
+}
 
 // ===== TEACHERS POPUP =====
 const teachers = [
