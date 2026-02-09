@@ -1,16 +1,26 @@
 {
   "notices": [
     {
-      "text": "Admission for 2026 is now open! Click to apply online.",
-      "pdf": "docs/notice-feb-2026.pdf"
+      "title": "Admission Open 2026–27",
+      "date": "2026-02-05",
+      "year": 2026,
+      "link": "notices/admission.pdf",
+      "latest": true,
+      "new": true
     },
     {
-      "text": "School reopens on 15th March 2026.",
-      "pdf": "docs/school-reopening.pdf"
+      "title": "Parent Teacher Meeting",
+      "date": "2026-02-15",
+      "year": 2026,
+      "link": "notices/ptm.pdf",
+      "latest": true,
+      "new": true
     },
     {
-      "text": "Annual Day on 20th February 2026.",
-      "pdf": "docs/annual-day.pdf"
+      "title": "Annual Sports Day",
+      "date": "2025-12-20",
+      "year": 2025,
+      "link": "notices/sports.pdf"
     }
   ]
 }
