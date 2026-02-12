@@ -406,14 +406,17 @@ fetch('notice.json')
     noticeData.forEach(n => {
       years.add(n.year);
 
-      // marquee
-      const a = document.createElement('a');
-      a.href = n.link;
-      a.target = "_blank";
-      a.textContent = `📢 ${n.title} (${formatDate(n.date)})`;
-      marqueeTrack.appendChild(a);
+      // ===== MARQUEE (ONLY latest:true) =====
+      if(n.latest){
+        const a = document.createElement('a');
+        a.href = n.link;
+        a.target = "_blank";
+        a.textContent = `📢 ${n.title} (${formatDate(n.date)})`;
+        a.style.marginRight = "40px";   // spacing
+        marqueeTrack.appendChild(a);
+      }
 
-      // latest (red highlight)
+      // ===== RED HIGHLIGHT SECTION =====
       if(n.latest){
         const div = document.createElement('div');
         div.className = "notice-latest";
@@ -426,7 +429,7 @@ fetch('notice.json')
       }
     });
 
-    // populate year dropdown
+    // ===== YEAR DROPDOWN =====
     [...years].sort((a,b)=>b-a).forEach(y=>{
       const opt = document.createElement('option');
       opt.value = y;
@@ -434,7 +437,7 @@ fetch('notice.json')
       yearFilter.appendChild(opt);
     });
 
-    // ===== DOWNLOAD BUTTON =====
+    // ===== DOWNLOAD BUTTON (First latest only) =====
     const firstLatest = noticeData.find(n => n.latest);
     if(firstLatest){
       pdfNotice.href = firstLatest.link;
@@ -452,6 +455,7 @@ fetch('notice.json')
     console.error(err);
   });
 
+
 // ===== RENDER ARCHIVE =====
 function renderArchive(year){
   const archive = document.getElementById('noticeArchive');
@@ -468,7 +472,7 @@ function renderArchive(year){
   });
 
   Object.keys(grouped)
-    .sort((a,b) => b - a)   // latest year first
+    .sort((a,b) => b - a)
     .forEach(y => {
       const h = document.createElement('div');
       h.className = "notice-year";
