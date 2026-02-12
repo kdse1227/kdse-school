@@ -7,9 +7,12 @@
 <meta name="description" content="Kalyani Devi School of Education, Lormi – Quality education with values & discipline.">
 <meta name="keywords" content="Kalyani Devi School, Lormi school, CGSE school, Chhattisgarh">
 <meta name="theme-color" content="#0b4d91">
-
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+<meta name="format-detection" content="telephone=no">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="images/slider/slide1.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 <style>
 /* ================= RESET & BASE ================= */
@@ -48,22 +51,85 @@ header.shrink .full-name{font-size:13px;}
 }
 
 /* ================= NAV ================= */
-nav{background:#083b70; text-align:center;}
-nav a{display:inline-block; color:#fff; font-weight:500; margin:0 10px; padding:10px;}
+nav{
+  background:#083b70;
+  text-align:center;
+}
+
+nav a{
+  display:inline-block;
+  color:#fff;
+  font-weight:500;
+  margin:0 10px;
+  padding:10px;
+}
+
+/* ===== MOBILE NAV ===== */
 @media(max-width:768px){
-  nav{position:fixed; top:110px; left:0; width:100%; flex-direction:column; display:none; z-index:5000;}
-  nav.open{display:flex;}
-  nav a{border-bottom:1px solid rgba(255,255,255,0.25);}
-  body.menu-open{overflow:hidden;}
+
+  nav{
+    position:fixed;
+    top:70px;
+    left:0;
+    width:100%;
+    display:none;
+    flex-direction:column;
+    background:#083b70;
+    z-index:5000;
+  }
+
+  nav.open{
+    display:flex;
+  }
+
+  nav a{
+    border-bottom:1px solid rgba(255,255,255,0.25);
+    padding:14px;
+  }
+
+  body.menu-open{
+    overflow:hidden;
+  }
 }
 
 /* ================= SLIDER ================= */
-.slider{position:relative; overflow:hidden; height:420px;}
-.slide{display:none; width:100%; height:420px; object-fit:cover;}
-.prev,.next{position:absolute; top:50%; transform:translateY(-50%);
-  background:rgba(0,0,0,0.5); color:#fff; padding:12px; font-size:24px; border-radius:50%; cursor:pointer;}
-.prev{left:15px;} .next{right:15px;}
-@media(max-width:768px){.slider, .slide{height:240px;}}
+.slider{
+  position:relative;
+  overflow:hidden;
+  height:60vh;   
+  max-height:420px;
+  min-height:220px;
+}
+
+.slide{
+  position:absolute;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity 0.8s ease;
+}
+
+.slide.active{
+  opacity:1;
+}
+
+.slider .prev,
+.slider .next{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(0,0,0,0.5);
+  color:#fff;
+  padding:12px;
+  font-size:22px;
+  border-radius:50%;
+  cursor:pointer;
+  z-index:10;
+}
+
+.slider .prev{ left:10px; }
+.slider .next{ right:10px; }
 
 /* ================= MARQUEE ================= */
 .marquee{background:#e8f0fe; padding:10px 0; overflow:hidden; white-space:nowrap; position:relative;}
@@ -86,8 +152,8 @@ h2{color:#0b4d91; margin-bottom:20px; border-bottom:2px solid #ddd; padding-bott
 .slogan{text-align:center;font-weight:700;color:#0b4d91;margin:15px 0 25px; font-size:18px;}
 
 /* ================= ACADEMICS ================= */
-#academics a, #academics a{display:inline-block; margin-top:15px; background:red; color:#fff; padding:10px 18px; border-radius:8px; font-weight:600; box-shadow:0 3px 10px rgba(0,0,0,0.2); transition:0.3s;}
-#academics a:hover, #academics a:hover{background:#b30000;}
+#academics a{display:inline-block; margin-top:15px; background:red; color:#fff; padding:10px 18px; border-radius:8px; font-weight:600; box-shadow:0 3px 10px rgba(0,0,0,0.2); transition:0.3s;}
+#academics a:hover{background:#b30000;}
 
 /* ================= GRID & CARDS ================= */
 .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:15px;}
@@ -113,7 +179,13 @@ h2{color:#0b4d91; margin-bottom:20px; border-bottom:2px solid #ddd; padding-bott
 .gallery-wrapper{overflow:hidden;}
 .gallery-track{display:flex; transition:transform 0.5s ease; width:100%;}
 .gallery-slide{min-width:100%;}
-.gallery-slide img{width:100%; height:280px; object-fit:cover;}
+.gallery-slide img{
+  width:100%;
+  height:35vh;
+  max-height:280px;
+  min-height:180px;
+  object-fit:cover;
+}
 .gallery-slider .prev, .gallery-slider .next{
   position:absolute; top:50%; transform:translateY(-50%);
   background:rgba(0,0,0,0.5); color:#fff; padding:12px; font-size:22px; border-radius:50%; cursor:pointer; z-index:10;
@@ -122,8 +194,25 @@ h2{color:#0b4d91; margin-bottom:20px; border-bottom:2px solid #ddd; padding-bott
 .gallery-slider .next{right:10px;}
 
 /* ================= SPORTS ================= */
-.sports-slider{position:relative; height:260px; overflow:hidden; border-radius:14px;}
-.sport-slide{position:absolute; top:0; left:0; width:100%; height:260px; object-fit:cover; opacity:0; transition:opacity 1s ease;}
+.sports-slider{
+  position:relative;
+  height:32vh;
+  max-height:260px;
+  min-height:180px;
+  overflow:hidden;
+  border-radius:14px;
+}
+
+.sport-slide{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity 1s ease;
+}
 .sport-slide.active{opacity:1; z-index:1;}
 .sports-slider .prev,.sports-slider .next{position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:#fff; padding:12px; font-size:22px; border-radius:50%; cursor:pointer;}
 .sports-slider .prev{left:10px;} .sports-slider .next{right:10px;}
@@ -178,7 +267,7 @@ footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-t
 <header>
   <div class="school-title">
     <div class="logo-short">
-      <img src="images/logo.png" alt="KDSE Logo">
+     <img src="images/logo.png" alt="KDSE Logo" width="72" height="72">
       <span class="short-name">KDSE</span>
     </div>
     <div class="full-name">KALYANI DEVI SCHOOL OF EDUCATION</div>
@@ -202,9 +291,9 @@ footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-t
 
 <!-- SLIDER -->
 <div class="slider">
-<img class="slide" src="images/slider/slide1.jpg">
-<img class="slide" src="images/slider/slide2.jpg">
-<img class="slide" src="images/slider/slide3.jpg">
+<img class="slide" src="images/slider/slide1.jpg" loading="eager">
+<img class="slide" src="images/slider/slide2.jpg" loading="lazy">
+<img class="slide" src="images/slider/slide3.jpg" loading="lazy">
 <span class="prev" onclick="changeSlide(-1)">❮</span>
 <span class="next" onclick="changeSlide(1)">❯</span>
 </div>
@@ -230,7 +319,9 @@ footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-t
 <li>Primary</li>
 <li>Secondary</li>
 </ul>
-<a href="https://docs.google.com/forms/d/e/1FAIpQLScmKeHyExJFw2RWrZ298YawPTNY0PWVLgKj76FBThu1mdVTmw/viewform?usp=dialog" target="_blank">📝 Online Admission Form</a>
+<a href="https://docs.google.com/forms/d/..." target="_blank" rel="noopener">
+📝 Online Admission Form
+</a>
 </section>
 
 <!-- DIRECTOR MESSAGE -->
@@ -259,7 +350,7 @@ footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-t
 <div class="qualifications" id="popQual"></div>
 <div class="popup-actions">
 <a id="popCall" href="#">📞 Call</a>
-<a id="popWhatsApp" href="#" target="_blank">💬 WhatsApp</a>
+<a id="popWhatsApp" href="#" target="_blank" rel="noopener">💬 WhatsApp</a>
 </div>
 </div>
 </div>
@@ -270,9 +361,9 @@ footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-t
 <div class="gallery-slider">
   <div class="gallery-wrapper">
     <div class="gallery-track" id="galleryTrack">
-      <div class="gallery-slide"><img src="images/gallery1.jpg"></div>
-      <div class="gallery-slide"><img src="images/gallery2.jpg"></div>
-      <div class="gallery-slide"><img src="images/gallery3.jpg"></div>
+      <div class="gallery-slide"><img src="images/gallery1.jpg" loading="lazy"></div>
+      <div class="gallery-slide"><img src="images/gallery2.jpg" loading="lazy"></div>
+      <div class="gallery-slide"><img src="images/gallery3.jpg" loading="lazy"></div>
     </div>
   </div>
   <span class="prev" onclick="changeGallerySlide(-1)">❮</span>
@@ -286,9 +377,9 @@ footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-t
 <div class="sports-slider">
 <span class="prev" onclick="changeSportSlide(-1)">❮</span>
 <span class="next" onclick="changeSportSlide(1)">❯</span>
-<img class="sport-slide active" src="images/sports1.jpg">
-<img class="sport-slide" src="images/sports2.jpg">
-<img class="sport-slide" src="images/sports3.jpg">
+<img class="sport-slide active" src="images/sports1.jpg" loading="lazy">
+<img class="sport-slide" src="images/sports2.jpg" loading="lazy">
+<img class="sport-slide" src="images/sports3.jpg" loading="lazy">
 </div>
 </section>
 
@@ -309,7 +400,7 @@ footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-t
 <div id="liveNotice"></div>
 
 <p style="margin-top:10px;">
-  <a id="pdfNotice" target="_blank">📄 Download Latest Notice</a>
+ <a id="pdfNotice" href="#" target="_blank" rel="noopener">📄 Download Latest Notice</a>
 </p>
 
 <label style="font-weight:600;">🔍 Filter by Year:</label>
@@ -326,14 +417,22 @@ footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-t
 <p>📍 Saraswati Shishu Mandir, Piparkhunta, Lormi, Mungeli, Chhattisgarh – 495115</p>
 <p>📞 <a class="call-btn" href="tel:+918224821843">Call Now</a></p>
 <p>✉ kdse1227@gmail.com</p>
-<p><a class="map-btn" href="https://www.google.com/maps/dir/?api=1&destination=22.1947379,81.7505496" target="_blank">📍 Get Directions</a></p>
+<a class="map-btn"
+   href="https://www.google.com/maps/dir/?api=1&destination=22.1947379,81.7505496"
+   target="_blank"
+   rel="noopener">
+📍 Get Directions
+</a>
 <div style="margin-top:15px;border-radius:10px;overflow:hidden">
 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4382.045056313084!2d81.7483602!3d22.1947811!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a28da1c2ce6c70d%3A0x701c0bca0a6c45b6!2sSaraswati%20Shishu%20Mandir%20Lormi!5e0!3m2!1sen!2sin!4v1682934739458!5m2!1sen!2sin" width="100%" height="220" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
 </div>
 </section>
 
 <!-- WHATSAPP -->
-<a href="https://api.whatsapp.com/send?phone=+918224821843&text=Hello%20KDSE" class="whatsapp" target="_blank">
+<a href="https://api.whatsapp.com/send?phone=+918224821843&text=Hello%20KDSE"
+   class="whatsapp"
+   target="_blank"
+   rel="noopener">
 <img src="images/whatsapp.svg" alt="WhatsApp"> WhatsApp
 </a>
 
@@ -342,7 +441,7 @@ footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-t
 &copy; 2026 Kalyani Devi School of Education. All rights reserved.
 </footer>
 
-<script>
+<script defer>
 // ===== MOBILE MENU =====
 function toggleMenu(){
   const nav = document.getElementById('mainNav');
@@ -371,16 +470,27 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// ===== SLIDER =====
+// ===== SLIDER (SMOOTH FADE VERSION) =====
 let slideIndex = 0;
 const slides = document.querySelectorAll('.slide');
+
 function showSlide(n){
-  slides.forEach(s=>s.style.display='none');
-  slideIndex = (n+slides.length)%slides.length;
-  slides[slideIndex].style.display='block';
+  slides.forEach(s => s.classList.remove('active'));
+  slideIndex = (n + slides.length) % slides.length;
+  slides[slideIndex].classList.add('active');
 }
-function changeSlide(n){ showSlide(slideIndex+n); }
+
+function changeSlide(n){
+  showSlide(slideIndex + n);
+}
+
+// Initial load
 showSlide(slideIndex);
+
+// Auto slide every 4 sec
+setInterval(() => {
+  changeSlide(1);
+}, 4000);
 
 // ===== NOTICE SYSTEM WITH YEAR FILTER + DOWNLOAD BUTTON =====
 let noticeData = [];
@@ -422,7 +532,7 @@ fetch('notice.json')
         div.className = "notice-latest";
         div.innerHTML = `
           🗓 ${formatDate(n.date)} –
-          <a href="${n.link}" target="_blank">${n.title}</a>
+          <a href="${n.link}" target="_blank" rel="noopener">${n.title}</a>
           ${n.new === true ? '<span class="new-badge">NEW</span>' : ''}
         `;
         liveNotice.appendChild(div);
@@ -482,9 +592,9 @@ function renderArchive(year){
       grouped[y].forEach(n => {
         const p = document.createElement('p');
         p.innerHTML = `• ${formatDate(n.date)} –
-          <a href="${n.link}" target="_blank">${n.title}</a>
-          ${n.new === true ? '<span class="new-badge">NEW</span>' : ''}
-        `;
+  <a href="${n.link}" target="_blank" rel="noopener">${n.title}</a>
+  ${n.new === true ? '<span class="new-badge">NEW</span>' : ''}
+`;
         archive.appendChild(p);
       });
     });
@@ -514,7 +624,7 @@ const teachersGrid = document.getElementById('teachersGrid');
 teachers.forEach((t,i)=>{
   let card = document.createElement('div');
   card.className='card'+(t.role==='Director'?' director-card':'');
-  card.innerHTML=`<img src="${t.img}"><h3>${t.name}</h3><p>${t.role}</p><button class="view-btn" onclick="showProfile(${i})">View Profile</button>`;
+ card.innerHTML=`<img src="${t.img}" alt="${t.name}"><h3>${t.name}</h3><p>${t.role}</p><button class="view-btn" onclick="showProfile(${i})">View Profile</button>`;
   teachersGrid.appendChild(card);
 });
 function showProfile(i){
