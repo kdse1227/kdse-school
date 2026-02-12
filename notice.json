@@ -20,10 +20,9 @@
       "title": "Annual Sports Day",
       "date": "2025-12-21",
       "year": 2025,
-      "link": "notices/sports.pdf"
-       "latest": false,
+      "link": "notices/sports.pdf",
+      "latest": false,
       "new": false
-       },
     }
   ]
 }
