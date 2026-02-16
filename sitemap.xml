@@ -3,12 +3,14 @@
 
   <url>
     <loc>https://kdse1227.github.io/kdse-school/</loc>
+    <lastmod>2026-02-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://kdse1227.github.io/kdse-school/directors-desk.html</loc>
+    <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
