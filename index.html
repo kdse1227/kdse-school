@@ -40,6 +40,7 @@
 <link rel="canonical" href="https://kdse1227.github.io/kdse-school/">
 <link rel="preload" as="image" href="images/slider/slide1.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.json">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 <style>
@@ -528,7 +529,7 @@ border:1px solid #ccc;
 
 <!-- SLIDER -->
 <div class="slider">
-<img class="slide" src="images/slider/slide1.jpg" alt="Kalyani Devi School Main Building Lormi" loading="eager">
+<img class="slide active" src="images/slider/slide1.jpg" alt="Kalyani Devi School Main Building Lormi" loading="eager">
 <img class="slide" src="images/slider/slide2.jpg" alt="Students Activities at Kalyani Devi School" loading="lazy">
 <img class="slide" src="images/slider/slide3.jpg" alt="Annual Function Celebration at Kalyani Devi School" loading="lazy">
 <span class="prev" onclick="changeSlide(-1)">❮</span>
@@ -641,16 +642,31 @@ border:1px solid #ccc;
 <input type="text" id="className" required class="form-control">
 
 <label>आधार नंबर:</label>
-<input type="text" id="aadhaar" pattern="\d{12}" maxlength="12" required class="form-control">
+<input type="tel"
+       id="aadhaar"
+       pattern="\d{12}"
+       inputmode="numeric"
+       title="Enter 12 digit Aadhaar number"
+       maxlength="12"
+       required
+       class="form-control">
 
 <label>मोबाइल नंबर:</label>
-<input type="text" id="mobile" pattern="\d{10}" maxlength="10" required class="form-control">
+<input type="tel"
+       id="mobile"
+       pattern="\d{10}"
+       inputmode="numeric"
+       title="Enter 10 digit mobile number"
+       maxlength="10"
+       required
+       class="form-control">
 
 <label>जन्म तिथि:</label>
 <input type="date" id="dob" required class="form-control">
 
 <label>लिंग:</label>
 <select id="gender" required class="form-control">
+<option value="">Select</option>
 <option>Male</option>
 <option>Female</option>
 </select>
@@ -659,8 +675,7 @@ border:1px solid #ccc;
 <input type="text" id="caste" required class="form-control">
 
 <label>Photo Upload:</label>
-<input type="file" id="photo" accept="image/*" required>
-
+<input type="file" id="photo" accept="image/jpg, image/jpeg" required>
 <br><br>
 <button type="submit" style="background:green;color:#fff;padding:10px 18px;border:none;border-radius:6px;">Submit Form</button>
 
@@ -673,6 +688,8 @@ border:1px solid #ccc;
 <div id="previewContent" style="background:#fff;padding:30px;border:2px solid #000;"></div>
 
 <br>
+<button onclick="goBack()" style="background:gray;color:#fff;padding:10px 18px;border:none;border-radius:6px;">⬅ Back</button>
+
 <button onclick="printForm()" style="background:#0b4d91;color:#fff;padding:10px 18px;border:none;border-radius:6px;">🖨 Print</button>
 
 <button onclick="downloadPDF()" style="background:red;color:#fff;padding:10px 18px;border:none;border-radius:6px;">⬇ Download PDF</button>
@@ -1058,6 +1075,7 @@ card.appendChild(img);
 card.appendChild(h3);
 card.appendChild(p);
 card.appendChild(btn);
+teachersGrid.appendChild(card);
 });
 function showProfile(i){
   const t = teachers[i];
@@ -1074,7 +1092,7 @@ function showProfile(i){
   document.getElementById('popRole').innerText = t.role;
   document.getElementById('popQual').innerText = t.qual;
   document.getElementById('popCall').href = `tel:${t.phone}`;
-  document.getElementById('popWhatsApp').href = `https://api.whatsapp.com/send?phone=${t.phone.replace('+','')}&text=Hello`;
+  document.getElementById('popWhatsApp').href = `https://api.whatsapp.com/send?phone=${t.phone.replace(/\D/g,'')}&text=Hello`;
 
   popup.style.display = 'flex';
 }
@@ -1153,6 +1171,7 @@ function renderResults(year) {
     const a = document.createElement('a');
     a.href = `results/${year}/${r.file}`;
     a.target = "_blank";
+    a.rel = "noopener";
     a.textContent = `${r.class} Result`;
     li.appendChild(a);
     resultsList.appendChild(li);
@@ -1165,6 +1184,43 @@ document.getElementById('examSection').style.display='block';
 window.scrollTo(0,document.getElementById('examSection').offsetTop);
 }
 
+// ===== PHOTO FILE VALIDATION =====
+const photoInput = document.getElementById("photo");
+
+if(photoInput){
+  photoInput.addEventListener("change", function () {
+    const file = this.files[0];
+
+    if (file) {
+      const allowedTypes = ["image/jpg", "image/jpeg"];
+
+      if (!allowedTypes.includes(file.type)) {
+        alert("Only JPEG or JPG images are allowed.");
+        this.value = "";
+        return;
+      }
+
+      if (file.size > 2 * 1024 * 1024) {
+        alert("Maximum file size is 2MB.");
+        this.value = "";
+        return;
+      }
+    }
+  });
+}
+
+// ===== AUTO FORM ID GENERATOR =====
+function generateFormID(){
+  let lastID = localStorage.getItem("kdseLastID") || 0;
+  lastID++;
+  localStorage.setItem("kdseLastID", lastID);
+
+  const year = new Date().getFullYear();
+  const padded = String(lastID).padStart(3,'0');
+
+  return `KDSE-${year}-${padded}`;
+}
+
 // Handle Form Submit (SECURE VERSION)
 document.getElementById("examForm").addEventListener("submit", function(e){
 e.preventDefault();
@@ -1173,9 +1229,11 @@ const reader = new FileReader();
 const file = document.getElementById("photo").files[0];
 
 reader.onload = function(){
+
+const formID = generateFormID();
 const photoURL = reader.result;
 
-// Get form values
+// ===== GET ALL FORM VALUES =====
 const nameEn = document.getElementById("nameEn");
 const nameHi = document.getElementById("nameHi");
 const fatherName = document.getElementById("fatherName");
@@ -1188,6 +1246,29 @@ const mobile = document.getElementById("mobile");
 const dob = document.getElementById("dob");
 const gender = document.getElementById("gender");
 const caste = document.getElementById("caste");
+
+// ===== SEND TO GOOGLE SHEET =====
+fetch("YOUR_WEBAPP_URL", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    formID: formID,
+    studentNameEnglish: nameEn.value,
+    studentNameHindi: nameHi.value,
+    fatherNameEnglish: fatherName.value,
+    fatherNameHindi: fatherNameHi.value,
+    motherNameEnglish: motherName.value,
+    motherNameHindi: motherNameHi.value,
+    className: className.value,
+    aadhaarNumber: aadhaar.value,
+    mobileNumber: mobile.value,
+    dateOfBirth: dob.value,
+    gender: gender.value,
+    caste: caste.value
+  })
+});
 
 // Clear old preview
 const preview = document.getElementById("previewContent");
@@ -1206,6 +1287,8 @@ h3.textContent = "Online Examination Form";
 heading.appendChild(h2);
 heading.appendChild(h3);
 preview.appendChild(heading);
+
+addField("Form ID:", formID);
 
 // Photo
 const img = document.createElement("img");
@@ -1249,8 +1332,13 @@ preview.appendChild(sign);
 // Show preview
 document.getElementById("previewSection").style.display='block';
 window.scrollTo(0,document.getElementById('previewSection').offsetTop);
-
+document.getElementById("examSection").style.display = "none";
 };
+
+if(!file){
+  alert("Please upload a photo.");
+  return;
+}
 
 reader.readAsDataURL(file);
 });
@@ -1261,89 +1349,24 @@ const element = document.getElementById("previewContent");
 html2pdf().from(element).save("Exam_Form.pdf");
 }
 
+function goBack(){
+  document.getElementById("previewSection").style.display = "none";
+  document.getElementById("examSection").style.display = "block";
+  window.scrollTo(0, document.getElementById("examSection").offsetTop);
+}
+
 // ===== PROFESSIONAL PRINT FORM =====
-function printForm() {
-  preparePrintContent();
-  addPageBreaks();  // insert automatic page breaks
-  window.print();   // open print dialog
+function printForm(){
+  window.print();
 }
-
-// Prepare form for print: add logo, watermark, border
-function preparePrintContent() {
-  const content = document.getElementById("previewContent");
-
-  // Add School Logo top-left
-  const logo = document.createElement("img");
-  logo.src = "images/logo.png"; // school logo path
-  logo.style.width = "100px";
-  logo.style.height = "100px";
-  logo.style.position = "absolute";
-  logo.style.top = "20px";
-  logo.style.left = "20px";
-  logo.style.zIndex = "9999";
-
-  // Add watermark
-  const watermark = document.createElement("div");
-  watermark.innerText = "KDSE";
-  watermark.style.position = "absolute";
-  watermark.style.top = "50%";
-  watermark.style.left = "50%";
-  watermark.style.transform = "translate(-50%, -50%) rotate(-30deg)";
-  watermark.style.fontSize = "120px";
-  watermark.style.color = "rgba(0,0,0,0.05)";
-  watermark.style.zIndex = "0";
-  watermark.style.pointerEvents = "none";
-
-  // Add border to print content
-  content.style.border = "2px solid #0b4d91";
-  content.style.padding = "20px";
-  content.style.position = "relative";
-
-  // Append logo & watermark if not already appended
-  if (!document.getElementById("printLogo")) {
-    logo.id = "printLogo";
-    content.appendChild(logo);
-  }
-  if (!document.getElementById("printWatermark")) {
-    watermark.id = "printWatermark";
-    content.appendChild(watermark);
-  }
-
-  // Optimize for A4 print
-  content.style.width = "210mm";   // A4 width
-  content.style.minHeight = "297mm"; // A4 height
-  content.style.boxSizing = "border-box";
-  content.style.background = "#fff";
-}
-
-// Auto page-breaks for long forms
-function addPageBreaks() {
-  const content = document.getElementById("previewContent");
-  const paragraphs = content.querySelectorAll("p, h2, h3, img"); // page break after 15 elements
-  paragraphs.forEach((el, i) => {
-    if ((i + 1) % 15 === 0) {
-      const br = document.createElement("div");
-      br.className = "page-break";
-      content.insertBefore(br, el.nextSibling);
-    }
-  });
-}
-
-/* =================== PRINT CSS =================== */
-const printStyles = document.createElement("style");
-printStyles.innerHTML = `
-@media print {
-  body * { visibility: hidden; }
-  #previewContent, #previewContent * { visibility: visible; }
-  #previewContent { margin: 0; padding: 0; }
-  .page-break { display: block; page-break-before: always; }
-}
-`;
-document.head.appendChild(printStyles);
 </script>
 
-<!-- PDF Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
 </body>
 </html>
