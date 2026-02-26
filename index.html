@@ -328,6 +328,38 @@ footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-t
   margin-left:6px;
   font-weight:700;
 }
+
+.exam-form-box{
+  background:#fff;
+  padding:25px;
+  border-radius:12px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.exam-form-box input{
+  padding:8px;
+  border:1px solid #ccc;
+  border-radius:6px;
+}
+
+.exam-form-box button{
+  background:#0b4d91;
+  color:#fff;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.exam-preview{
+  margin-top:30px;
+  background:#fff;
+  padding:30px;
+  border:2px solid #000;
+}
 </style>
 </head>
 <body>
@@ -430,6 +462,44 @@ footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-t
 <a href="https://forms.gle/qLJmG74TwxvxTnGF8" target="_blank" rel="noopener">
 📝 Online Admission Form
 </a>
+</section>
+
+<!-- ONLINE EXAM FORM -->
+<section id="exam-form">
+<h2>📝 Online Exam Form</h2>
+
+<form id="examForm" class="exam-form-box">
+
+<label>Student Name (English)</label>
+<input type="text" id="snameEn" required>
+
+<label>Student Name (Hindi)</label>
+<input type="text" id="snameHi" required>
+
+<label>Father Name (English)</label>
+<input type="text" id="fnameEn" required>
+
+<label>Father Name (Hindi)</label>
+<input type="text" id="fnameHi" required>
+
+<label>Mother Name</label>
+<input type="text" id="mname" required>
+
+<label>Aadhar Number</label>
+<input type="text" id="aadhar" maxlength="12" required>
+
+<label>Mobile Number</label>
+<input type="text" id="mobile" maxlength="10" required>
+
+<label>Date of Birth</label>
+<input type="date" id="dob" required>
+
+<label>Class</label>
+<input type="text" id="class" required>
+
+<button type="submit">Generate Exam Form</button>
+</form>
+<div id="examPreview" style="display:none;"></div>
 </section>
 
 <!-- DIRECTOR MESSAGE -->
@@ -856,6 +926,41 @@ function renderResults(year) {
     resultsList.appendChild(li);
   });
 }
+
+document.getElementById("examForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const preview = document.getElementById("examPreview");
+
+  preview.style.display = "block";
+
+  preview.innerHTML = `
+  <div class="exam-preview">
+    <h3 style="text-align:center;">KALYANI DEVI SCHOOL OF EDUCATION</h3>
+    <p style="text-align:center;">EXAMINATION FORM</p>
+    <hr>
+
+    <p><strong>Student Name (English):</strong> ${snameEn.value}</p>
+    <p><strong>Student Name (Hindi):</strong> ${snameHi.value}</p>
+    <p><strong>Father Name (English):</strong> ${fnameEn.value}</p>
+    <p><strong>Father Name (Hindi):</strong> ${fnameHi.value}</p>
+    <p><strong>Mother Name:</strong> ${mname.value}</p>
+    <p><strong>Aadhar No:</strong> ${aadhar.value}</p>
+    <p><strong>Mobile:</strong> ${mobile.value}</p>
+    <p><strong>Date of Birth:</strong> ${dob.value}</p>
+    <p><strong>Class:</strong> ${document.getElementById("class").value}</p>
+
+    <br><br>
+    <div style="display:flex; justify-content:space-between;">
+      <span>Student Signature</span>
+      <span>Principal Signature</span>
+    </div>
+
+    <br>
+    <button onclick="window.print()">🖨 Print Form</button>
+  </div>
+  `;
+});
 </script>
 </body>
 </html>
