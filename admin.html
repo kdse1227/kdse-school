@@ -1,0 +1,13 @@
+<h2>Admin Login</h2>
+<input type="password" id="adminPass">
+<button onclick="login()">Login</button>
+
+<script>
+function login(){
+  if(document.getElementById("adminPass").value === "kdse@2026"){
+    window.location.href = "YOUR_GOOGLE_SHEET_LINK";
+  } else {
+    alert("Wrong Password");
+  }
+}
+</script>
