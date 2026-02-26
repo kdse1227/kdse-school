@@ -764,667 +764,136 @@ Mobile: 8224821843 | Email: kdse1227@gmail.com
 </div>
 
 <div class="row">
-<div cl<meta name="format-detection" content="telephone=no">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="canonical" href="https://kdse1227.github.io/kdse-school/">
-<link rel="preload" as="image" href="images/slider/slide1.jpg">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="manifest" href="manifest.json">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-<style>
-/* ================= RESET & BASE ================= */
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Poppins','Segoe UI',sans-serif;background:#f5f7fa;color:#333;line-height:1.6;}
-a{text-decoration:none;color:inherit;}
-img{max-width:100%;display:block;height:auto;}
-
-/* ================= HEADER ================= */
-header{
-  position:sticky; top:0; z-index:6000;
-  background:#0b4d91; color:#fff;
-  display:flex; justify-content:center; align-items:center; gap:14px;
-  padding:14px 20px; transition:all 0.35s ease;
-}
-.school-title{display:flex; align-items:center; gap:14px;}
-.logo-short{display:flex; align-items:center; gap:8px;}
-.logo-short img{height:72px; transition:all 0.35s ease;}
-.short-name{display:none; font-weight:700; font-size:20px;}
-.full-name{font-weight:700; font-size:26px; white-space:nowrap; transition:all 0.35s ease;}
-header.shrink .logo-short img{height:40px;}
-header.shrink .full-name{font-size:13px;}
-.menu-toggle{display:none; font-size:28px; cursor:pointer; position:absolute; right:15px;}
-
-/* ===== MOBILE HEADER ===== */
-@media(max-width:768px){
-  header{flex-direction:column; align-items:center; padding:12px 10px;}
-  .school-title{flex-direction:column; align-items:center; text-align:center;}
-  .logo-short{justify-content:center;}
-  .logo-short img{height:48px;}
-  .short-name{display:inline-block; font-size:18px;}
-  .full-name{font-size:14px; white-space:normal; line-height:1.3; margin-top:4px;}
-  header.shrink .logo-short img{height:36px;}
-  header.shrink .full-name{font-size:12px;}
-  .menu-toggle{display:block;}
-}
-
-/* ================= NAV ================= */
-nav{
-  background:#083b70;
-  text-align:center;
-}
-
-nav a{
-  display:inline-block;
-  color:#fff;
-  font-weight:500;
-  margin:0 10px;
-  padding:10px;
-}
-
-/* ===== MOBILE NAV ===== */
-@media(max-width:768px){
-
-  nav{
-    position:fixed;
-    top:70px;
-    left:0;
-    width:100%;
-    display:none;
-    flex-direction:column;
-    background:#083b70;
-    z-index:5000;
-  }
-
-  nav.open{
-    display:flex;
-  }
-
-  nav a{
-    border-bottom:1px solid rgba(255,255,255,0.25);
-    padding:14px;
-  }
-
-  body.menu-open{
-    overflow:hidden;
-  }
-}
-
-/* ================= SLIDER ================= */
-.slider{
-  position:relative;
-  overflow:hidden;
-  height:60vh;   
-  max-height:420px;
-  min-height:220px;
-}
-
-.slide{
-  position:absolute;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  opacity:0;
-  transition:opacity 0.8s ease;
-}
-
-.slide.active{
-  opacity:1;
-}
-
-.slider .prev,
-.slider .next{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  background:rgba(0,0,0,0.5);
-  color:#fff;
-  padding:12px;
-  font-size:22px;
-  border-radius:50%;
-  cursor:pointer;
-  z-index:10;
-}
-
-.slider .prev{ left:10px; }
-.slider .next{ right:10px; }
-
-/* ================= MARQUEE ================= */
-.marquee{background:#e8f0fe; padding:10px 0; overflow:hidden; white-space:nowrap; position:relative;}
-#marqueeTrack{display:inline-block; white-space:nowrap;}
-#marqueeTrack a{display:inline-block; font-weight:bold; color:#0b4d91; margin-right:60px; text-decoration:none;}
-#marqueeTrack a:hover{color:#b30000;}
-@keyframes scrollNotices {0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
-#marqueeTrack.scrolling{animation:scrollNotices 25s linear infinite; animation-play-state:running;}
-.marquee:hover #marqueeTrack.scrolling,
-.marquee:active #marqueeTrack.scrolling{animation-play-state:paused;}
-@media(max-width:768px){#marqueeTrack a{margin-right:30px; font-size:14px;}}
-
-/* ================= SECTIONS ================= */
-section{padding:30px 20px; max-width:1100px; margin:auto;}
-h2{color:#0b4d91; margin-bottom:20px; border-bottom:2px solid #ddd; padding-bottom:6px;}
-
-/* ================= ABOUT ================= */
-.about-box{background: linear-gradient(135deg,#e8f0fe,#fff); border-left:6px solid #0b4d91; border-radius:14px; padding:35px 25px; box-shadow:0 6px 18px rgba(0,0,0,0.08);}
-.about-box p{margin-bottom:15px;}
-.slogan{text-align:center;font-weight:700;color:#0b4d91;margin:15px 0 25px; font-size:18px;}
-
-/* ================= WHY CHOOSE US ================= */
-.why-box{
-  background: linear-gradient(135deg,#e8f0fe,#fff);
-  border-left:6px solid #0b4d91;
-  border-radius:14px;
-  padding:35px 25px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.08);
-  margin-top:25px;
-}
-
-.why-box ul{
-  list-style:none;
-  padding-left:0;
-}
-
-.why-box li{
-  margin-bottom:12px;
-  padding-left:28px;
-  position:relative;
-  font-weight:500;
-}
-
-.why-box li::before{
-  content:"✔";
-  position:absolute;
-  left:0;
-  color:#0b4d91;
-  font-weight:bold;
-}
-
-/* ================= PREMIUM ACADEMIC BUTTONS ================= */
-
-.academic-buttons{
-display:flex;
-gap:25px;
-margin-top:25px;
-flex-wrap:wrap;
-}
-
-/* Base Button */
-.academic-btn{
-display:flex;
-align-items:center;
-justify-content:center;
-gap:12px;
-padding:15px 28px;
-border-radius:50px;
-font-weight:600;
-font-size:16px;
-color:#fff;
-text-decoration:none;
-cursor:pointer;
-transition:all 0.35s ease;
-min-width:240px;
-position:relative;
-overflow:hidden;
-box-shadow:0 6px 18px rgba(0,0,0,0.15);
-}
-
-/* Admission Button - Green Gradient */
-.academic-btn:first-child{
-background:linear-gradient(135deg,#28a745,#1e7e34);
-}
-
-/* Exam Button - Blue Gradient */
-.academic-btn:last-child{
-background:linear-gradient(135deg,#0b4d91,#08386b);
-border:none;
-}
-
-/* Icon Circle */
-.academic-btn .icon{
-background:rgba(255,255,255,0.2);
-padding:8px 12px;
-border-radius:50%;
-font-size:18px;
-}
-
-/* Hover Effect */
-.academic-btn:hover{
-transform:translateY(-4px) scale(1.03);
-box-shadow:0 12px 25px rgba(0,0,0,0.25);
-}
-
-/* Glow Animation */
-.academic-btn::after{
-content:'';
-position:absolute;
-width:0;
-height:100%;
-top:0;
-left:0;
-background:rgba(255,255,255,0.2);
-transition:width 0.4s ease;
-}
-
-.academic-btn:hover::after{
-width:100%;
-}
-
-/* Mobile Responsive */
-@media(max-width:600px){
-.academic-buttons{
-flex-direction:column;
-}
-.academic-btn{
-width:100%;
-}
-}
-
-/* ================= GRID & CARDS ================= */
-.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:15px;}
-.card{background:#fff; padding:12px; text-align:center; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.1); transition:transform 0.35s ease, box-shadow 0.35s ease;}
-.card:hover{transform:translateY(-8px) scale(1.02); box-shadow:0 14px 30px rgba(0,0,0,0.18);}
-.card img{width:90px; height:90px; object-fit:cover; border-radius:50%; margin-bottom:8px;}
-.view-btn{margin-top:8px; padding:8px 18px; background:#0b4d91; color:#fff; border:none; border-radius:20px; cursor:pointer;}
-.view-btn:hover{background:#083b70;}
-.founder-card{
-  border:3px solid gold;
-  background:linear-gradient(180deg,#fffbea,#ffffff);
-}
-
-.founder-popup .popup-box{
-  border:4px solid gold;
-  background:linear-gradient(180deg,#fff9e6,#fff);
-}
-
-/* ================= POPUP ================= */
-.popup{position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; justify-content:center; align-items:center; z-index:9999;}
-.popup-box{background:#fff; width:90%; max-width:420px; padding:25px; border-radius:16px; text-align:center; animation:popIn 0.4s ease; position:relative;}
-.popup-box img{width:130px; height:130px; object-fit:cover; border-radius:50%; margin-bottom:15px;}
-.popup .close{position:absolute; top:12px; right:15px; font-size:22px; cursor:pointer;}
-.popup.founder-popup .popup-box{
-  border:4px solid gold;
-  background:linear-gradient(180deg,#fff9e6,#fff);
-}
-@keyframes popIn{from{transform:scale(0.7);opacity:0} to{transform:scale(1);opacity:1;}}
-.popup-actions a{display:inline-block;margin:6px 8px;background:#0b4d91;color:#fff;font-weight:600;padding:10px 18px;border-radius:8px;text-decoration:none;transition:0.3s;}
-.popup-actions a:hover{background:#083b70;}
-
-/* ================= GALLERY SLIDER ================= */
-.gallery-slider{position:relative; overflow:hidden; border-radius:14px;}
-.gallery-wrapper{overflow:hidden;}
-.gallery-track{display:flex; transition:transform 0.5s ease; width:100%;}
-.gallery-slide{min-width:100%;}
-.gallery-slide img{
-  width:100%;
-  height:35vh;
-  max-height:280px;
-  min-height:180px;
-  object-fit:cover;
-}
-.gallery-slider .prev, .gallery-slider .next{
-  position:absolute; top:50%; transform:translateY(-50%);
-  background:rgba(0,0,0,0.5); color:#fff; padding:12px; font-size:22px; border-radius:50%; cursor:pointer; z-index:10;
-}
-.gallery-slider .prev{left:10px;}
-.gallery-slider .next{right:10px;}
-
-/* ================= SPORTS ================= */
-.sports-slider{
-  position:relative;
-  height:32vh;
-  max-height:260px;
-  min-height:180px;
-  overflow:hidden;
-  border-radius:14px;
-}
-
-.sport-slide{
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  opacity:0;
-  transition:opacity 1s ease;
-}
-.sport-slide.active{opacity:1; z-index:1;}
-.sports-slider .prev,.sports-slider .next{position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:#fff; padding:12px; font-size:22px; border-radius:50%; cursor:pointer;}
-.sports-slider .prev{left:10px;} .sports-slider .next{right:10px;}
-
-/* ================= CONTACT ================= */
-#contact a{display:inline-block; margin-top:5px; color:#fff; text-decoration:none;}
-#contact a.call-btn{background:#28a745;padding:8px 14px;border-radius:6px;}
-#contact a.map-btn{background:#0b4d91;padding:8px 14px;border-radius:6px;}
-
-/* ================= WHATSAPP ================= */
-.whatsapp{position:fixed; bottom:20px; right:20px; display:flex; align-items:center; gap:10px; background:#25D366; color:#fff; padding:14px 22px; border-radius:50px; font-weight:600; box-shadow:0 6px 15px rgba(0,0,0,0.3); z-index:9999;}
-.whatsapp img{width:22px;height:22px;}
-.whatsapp:hover{transform:scale(1.06); box-shadow:0 8px 18px rgba(0,0,0,0.4);}
-
-/* ================= FOOTER ================= */
-footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-top:20px;}
-
-/* ===== NOTICE STYLES ===== */
-.notice-latest{
-  background:#fff0f0;
-  border-left:5px solid #d90000;
-  padding:8px 10px;
-  margin-bottom:8px;
-  border-radius:6px;
-}
-
-.notice-latest a{
-  color:#b30000;
-  font-weight:600;
-}
-
-.notice-year{
-  margin-top:18px;
-  font-weight:700;
-  color:#0b4d91;
-}
-
-.new-badge{
-  background:red;
-  color:#fff;
-  font-size:11px;
-  padding:2px 6px;
-  border-radius:6px;
-  margin-left:6px;
-  font-weight:700;
-}
-
-.form-control{
-width:100%;
-padding:8px;
-margin:6px 0 15px 0;
-border-radius:6px;
-border:1px solid #ccc;
-}
-
-/* ================= PROFESSIONAL PRINT FORM ================= */
-@media print {
-
-  /* Hide everything except preview */
-  body * {
-    visibility: hidden;
-  }
-
-  #previewSection, #previewSection * {
-    visibility: visible;
-  }
-
-  #previewSection {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-  }
-
-  /* Page setup */
-  @page {
-    size: A4;
-    margin: 20mm;
-  }
-
-  /* Add border to form */
-  #previewContent {
-    border: 2px solid #0b4d91;
-    padding: 20px;
-    border-radius: 10px;
-    position: relative;
-  }
-
-  /* School Logo top-left */
-  #previewContent::before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 80px;
-    height: 80px;
-    background: url('images/logo.png') no-repeat center/contain;
-  }
-
-  /* KDSE watermark */
-  #previewContent::after {
-    content: "KDSE";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-30deg);
-    font-size: 60px;
-    color: rgba(0,0,0,0.05);
-    font-weight: 700;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* Hide buttons in print */
-  button {
-    display: none !important;
-  }
-
-  /* Optimize text & spacing for A4 */
-  #previewContent p {
-    margin: 6px 0;
-    font-size: 14px;
-  }
-
-  #previewContent h2, #previewContent h3 {
-    text-align: center;
-    margin: 4px 0;
-  }
-
-  /* Page breaks for long forms */
-  .page-break {
-    page-break-after: always;
-  }
-}
-</style>
-</head>
-<body>
-
-<!-- HEADER -->
-<header>
-  <div class="school-title">
-    <div class="logo-short">
-     <img src="images/logo.png" alt="KDSE Logo" width="72" height="72">
-      <span class="short-name">KDSE</span>
-    </div>
-    <div class="full-name">KALYANI DEVI SCHOOL OF EDUCATION</div>
-  </div>
-  <span class="menu-toggle" onclick="toggleMenu()">☰</span>
-</header>
-
-<!-- NAVIGATION -->
-<nav id="mainNav">
-  <a href="#">Home</a>
-  <a href="#about">About</a>
-  <a href="#academics">Academics</a>
-  <a href="#teachers">Teachers</a>
-  <a href="#gallery">Gallery</a>
-  <a href="#sports">Sports</a>
-  <a href="#results">Results</a>
-  <a href="#notice">Notice</a>
-  <a href="#contact">Contact</a>
-  <a href="directors-desk.html">Director’s Desk</a>
-</nav>
-
-<!-- SLIDER -->
-<div class="slider">
-<img class="slide active" src="images/slider/slide1.jpg" alt="Kalyani Devi School Main Building Lormi" loading="eager">
-<img class="slide" src="images/slider/slide2.jpg" alt="Students Activities at Kalyani Devi School" loading="lazy">
-<img class="slide" src="images/slider/slide3.jpg" alt="Annual Function Celebration at Kalyani Devi School" loading="lazy">
-<span class="prev" onclick="changeSlide(-1)">❮</span>
-<span class="next" onclick="changeSlide(1)">❯</span>
+<div class="form-group">
+<label>Student Name (English)</label>
+<input type="text" id="studentEng" required>
+</div>
+<div class="form-group">
+<label>Student Name (Hindi)</label>
+<input type="text" id="studentHin" required>
+</div>
 </div>
 
-<!-- MARQUEE -->
-<div class="marquee">
-  <div id="marqueeTrack">Loading notices...</div>
+<div class="row">
+<div class="form-group">
+<label>Father Name (English)</label>
+<input type="text" id="fatherEng" required>
+</div>
+<div class="form-group">
+<label>Father Name (Hindi)</label>
+<input type="text" id="fatherHin">
+</div>
 </div>
 
-<section id="about" class="about-box">
-<h2>विद्यालय के बारे में</h2>
-
-<p class="slogan">🌟 “ज्ञान • संस्कार • अनुशासन • उज्ज्वल भविष्य” 🌟</p>
-
-<p>
-<strong>Kalyani Devi School of Education</strong>, ग्राम-पीपरखुंटा, ब्लॉक-लोरमी, जिला-मुंगेली, छत्तीसगढ़ 495115 में स्थित 
-एक प्रतिष्ठित शिक्षण संस्थान है, जो गुणवत्तापूर्ण शिक्षा और श्रेष्ठ संस्कारों 
-के लिए समर्पित है। हमारा उद्देश्य केवल पुस्तकीय ज्ञान देना नहीं, 
-बल्कि विद्यार्थियों के सर्वांगीण विकास को सुनिश्चित करना है।
-</p>
-
-<p>
-हमारे विद्यालय में अनुभवी एवं समर्पित शिक्षक आधुनिक शिक्षण पद्धतियों 
-के माध्यम से बच्चों को आत्मविश्वासी, जिम्मेदार और जागरूक नागरिक 
-बनाने का कार्य करते हैं। यहाँ शिक्षा के साथ-साथ अनुशासन, नैतिक मूल्य 
-और जीवन कौशल पर विशेष ध्यान दिया जाता है।
-</p>
-
-<p>
-सुरक्षित एवं सकारात्मक वातावरण, नियमित शैक्षणिक गतिविधियाँ, 
-सांस्कृतिक कार्यक्रम तथा खेल-कूद के माध्यम से 
-हम विद्यार्थियों को एक संतुलित और उज्ज्वल भविष्य की दिशा में 
-मार्गदर्शन प्रदान करते हैं।
-</p>
-
-<p>
-यदि आप अपने बच्चे के लिए लोरमी में एक भरोसेमंद और 
-उच्च गुणवत्ता वाला विद्यालय खोज रहे हैं, 
-तो <strong>Kalyani Devi School of Education</strong> 
-आपके विश्वास पर खरा उतरने के लिए सदैव प्रतिबद्ध है।
-</p>
-
-</section>
-
-<section class="why-box">
-<h2>कल्याणी देवी स्कूल ऑफ़ एजुकेशन को क्यों चुनें?</h2>
-<ul>
-<li>अनुभवी और समर्पित शिक्षक</li>
-<li>अनुशासित और सुरक्षित स्कूल का माहौल</li>
-<li>गुणपूर्ण शिक्षा पर विशेष ध्यान</li>
-<li>सह-पाठ्यक्रम दिशानिर्देश</li>
-<li>छात्रों के नैतिक और बौद्धिक विकास पर ध्यान</li>
-<li>वाहन की सुविधा बच्चो के लिए</li>
-</ul>
-</section>
-
-<!-- ACADEMICS -->
-<section id="academics">
-<h2>Academics</h2>
-
-<ul>
-<li>Primary</li>
-<li>Secondary</li>
-<li>Higher Secondary</li>
-</ul>
-
-<div class="academic-buttons">
-
-<a href="https://forms.gle/qLJmG74TwxvxTnGF8" target="_blank" rel="noopener" class="academic-btn">
-<span class="icon">📋</span>
-<span>Online Admission Form</span>
-</a>
-
-<button onclick="openExamForm()" class="academic-btn">
-<span class="icon">📝</span>
-<span>Online Exam Form</span>
-</button>
-
+<div class="row">
+<div class="form-group">
+<label>Mother Name (English)</label>
+<input type="text" id="motherEng" required>
+</div>
+<div class="form-group">
+<label>Mother Name (Hindi)</label>
+<input type="text" id="motherHin">
+</div>
 </div>
 
-</section>
-
-<!-- EXAM FORM SECTION -->
-<section id="examSection" style="display:none;margin-top:30px;">
-<h2>📝 Online Exam Form</h2>
-
-<form id="examForm" style="background:#fff;padding:20px;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.1);">
-
-<label>Student Name (English):</label>
-<input type="text" id="nameEn" required class="form-control">
-
-<label>छात्र का नाम (हिंदी):</label> 
-<input type="text" id="nameHi" required class="form-control">
-
-<label>Father Name (English):</label>
-<input type="text" id="fatherName" required class="form-control">
-
-<label>पिता का नाम (हिंदी):</label>
-<input type="text" id="fatherNameHi" class="form-control">
-
-<label>Mother Name (English):</label>
-<input type="text" id="motherName" required class="form-control">
-
-<label>माता का नाम (हिंदी):</label>
-<input type="text" id="motherNameHi" class="form-control">
-
-<label>कक्षा:</label>
-<input type="text" id="className" required class="form-control">
-
-<label>आधार नंबर:</label>
-<input type="tel"
-       id="aadhaar"
-       pattern="\d{12}"
-       inputmode="numeric"
-       title="Enter 12 digit Aadhaar number"
-       maxlength="12"
-       required
-       class="form-control">
-
-<label>मोबाइल नंबर:</label>
-<input type="tel"
-       id="mobile"
-       pattern="\d{10}"
-       inputmode="numeric"
-       title="Enter 10 digit mobile number"
-       maxlength="10"
-       required
-       class="form-control">
-
-<label>जन्म तिथि:</label>
-<input type="date" id="dob" required class="form-control">
-
-<label>लिंग:</label>
-<select id="gender" required class="form-control">
+<div class="row">
+<div class="form-group">
+<label>Date of Birth</label>
+<input type="date" id="dob" required>
+</div>
+<div class="form-group">
+<label>Gender</label>
+<select id="gender" required>
 <option value="">Select</option>
 <option>Male</option>
 <option>Female</option>
+<option>Other</option>
 </select>
+</div>
+</div>
 
-<label>जाति:</label>
-<input type="text" id="caste" required class="form-control">
+<div class="form-group">
+<label>Caste</label>
+<select id="caste" required>
+<option value="">Select</option>
+<option>General</option>
+<option>OBC</option>
+<option>SC</option>
+<option>ST</option>
+</select>
+</div>
 
-<label>Photo Upload:</label>
-<input type="file" id="photo" accept="image/jpg, image/jpeg" required>
-<br><br>
-<button type="submit" style="background:green;color:#fff;padding:10px 18px;border:none;border-radius:6px;">Submit Form</button>
+<div class="form-group">
+<label>Aadhar Number</label>
+<input 
+  type="text" 
+  id="aadhar"
+  name="aadhar"
+  placeholder="Enter 12 digit Aadhaar Number"
+  maxlength="14"
+  pattern="[0-9]{12}"
+  inputmode="numeric"
+  required
+  class="form-control"
+></div>
+
+<div class="form-group">
+<label>Mobile Number</label>
+<input 
+  type="tel" 
+  id="mobile"
+  name="mobile"
+  placeholder="Enter 10 digit Mobile Number"
+  maxlength="10"
+  pattern="[0-9]{10}"
+  inputmode="numeric"
+  required
+  class="form-control"
+></div>
+
+<div class="form-group">
+<label>Email</label>
+<input type="email" id="email" required>
+</div>
+
+<div class="form-group">
+<label>Address</label>
+<textarea rows="3" id="address" required></textarea>
+</div>
+
+<div class="form-group">
+<label>Upload Photo</label>
+<input type="file" accept="image/*" onchange="previewImage(event)" required>
+</div>
+
+<div class="form-group declaration-box">
+<input type="checkbox" id="declaration" required>
+<span>
+मैं प्रमाणित करता/करती हूँ कि मेरे द्वारा दी गयी सभी जानकारी सत्य है,
+किसी भी प्रकार की त्रुटि के लिए सम्पूर्ण जिम्मेदारी मेरी होगी|
+</span>
+</div>
 
 </form>
+
+<div class="signature-section">
+<div class="signature">_____________________<br>Student Signature</div>
+<div class="signature">_____________________<br>Examination Incharge</div>
+<div class="signature">_____________________<br>Principal</div>
+</div>
+
+<div class="buttons">
+<button class="print-btn" onclick="window.print()">Print</button>
+<button class="pdf-btn" onclick="downloadPDF()">Download PDF</button>
+<button type="submit" form="examFormModern" id="submitBtn" class="save-btn" disabled>
+  Save Record
+</button>
+<button class="back-btn" onclick="goBack()">Back</button>
+</div>
+
+</div>
 </section>
 
-<!-- PREVIEW SECTION -->
-<section id="previewSection" style="display:none;margin-top:30px;">
-<h2>📄 Exam Form Preview</h2>
-<div id="previewContent" style="background:#fff;padding:30px;border:2px solid #000;"></div>
-
-<br>
-<button onclick="goBack()" style="background:gray;color:#fff;padding:10px 18px;border:none;border-radius:6px;">⬅ Back</button>
-
-<button onclick="printForm()" style="background:#0b4d91;color:#fff;padding:10px 18px;border:none;border-radius:6px;">🖨 Print</button>
-
-<button onclick="downloadPDF()" style="background:red;color:#fff;padding:10px 18px;border:none;border-radius:6px;">⬇ Download PDF</button>
-
-</section>
 
 <!-- DIRECTOR MESSAGE -->
 <section id="director-message">
@@ -1914,188 +1383,154 @@ document.getElementById('examSection').style.display='block';
 window.scrollTo(0,document.getElementById('examSection').offsetTop);
 }
 
-// ===== PHOTO FILE VALIDATION =====
-const photoInput = document.getElementById("photo");
+/* ================= NEW EXAM FORM SYSTEM ================= */
 
-if(photoInput){
-  photoInput.addEventListener("change", function () {
-    const file = this.files[0];
+/* SAFE AUTO FORM ID */
+document.addEventListener("DOMContentLoaded", function(){
 
-    if (file) {
-      const allowedTypes = ["image/jpg", "image/jpeg"];
-
-      if (!allowedTypes.includes(file.type)) {
-        alert("Only JPEG or JPG images are allowed.");
-        this.value = "";
-        return;
-      }
-
-      if (file.size > 2 * 1024 * 1024) {
-        alert("Maximum file size is 2MB.");
-        this.value = "";
-        return;
-      }
-    }
-  });
+if(document.getElementById("formID")){
+let counter = localStorage.getItem("kdseCounter") || 1;
+document.getElementById("formID").value =
+"KDSE-2026-" + String(counter).padStart(3,'0');
+localStorage.setItem("kdseCounter", ++counter);
 }
 
-// ===== AUTO FORM ID GENERATOR =====
-function generateFormID(){
-  let lastID = localStorage.getItem("kdseLastID") || 0;
-  lastID++;
-  localStorage.setItem("kdseLastID", lastID);
-
-  const year = new Date().getFullYear();
-  const padded = String(lastID).padStart(3,'0');
-
-  return `KDSE-${year}-${padded}`;
-}
-
-// Handle Form Submit (SECURE VERSION)
-document.getElementById("examForm").addEventListener("submit", function(e){
-e.preventDefault();
-
-const reader = new FileReader();
-const file = document.getElementById("photo").files[0];
-
-reader.onload = function(){
-
-const formID = generateFormID();
-const photoURL = reader.result;
-
-// ===== GET ALL FORM VALUES =====
-const nameEn = document.getElementById("nameEn");
-const nameHi = document.getElementById("nameHi");
-const fatherName = document.getElementById("fatherName");
-const fatherNameHi = document.getElementById("fatherNameHi");
-const motherName = document.getElementById("motherName");
-const motherNameHi = document.getElementById("motherNameHi");
-const className = document.getElementById("className");
-const aadhaar = document.getElementById("aadhaar");
-const mobile = document.getElementById("mobile");
-const dob = document.getElementById("dob");
-const gender = document.getElementById("gender");
-const caste = document.getElementById("caste");
-
-// ===== SEND TO GOOGLE SHEET =====
-fetch("YOUR_WEBAPP_URL", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    formID: formID,
-    studentNameEnglish: nameEn.value,
-    studentNameHindi: nameHi.value,
-    fatherNameEnglish: fatherName.value,
-    fatherNameHindi: fatherNameHi.value,
-    motherNameEnglish: motherName.value,
-    motherNameHindi: motherNameHi.value,
-    className: className.value,
-    aadhaarNumber: aadhaar.value,
-    mobileNumber: mobile.value,
-    dateOfBirth: dob.value,
-    gender: gender.value,
-    caste: caste.value
-  })
 });
 
-// Clear old preview
-const preview = document.getElementById("previewContent");
-preview.innerHTML = "";
-
-// Heading
-const heading = document.createElement("div");
-heading.style.textAlign = "center";
-
-const h2 = document.createElement("h2");
-h2.textContent = "Kalyani Devi School of Education";
-
-const h3 = document.createElement("h3");
-h3.textContent = "Online Examination Form";
-
-heading.appendChild(h2);
-heading.appendChild(h3);
-preview.appendChild(heading);
-
-addField("Form ID:", formID);
-
-// Photo
-const img = document.createElement("img");
-img.src = photoURL;
-img.style.width = "120px";
-img.style.height = "140px";
-img.style.float = "right";
-img.style.border = "1px solid #000";
-preview.appendChild(img);
-
-// Safe field function
-function addField(label, value){
-  const p = document.createElement("p");
-  const strong = document.createElement("strong");
-  strong.textContent = label;
-  p.appendChild(strong);
-  p.appendChild(document.createTextNode(" " + value));
-  preview.appendChild(p);
+/* IMAGE PREVIEW */
+function previewImage(event){
+let reader=new FileReader();
+reader.onload=function(){
+document.getElementById("preview").src=reader.result;
+}
+reader.readAsDataURL(event.target.files[0]);
 }
 
-// Add fields safely
-addField("Student Name (English):", nameEn.value);
-addField("Student Name (Hindi):", nameHi.value);
-addField("Father Name:", fatherName.value);
-addField("Father Name (Hindi):", fatherNameHi.value);
-addField("Mother Name:", motherName.value);
-addField("Mother Name (Hindi):", motherNameHi.value);
-addField("Class:", className.value);
-addField("Aadhaar No:", aadhaar.value);
-addField("Mobile:", mobile.value);
-addField("Date of Birth:", dob.value);
-addField("Gender:", gender.value);
-addField("Caste:", caste.value);
-
-// Signature
-const sign = document.createElement("p");
-sign.style.marginTop = "60px";
-sign.textContent = "Student Signature ____________________";
-preview.appendChild(sign);
-
-// Show preview
-document.getElementById("previewSection").style.display='block';
-window.scrollTo(0,document.getElementById('previewSection').offsetTop);
-document.getElementById("examSection").style.display = "none";
-};
-
-if(!file){
-  alert("Please upload a photo.");
-  return;
-}
-
-reader.readAsDataURL(file);
-});
-
-// Download PDF
+/* PDF DOWNLOAD (A4 PERFECT) */
 function downloadPDF(){
-const element = document.getElementById("previewContent");
-html2pdf().from(element).save("Exam_Form.pdf");
-}
-
-function goBack(){
-  document.getElementById("previewSection").style.display = "none";
-  document.getElementById("examSection").style.display = "block";
-  window.scrollTo(0, document.getElementById("examSection").offsetTop);
-}
-
-// ===== PROFESSIONAL PRINT FORM =====
-function printForm(){
-  window.print();
+const element=document.getElementById("formArea");
+html2pdf().set({
+margin:0,
+filename:'KDSE_Exam_Form.pdf',
+html2canvas:{scale:3},
+jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
+}).from(element).save();
 }
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js');
+}
+</script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function(){
+
+const aadharInput = document.getElementById("aadhar");
+const mobileInput = document.getElementById("mobile");
+
+if(!aadharInput || !mobileInput) return;
+
+/* ================= AADHAAR AUTO SPACING ================= */
+aadharInput.addEventListener("input", function() {
+
+  let value = this.value.replace(/\D/g,'').substring(0,12);
+
+  let formatted = value.replace(/(.{4})/g, "$1 ").trim();
+
+  this.value = formatted;
+
+  validateAadhar();
+});
+
+/* ================= MOBILE VALIDATION ================= */
+mobileInput.addEventListener("input", function() {
+  this.value = this.value.replace(/\D/g,'').substring(0,10);
+  validateMobile();
+});
+
+/* ================= GREEN TICK + ERROR MESSAGE ================= */
+function showError(input, message){
+  removeMessage(input);
+
+  input.style.borderColor = "red";
+
+  let small = document.createElement("small");
+  small.style.color = "red";
+  small.innerText = message;
+  input.parentNode.appendChild(small);
+}
+
+function showSuccess(input){
+  removeMessage(input);
+
+  input.style.borderColor = "green";
+
+  let tick = document.createElement("span");
+  tick.innerHTML = " ✔";
+  tick.style.color = "green";
+  tick.style.fontWeight = "bold";
+  input.parentNode.appendChild(tick);
+}
+
+function removeMessage(input){
+  const parent = input.parentNode;
+  parent.querySelectorAll("small, span").forEach(e=>{
+    if(e.tagName === "SMALL" || e.innerHTML === " ✔"){
+      e.remove();
+    }
+  });
+}
+
+/* ================= AADHAAR CHECK ================= */
+function validateAadhar(){
+  let clean = aadharInput.value.replace(/\s/g,'');
+
+  if(clean.length !== 12){
+    showError(aadharInput, "Aadhaar must be 12 digits");
+  } else {
+    showSuccess(aadharInput);
+  }
+}
+
+/* ================= MOBILE CHECK ================= */
+function validateMobile(){
+  if(mobileInput.value.length !== 10){
+    showError(mobileInput, "Mobile must be 10 digits");
+  } else {
+    showSuccess(mobileInput);
+  }
+}
+
+/* ================= FORM VALIDITY ================= */
+function checkFormValidity() {
+  const form = document.getElementById("examFormModern");
+  const submitBtn = document.getElementById("submitBtn");
+
+  if (form.checkValidity() &&
+      aadharInput.value.replace(/\s/g,'').length === 12 &&
+      mobileInput.value.length === 10) {
+
+    submitBtn.disabled = false;
+    submitBtn.style.backgroundColor = "#28a745";
+    submitBtn.style.cursor = "pointer";
+  } 
+  else {
+    submitBtn.disabled = true;
+    submitBtn.style.backgroundColor = "#ccc";
+    submitBtn.style.cursor = "not-allowed";
+  }
+}
+
+/* ================= FINAL SAVE ================= */
+function saveRecord(event){
+  event.preventDefault();
+
+  alert("Record Saved Successfully ✅");
 }
 </script>
 </body>
