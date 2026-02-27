@@ -769,8 +769,8 @@ border:1px solid #ccc;
 </section>
 
 <!-- ================= NEW MODERN EXAM FORM SECTION ================= -->
-<section id="examSection" style="margin-top:30px;">
-
+<section id="examSection" style="margin-top:30px; display:none;">
+  
 <div class="container" id="formArea">
 
 <div id="examHeader" class="exam-print-header">
@@ -1486,8 +1486,8 @@ if ('serviceWorker' in navigator) {
 /* ================= OPEN EXAM FORM ================= */
 function openExamForm(){
   const section = document.getElementById('examSection');
-  section.style.display='block';
-  window.scrollTo(0, section.offsetTop);
+  section.style.display = 'block';
+  section.scrollIntoView({ behavior: "smooth" });
 }
 
 /* ================= IMAGE PREVIEW ================= */
@@ -1502,29 +1502,31 @@ function previewImage(event){
 /* ================= PDF DOWNLOAD ================= */
 function downloadPDF(){
 
-  const examSection = document.getElementById("examSection");
   const element = document.getElementById("formArea");
 
-  // TEMPORARY FORCE SHOW
-  examSection.style.display = "block";
+  // Temporary fix for watermark rendering issue
+  const styleBackup = element.style.background;
+  element.style.background = "#ffffff";
 
-  setTimeout(() => {
+  html2pdf().set({
+    margin: 5,
+    filename: 'KDSE_Exam_Form.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { 
+      scale: 2,
+      useCORS: true,
+      backgroundColor: "#ffffff"
+    },
+    jsPDF: { 
+      unit: 'mm', 
+      format: 'a4', 
+      orientation: 'portrait' 
+    }
+  }).from(element).save().then(() => {
 
-    html2pdf().set({
-      margin: 10,
-      filename: 'KDSE_Exam_Form.pdf',
-      image: { type: 'jpeg', quality: 1 },
-      html2canvas: { scale: 3, useCORS: true },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(element).save().then(() => {
+    element.style.background = styleBackup;
 
-      // OPTIONAL: if you want to hide again
-      // examSection.style.display = "none";
-
-    });
-
-  }, 300); // small delay for render
-
+  });
 }
 
 /* ================= MAIN FORM SYSTEM ================= */
