@@ -425,13 +425,11 @@ border:1px solid #ccc;
 
 #formArea{
   background:#ffffff;
-  max-width:900px;
+  width:210mm;
+  min-height:297mm;
+  padding:20mm;
   margin:auto;
-  padding:30px;
-  border-radius:12px;
-  box-shadow:0 8px 25px rgba(0,0,0,0.08);
-  position:relative;
-  overflow:hidden;
+  box-sizing:border-box;
 }
 
 /* WATERMARK */
@@ -590,8 +588,57 @@ border:1px solid #ccc;
   width: 30%;
 }
 
+/* ===== PROFESSIONAL EXAM HEADER ===== */
+
+.exam-print-header{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  border-bottom:2px solid #0b4d91;
+  padding-bottom:15px;
+  margin-bottom:20px;
+}
+
+.exam-logo{
+  flex-shrink:0;
+}
+
+.exam-logo img{
+  width:80px;
+  height:80px;
+  object-fit:contain;
+}
+
+.exam-header-content{
+  flex:1;
+  text-align:center;
+}
+
+.exam-header-content .school-name{
+  font-size:22px;
+  font-weight:700;
+  color:#0b4d91;
+}
+
+.exam-header-content .address,
+.exam-header-content .contact,
+.exam-header-content .udise{
+  font-size:13px;
+  margin-top:3px;
+}
+
+.exam-header-content .session{
+  margin-top:8px;
+  font-weight:600;
+  font-size:16px;
+}
+
 /* ================= MODERN EXAM PRINT ================= */
 @media print {
+
+  body{
+    margin:0;
+  }
 
   body *{
     visibility:hidden;
@@ -608,15 +655,26 @@ border:1px solid #ccc;
     width:100%;
     box-shadow:none;
     border:2px solid #0b4d91;
+    background:#ffffff;
+
+    /* ✅ Page Break Protection */
+    page-break-after: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 
   #formArea::before{
     opacity:0.08;
   }
 
- .buttons{
-  display:none !important;
-}
+  .signature-section{
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .buttons{
+    display:none !important;
+  }
 
   @page{
     size:A4;
@@ -745,27 +803,33 @@ border:1px solid #ccc;
 
 <div class="container" id="formArea">
 
-<div id="examHeader" style="display:none;">
+<div id="examHeader" class="exam-print-header" style="display:none;">
 
-  <div class="school-name">
-  KALYANI DEVI SCHOOL OF EDUCATION
+  <div class="exam-logo">
+    <img src="images/logo.png" alt="KDSE Logo">
   </div>
 
-  <div class="address">
-  Kalyani Devi School of Education, Piparkhunta, Post office - Dewarhat,  
-  Block - Lormi, Mungeli, Chhattisgarh – 495115
-  </div>
+  <div class="exam-header-content">
+    <div class="school-name">
+      KALYANI DEVI SCHOOL OF EDUCATION
+    </div>
 
-  <div class="contact">
-  Mobile: 8224821843 | Email: kdse1227@gmail.com
-  </div>
+    <div class="address">
+      Piparkhunta, Post office - Dewarhat,  
+      Block - Lormi, District - Mungeli, Chhattisgarh – 495115
+    </div>
 
-  <div class="udise">
-  UDISE Code - 7387387487
-  </div>
+    <div class="contact">
+      Mobile: 8224821843 | Email: kdse1227@gmail.com
+    </div>
 
-  <div class="session">
-  Examination Form 2025-26
+    <div class="udise">
+      UDISE Code – 7387387487
+    </div>
+
+    <div class="session">
+      Examination Form 2025-26
+    </div>
   </div>
 
 </div>
@@ -849,7 +913,7 @@ border:1px solid #ccc;
     maxlength="14"
     placeholder="Enter 12 digit Aadhaar Number"
     inputmode="numeric"
-    pattern="[6-9][0-9]{9}"
+    pattern="[0-9 ]{14}"
     required
     autocomplete="off"
     class="form-control">
@@ -864,6 +928,7 @@ border:1px solid #ccc;
     placeholder="Enter 10 digit Mobile Number"
     maxlength="10"
     inputmode="numeric"
+    pattern="[6-9][0-9]{9}"
     required
     autocomplete="off"
     class="form-control">
@@ -1460,11 +1525,14 @@ function previewImage(event){
 /* ================= PDF DOWNLOAD ================= */
 function downloadPDF(){
   const element = document.getElementById("formArea");
+
   html2pdf().set({
-    margin:0,
-    filename:'KDSE_Exam_Form.pdf',
-    html2canvas:{scale:3},
-    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
+    margin: 5,
+    filename: 'KDSE_Exam_Form.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: ['avoid-all'] }
   }).from(element).save();
 }
 
@@ -1517,11 +1585,11 @@ function saveRecord(event){
   event.preventDefault();
 
   let counter = parseInt(localStorage.getItem("kdseCounter")) || 1;
-  counter++;
-  localStorage.setItem("kdseCounter", counter);
 
   document.getElementById("formID").value =
     "KDSE-2026-" + String(counter).padStart(3,'0');
+
+  localStorage.setItem("kdseCounter", counter + 1);
 
   alert("Record Saved Successfully ✅");
 }
