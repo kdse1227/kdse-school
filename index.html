@@ -624,7 +624,7 @@ border:1px solid #ccc;
 }
 
 
-/* ================= FINAL SAFE PRINT ================= */
+/* ================= CLEAN PRINT SYSTEM ================= */
 @media print {
 
   body{
@@ -632,30 +632,13 @@ border:1px solid #ccc;
     padding:0;
   }
 
-  body *{
-    visibility:hidden;
-  }
-  
-  /* Prevent blank PDF during html2pdf */
-body.pdf-mode *{
-  visibility:visible !important;
-}
-
-  #formArea, #formArea *{
-    visibility:visible;
-  }
-
   #formArea{
-    position:absolute;
-    left:0;
-    top:0;
     width:210mm;
-    height:297mm;
+    min-height:297mm;
     padding:12mm;
     box-sizing:border-box;
     border:2px solid #0b4d91;
     background:#fff;
-    overflow:hidden;
   }
 
   .buttons{
@@ -1521,25 +1504,17 @@ function downloadPDF(){
 
   const element = document.getElementById("formArea");
 
-  // TEMPORARILY REMOVE PRINT CSS EFFECT
-  document.body.classList.add("pdf-mode");
-
   html2pdf().set({
     margin: 10,
     filename: 'KDSE_Exam_Form.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
+    image: { type: 'jpeg', quality: 1 },
     html2canvas: { 
-      scale: 2,
-      useCORS: true,
-      logging: false
+      scale: 3,
+      useCORS: true
     },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  }).from(element).save().then(() => {
+  }).from(element).save();
 
-    // REMOVE TEMP CLASS AFTER PDF
-    document.body.classList.remove("pdf-mode");
-
-  });
 }
 
 /* ================= MAIN FORM SYSTEM ================= */
