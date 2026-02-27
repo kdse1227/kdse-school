@@ -217,14 +217,54 @@ html2pdf().set({margin:0,filename:'KDSE_Exam_Form.pdf',html2canvas:{scale:3},jsP
 
 // SAVE RECORD
 function saveRecord(){
-if(!declaration.checked){alert("Please accept declaration first"); return;}
+
+if(!validateForm()){
+alert("Please fill all required fields");
+return;
+}
+
 formID.value = "KDSE-2026-" + String(counter).padStart(3,'0');
 counter++;
 localStorage.setItem("kdseCounter", counter);
-let formData={formID:formID.value,studentEng:studentEng.value,studentHin:studentHin.value,fatherEng:fatherEng.value,fatherHin:fatherHin.value,motherEng:motherEng.value,motherHin:motherHin.value,mobile:mobile.value,class:classSelect.value};
-fetch("YOUR_GOOGLE_SCRIPT_URL",{method:"POST",body:JSON.stringify(formData)}).then(res=>res.text()).then(data=>{alert("Record Saved Successfully!");});
-let msg=`KDSE Admission Form Submitted\nForm ID: ${formID.value}\nStudent: ${studentEng.value}`;
+
+let formData = {
+formID: formID.value,
+studentEng: studentEng.value,
+fatherEng: fatherEng.value,
+motherEng: motherEng.value,
+class: classSelect.value,
+mobile: mobile.value,
+email: email.value,
+dob: dob.value,
+gender: gender.value,
+caste: caste.value,
+aadhar: aadhar.value,
+address: address.value
+};
+
+fetch("https://script.google.com/macros/s/AKfycbxYgfVejlG1x1CZ2HCUfujwPRd6q4trcgPHN4TLyP8c1JxFcSMkmS0Xi4SJV3exzuGGcA/exec",{
+method:"POST",
+body: JSON.stringify(formData),
+headers: {
+"Content-Type": "application/json"
+}
+})
+.then(res=>res.text())
+.then(data=>{
+alert("Record Saved Successfully!");
+})
+.catch(err=>{
+alert("Error Saving Record");
+console.log(err);
+});
+
+let msg=`KDSE Examination Form Submitted
+Form ID: ${formID.value}
+Student: ${studentEng.value}
+Class: ${classSelect.value}`;
+
 window.open(`https://wa.me/91${mobile.value}?text=${encodeURIComponent(msg)}`,'_blank');
+
 }
 </script>
 
