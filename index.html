@@ -635,6 +635,11 @@ border:1px solid #ccc;
   body *{
     visibility:hidden;
   }
+  
+  /* Prevent blank PDF during html2pdf */
+body.pdf-mode *{
+  visibility:visible !important;
+}
 
   #formArea, #formArea *{
     visibility:visible;
@@ -1516,9 +1521,8 @@ function downloadPDF(){
 
   const element = document.getElementById("formArea");
 
-  // Temporarily force visible
-  element.style.position = "relative";
-  element.style.visibility = "visible";
+  // TEMPORARILY REMOVE PRINT CSS EFFECT
+  document.body.classList.add("pdf-mode");
 
   html2pdf().set({
     margin: 10,
@@ -1526,10 +1530,16 @@ function downloadPDF(){
     image: { type: 'jpeg', quality: 0.98 },
     html2canvas: { 
       scale: 2,
-      useCORS: true
+      useCORS: true,
+      logging: false
     },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  }).from(element).save();
+  }).from(element).save().then(() => {
+
+    // REMOVE TEMP CLASS AFTER PDF
+    document.body.classList.remove("pdf-mode");
+
+  });
 }
 
 /* ================= MAIN FORM SYSTEM ================= */
