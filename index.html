@@ -776,8 +776,7 @@ border:1px solid #ccc;
 <img id="preview">
 </div>
 
-<form id="examFormModern" oninput="checkFormValidity()" onsubmit="saveRecord(event)">
-<div class="form-group">
+<form id="examFormModern" onsubmit="saveRecord(event)"><div class="form-group">
 <label>Form ID</label>
 <input type="text" id="formID" readonly>
 </div>
@@ -843,32 +842,32 @@ border:1px solid #ccc;
 </div>
 
 <div class="form-group">
-<label>Aadhar Number</label>
-<input 
-  type="text" 
-  id="aadhar"
-  name="aadhar"
-  placeholder="Enter 12 digit Aadhaar Number"
-  maxlength="14"
-  pattern="[0-9]{12}"
-  inputmode="numeric"
-  required
-  class="form-control"
-></div>
+  <label>Aadhaar Number</label>
+  <input 
+    type="tel" 
+    id="aadhar"
+    maxlength="14"
+    placeholder="Enter 12 digit Aadhaar Number"
+    inputmode="numeric"
+    pattern="[6-9][0-9]{9}"
+    required
+    autocomplete="off"
+    class="form-control">
+</div>
 
 <div class="form-group">
-<label>Mobile Number</label>
-<input 
-  type="tel" 
-  id="mobile"
-  name="mobile"
-  placeholder="Enter 10 digit Mobile Number"
-  maxlength="10"
-  pattern="[0-9]{10}"
-  inputmode="numeric"
-  required
-  class="form-control"
-></div>
+  <label>Mobile Number</label>
+  <input 
+    type="tel" 
+    id="mobile"
+    name="mobile"
+    placeholder="Enter 10 digit Mobile Number"
+    maxlength="10"
+    inputmode="numeric"
+    required
+    autocomplete="off"
+    class="form-control">
+</div>
 
 <div class="form-group">
 <label>Email</label>
@@ -1430,44 +1429,6 @@ function renderResults(year) {
     resultsList.appendChild(li);
   });
 }
-
-// Open Exam Form
-function openExamForm(){
-document.getElementById('examSection').style.display='block';
-window.scrollTo(0,document.getElementById('examSection').offsetTop);
-}
-
-/* ================= NEW EXAM FORM SYSTEM ================= */
-
-/* SAFE AUTO FORM ID */
-document.addEventListener("DOMContentLoaded", function(){
-
-let counter = localStorage.getItem("kdseCounter") || 1;
-
-document.getElementById("formID").value =
-"KDSE-2026-" + String(counter).padStart(3,'0');
-
-});
-
-/* IMAGE PREVIEW */
-function previewImage(event){
-let reader=new FileReader();
-reader.onload=function(){
-document.getElementById("preview").src=reader.result;
-}
-reader.readAsDataURL(event.target.files[0]);
-}
-
-/* PDF DOWNLOAD (A4 PERFECT) */
-function downloadPDF(){
-const element=document.getElementById("formArea");
-html2pdf().set({
-margin:0,
-filename:'KDSE_Exam_Form.pdf',
-html2canvas:{scale:3},
-jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
-}).from(element).save();
-}
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -1479,129 +1440,101 @@ if ('serviceWorker' in navigator) {
 </script>
 
 <script>
-  
+
+/* ================= OPEN EXAM FORM ================= */
+function openExamForm(){
+  const section = document.getElementById('examSection');
+  section.style.display='block';
+  window.scrollTo(0, section.offsetTop);
+}
+
+/* ================= IMAGE PREVIEW ================= */
+function previewImage(event){
+  let reader = new FileReader();
+  reader.onload = function(){
+    document.getElementById("preview").src = reader.result;
+  }
+  reader.readAsDataURL(event.target.files[0]);
+}
+
+/* ================= PDF DOWNLOAD ================= */
+function downloadPDF(){
+  const element = document.getElementById("formArea");
+  html2pdf().set({
+    margin:0,
+    filename:'KDSE_Exam_Form.pdf',
+    html2canvas:{scale:3},
+    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
+  }).from(element).save();
+}
+
+/* ================= MAIN FORM SYSTEM ================= */
+let form, previewBtn, aadharInput, mobileInput;
+
 document.addEventListener("DOMContentLoaded", function(){
 
-const aadharInput = document.getElementById("aadhar");
-const mobileInput = document.getElementById("mobile");
-
-if(!aadharInput || !mobileInput) return;
-
-/* ================= AADHAAR AUTO SPACING ================= */
-aadharInput.addEventListener("input", function() {
-
-  let value = this.value.replace(/\D/g,'').substring(0,12);
-
-  let formatted = value.replace(/(.{4})/g, "$1 ").trim();
-
-  this.value = formatted;
-
-  validateAadhar();
-});
-
-/* ================= MOBILE VALIDATION ================= */
-mobileInput.addEventListener("input", function() {
-  this.value = this.value.replace(/\D/g,'').substring(0,10);
-  validateMobile();
-});
-
-/* ================= GREEN TICK + ERROR MESSAGE ================= */
-function showError(input, message){
-  removeMessage(input);
-
-  input.style.borderColor = "red";
-
-  let small = document.createElement("small");
-  small.style.color = "red";
-  small.innerText = message;
-  input.parentNode.appendChild(small);
-}
-
-function showSuccess(input){
-  removeMessage(input);
-
-  input.style.borderColor = "green";
-
-  let tick = document.createElement("span");
-  tick.innerHTML = " ✔";
-  tick.style.color = "green";
-  tick.style.fontWeight = "bold";
-  input.parentNode.appendChild(tick);
-}
-
-function removeMessage(input){
-  const parent = input.parentNode;
-  parent.querySelectorAll("small, span").forEach(e=>{
-    if(e.tagName === "SMALL" || e.innerHTML === " ✔"){
-      e.remove();
-    }
-  });
-}
-
-/* ================= AADHAAR CHECK ================= */
-function validateAadhar(){
-  let clean = aadharInput.value.replace(/\s/g,'');
-
-  if(clean.length !== 12){
-    showError(aadharInput, "Aadhaar must be 12 digits");
-  } else {
-    showSuccess(aadharInput);
-  }
-}
-
-/* ================= MOBILE CHECK ================= */
-function validateMobile(){
-  if(mobileInput.value.length !== 10){
-    showError(mobileInput, "Mobile must be 10 digits");
-  } else {
-    showSuccess(mobileInput);
-  }
-}
-
-function checkFormValidity() {
-
-  const form = document.getElementById("examFormModern");
-  const previewBtn = document.getElementById("previewBtn");
+  form = document.getElementById("examFormModern");
+  previewBtn = document.getElementById("previewBtn");
+  aadharInput = document.getElementById("aadhar");
+  mobileInput = document.getElementById("mobile");
 
   if(!form) return;
 
-  const aadharValid = 
-    document.getElementById("aadhar").value.replace(/\s/g,'').length === 12;
+  let counter = parseInt(localStorage.getItem("kdseCounter")) || 1;
+  document.getElementById("formID").value =
+    "KDSE-2026-" + String(counter).padStart(3,'0');
 
-  const mobileValid = 
-    document.getElementById("mobile").value.length === 10;
+  aadharInput.addEventListener("input", function(){
+    let value = this.value.replace(/\D/g,'').substring(0,12);
+    this.value = value.replace(/(.{4})/g,"$1 ").trim();
+    checkFormValidity();
+  });
 
-  if (form.checkValidity() && aadharValid && mobileValid) {
+  mobileInput.addEventListener("input", function(){
+    this.value = this.value.replace(/\D/g,'').substring(0,10);
+    checkFormValidity();
+  });
+
+  form.addEventListener("input", checkFormValidity);
+});
+
+/* GLOBAL FUNCTION */
+function checkFormValidity(){
+  if(!form) return;
+
+  const aadharValid = aadharInput.value.replace(/\s/g,'').length === 12;
+  const mobileValid = /^[6-9]\d{9}$/.test(mobileInput.value);
+
+  if(form.checkValidity() && aadharValid && mobileValid){
     previewBtn.style.display = "inline-block";
   } else {
     previewBtn.style.display = "none";
   }
 }
 
-/* ================= FINAL SAVE ================= */
+/* ================= SAVE RECORD ================= */
 function saveRecord(event){
   event.preventDefault();
 
-  let counter = localStorage.getItem("kdseCounter") || 1;
-  localStorage.setItem("kdseCounter", ++counter);
+  let counter = parseInt(localStorage.getItem("kdseCounter")) || 1;
+  counter++;
+  localStorage.setItem("kdseCounter", counter);
+
+  document.getElementById("formID").value =
+    "KDSE-2026-" + String(counter).padStart(3,'0');
 
   alert("Record Saved Successfully ✅");
 }
 
+/* ================= PREVIEW MODE ================= */
 function showPreview(){
-
-  // Show header + signature
   document.getElementById("examHeader").style.display = "block";
   document.getElementById("signatureSection").style.display = "flex";
 
-  // Disable all form fields
   document.querySelectorAll("#examFormModern input:not([type='checkbox']), #examFormModern select, #examFormModern textarea")
     .forEach(el => el.setAttribute("disabled", true));
 
-  // Hide Preview button
   document.getElementById("previewBtn").style.display = "none";
-
-  // Show final buttons
   document.getElementById("saveBtn").style.display = "inline-block";
   document.getElementById("pdfBtn").style.display = "inline-block";
   document.getElementById("backBtn").style.display = "inline-block";
@@ -1609,27 +1542,22 @@ function showPreview(){
   window.scrollTo(0,0);
 }
 
+/* ================= BACK TO EDIT ================= */
 function goBackToEdit(){
-
-  // Hide header + signature
   document.getElementById("examHeader").style.display = "none";
   document.getElementById("signatureSection").style.display = "none";
 
-  // Enable form fields again
   document.querySelectorAll("#examFormModern input:not([type='checkbox']), #examFormModern select, #examFormModern textarea")
     .forEach(el => el.removeAttribute("disabled"));
 
-  // Hide final buttons
   document.getElementById("saveBtn").style.display = "none";
   document.getElementById("pdfBtn").style.display = "none";
   document.getElementById("backBtn").style.display = "none";
 
-  // Show Preview button again (if form valid)
-  checkFormValidity();
+  checkFormValidity();   
 
   window.scrollTo(0,document.getElementById("examSection").offsetTop);
 }
-});
 </script>
 </body>
 </html>
