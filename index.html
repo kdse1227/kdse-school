@@ -579,6 +579,17 @@ border:1px solid #ccc;
   height: 18px;
 }
 
+.signature-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 60px;
+  text-align: center;
+}
+
+.signature {
+  width: 30%;
+}
+
 /* ================= MODERN EXAM PRINT ================= */
 @media print {
 
@@ -603,9 +614,9 @@ border:1px solid #ccc;
     opacity:0.08;
   }
 
-  button{
-    display:none !important;
-  }
+ .buttons{
+  display:none !important;
+}
 
   @page{
     size:A4;
@@ -734,21 +745,29 @@ border:1px solid #ccc;
 
 <div class="container" id="formArea">
 
-<div class="header">
-<div class="school-name">KALYANI DEVI SCHOOL OF EDUCATION</div>
+<div id="examHeader" style="display:none;">
 
-<div class="address">
-Kalyani Devi School of Education, Piparkhunta, Post office - Dewarhat,  
-Block - Lormi, Mungeli, Chhattisgarh – 495115
-</div>
+  <div class="school-name">
+  KALYANI DEVI SCHOOL OF EDUCATION
+  </div>
 
-<div class="contact">
-Mobile: 8224821843 | Email: kdse1227@gmail.com
-</div>
+  <div class="address">
+  Kalyani Devi School of Education, Piparkhunta, Post office - Dewarhat,  
+  Block - Lormi, Mungeli, Chhattisgarh – 495115
+  </div>
 
-<div class="udise">UDISE Code - 7387387487</div>
+  <div class="contact">
+  Mobile: 8224821843 | Email: kdse1227@gmail.com
+  </div>
 
-<div class="session">Examination Form 2025-26</div>
+  <div class="udise">
+  UDISE Code - 7387387487
+  </div>
+
+  <div class="session">
+  Examination Form 2025-26
+  </div>
+
 </div>
 
 <br>
@@ -876,20 +895,55 @@ Mobile: 8224821843 | Email: kdse1227@gmail.com
 
 </form>
 
-<div class="signature-section">
-<div class="signature">_____________________<br>Student Signature</div>
-<div class="signature">_____________________<br>Examination Incharge</div>
-<div class="signature">_____________________<br>Principal</div>
+<div class="signature-section" id="signatureSection" style="display:none;">
+
+  <div class="signature">
+    ____________________<br>
+    Student Signature
+  </div>
+
+  <div class="signature">
+    ____________________<br>
+    Exam Incharge Signature
+  </div>
+
+  <div class="signature">
+    ____________________<br>
+    Principal Signature
+  </div>
+
 </div>
 
 <div class="buttons">
-<button class="print-btn" onclick="window.print()">Print</button>
-<button class="pdf-btn" onclick="downloadPDF()">Download PDF</button>
-<button type="submit" form="examFormModern" id="submitBtn" class="save-btn" disabled>
-  Save Record
+
+<button id="previewBtn" 
+        class="print-btn" 
+        style="display:none;"
+        onclick="showPreview()">
+Preview
 </button>
-<button class="back-btn" onclick="goBack()">Back</button>
-</div>
+
+<button id="saveBtn" 
+        type="submit"
+        form="examFormModern"
+        class="save-btn"
+        style="display:none;">
+Save Record
+</button>
+
+<button id="pdfBtn"
+        class="pdf-btn"
+        style="display:none;"
+        onclick="downloadPDF()">
+Download PDF
+</button>
+
+<button id="backBtn"
+        class="back-btn"
+        style="display:none;"
+        onclick="goBackToEdit()">
+Back
+</button>
 
 </div>
 </section>
@@ -948,7 +1002,7 @@ Mobile: 8224821843 | Email: kdse1227@gmail.com
 <div class="sports-slider">
 <span class="prev" onclick="changeSportSlide(-1)">❮</span>
 <span class="next" onclick="changeSportSlide(1)">❯</span>
-<img class="sport-slide active" src="images/sports1.jpg" alt="Sports Activities at Kalyani Devi School Lormi" loading="lazy">
+<img class="sport-slide active" src="images/sports1.jpg" alt="Sports Activities at Kalyani Devi School Lormi" loading="eager">
 <img class="sport-slide" src="images/sports2.jpg" alt="Students Playing Outdoor Games at KDSE Lormi" loading="lazy">
 <img class="sport-slide" src="images/sports3.jpg" alt="Annual Sports Competition at Kalyani Devi School" loading="lazy">
 
@@ -1010,7 +1064,7 @@ Mobile: 8224821843 | Email: kdse1227@gmail.com
 </section>
 
 <!-- WHATSAPP -->
-<a href="https://api.whatsapp.com/send?phone=+918224821843&text=Hello%20KDSE"
+<a href="https://wa.me/918224821843?text=Hello%20KDSE"
    class="whatsapp"
    target="_blank"
    rel="noopener">
@@ -1388,12 +1442,10 @@ window.scrollTo(0,document.getElementById('examSection').offsetTop);
 /* SAFE AUTO FORM ID */
 document.addEventListener("DOMContentLoaded", function(){
 
-if(document.getElementById("formID")){
 let counter = localStorage.getItem("kdseCounter") || 1;
+
 document.getElementById("formID").value =
 "KDSE-2026-" + String(counter).padStart(3,'0');
-localStorage.setItem("kdseCounter", ++counter);
-}
 
 });
 
@@ -1427,7 +1479,7 @@ if ('serviceWorker' in navigator) {
 </script>
 
 <script>
-
+  
 document.addEventListener("DOMContentLoaded", function(){
 
 const aadharInput = document.getElementById("aadhar");
@@ -1506,23 +1558,23 @@ function validateMobile(){
   }
 }
 
-/* ================= FORM VALIDITY ================= */
 function checkFormValidity() {
+
   const form = document.getElementById("examFormModern");
-  const submitBtn = document.getElementById("submitBtn");
+  const previewBtn = document.getElementById("previewBtn");
 
-  if (form.checkValidity() &&
-      aadharInput.value.replace(/\s/g,'').length === 12 &&
-      mobileInput.value.length === 10) {
+  if(!form) return;
 
-    submitBtn.disabled = false;
-    submitBtn.style.backgroundColor = "#28a745";
-    submitBtn.style.cursor = "pointer";
-  } 
-  else {
-    submitBtn.disabled = true;
-    submitBtn.style.backgroundColor = "#ccc";
-    submitBtn.style.cursor = "not-allowed";
+  const aadharValid = 
+    document.getElementById("aadhar").value.replace(/\s/g,'').length === 12;
+
+  const mobileValid = 
+    document.getElementById("mobile").value.length === 10;
+
+  if (form.checkValidity() && aadharValid && mobileValid) {
+    previewBtn.style.display = "inline-block";
+  } else {
+    previewBtn.style.display = "none";
   }
 }
 
@@ -1530,8 +1582,54 @@ function checkFormValidity() {
 function saveRecord(event){
   event.preventDefault();
 
+  let counter = localStorage.getItem("kdseCounter") || 1;
+  localStorage.setItem("kdseCounter", ++counter);
+
   alert("Record Saved Successfully ✅");
 }
+
+function showPreview(){
+
+  // Show header + signature
+  document.getElementById("examHeader").style.display = "block";
+  document.getElementById("signatureSection").style.display = "flex";
+
+  // Disable all form fields
+  document.querySelectorAll("#examFormModern input:not([type='checkbox']), #examFormModern select, #examFormModern textarea")
+    .forEach(el => el.setAttribute("disabled", true));
+
+  // Hide Preview button
+  document.getElementById("previewBtn").style.display = "none";
+
+  // Show final buttons
+  document.getElementById("saveBtn").style.display = "inline-block";
+  document.getElementById("pdfBtn").style.display = "inline-block";
+  document.getElementById("backBtn").style.display = "inline-block";
+
+  window.scrollTo(0,0);
+}
+
+function goBackToEdit(){
+
+  // Hide header + signature
+  document.getElementById("examHeader").style.display = "none";
+  document.getElementById("signatureSection").style.display = "none";
+
+  // Enable form fields again
+  document.querySelectorAll("#examFormModern input:not([type='checkbox']), #examFormModern select, #examFormModern textarea")
+    .forEach(el => el.removeAttribute("disabled"));
+
+  // Hide final buttons
+  document.getElementById("saveBtn").style.display = "none";
+  document.getElementById("pdfBtn").style.display = "none";
+  document.getElementById("backBtn").style.display = "none";
+
+  // Show Preview button again (if form valid)
+  checkFormValidity();
+
+  window.scrollTo(0,document.getElementById("examSection").offsetTop);
+}
+});
 </script>
 </body>
 </html>
