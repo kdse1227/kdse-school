@@ -769,7 +769,7 @@ border:1px solid #ccc;
 </section>
 
 <!-- ================= NEW MODERN EXAM FORM SECTION ================= -->
-<section id="examSection" style="display:none;margin-top:30px;">
+<section id="examSection" style="margin-top:30px;">
 
 <div class="container" id="formArea">
 
@@ -1502,18 +1502,28 @@ function previewImage(event){
 /* ================= PDF DOWNLOAD ================= */
 function downloadPDF(){
 
+  const examSection = document.getElementById("examSection");
   const element = document.getElementById("formArea");
 
-  html2pdf().set({
-    margin: 10,
-    filename: 'KDSE_Exam_Form.pdf',
-    image: { type: 'jpeg', quality: 1 },
-    html2canvas: { 
-      scale: 3,
-      useCORS: true
-    },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  }).from(element).save();
+  // TEMPORARY FORCE SHOW
+  examSection.style.display = "block";
+
+  setTimeout(() => {
+
+    html2pdf().set({
+      margin: 10,
+      filename: 'KDSE_Exam_Form.pdf',
+      image: { type: 'jpeg', quality: 1 },
+      html2canvas: { scale: 3, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(element).save().then(() => {
+
+      // OPTIONAL: if you want to hide again
+      // examSection.style.display = "none";
+
+    });
+
+  }, 300); // small delay for render
 
 }
 
