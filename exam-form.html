@@ -116,7 +116,6 @@ button{padding:6px 12px;border:none;border-radius:5px;margin:3px;font-size:12.5p
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<!-- आपके मौजूदा कोड का modified JS भाग -->
 <script>
 // IMAGE PREVIEW
 function previewImage(event){
@@ -156,15 +155,23 @@ function showPreview(){
 // GENERATE FORM ID (only after Save)
 function generateFormID(){
     const timestamp = Date.now();
-    const random = Math.floor(Math.random()*900 + 100); // 3 digit random
+    const random = Math.floor(Math.random()*900 + 100);
     return `KDSE${timestamp}${random}`;
 }
 
-// SAVE RECORD (NO SHEET)
+// SAVE RECORD
 function saveRecord(){
     if(!validateForm()){alert("Please fill all required fields"); return;}
     if(document.getElementById("aadhar").value.length!==12){alert("❌ Aadhar must be exactly 12 digits."); return;}
     if(document.getElementById("mobile").value.length!==10){alert("❌ Mobile must be 10 digits."); return;}
+
+    const aadhar = document.getElementById("aadhar").value;
+    let savedAadhars = JSON.parse(localStorage.getItem("savedAadhars") || "[]");
+
+    if(savedAadhars.includes(aadhar)){
+        alert("❌ इस Aadhar से पहले ही फॉर्म भरा जा चुका है!");
+        return;
+    }
 
     // Generate Form ID
     const formID = generateFormID();
@@ -172,7 +179,11 @@ function saveRecord(){
 
     alert(`✅ Form Saved Successfully! Form ID: ${formID}`);
 
-    // Show Print and Download buttons
+    // Save Aadhar in localStorage
+    savedAadhars.push(aadhar);
+    localStorage.setItem("savedAadhars", JSON.stringify(savedAadhars));
+
+    // Show Print/Download buttons
     document.querySelector(".print-btn").style.display = "inline-block";
     document.querySelector(".pdf-btn").style.display = "inline-block";
     document.querySelector(".reset-btn").style.display = "inline-block";
