@@ -103,8 +103,8 @@ button{
 <div class="header">
     <div class="school-name">KALYANI DEVI SCHOOL OF EDUCATION</div>
     <div class="address">Kalyani Devi School of Education, Piparkhunta, Post office - Dewarhat, Block - Lormi, Mungeli, Chhattisgarh – 495115</div>
-    <div class="contact">Mobile: 95229-XXXX | Email: xxschool@gmail.com</div>
-    <div class="udise">UDISE Code - 7387387487</div>
+    <div class="contact">Mobile: 8224821843 | Email: kdse1227@gmail.com</div>
+    <div class="udise">UDISE Code - 22191213904</div>
     <div class="session">Examination Form 2025-26</div>
 </div>
 
@@ -186,7 +186,8 @@ button{
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
-let counter = localStorage.getItem("kdseCounter") || 28; // example starting ID 028
+<script>
+let counter = localStorage.getItem("kdseCounter") || 28;
 let formID = document.getElementById("formID");
 
 // IMAGE PREVIEW
@@ -196,14 +197,17 @@ reader.onload=function(){document.getElementById("preview").src=reader.result;}
 reader.readAsDataURL(event.target.files[0]);
 }
 
-// CHECK IF REQUIRED FIELDS ARE FILLED
+// CHECK REQUIRED
 function validateForm(){
 return studentEng.value && studentHin.value && fatherEng.value && fatherHin.value && motherEng.value && motherHin.value && dob.value && gender.value && caste.value && aadhar.value && mobile.value && email.value && address.value && classSelect.value && declaration.checked;
 }
 
 // SHOW PREVIEW
 function showPreview(){
-if(!validateForm()){alert("Please fill all required fields before Preview."); return;}
+if(!validateForm()){
+alert("Please fill all required fields before Preview.");
+return;
+}
 document.getElementById("previewBtn").style.display="none";
 document.querySelector(".print-btn").style.display="inline-block";
 document.querySelector(".pdf-btn").style.display="inline-block";
@@ -212,7 +216,12 @@ document.querySelector(".pdf-btn").style.display="inline-block";
 // DOWNLOAD PDF
 function downloadPDF(){
 const element=document.getElementById("formArea");
-html2pdf().set({margin:0,filename:'KDSE_Exam_Form.pdf',html2canvas:{scale:3},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(element).save();
+html2pdf().set({
+margin:0,
+filename:'KDSE_Exam_Form.pdf',
+html2canvas:{scale:3},
+jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
+}).from(element).save();
 }
 
 // SAVE RECORD
@@ -223,10 +232,22 @@ alert("Please fill all required fields");
 return;
 }
 
+// 🔒 DUPLICATE CHECK USING AADHAR
+let savedStudents = JSON.parse(localStorage.getItem("kdseStudents")) || [];
+
+let alreadyExists = savedStudents.find(student => student.aadhar === aadhar.value);
+
+if(alreadyExists){
+alert("❌ This student has already filled the form.\nDuplicate entry not allowed.");
+return;
+}
+
+// GENERATE FORM ID
 formID.value = "KDSE-2026-" + String(counter).padStart(3,'0');
 counter++;
 localStorage.setItem("kdseCounter", counter);
 
+// SAVE NEW STUDENT TO LOCAL STORAGE
 let formData = {
 formID: formID.value,
 studentEng: studentEng.value,
@@ -242,6 +263,10 @@ aadhar: aadhar.value,
 address: address.value
 };
 
+savedStudents.push(formData);
+localStorage.setItem("kdseStudents", JSON.stringify(savedStudents));
+
+// SEND TO GOOGLE SHEET
 fetch("https://script.google.com/macros/s/AKfycbxYgfVejlG1x1CZ2HCUfujwPRd6q4trcgPHN4TLyP8c1JxFcSMkmS0Xi4SJV3exzuGGcA/exec",{
 method:"POST",
 body: JSON.stringify(formData),
@@ -251,13 +276,14 @@ headers: {
 })
 .then(res=>res.text())
 .then(data=>{
-alert("Record Saved Successfully!");
+alert("✅ Record Saved Successfully!");
 })
 .catch(err=>{
 alert("Error Saving Record");
 console.log(err);
 });
 
+// WHATSAPP MESSAGE
 let msg=`KDSE Examination Form Submitted
 Form ID: ${formID.value}
 Student: ${studentEng.value}
