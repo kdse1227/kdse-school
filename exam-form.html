@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
@@ -16,8 +16,7 @@ body{
     background:white;
     padding:15px 20px;
     border-radius:10px;
-    /* border removed */
-    box-shadow:none; /* shadow removed for print border-free */
+    box-shadow:none;
     position:relative;
 }
 .container::before{
@@ -35,7 +34,6 @@ body{
 .header{
     text-align:center;
     padding-bottom:8px;
-    /* border-bottom removed */
 }
 .school-name{font-size:24px;font-weight:800;color:#1b5e20;}
 .address,.contact{font-size:12px;margin-top:3px;}
@@ -64,7 +62,6 @@ input:focus,textarea:focus,select:focus{
     float:right;
     margin:0 0 10px 10px;
     overflow:hidden;
-    /* border removed */
 }
 .photo-box img{width:100%;height:100%;object-fit:cover;}
 .declaration-box{display:flex;align-items:flex-start;gap:5px;font-size:12px;margin-top:5px;}
@@ -85,6 +82,7 @@ button{
 .save-btn{background:#6a1b9a;}
 .back-btn{background:#1565c0;}
 .preview-btn{background:#ff9800;}
+.reset-btn{background:#9e9e9e; display:none;}
 @media(max-width:768px){
     .row{flex-direction:column;}
     .photo-box{float:none;margin:auto;display:block;}
@@ -94,8 +92,8 @@ button{
     .buttons{display:none;}
     body{background:white;}
     .container{
-        box-shadow:none; /* ensure no shadow in print */
-        border:none; /* ensure no border in print */
+        box-shadow:none;
+        border:none;
     }
 }
 </style>
@@ -188,6 +186,7 @@ Preview Form
 <button class="pdf-btn" onclick="downloadPDF()">Download PDF</button>
 <button type="button" class="save-btn" onclick="saveRecord()">Save</button>
 <button class="back-btn" onclick="history.back()">Back</button>
+<button type="button" class="reset-btn" onclick="resetForm()">Reset Form</button>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -297,9 +296,20 @@ function saveRecord(){
       return;
     }
 
-    alert("✅ Record Saved Successfully!");
-    document.getElementById("examForm").reset();
-    formID.value = response;
+    if(response === "ERROR"){
+      alert("❌ Error saving record. Try again.");
+      return;
+    }
+
+    // ✅ Record saved successfully
+    alert("✅ Record Saved Successfully!\nForm ID: " + response);
+    document.getElementById("formID").value = response;
+
+    // Show Print & PDF buttons
+    document.querySelector(".print-btn").style.display = "inline-block";
+    document.querySelector(".pdf-btn").style.display = "inline-block";
+    document.querySelector(".reset-btn").style.display = "inline-block";
+    document.getElementById("previewBtn").style.display="none";
 
   })
   .catch(err=>{
@@ -307,6 +317,17 @@ function saveRecord(){
     console.log(err);
   });
 
+}
+
+// RESET FORM
+function resetForm(){
+  document.getElementById("examForm").reset();
+  document.getElementById("formID").value = "";
+  document.querySelector(".print-btn").style.display = "none";
+  document.querySelector(".pdf-btn").style.display = "none";
+  document.querySelector(".reset-btn").style.display = "none";
+  document.getElementById("previewBtn").style.display="inline-block";
+  document.getElementById("preview").src = "";
 }
 
 </script>
