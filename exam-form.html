@@ -172,7 +172,9 @@ button{
 </form>
 
 <div style="text-align:center;margin-top:10px;">
-<button class="preview-btn" onclick="showPreview()" id="previewBtn">Preview Form</button>
+<button type="button" class="preview-btn" onclick="showPreview()" id="previewBtn">
+Preview Form
+</button>
 </div>
 
 <div class="signature-section">
@@ -184,7 +186,7 @@ button{
 <div class="buttons">
 <button class="print-btn" onclick="window.print()">Print</button>
 <button class="pdf-btn" onclick="downloadPDF()">Download PDF</button>
-<button class="save-btn" onclick="saveRecord()">Save</button>
+<button type="button" class="save-btn" onclick="saveRecord()">Save</button>
 <button class="back-btn" onclick="history.back()">Back</button>
 </div>
 
@@ -283,13 +285,10 @@ function saveRecord(){
     address: document.getElementById("address").value
   };
 
-  fetch("https://script.google.com/macros/s/AKfycbxHz4Q6mGOlqm_BiS1Ag1xSQ6f-7xQd0DJQ_hQujtuaNS2HWKFtx15mH_1HCa_CIRQ/exec",{
-    method:"POST",
-    body: JSON.stringify(formData),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
+ fetch("https://script.google.com/macros/s/AKfycbxHz4Q6mGOlqm_BiS1Ag1xSQ6f-7xQd0DJQ_hQujtuaNS2HWKFtx15mH_1HCa_CIRQ/exec", {
+  method: "POST",
+  body: JSON.stringify(formData),
+})
   .then(res=>res.text())
   .then(response=>{
 
