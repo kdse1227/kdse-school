@@ -11,8 +11,6 @@ body{
     font-family:'Segoe UI',sans-serif;
     background:linear-gradient(135deg,#e8f5e9,#e3f2fd);
 }
-
-/* ===== CONTAINER ===== */
 .container{
     max-width:850px;
     margin:5px auto;
@@ -22,8 +20,6 @@ body{
     position:relative;
     overflow:hidden;
 }
-
-/* WATERMARK */
 .container::after{
     content:"KALYANI DEVI SCHOOL OF EDUCATION";
     position:absolute;
@@ -36,44 +32,15 @@ body{
     white-space:nowrap;
     pointer-events:none;
 }
-
-/* ===== HEADER ===== */
 .header{text-align:center;margin-bottom:6px;}
+.school-name{font-size:24px;font-weight:900;color:#1b5e20;}
+.address,.contact{font-size:14px;font-weight:700;color:#1b5e20;}
+.udise{font-weight:900;color:#c62828;font-size:14px;}
+.session{font-size:16px;font-weight:900;color:#0d47a1;}
+.header-line{border-top:2px solid #000;margin:4px 0 6px;}
 
-.school-name{
-    font-size:24px;     /* pehle 19px tha */
-    font-weight:900;
-    color:#1b5e20;
-}
-
-.address,
-.contact{
-    font-size:14px;     /* pehle 10.5px tha */
-    font-weight:700;    /* bold */
-    color:#1b5e20;
-}
-
-.udise{
-    font-weight:900;
-    color:#c62828;
-    font-size:14px;     /* bigger */
-}
-
-.session{
-    font-size:16px;     /* bigger */
-    font-weight:900;
-    color:#0d47a1;
-}
-
-.header-line{
-    border-top:2px solid #000;
-    margin:4px 0 6px;
-}
-
-/* ===== FORM ===== */
 .form-group{margin-bottom:5px;}
 label{font-weight:700;font-size:11.5px;}
-
 input,textarea,select{
     width:97%;
     padding:3px 4px;
@@ -82,706 +49,87 @@ input,textarea,select{
     font-size:11.5px;
     box-sizing:border-box;
 }
-
 textarea{resize:none;}
-
-.row{
-    display:flex;
-    gap:5px;
-}
-.row .form-group{
-    flex:1;
-}
-
-/* ===== PHOTO ===== */
-.photo-box{
-    width:90px;
-    height:110px;
-    float:right;
-    margin-left:12px;
-    border:1px solid #555;
-}
-.photo-box img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-/* ===== DECLARATION ===== */
-.declaration-box{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    font-size:11.5px;
-    white-space:nowrap;
-    margin-bottom:25px;   
-}
-
-.declaration-box input{
-    width:auto;
-    margin:0;
-    cursor:pointer;
-}
-
-/* ===== SIGNATURE ===== */
-.signature-section{
-    display:flex;
-    justify-content:space-between;
-    margin-top:12px;
-    font-size:11.5px;
-}
-.signature{
-    width:32%;
-    text-align:center;
-    font-weight:bold;
-}
-
-/* ===== BUTTONS ===== */
-.buttons{text-align:center;margin-top:6px;}
-button{
-    padding:4px 9px;
-    border:none;
-    border-radius:4px;
-    margin:2px;
-    font-size:11px;
-    cursor:pointer;
-    color:white;
-}
-.print-btn{background:#2e7d32;display:none;}
-.save-btn{background:#6a1b9a;}
-.back-btn{background:#1565c0;}
-.reset-btn{background:#9e9e9e;display:none;}
-
-@media(max-width:768px){
-    .row{flex-direction:column;}
-}
-
-/* ===== PRINT SETTINGS ===== */
-@page{
-    size:A4;
-    margin:4mm;
-}
-
-@media print{
-    .buttons{display:none;}
-    .no-print{display:none !important;}
-    body{background:white;}
-    .container{
-        padding:5px 8px;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<div class="header">
-<div class="school-name">KALYANI DEVI SCHOOL OF EDUCATION</div>
-<div class="address">Piparkhunta, Dewarhat, Lormi, Mungeli, Chhattisgarh – 495115</div>
-<div class="contact">Mobile: 8224821843 | Email: kdse1227@gmail.com</div>
-<div class="udise">UDISE Code - 22191213904</div>
-<div class="session">Examination Form 2025-26</div>
-</div>
-
-<div class="header-line"></div>
-
-<div class="photo-box"><img id="preview"></div>
-
-<form id="examForm">
-
-<div class="row">
-<div class="form-group"><label>Student Name (English)</label><input type="text" id="studentEng"></div>
-<div class="form-group"><label>Student Name (Hindi)</label><input type="text" id="studentHin"></div>
-</div>
-
-<div class="row">
-<div class="form-group"><label>Father Name (English)</label><input type="text" id="fatherEng"></div>
-<div class="form-group"><label>Father Name (Hindi)</label><input type="text" id="fatherHin"></div>
-</div>
-
-<div class="row">
-<div class="form-group"><label>Mother Name (English)</label><input type="text" id="motherEng"></div>
-<div class="form-group"><label>Mother Name (Hindi)</label><input type="text" id="motherHin"></div>
-</div>
-
-<div class="row">
-<div class="form-group">
-<label>Class</label>
-<select id="classSelect">
-<option value="">Select</option>
-<option>9</option>
-<option>11</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>DOB</label>
-<input type="date" id="dob">
-</div>
-</div>
-
-<div class="row">
-<div class="form-group">
-<label>Caste</label>
-<select id="caste">
-<option value="">Select</option>
-<option>General</option>
-<option>OBC</option>
-<option>SC</option>
-<option>ST</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>Gender</label>
-<select id="gender">
-<option value="">Select</option>
-<option>Male</option>
-<option>Female</option>
-<option>Other</option>
-</select>
-</div>
-</div>
-
-<div class="row">
-<div class="form-group">
-<label>Aadhar</label>
-<input type="text" id="aadhar" maxlength="12"
-inputmode="numeric"
-oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,12)">
-</div>
-
-<div class="form-group">
-<label>Mobile</label>
-<input type="text" id="mobile" maxlength="10"
-inputmode="numeric"
-oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)">
-</div>
-
-<div class="form-group">
-<label>Email</label>
-<input type="email" id="email">
-</div>
-</div>
-
-<div class="form-group">
-<label>Address</label>
-<textarea rows="2" id="address"></textarea>
-</div>
-
-<div class="form-group no-print">
-<label>Upload Photo</label>
-<input type="file" accept="image/*" onchange="previewImage(event)">
-</div>
-
-<div class="form-group declaration-box">
-<input type="checkbox" id="declaration" required>
-<span>मैं प्रमाणित करता/करती हूँ कि दी गयी जानकारी सत्य है।</span>
-</div>
-
-</form>
-
-<div class="signature-section">
-<div class="signature">_____________________<br>Student</div>
-<div class="signature">_____________________<br>Incharge</div>
-<div class="signature">_____________________<br>Principal</div>
-</div>
-
-<div class="buttons">
-<button class="print-btn" onclick="window.print()">Print</button>
-<button type="button" class="save-btn" onclick="saveRecord()">Save</button>
-<button class="back-btn" onclick="history.back()">Back</button>
-<button type="button" class="reset-btn" onclick="resetForm()">Reset Form</button>
-</div>
-
-<script>
-function previewImage(event){
-let reader=new FileReader();
-reader.onload=function(){preview.src=reader.result;}
-reader.readAsDataURL(event.target.files[0]);
-}
-
-function validateForm(){
-return studentEng.value && studentHin.value &&
-fatherEng.value && fatherHin.value &&
-motherEng.value && motherHin.value &&
-dob.value && gender.value &&
-caste.value && aadhar.value &&
-mobile.value && email.value &&
-address.value && classSelect.value &&
-declaration.checked;
-}
-
-function saveRecord(){
-
-if(!validateForm()){
-alert("Please fill all required fields");
-return;
-}
-
-if(aadhar.value.length!==12){
-alert("Aadhar must be 12 digits");
-return;
-}
-
-if(mobile.value.length!==10){
-alert("Mobile must be 10 digits");
-return;
-}
-
-let savedAadhars = JSON.parse(localStorage.getItem("savedAadhars") || "[]");
-
-if(savedAadhars.includes(aadhar.value)){
-alert("इस Aadhar से पहले ही फॉर्म भरा जा चुका है!");
-return;
-}
-
-savedAadhars.push(aadhar.value);
-localStorage.setItem("savedAadhars", JSON.stringify(savedAadhars));
-
-/* ✅ SUCCESS MESSAGE FIRST */
-alert("Form Saved Successfully!");
-
-/* ✅ Show Print & Reset Button */
-document.querySelector(".print-btn").style.display="inline-block";
-document.querySelector(".reset-btn").style.display="inline-block";
-
-/* ===== WHATSAPP AUTO OPEN AFTER ALERT ===== */
-
-let adminNumber = "918224821843";  
-// 👆 Yaha apna admin number daalein (91 ke saath)
-
-let message =
-"📘 KDSE Examination Form Submitted\n\n" +
-"Student Name: " + studentEng.value + "\n" +
-"Father Name: " + fatherEng.value + "\n" +
-"Mother Name: " + motherEng.value + "\n" +
-"Class: " + classSelect.value + "\n" +
-"DOB: " + dob.value + "\n" +
-"Mobile: " + mobile.value + "\n" +
-"Aadhar: " + aadhar.value + "\n\n" +
-"Form Saved Successfully.";
-
-let url = "https://wa.me/" + adminNumber + "?text=" + encodeURIComponent(message);
-
-setTimeout(function(){
-    window.open(url, "_blank");
-}, 300);
-
-}
-</script>
-
-</body>
-</html>    pointer-events:none;
-}
-
-/* ===== HEADER ===== */
-.header{text-align:center;margin-bottom:6px;}
-
-.school-name{
-    font-size:24px;     /* pehle 19px tha */
-    font-weight:900;
-    color:#1b5e20;
-}
-
-.address,
-.contact{
-    font-size:14px;     /* pehle 10.5px tha */
-    font-weight:700;    /* bold */
-    color:#1b5e20;
-}
-
-.udise{
-    font-weight:900;
-    color:#c62828;
-    font-size:14px;     /* bigger */
-}
-
-.session{
-    font-size:16px;     /* bigger */
-    font-weight:900;
-    color:#0d47a1;
-}
-
-.header-line{
-    border-top:2px solid #000;
-    margin:4px 0 6px;
-}
-
-/* ===== FORM ===== */
-.form-group{margin-bottom:5px;}
-label{font-weight:700;font-size:11.5px;}
-
-input,textarea,select{
-    width:97%;
-    padding:3px 4px;
-    border:1px solid #555;
-    border-radius:4px;
-    font-size:11.5px;
-    box-sizing:border-box;
-}
-
-textarea{resize:none;}
-
-.row{
-    display:flex;
-    gap:5px;
-}
-.row .form-group{
-    flex:1;
-}
-
-/* ===== PHOTO ===== */
-.photo-box{
-    width:90px;
-    height:110px;
-    float:right;
-    margin-left:12px;
-    border:1px solid #555;
-}
-.photo-box img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-/* ===== DECLARATION ===== */
-.declaration-box{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    font-size:11.5px;
-    white-space:nowrap;
-    margin-bottom:25px;   
-}
-
-.declaration-box input{
-    width:auto;
-    margin:0;
-    cursor:pointer;
-}
-
-/* ===== SIGNATURE ===== */
-.signature-section{
-    display:flex;
-    justify-content:space-between;
-    margin-top:12px;
-    font-size:11.5px;
-}
-.signature{
-    width:32%;
-    text-align:center;
-    font-weight:bold;
-}
-
-/* ===== BUTTONS ===== */
-.buttons{text-align:center;margin-top:6px;}
-button{
-    padding:4px 9px;
-    border:none;
-    border-radius:4px;
-    margin:2px;
-    font-size:11px;
-    cursor:pointer;
-    color:white;
-}
-.print-btn{background:#2e7d32;display:none;}
-.save-btn{background:#6a1b9a;}
-.back-btn{background:#1565c0;}
-.reset-btn{background:#9e9e9e;display:none;}
-
-@media(max-width:768px){
-    .row{flex-direction:column;}
-}
-
-/* ===== PRINT SETTINGS ===== */
-@page{
-    size:A4;
-    margin:4mm;
-}
-
-@media print{
-    .buttons{display:none;}
-    .no-print{display:none !important;}
-    body{background:white;}
-    .container{
-        padding:5px 8px;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<div class="header">
-<div class="school-name">KALYANI DEVI SCHOOL OF EDUCATION</div>
-<div class="address">Piparkhunta, Dewarhat, Lormi, Mungeli, Chhattisgarh – 495115</div>
-<div class="contact">Mobile: 8224821843 | Email: kdse1227@gmail.com</div>
-<div class="udise">UDISE Code - 22191213904</div>
-<div class="session">Examination Form 2025-26</div>
-</div>
-
-<div class="header-line"></div>
-
-<div class="photo-box"><img id="preview"></div>
-
-<form id="examForm">
-
-<div class="row">
-<div class="form-group"><label>Student Name (English)</label><input type="text" id="studentEng"></div>
-<div class="form-group"><label>Student Name (Hindi)</label><input type="text" id="studentHin"></div>
-</div>
-
-<div class="row">
-<div class="form-group"><label>Father Name (English)</label><input type="text" id="fatherEng"></div>
-<div class="form-group"><label>Father Name (Hindi)</label><input type="text" id="fatherHin"></div>
-</div>
-
-<div class="row">
-<div class="form-group"><label>Mother Name (English)</label><input type="text" id="motherEng"></div>
-<div class="form-group"><label>Mother Name (Hindi)</label><input type="text" id="motherHin"></div>
-</div>
-
-<div class="row">
-<div class="form-group">
-<label>Class</label>
-<select id="classSelect">
-<option value="">Select</option>
-<option>9</option>
-<option>11</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>DOB</label>
-<input type="date" id="dob">
-</div>
-</div>
-
-<div class="row">
-<div class="form-group">
-<label>Caste</label>
-<select id="caste">
-<option value="">Select</option>
-<option>General</option>
-<option>OBC</option>
-<option>SC</option>
-<option>ST</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>Gender</label>
-<select id="gender">
-<option value="">Select</option>
-<option>Male</option>
-<option>Female</option>
-<option>Other</option>
-</select>
-</div>
-</div>
-
-<div class="row">
-<div class="form-group">
-<label>Aadhar</label>
-<input type="text" id="aadhar" maxlength="12"
-inputmode="numeric"
-oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,12)">
-</div>
-
-<div class="form-group">
-<label>Mobile</label>
-<input type="text" id="mobile" maxlength="10"
-inputmode="numeric"
-oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)">
-</div>
-
-<div class="form-group">
-<label>Email</label>
-<input type="email" id="email">
-</div>
-</div>
-
-<div class="form-group">
-<label>Address</label>
-<textarea rows="2" id="address"></textarea>
-</div>
-
-<div class="form-group no-print">
-<label>Upload Photo</label>
-<input type="file" accept="image/*" onchange="previewImage(event)">
-</div>
-
-<div class="form-group declaration-box">
-<input type="checkbox" id="declaration" required>
-<span>मैं प्रमाणित करता/करती हूँ कि दी गयी जानकारी सत्य है।</span>
-</div>
-
-</form>
-
-<div class="signature-section">
-<div class="signature">_____________________<br>Student</div>
-<div class="signature">_____________________<br>Incharge</div>
-<div class="signature">_____________________<br>Principal</div>
-</div>
-
-<div class="buttons">
-<button class="print-btn" onclick="window.print()">Print</button>
-<button type="button" class="save-btn" onclick="saveRecord()">Save</button>
-<button class="back-btn" onclick="history.back()">Back</button>
-<button type="button" class="reset-btn" onclick="resetForm()">Reset Form</button>
-</div>
-
-<script>
-function previewImage(event){
-let reader=new FileReader();
-reader.onload=function(){preview.src=reader.result;}
-reader.readAsDataURL(event.target.files[0]);
-}
-
-function validateForm(){
-return studentEng.value && studentHin.value &&
-fatherEng.value && fatherHin.value &&
-motherEng.value && motherHin.value &&
-dob.value && gender.value &&
-caste.value && aadhar.value &&
-mobile.value && email.value &&
-address.value && classSelect.value &&
-declaration.checked;
-}
-
-function saveRecord(){
-
-if(!validateForm()){
-alert("Please fill all required fields");
-return;
-}
-
-if(aadhar.value.length!==12){
-alert("Aadhar must be 12 digits");
-return;
-}
-
-if(mobile.value.length!==10){
-alert("Mobile must be 10 digits");
-return;
-}
-
-let savedAadhars = JSON.parse(localStorage.getItem("savedAadhars") || "[]");
-
-if(savedAadhars.includes(aadhar.value)){
-alert("इस Aadhar से पहले ही फॉर्म भरा जा चुका है!");
-return;
-}
-
-savedAadhars.push(aadhar.value);
-localStorage.setItem("savedAadhars", JSON.stringify(savedAadhars));
-
-/* ✅ SUCCESS MESSAGE FIRST */
-alert("Form Saved Successfully!");
-
-/* ✅ Show Print & Reset Button */
-document.querySelector(".print-btn").style.display="inline-block";
-document.querySelector(".reset-btn").style.display="inline-block";
-
-/* ===== WHATSAPP AUTO OPEN AFTER ALERT ===== */
-
-let adminNumber = "918224821843";  
-// 👆 Yaha apna admin number daalein (91 ke saath)
-
-let message =
-"📘 KDSE Examination Form Submitted\n\n" +
-"Student Name: " + studentEng.value + "\n" +
-"Father Name: " + fatherEng.value + "\n" +
-"Mother Name: " + motherEng.value + "\n" +
-"Class: " + classSelect.value + "\n" +
-"DOB: " + dob.value + "\n" +
-"Mobile: " + mobile.value + "\n" +
-"Aadhar: " + aadhar.value + "\n\n" +
-"Form Saved Successfully.";
-
-let url = "https://wa.me/" + adminNumber + "?text=" + encodeURIComponent(message);
-
-setTimeout(function(){
-    window.open(url, "_blank");
-}, 300);
-
-}
-</script>
-
-</body>
-</html>    width:100%;
-    padding:5px;
-    border:1.5px solid #555; /* Darker border */
-    border-radius:5px;
-    margin-top:2px;
-    font-size:13px;
-    color:#000; /* Dark text */
-}
-input:focus,textarea:focus,select:focus{
-    border-color:#000; /* Dark focus */
-    outline:none;
-    box-shadow:0 0 3px rgba(0,0,0,0.3);
-}
-input[type="file"]{padding:0;}
-.row{display:flex;gap:10px;}
+.row{display:flex;gap:5px;}
 .row .form-group{flex:1;}
+
 .photo-box{
-    width:120px;
-    height:140px;
+    width:90px;
+    height:110px;
     float:right;
-    margin:0 0 10px 10px;
-    overflow:hidden;
-    border:1px solid #555; /* Dark border */
-    border-radius:5px;
+    margin-left:12px;
+    border:1px solid #555;
 }
-.photo-box img{width:100%;height:100%;object-fit:cover;display:block;}
-.declaration-box{display:flex;align-items:flex-start;gap:5px;font-size:12px;margin-top:5px;}
-.declaration-box input{width:auto;margin-top:4px;}
-.signature-section{display:flex;justify-content:space-between;margin-top:20px;font-size:12px;}
-.signature{width:30%;text-align:center;font-weight:bold;}
-.buttons{text-align:center;margin-top:15px;}
-button{padding:6px 12px;border:none;border-radius:5px;margin:3px;font-size:12.5px;cursor:pointer;color:white;}
+.photo-box img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.declaration-box{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:11.5px;
+    white-space:nowrap;
+    margin-bottom:25px;   
+}
+.declaration-box input{width:auto;margin:0;cursor:pointer;}
+
+.signature-section{
+    display:flex;
+    justify-content:space-between;
+    margin-top:12px;
+    font-size:11.5px;
+}
+.signature{width:32%;text-align:center;font-weight:bold;}
+
+.buttons{text-align:center;margin-top:6px;}
+button{
+    padding:4px 9px;
+    border:none;
+    border-radius:4px;
+    margin:2px;
+    font-size:11px;
+    cursor:pointer;
+    color:white;
+}
 .print-btn{background:#2e7d32;display:none;}
-.pdf-btn{background:#c62828;display:none;}
 .save-btn{background:#6a1b9a;}
 .back-btn{background:#1565c0;}
-.reset-btn{background:#9e9e9e; display:none;}
+.reset-btn{background:#9e9e9e;display:none;}
+
 @media(max-width:768px){
     .row{flex-direction:column;}
-    .photo-box{float:none;margin:auto;display:block;}
-    .signature-section{flex-direction:column;gap:15px;}
 }
+
+@page{size:A4;margin:4mm;}
 @media print{
     .buttons{display:none;}
+    .no-print{display:none !important;}
     body{background:white;}
-    .container{box-shadow:none;border:none;}
+    .container{padding:5px 8px;}
 }
 </style>
 </head>
+
 <body>
 
-<div class="container" id="formArea">
+<div class="container">
 
 <div class="header">
 <div class="school-name">KALYANI DEVI SCHOOL OF EDUCATION</div>
-<div class="address">Kalyani Devi School of Education, Piparkhunta, Post office - Dewarhat, Block - Lormi, Mungeli, Chhattisgarh – 495115</div>
+<div class="address">Piparkhunta, Dewarhat, Lormi, Mungeli, Chhattisgarh – 495115</div>
 <div class="contact">Mobile: 8224821843 | Email: kdse1227@gmail.com</div>
 <div class="udise">UDISE Code - 22191213904</div>
 <div class="session">Examination Form 2025-26</div>
 </div>
 
+<div class="header-line"></div>
+
 <div class="photo-box"><img id="preview"></div>
 
 <form id="examForm">
-<div class="row">
-<div class="form-group"><label>Form ID</label><input type="text" id="formID" readonly placeholder="Form ID will be generated after Save"></div>
-<div class="form-group"><label>Class</label><select id="classSelect"><option value="">Select</option><option>9</option><option>11</option></select></div>
-</div>
 
 <div class="row">
 <div class="form-group"><label>Student Name (English)</label><input type="text" id="studentEng"></div>
@@ -799,27 +147,78 @@ button{padding:6px 12px;border:none;border-radius:5px;margin:3px;font-size:12.5p
 </div>
 
 <div class="row">
-<div class="form-group"><label>DOB</label><input type="date" id="dob"></div>
-<div class="form-group"><label>Gender</label><select id="gender"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+<div class="form-group">
+<label>Class</label>
+<select id="classSelect">
+<option value="">Select</option>
+<option>9</option>
+<option>11</option>
+</select>
+</div>
+<div class="form-group">
+<label>DOB</label>
+<input type="date" id="dob">
+</div>
 </div>
 
 <div class="row">
-<div class="form-group"><label>Caste</label><select id="caste"><option value="">Select</option><option>General</option><option>OBC</option><option>SC</option><option>ST</option></select></div>
-<div class="form-group"><label>Aadhar</label><input type="text" id="aadhar" maxlength="12" pattern="\d{12}" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,12)"></div>
+<div class="form-group">
+<label>Caste</label>
+<select id="caste">
+<option value="">Select</option>
+<option>General</option>
+<option>OBC</option>
+<option>SC</option>
+<option>ST</option>
+</select>
+</div>
+<div class="form-group">
+<label>Gender</label>
+<select id="gender">
+<option value="">Select</option>
+<option>Male</option>
+<option>Female</option>
+<option>Other</option>
+</select>
+</div>
 </div>
 
 <div class="row">
-<div class="form-group"><label>Mobile</label><input type="text" id="mobile" maxlength="10" pattern="\d{10}" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)"></div>
-<div class="form-group"><label>Email</label><input type="email" id="email"></div>
+<div class="form-group">
+<label>Aadhar</label>
+<input type="text" id="aadhar" maxlength="12"
+inputmode="numeric"
+oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,12)">
 </div>
 
-<div class="form-group"><label>Address</label><textarea rows="3" id="address"></textarea></div>
-<div class="form-group"><label>Upload Photo</label><input type="file" accept="image/*" onchange="previewImage(event)"></div>
+<div class="form-group">
+<label>Mobile</label>
+<input type="text" id="mobile" maxlength="10"
+inputmode="numeric"
+oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)">
+</div>
+
+<div class="form-group">
+<label>Email</label>
+<input type="email" id="email">
+</div>
+</div>
+
+<div class="form-group">
+<label>Address</label>
+<textarea rows="2" id="address"></textarea>
+</div>
+
+<div class="form-group no-print">
+<label>Upload Photo</label>
+<input type="file" accept="image/*" onchange="previewImage(event)">
+</div>
 
 <div class="form-group declaration-box">
 <input type="checkbox" id="declaration" required>
-<span>मैं प्रमाणित करता/करती हूँ कि मेरे द्वारा दी गयी सभी जानकारी सत्य है, किसी भी प्रकार की त्रुटि के लिए सम्पूर्ण जिम्मेदारी मेरी होगी|</span>
+<span>मैं प्रमाणित करता/करती हूँ कि दी गयी जानकारी सत्य है।</span>
 </div>
+
 </form>
 
 <div class="signature-section">
@@ -828,97 +227,96 @@ button{padding:6px 12px;border:none;border-radius:5px;margin:3px;font-size:12.5p
 <div class="signature">_____________________<br>Principal</div>
 </div>
 
-<div class="buttons no-print">
+<div class="buttons">
 <button class="print-btn" onclick="window.print()">Print</button>
-<button class="pdf-btn" onclick="downloadPDF()">Download PDF</button>
 <button type="button" class="save-btn" onclick="saveRecord()">Save</button>
 <button class="back-btn" onclick="history.back()">Back</button>
 <button type="button" class="reset-btn" onclick="resetForm()">Reset Form</button>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
-// IMAGE PREVIEW
 function previewImage(event){
-    let reader=new FileReader();
-    reader.onload=function(){document.getElementById("preview").src=reader.result;};
-    reader.readAsDataURL(event.target.files[0]);
+let reader=new FileReader();
+reader.onload=function(){preview.src=reader.result;}
+reader.readAsDataURL(event.target.files[0]);
 }
 
-// VALIDATION
+function formatDate(dateStr){
+let d=new Date(dateStr);
+let day=String(d.getDate()).padStart(2,'0');
+let month=String(d.getMonth()+1).padStart(2,'0');
+let year=d.getFullYear();
+return day+"-"+month+"-"+year;
+}
+
 function validateForm(){
-    return document.getElementById("studentEng").value &&
-           document.getElementById("studentHin").value &&
-           document.getElementById("fatherEng").value &&
-           document.getElementById("fatherHin").value &&
-           document.getElementById("motherEng").value &&
-           document.getElementById("motherHin").value &&
-           document.getElementById("dob").value &&
-           document.getElementById("gender").value &&
-           document.getElementById("caste").value &&
-           document.getElementById("aadhar").value &&
-           document.getElementById("mobile").value &&
-           document.getElementById("email").value &&
-           document.getElementById("address").value &&
-           document.getElementById("classSelect").value &&
-           document.getElementById("declaration").checked;
+return studentEng.value && studentHin.value &&
+fatherEng.value && fatherHin.value &&
+motherEng.value && motherHin.value &&
+dob.value && gender.value &&
+caste.value && aadhar.value &&
+mobile.value && email.value &&
+address.value && classSelect.value &&
+declaration.checked;
 }
 
-// Form ID sequence tracker
-if(!localStorage.getItem("lastFormNumber")) localStorage.setItem("lastFormNumber","0");
-
-// SAVE RECORD
-function saveRecord(){
-    if(!validateForm()){alert("Please fill all required fields"); return;}
-    if(document.getElementById("aadhar").value.length!==12){alert("❌ Aadhar must be exactly 12 digits."); return;}
-    if(document.getElementById("mobile").value.length!==10){alert("❌ Mobile must be 10 digits."); return;}
-
-    const aadhar = document.getElementById("aadhar").value;
-    let savedAadhars = JSON.parse(localStorage.getItem("savedAadhars") || "[]");
-    if(savedAadhars.includes(aadhar)){
-        alert("❌ इस Aadhar से पहले ही फॉर्म भरा जा चुका है!");
-        return;
-    }
-
-    let lastNum = parseInt(localStorage.getItem("lastFormNumber"));
-    lastNum += 1;
-    const formID = `KSDE-2026-${String(lastNum).padStart(2,'0')}`;
-    document.getElementById("formID").value = formID;
-    localStorage.setItem("lastFormNumber", lastNum);
-
-    alert(`✅ Form Saved Successfully! Form ID: ${formID}`);
-
-    savedAadhars.push(aadhar);
-    localStorage.setItem("savedAadhars", JSON.stringify(savedAadhars));
-
-    // Show buttons after save
-    document.querySelector(".print-btn").style.display="inline-block";
-    document.querySelector(".pdf-btn").style.display="inline-block";
-    document.querySelector(".reset-btn").style.display="inline-block";
-}
-
-// DOWNLOAD PDF
-function downloadPDF(){
-    const element = document.getElementById("formArea");
-    const clone = element.cloneNode(true);
-    clone.querySelectorAll('.no-print').forEach(el => el.remove());
-    html2pdf().set({
-        margin:10,
-        filename:`KDSE_Exam_Form_${document.getElementById("formID").value}.pdf`,
-        html2canvas:{scale:3},
-        jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
-    }).from(clone).save();
-}
-
-// RESET FORM
 function resetForm(){
-    document.getElementById("examForm").reset();
-    document.getElementById("formID").value="";
-    document.querySelector(".print-btn").style.display="none";
-    document.querySelector(".pdf-btn").style.display="none";
-    document.querySelector(".reset-btn").style.display="none";
-    document.getElementById("preview").src="";
+document.getElementById("examForm").reset();
+preview.src="";
+document.querySelector(".print-btn").style.display="none";
+document.querySelector(".reset-btn").style.display="none";
+}
+
+function saveRecord(){
+
+if(!validateForm()){
+alert("Please fill all required fields");
+return;
+}
+
+if(aadhar.value.length!==12){
+alert("Aadhar must be 12 digits");
+return;
+}
+
+if(mobile.value.length!==10){
+alert("Mobile must be 10 digits");
+return;
+}
+
+let savedAadhars = JSON.parse(localStorage.getItem("savedAadhars") || "[]");
+
+if(savedAadhars.includes(aadhar.value)){
+alert("इस Aadhar से पहले ही फॉर्म भरा जा चुका है!");
+return;
+}
+
+savedAadhars.push(aadhar.value);
+localStorage.setItem("savedAadhars", JSON.stringify(savedAadhars));
+
+alert("Form Saved Successfully!");
+
+document.querySelector(".print-btn").style.display="inline-block";
+document.querySelector(".reset-btn").style.display="inline-block";
+
+let adminNumber = "918224821843";
+
+let message =
+"📘 KDSE Examination Form Submitted\n\n" +
+"Student Name: " + studentEng.value + "\n" +
+"Father Name: " + fatherEng.value + "\n" +
+"Mother Name: " + motherEng.value + "\n" +
+"Class: " + classSelect.value + "\n" +
+"DOB: " + formatDate(dob.value) + "\n" +
+"Mobile: " + mobile.value + "\n" +
+"Aadhar: " + aadhar.value + "\n\n" +
+"Form Saved Successfully.";
+
+let url = "https://wa.me/" + adminNumber + "?text=" + encodeURIComponent(message);
+
+window.open(url, "_blank");
 }
 </script>
+
 </body>
 </html>
