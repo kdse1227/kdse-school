@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="hi-IN">
 <head>
 <meta charset="UTF-8">
@@ -524,18 +524,10 @@ border:1px solid #ccc;
 
 <div class="academic-buttons">
 
-<!-- Online Admission Form -->
 <a href="https://forms.gle/qLJmG74TwxvxTnGF8" target="_blank" rel="noopener" class="academic-btn">
 <span class="icon">📋</span>
 <span>Online Admission Form</span>
 </a>
-
-<!-- Online Examination Form -->
-<a href="exam-form.html" class="academic-btn">
-<span class="icon">📝</span>
-<span>Online Examination Form</span>
-</a>
-
 </div>
 </section>
 
@@ -646,4 +638,388 @@ border:1px solid #ccc;
     width="100%" 
     height="350"
     style="border:0;" 
-    allowfullscre
+    allowfullscreen="" 
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</div>
+</section>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/918224821843?text=Hello%20KDSE"
+   class="whatsapp"
+   target="_blank"
+   rel="noopener">
+<img src="images/whatsapp.svg" alt="WhatsApp"> WhatsApp
+</a>
+
+<!-- FOOTER -->
+<footer>
+&copy; 2026 Kalyani Devi School of Education. All rights reserved.
+</footer>
+
+<script defer>
+// ===== MOBILE MENU =====
+function toggleMenu(){
+  const nav = document.getElementById('mainNav');
+  nav.classList.toggle('open');
+  document.body.classList.toggle('menu-open');
+}
+
+// ===== AUTO-CLOSE MENU ON LINK CLICK =====
+document.querySelectorAll('#mainNav a').forEach(link => {
+  link.addEventListener('click', () => {
+    const nav = document.getElementById('mainNav');
+    if(nav.classList.contains('open')) {
+      nav.classList.remove('open');
+      document.body.classList.remove('menu-open');
+    }
+  });
+});
+
+// ===== HEADER SHRINK ON SCROLL =====
+window.addEventListener('scroll', () => {
+  const header = document.querySelector('header');
+  if(window.scrollY > 80){ // scroll threshold
+    header.classList.add('shrink');
+  } else {
+    header.classList.remove('shrink');
+  }
+});
+
+// ===== SLIDER (SMOOTH FADE VERSION) =====
+let slideIndex = 0;
+const slides = document.querySelectorAll('.slide');
+
+function showSlide(n){
+  slides.forEach(s => s.classList.remove('active'));
+  slideIndex = (n + slides.length) % slides.length;
+  slides[slideIndex].classList.add('active');
+}
+
+function changeSlide(n){
+  showSlide(slideIndex + n);
+}
+
+// Initial load
+showSlide(slideIndex);
+
+// Auto slide every 4 sec
+setInterval(() => {
+  changeSlide(1);
+}, 4000);
+
+// ===== NOTICE SYSTEM WITH YEAR FILTER + DOWNLOAD BUTTON =====
+let noticeData = [];
+
+fetch('notice.json')
+  .then(res => {
+    if(!res.ok) throw new Error("Notice file not found");
+    return res.json();
+  })
+  .then(data => {
+    noticeData = data.notices;
+
+    const marqueeTrack = document.getElementById('marqueeTrack');
+    const liveNotice = document.getElementById('liveNotice');
+    const yearFilter = document.getElementById('yearFilter');
+    const pdfNotice = document.getElementById('pdfNotice');
+
+    marqueeTrack.innerHTML = '';
+    liveNotice.innerHTML = '';
+
+    const years = new Set();
+
+    noticeData.forEach(n => {
+      years.add(n.year);
+
+      // ===== MARQUEE (ONLY latest:true) =====
+      if(n.latest){
+        const a = document.createElement('a');
+        a.href = n.link;
+        a.target = "_blank";
+        a.textContent = `📢 ${n.title} (${formatDate(n.date)})`;
+        a.style.marginRight = "40px";   // spacing
+        marqueeTrack.appendChild(a);
+      }
+
+      // ===== RED HIGHLIGHT SECTION =====
+      if(n.latest){
+       const div = document.createElement("div");
+div.className = "notice-latest";
+
+const text = document.createTextNode(
+  "🗓 " + formatDate(n.date) + " – "
+);
+div.appendChild(text);
+
+const a = document.createElement("a");
+a.href = n.link;
+a.target = "_blank";
+a.rel = "noopener";
+a.textContent = n.title;
+div.appendChild(a);
+
+if(n.new === true){
+  const badge = document.createElement("span");
+  badge.className = "new-badge";
+  badge.textContent = "NEW";
+  div.appendChild(badge);
+}
+
+liveNotice.appendChild(div);
+      }
+    });
+
+    // ===== YEAR DROPDOWN =====
+    [...years].sort((a,b)=>b-a).forEach(y=>{
+      const opt = document.createElement('option');
+      opt.value = y;
+      opt.textContent = y;
+      yearFilter.appendChild(opt);
+    });
+
+    // ===== DOWNLOAD BUTTON (First latest only) =====
+    const firstLatest = noticeData.find(n => n.latest);
+    if(firstLatest){
+      pdfNotice.href = firstLatest.link;
+      pdfNotice.innerText = "📄 Download Latest Notice";
+    } else {
+      pdfNotice.style.display = "none";
+    }
+
+    renderArchive("all");
+    marqueeTrack.classList.add('scrolling');
+  })
+  .catch(err => {
+    const marqueeTrack = document.getElementById('marqueeTrack');
+    marqueeTrack.innerText = "⚠️ Notices unavailable";
+    console.error(err);
+  });
+
+
+// ===== RENDER ARCHIVE (SECURE VERSION) =====
+function renderArchive(year){
+  const archive = document.getElementById('noticeArchive');
+  archive.innerHTML = '';
+
+  const filtered = year === "all"
+    ? noticeData
+    : noticeData.filter(n => n.year == year);
+
+  const grouped = {};
+  filtered.forEach(n => {
+    if(!grouped[n.year]) grouped[n.year] = [];
+    grouped[n.year].push(n);
+  });
+
+  Object.keys(grouped)
+    .sort((a,b) => b - a)
+    .forEach(y => {
+
+      const h = document.createElement('div');
+      h.className = "notice-year";
+      h.textContent = "📂 Notices " + y;
+      archive.appendChild(h);
+
+      grouped[y].forEach(n => {
+
+        const p = document.createElement('p');
+
+        // Date text
+        const text = document.createTextNode(
+          "• " + formatDate(n.date) + " – "
+        );
+        p.appendChild(text);
+
+        // Link
+        const a = document.createElement("a");
+        a.href = n.link;
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.textContent = n.title;
+        p.appendChild(a);
+
+        // NEW badge
+        if(n.new === true){
+          const badge = document.createElement("span");
+          badge.className = "new-badge";
+          badge.textContent = "NEW";
+          p.appendChild(badge);
+        }
+
+        archive.appendChild(p);
+
+      });
+
+    });
+}
+
+// ===== FILTER CHANGE =====
+document.getElementById('yearFilter').addEventListener('change', function(){
+  renderArchive(this.value);
+});
+
+// ===== DATE FORMAT =====
+function formatDate(d){
+  const date = new Date(d);
+  return date.toLocaleDateString('hi-IN',{
+    day:'2-digit',
+    month:'short',
+    year:'numeric'
+  });
+}
+
+// ===== TEACHERS POPUP =====
+const teachers = [
+  {
+    name:"Paras Ram Kashyap",
+    role:"Founder & Director",
+    img:"images/teachers/paras.jpg",
+    qual:"B.Ed, M.Ed",
+    phone:"+918224821843"
+  },
+  {
+    name:"Aashish Kumar Kulmitra",
+    role:"Principal",
+    img:"images/teachers/sita.jpg",
+    qual:"M.A (Sanskrit, History and Political Science), B.Ed, D.Ed & B.P.A.D.",
+    phone:"+919981588751"
+  }
+];
+const teachersGrid = document.getElementById('teachersGrid');
+teachers.forEach((t,i)=>{
+  let card = document.createElement('div');
+  card.className = 'card' + (t.role === 'Founder & Director' ? ' founder-card' : '');
+const img = document.createElement("img");
+img.src = t.img;
+img.alt = t.name;
+
+const h3 = document.createElement("h3");
+h3.textContent = t.name;
+
+const p = document.createElement("p");
+p.textContent = t.role;
+
+const btn = document.createElement("button");
+btn.className = "view-btn";
+btn.textContent = "View Profile";
+btn.onclick = function(){ showProfile(i); };
+
+card.appendChild(img);
+card.appendChild(h3);
+card.appendChild(p);
+card.appendChild(btn);
+teachersGrid.appendChild(card);
+});
+function showProfile(i){
+  const t = teachers[i];
+  const popup = document.getElementById('profilePopup');
+
+  popup.classList.remove('founder-popup');
+
+  if(t.role === 'Founder & Director'){
+    popup.classList.add('founder-popup');
+  }
+
+  document.getElementById('popImg').src = t.img;
+  document.getElementById('popName').innerText = t.name;
+  document.getElementById('popRole').innerText = t.role;
+  document.getElementById('popQual').innerText = t.qual;
+  document.getElementById('popCall').href = `tel:${t.phone}`;
+  document.getElementById('popWhatsApp').href = `https://api.whatsapp.com/send?phone=${t.phone.replace(/\D/g,'')}&text=Hello`;
+
+  popup.style.display = 'flex';
+}
+
+function closePopup(){
+  const popup = document.getElementById('profilePopup');
+  popup.style.display = 'none';
+  popup.classList.remove('founder-popup');
+}
+
+// ===== GALLERY SLIDER =====
+let gIndex=0;
+const gTrack=document.getElementById('galleryTrack');
+const gSlides=gTrack.children;
+function showGallerySlide(n){ gIndex=(n+gSlides.length)%gSlides.length; gTrack.style.transform=`translateX(${-gIndex*100}%)`; }
+function changeGallerySlide(n){ showGallerySlide(gIndex+n); }
+showGallerySlide(gIndex);
+
+// ===== SPORTS SLIDER =====
+let sIndex=0;
+const sSlides=document.querySelectorAll('.sport-slide');
+function showSportSlide(n){
+  sSlides.forEach(s=>s.classList.remove('active'));
+  sIndex=(n+sSlides.length)%sSlides.length;
+  sSlides[sIndex].classList.add('active');
+}
+function changeSportSlide(n){ showSportSlide(sIndex+n); }
+showSportSlide(sIndex);
+
+// ===== RESULTS DROPDOWN & PDF LINKS =====
+const resultsFiles = [
+  { class: 'Class 10', file: 'class10-result.pdf' },
+  { class: 'Class 12', file: 'class12-result.pdf' }
+];
+
+const yearSelect = document.getElementById('year-select');
+const resultsList = document.getElementById('results-list');
+
+// Fetch years from JSON
+fetch('results/years.json')
+  .then(res => {
+    if (!res.ok) throw new Error('Years file not found');
+    return res.json();
+  })
+  .then(years => {
+    // Populate dropdown
+    years.forEach(year => {
+      const option = document.createElement('option');
+      option.value = year;
+      option.textContent = year;
+      yearSelect.appendChild(option);
+    });
+
+    // Set default year
+    const currentYear = new Date().getFullYear().toString();
+    yearSelect.value = years.includes(currentYear) ? currentYear : years[0];
+
+    // Render initial results
+    renderResults(yearSelect.value);
+
+    // Change results on year change
+    yearSelect.addEventListener('change', e => {
+      renderResults(e.target.value);
+    });
+  })
+  .catch(err => {
+    resultsList.innerHTML = "<li>PDF not available</li>";
+    console.error(err);
+  });
+
+// Render results function
+function renderResults(year) {
+  resultsList.innerHTML = '';
+  resultsFiles.forEach(r => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = `results/${year}/${r.file}`;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.textContent = `${r.class} Result`;
+    li.appendChild(a);
+    resultsList.appendChild(li);
+  });
+}
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
+</body>
+</html>
