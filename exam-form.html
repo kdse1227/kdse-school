@@ -192,7 +192,6 @@ Preview Form
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
-
 let formID;
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -201,9 +200,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
 // IMAGE PREVIEW
 function previewImage(event){
-  let reader=new FileReader();
-  reader.onload=function(){
-    document.getElementById("preview").src=reader.result;
+  let reader = new FileReader();
+  reader.onload = function(){
+    document.getElementById("preview").src = reader.result;
   }
   reader.readAsDataURL(event.target.files[0]);
 }
@@ -240,7 +239,7 @@ function showPreview(){
 
 // DOWNLOAD PDF
 function downloadPDF(){
-  const element=document.getElementById("formArea");
+  const element = document.getElementById("formArea");
   html2pdf().set({
     margin:0,
     filename:'KDSE_Exam_Form.pdf',
@@ -251,23 +250,24 @@ function downloadPDF(){
 
 // SAVE RECORD
 function saveRecord(){
-
   if(!validateForm()){
     alert("Please fill all required fields");
     return;
   }
-
   if(document.getElementById("aadhar").value.length !== 12){
     alert("❌ Aadhar must be exactly 12 digits.");
     return;
   }
-
   if(document.getElementById("mobile").value.length !== 10){
     alert("❌ Mobile number must be exactly 10 digits.");
     return;
   }
 
+  // GENERATE UNIQUE FORM ID
+  let uniqueID = "F" + crypto.randomUUID().slice(0,8);
+
   let formData = {
+    formID: uniqueID,
     studentEng: document.getElementById("studentEng").value,
     studentHin: document.getElementById("studentHin").value,
     fatherEng: document.getElementById("fatherEng").value,
@@ -284,39 +284,35 @@ function saveRecord(){
     address: document.getElementById("address").value
   };
 
- fetch("https://script.google.com/macros/s/AKfycbzcb29ppbwVJhvx1V_hV0SsVGonl51w_5iOQe-ZsmpV7cUsJkPgdReNQroLZIGxq8j3/exec", {
-  method: "POST",
-  body: JSON.stringify(formData),
-})
+  fetch("https://script.google.com/macros/s/AKfycbzcb29ppbwVJhvx1V_hV0SsVGonl51w_5iOQe-ZsmpV7cUsJkPgdReNQroLZIGxq8j3/exec", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData)
+  })
   .then(res=>res.text())
   .then(response=>{
-
     if(response === "DUPLICATE"){
       alert("❌ This Aadhar is already registered.");
       return;
     }
-
     if(response === "ERROR"){
       alert("❌ Error saving record. Try again.");
       return;
     }
 
     // ✅ Record saved successfully
-    alert("✅ Record Saved Successfully!\nForm ID: " + response);
-    document.getElementById("formID").value = response;
+    alert("✅ Record Saved Successfully!\nForm ID: " + uniqueID);
+    document.getElementById("formID").value = uniqueID;
 
-    // Show Print & PDF buttons
     document.querySelector(".print-btn").style.display = "inline-block";
     document.querySelector(".pdf-btn").style.display = "inline-block";
     document.querySelector(".reset-btn").style.display = "inline-block";
     document.getElementById("previewBtn").style.display="none";
-
   })
   .catch(err=>{
     alert("❌ Error Saving Record");
     console.log(err);
   });
-
 }
 
 // RESET FORM
@@ -329,7 +325,6 @@ function resetForm(){
   document.getElementById("previewBtn").style.display="inline-block";
   document.getElementById("preview").src = "";
 }
-
 </script>
 </body>
 </html>
