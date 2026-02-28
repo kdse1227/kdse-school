@@ -261,27 +261,27 @@ function saveRecord(){
     return;
   }
 
-  if(mobile.value.length !== 10){
+  if(document.getElementById("mobile").value.length !== 10){
     alert("❌ Mobile number must be exactly 10 digits.");
     return;
   }
 
   let formData = {
-    studentEng: studentEng.value,
-    studentHin: studentHin.value,
-    fatherEng: fatherEng.value,
-    fatherHin: fatherHin.value,
-    motherEng: motherEng.value,
-    motherHin: motherHin.value,
-    class: classSelect.value,
-    mobile: mobile.value,
-    email: email.value,
-    dob: dob.value,
-    gender: gender.value,
-    caste: caste.value,
-    aadhar: aadhar.value,
-    address: address.value
-  };
+  studentEng: document.getElementById("studentEng").value,
+  studentHin: document.getElementById("studentHin").value,
+  fatherEng: document.getElementById("fatherEng").value,
+  fatherHin: document.getElementById("fatherHin").value,
+  motherEng: document.getElementById("motherEng").value,
+  motherHin: document.getElementById("motherHin").value,
+  class: document.getElementById("classSelect").value,
+  mobile: document.getElementById("mobile").value,
+  email: document.getElementById("email").value,
+  dob: document.getElementById("dob").value,
+  gender: document.getElementById("gender").value,
+  caste: document.getElementById("caste").value,
+  aadhar: document.getElementById("aadhar").value,
+  address: document.getElementById("address").value
+};
 
   fetch("https://script.google.com/macros/s/AKfycbxHz4Q6mGOlqm_BiS1Ag1xSQ6f-7xQd0DJQ_hQujtuaNS2HWKFtx15mH_1HCa_CIRQ/exec",{
     method:"POST",
@@ -298,13 +298,19 @@ function saveRecord(){
       return;
     }
 
-    formID.value = response;
+ .then(response=>{
 
-    alert("✅ Record Saved Successfully!");
+  if(response === "DUPLICATE"){
+    alert("❌ This Aadhar is already registered.");
+    return;
+  }
 
-    document.getElementById("examForm").reset();
+  alert("✅ Record Saved Successfully!");
 
-  })
+  document.getElementById("examForm").reset();
+  formID.value = response;   // Reset ke baad set karein
+
+})
   .catch(err=>{
     alert("❌ Error Saving Record");
     console.log(err);
