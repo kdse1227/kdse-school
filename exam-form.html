@@ -17,6 +17,7 @@ body{margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(135de
 label{font-weight:600;color:#1b5e20;font-size:13px;}
 input,textarea,select{width:100%;padding:5px;border:1.5px solid #a5d6a7;border-radius:5px;margin-top:2px;font-size:13px;}
 input:focus,textarea:focus,select:focus{border-color:#2e7d32;outline:none;box-shadow:0 0 3px rgba(46,125,50,0.3);}
+input[type="file"]{padding:0;} /* No file chosen text hide */
 .row{display:flex;gap:10px;}
 .row .form-group{flex:1;}
 .photo-box{width:100px;height:120px;float:right;margin:0 0 10px 10px;overflow:hidden;}
@@ -31,7 +32,6 @@ button{padding:6px 12px;border:none;border-radius:5px;margin:3px;font-size:12.5p
 .pdf-btn{background:#c62828;display:none;}
 .save-btn{background:#6a1b9a;}
 .back-btn{background:#1565c0;}
-.preview-btn{background:#ff9800;}
 .reset-btn{background:#9e9e9e; display:none;}
 @media(max-width:768px){.row{flex-direction:column;}.photo-box{float:none;margin:auto;display:block;}.signature-section{flex-direction:column;gap:15px;}}
 @media print{.buttons{display:none;}body{background:white;}.container{box-shadow:none;border:none;}}
@@ -52,7 +52,6 @@ button{padding:6px 12px;border:none;border-radius:5px;margin:3px;font-size:12.5p
 <div class="photo-box"><img id="preview"></div>
 
 <form id="examForm">
-<!-- Form fields -->
 <div class="row">
 <div class="form-group"><label>Form ID</label><input type="text" id="formID" readonly placeholder="Form ID will be generated after Save"></div>
 <div class="form-group"><label>Class</label><select id="classSelect"><option value="">Select</option><option>9</option><option>11</option></select></div>
@@ -88,7 +87,7 @@ button{padding:6px 12px;border:none;border-radius:5px;margin:3px;font-size:12.5p
 <div class="form-group"><label>Email</label><input type="email" id="email"></div>
 </div>
 
-<div class="form-group"><label>Address</label><textarea rows="2" id="address"></textarea></div>
+<div class="form-group"><label>Address</label><textarea rows="3" id="address"></textarea></div>
 <div class="form-group"><label>Upload Photo</label><input type="file" accept="image/*" onchange="previewImage(event)"></div>
 
 <div class="form-group declaration-box">
@@ -96,10 +95,6 @@ button{padding:6px 12px;border:none;border-radius:5px;margin:3px;font-size:12.5p
 <span>मैं प्रमाणित करता/करती हूँ कि मेरे द्वारा दी गयी सभी जानकारी सत्य है, किसी भी प्रकार की त्रुटि के लिए सम्पूर्ण जिम्मेदारी मेरी होगी|</span>
 </div>
 </form>
-
-<div style="text-align:center;margin-top:10px;">
-<button type="button" class="preview-btn" onclick="showPreview()" id="previewBtn">Preview Form</button>
-</div>
 
 <div class="signature-section">
 <div class="signature">_____________________<br>Student</div>
@@ -117,14 +112,12 @@ button{padding:6px 12px;border:none;border-radius:5px;margin:3px;font-size:12.5p
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
-// IMAGE PREVIEW
 function previewImage(event){
     let reader=new FileReader();
     reader.onload=function(){document.getElementById("preview").src=reader.result;};
     reader.readAsDataURL(event.target.files[0]);
 }
 
-// VALIDATION
 function validateForm(){
     return document.getElementById("studentEng").value &&
     document.getElementById("studentHin").value &&
@@ -143,21 +136,8 @@ function validateForm(){
     document.getElementById("declaration").checked;
 }
 
-// SHOW PREVIEW (PRE-SAVE)
-function showPreview(){
-    if(!validateForm()){
-        alert("Please fill all required fields before Preview.");
-        return;
-    }
-    alert("Preview available. ✅ FormID will generate after Save.");
-}
-
-// GENERATE FORM ID (only after Save)
-function generateFormID(){
-    const timestamp = Date.now();
-    const random = Math.floor(Math.random()*900 + 100);
-    return `KDSE${timestamp}${random}`;
-}
+// Form ID sequence tracker
+if(!localStorage.getItem("lastFormNumber")) localStorage.setItem("lastFormNumber","0");
 
 // SAVE RECORD
 function saveRecord(){
@@ -167,36 +147,35 @@ function saveRecord(){
 
     const aadhar = document.getElementById("aadhar").value;
     let savedAadhars = JSON.parse(localStorage.getItem("savedAadhars") || "[]");
-
     if(savedAadhars.includes(aadhar)){
         alert("❌ इस Aadhar से पहले ही फॉर्म भरा जा चुका है!");
         return;
     }
 
-    // Generate Form ID
-    const formID = generateFormID();
+    // Sequential Form ID
+    let lastNum = parseInt(localStorage.getItem("lastFormNumber"));
+    lastNum += 1;
+    const formID = `KSDE-2026-${String(lastNum).padStart(2,'0')}`;
     document.getElementById("formID").value = formID;
+    localStorage.setItem("lastFormNumber", lastNum);
 
     alert(`✅ Form Saved Successfully! Form ID: ${formID}`);
 
-    // Save Aadhar in localStorage
+    // Save Aadhar
     savedAadhars.push(aadhar);
     localStorage.setItem("savedAadhars", JSON.stringify(savedAadhars));
 
-    // Show Print/Download buttons
-    document.querySelector(".print-btn").style.display = "inline-block";
-    document.querySelector(".pdf-btn").style.display = "inline-block";
-    document.querySelector(".reset-btn").style.display = "inline-block";
-
-    // Hide Preview button
-    document.getElementById("previewBtn").style.display = "none";
+    // Show buttons after save
+    document.querySelector(".print-btn").style.display="inline-block";
+    document.querySelector(".pdf-btn").style.display="inline-block";
+    document.querySelector(".reset-btn").style.display="inline-block";
 }
 
 // DOWNLOAD PDF
 function downloadPDF(){
     const element = document.getElementById("formArea");
     html2pdf().set({
-        margin:0,
+        margin:10,
         filename:`KDSE_Exam_Form_${document.getElementById("formID").value}.pdf`,
         html2canvas:{scale:3},
         jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
@@ -210,7 +189,6 @@ function resetForm(){
     document.querySelector(".print-btn").style.display="none";
     document.querySelector(".pdf-btn").style.display="none";
     document.querySelector(".reset-btn").style.display="none";
-    document.getElementById("previewBtn").style.display="inline-block";
     document.getElementById("preview").src="";
 }
 </script>
