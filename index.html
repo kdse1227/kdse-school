@@ -524,10 +524,18 @@ border:1px solid #ccc;
 
 <div class="academic-buttons">
 
+<!-- Online Admission -->
 <a href="https://forms.gle/qLJmG74TwxvxTnGF8" target="_blank" rel="noopener" class="academic-btn">
 <span class="icon">📋</span>
 <span>Online Admission Form</span>
 </a>
+
+<!-- Online Exam Form -->
+<a href="exam-form.html" class="academic-btn">
+<span class="icon">📝</span>
+<span>Online Exam Form</span>
+</a>
+
 </div>
 </section>
 
@@ -555,6 +563,7 @@ border:1px solid #ccc;
 <h2 id="popName"></h2>
 <p id="popRole"></p>
 <div class="qualifications" id="popQual"></div>
+<p id="popExp" style="font-weight:600;color:#0b4d91;margin-top:6px;"></p>
 <div class="popup-actions">
 <a id="popCall" href="#">📞 Call</a>
 <a id="popWhatsApp" href="#" target="_blank" rel="noopener">💬 WhatsApp</a>
@@ -877,6 +886,7 @@ const teachers = [
     role:"Founder & Director",
     img:"images/teachers/paras.jpg",
     qual:"B.Ed, M.Ed",
+    experience:"15 Years Teaching Experience",
     phone:"+918224821843"
   },
   {
@@ -884,7 +894,24 @@ const teachers = [
     role:"Principal",
     img:"images/teachers/sita.jpg",
     qual:"M.A (Sanskrit, History and Political Science), B.Ed, D.Ed & B.P.A.D.",
+    experience:"12 Years Teaching Experience",
     phone:"+919981588751"
+  },
+  {
+    name:"Neha Sharma",
+    role:"TGT English",
+    img:"images/teachers/neha.jpg",
+    qual:"M.A English, B.Ed",
+    experience:"6 Years Teaching Experience",
+    phone:"+919876543210"
+  },
+  {
+    name:"Ravi Verma",
+    role:"PGT Mathematics",
+    img:"images/teachers/ravi.jpg",
+    qual:"M.Sc Mathematics, B.Ed",
+    experience:"8 Years Teaching Experience",
+    phone:"+919765432109"
   }
 ];
 const teachersGrid = document.getElementById('teachersGrid');
@@ -926,6 +953,7 @@ function showProfile(i){
   document.getElementById('popName').innerText = t.name;
   document.getElementById('popRole').innerText = t.role;
   document.getElementById('popQual').innerText = t.qual;
+  document.getElementById('popExp').innerText = "⭐ Experience: " + t.experience;
   document.getElementById('popCall').href = `tel:${t.phone}`;
   document.getElementById('popWhatsApp').href = `https://api.whatsapp.com/send?phone=${t.phone.replace(/\D/g,'')}&text=Hello`;
 
