@@ -16,8 +16,8 @@ body{
     background:white;
     padding:15px 20px;
     border-radius:10px;
-    border:3px solid #2e7d32;
-    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+    /* border removed */
+    box-shadow:none; /* shadow removed for print border-free */
     position:relative;
 }
 .container::before{
@@ -34,8 +34,8 @@ body{
 }
 .header{
     text-align:center;
-    border-bottom:2px solid #2e7d32;
     padding-bottom:8px;
+    /* border-bottom removed */
 }
 .school-name{font-size:24px;font-weight:800;color:#1b5e20;}
 .address,.contact{font-size:12px;margin-top:3px;}
@@ -61,10 +61,10 @@ input:focus,textarea:focus,select:focus{
 .photo-box{
     width:100px;
     height:120px;
-    border:2px solid #2e7d32;
     float:right;
     margin:0 0 10px 10px;
     overflow:hidden;
+    /* border removed */
 }
 .photo-box img{width:100%;height:100%;object-fit:cover;}
 .declaration-box{display:flex;align-items:flex-start;gap:5px;font-size:12px;margin-top:5px;}
@@ -93,6 +93,10 @@ button{
 @media print{
     .buttons{display:none;}
     body{background:white;}
+    .container{
+        box-shadow:none; /* ensure no shadow in print */
+        border:none; /* ensure no border in print */
+    }
 }
 </style>
 </head>
@@ -150,11 +154,11 @@ button{
 
 <div class="row">
 <div class="form-group"><label>Caste</label><select id="caste"><option value="">Select</option><option>General</option><option>OBC</option><option>SC</option><option>ST</option></select></div>
-<div class="form-group"><label>Aadhar</label><input type="text" id="aadhar"></div>
+<div class="form-group"><label>Aadhar</label><input type="text" id="aadhar" maxlength="12" pattern="\d{12}" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,12)"></div>
 </div>
 
 <div class="row">
-<div class="form-group"><label>Mobile</label><input type="text" id="mobile"></div>
+<div class="form-group"><label>Mobile</label><input type="text" id="mobile" maxlength="10" pattern="\d{10}" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)"></div>
 <div class="form-group"><label>Email</label><input type="email" id="email"></div>
 </div>
 
@@ -187,112 +191,127 @@ button{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
-let counter = localStorage.getItem("kdseCounter") || 28;
-let formID = document.getElementById("formID");
+
+let formID;
+
+document.addEventListener("DOMContentLoaded", function(){
+  formID = document.getElementById("formID");
+});
 
 // IMAGE PREVIEW
 function previewImage(event){
-let reader=new FileReader();
-reader.onload=function(){document.getElementById("preview").src=reader.result;}
-reader.readAsDataURL(event.target.files[0]);
+  let reader=new FileReader();
+  reader.onload=function(){
+    document.getElementById("preview").src=reader.result;
+  }
+  reader.readAsDataURL(event.target.files[0]);
 }
 
 // CHECK REQUIRED
 function validateForm(){
-return studentEng.value && studentHin.value && fatherEng.value && fatherHin.value && motherEng.value && motherHin.value && dob.value && gender.value && caste.value && aadhar.value && mobile.value && email.value && address.value && classSelect.value && declaration.checked;
+  return document.getElementById("studentEng").value &&
+         document.getElementById("studentHin").value &&
+         document.getElementById("fatherEng").value &&
+         document.getElementById("fatherHin").value &&
+         document.getElementById("motherEng").value &&
+         document.getElementById("motherHin").value &&
+         document.getElementById("dob").value &&
+         document.getElementById("gender").value &&
+         document.getElementById("caste").value &&
+         document.getElementById("aadhar").value &&
+         document.getElementById("mobile").value &&
+         document.getElementById("email").value &&
+         document.getElementById("address").value &&
+         document.getElementById("classSelect").value &&
+         document.getElementById("declaration").checked;
 }
 
 // SHOW PREVIEW
 function showPreview(){
-if(!validateForm()){
-alert("Please fill all required fields before Preview.");
-return;
-}
-document.getElementById("previewBtn").style.display="none";
-document.querySelector(".print-btn").style.display="inline-block";
-document.querySelector(".pdf-btn").style.display="inline-block";
+  if(!validateForm()){
+    alert("Please fill all required fields before Preview.");
+    return;
+  }
+  document.getElementById("previewBtn").style.display="none";
+  document.querySelector(".print-btn").style.display="inline-block";
+  document.querySelector(".pdf-btn").style.display="inline-block";
 }
 
 // DOWNLOAD PDF
 function downloadPDF(){
-const element=document.getElementById("formArea");
-html2pdf().set({
-margin:0,
-filename:'KDSE_Exam_Form.pdf',
-html2canvas:{scale:3},
-jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
-}).from(element).save();
+  const element=document.getElementById("formArea");
+  html2pdf().set({
+    margin:0,
+    filename:'KDSE_Exam_Form.pdf',
+    html2canvas:{scale:3},
+    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
+  }).from(element).save();
 }
 
 // SAVE RECORD
 function saveRecord(){
 
-if(!validateForm()){
-alert("Please fill all required fields");
-return;
-}
+  if(!validateForm()){
+    alert("Please fill all required fields");
+    return;
+  }
 
-// 🔒 DUPLICATE CHECK USING AADHAR
-let savedStudents = JSON.parse(localStorage.getItem("kdseStudents")) || [];
+ if(document.getElementById("aadhar").value.length !== 12){
+    alert("❌ Aadhar must be exactly 12 digits.");
+    return;
+  }
 
-let alreadyExists = savedStudents.find(student => student.aadhar === aadhar.value);
+  if(mobile.value.length !== 10){
+    alert("❌ Mobile number must be exactly 10 digits.");
+    return;
+  }
 
-if(alreadyExists){
-alert("❌ This student has already filled the form.\nDuplicate entry not allowed.");
-return;
-}
+  let formData = {
+    studentEng: studentEng.value,
+    studentHin: studentHin.value,
+    fatherEng: fatherEng.value,
+    fatherHin: fatherHin.value,
+    motherEng: motherEng.value,
+    motherHin: motherHin.value,
+    class: classSelect.value,
+    mobile: mobile.value,
+    email: email.value,
+    dob: dob.value,
+    gender: gender.value,
+    caste: caste.value,
+    aadhar: aadhar.value,
+    address: address.value
+  };
 
-// GENERATE FORM ID
-formID.value = "KDSE-2026-" + String(counter).padStart(3,'0');
-counter++;
-localStorage.setItem("kdseCounter", counter);
+  fetch("https://script.google.com/macros/s/AKfycbxHz4Q6mGOlqm_BiS1Ag1xSQ6f-7xQd0DJQ_hQujtuaNS2HWKFtx15mH_1HCa_CIRQ/exec",{
+    method:"POST",
+    body: JSON.stringify(formData),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  .then(res=>res.text())
+  .then(response=>{
 
-// SAVE NEW STUDENT TO LOCAL STORAGE
-let formData = {
-formID: formID.value,
-studentEng: studentEng.value,
-fatherEng: fatherEng.value,
-motherEng: motherEng.value,
-class: classSelect.value,
-mobile: mobile.value,
-email: email.value,
-dob: dob.value,
-gender: gender.value,
-caste: caste.value,
-aadhar: aadhar.value,
-address: address.value
-};
+    if(response === "DUPLICATE"){
+      alert("❌ This Aadhar is already registered.");
+      return;
+    }
 
-savedStudents.push(formData);
-localStorage.setItem("kdseStudents", JSON.stringify(savedStudents));
+    formID.value = response;
 
-// SEND TO GOOGLE SHEET
-fetch("https://script.google.com/macros/s/AKfycbxYgfVejlG1x1CZ2HCUfujwPRd6q4trcgPHN4TLyP8c1JxFcSMkmS0Xi4SJV3exzuGGcA/exec",{
-method:"POST",
-body: JSON.stringify(formData),
-headers: {
-"Content-Type": "application/json"
-}
-})
-.then(res=>res.text())
-.then(data=>{
-alert("✅ Record Saved Successfully!");
-})
-.catch(err=>{
-alert("Error Saving Record");
-console.log(err);
-});
+    alert("✅ Record Saved Successfully!");
 
-// WHATSAPP MESSAGE
-let msg=`KDSE Examination Form Submitted
-Form ID: ${formID.value}
-Student: ${studentEng.value}
-Class: ${classSelect.value}`;
+    document.getElementById("examForm").reset();
 
-window.open(`https://wa.me/91${mobile.value}?text=${encodeURIComponent(msg)}`,'_blank');
+  })
+  .catch(err=>{
+    alert("❌ Error Saving Record");
+    console.log(err);
+  });
 
 }
+
 </script>
-
 </body>
 </html>
