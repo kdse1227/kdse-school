@@ -1,101 +1,40 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KDSE Examination Form 2025-26</title>
 <style>
-body{
-    margin:0;
-    font-family:'Segoe UI',sans-serif;
-    background:linear-gradient(135deg,#e8f5e9,#e3f2fd);
-}
-.container{
-    max-width:900px;
-    margin:15px auto;
-    background:white;
-    padding:15px 20px;
-    border-radius:10px;
-    box-shadow:none;
-    position:relative;
-}
-.container::before{
-    content:"KALYANI DEVI SCHOOL OF EDUCATION";
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%) rotate(-30deg);
-    font-size:50px;
-    color:rgba(0,100,0,0.05);
-    font-weight:bold;
-    white-space:nowrap;
-    pointer-events:none;
-}
-.header{
-    text-align:center;
-    padding-bottom:8px;
-}
+body{margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#e8f5e9,#e3f2fd);}
+.container{max-width:900px;margin:15px auto;background:white;padding:15px 20px;border-radius:10px;position:relative;}
+.container::before{content:"KALYANI DEVI SCHOOL OF EDUCATION";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);font-size:50px;color:rgba(0,100,0,0.05);font-weight:bold;pointer-events:none;}
+.header{text-align:center;padding-bottom:8px;}
 .school-name{font-size:24px;font-weight:800;color:#1b5e20;}
 .address,.contact{font-size:12px;margin-top:3px;}
 .udise{font-weight:bold;color:#c62828;margin-top:2px;}
 .session{margin-top:5px;font-size:16px;font-weight:bold;color:#0d47a1;}
 .form-group{margin-bottom:10px;}
 label{font-weight:600;color:#1b5e20;font-size:13px;}
-input, textarea, select{
-    width:100%;
-    padding:5px;
-    border:1.5px solid #a5d6a7;
-    border-radius:5px;
-    margin-top:2px;
-    font-size:13px;
-}
-input:focus,textarea:focus,select:focus{
-    border-color:#2e7d32;
-    outline:none;
-    box-shadow:0 0 3px rgba(46,125,50,0.3);
-}
+input,textarea,select{width:100%;padding:5px;border:1.5px solid #a5d6a7;border-radius:5px;margin-top:2px;font-size:13px;}
+input:focus,textarea:focus,select:focus{border-color:#2e7d32;outline:none;box-shadow:0 0 3px rgba(46,125,50,0.3);}
 .row{display:flex;gap:10px;}
 .row .form-group{flex:1;}
-.photo-box{
-    width:100px;
-    height:120px;
-    float:right;
-    margin:0 0 10px 10px;
-    overflow:hidden;
-}
+.photo-box{width:100px;height:120px;float:right;margin:0 0 10px 10px;overflow:hidden;}
 .photo-box img{width:100%;height:100%;object-fit:cover;}
 .declaration-box{display:flex;align-items:flex-start;gap:5px;font-size:12px;margin-top:5px;}
 .declaration-box input{width:auto;margin-top:4px;}
 .signature-section{display:flex;justify-content:space-between;margin-top:20px;font-size:12px;}
 .signature{width:30%;text-align:center;font-weight:bold;}
 .buttons{text-align:center;margin-top:15px;}
-button{
-    padding:6px 12px;
-    border:none;
-    border-radius:5px;
-    margin:3px;
-    font-size:12.5px;
-    cursor:pointer;color:white;
-}
+button{padding:6px 12px;border:none;border-radius:5px;margin:3px;font-size:12.5px;cursor:pointer;color:white;}
 .print-btn{background:#2e7d32;display:none;}
 .pdf-btn{background:#c62828;display:none;}
 .save-btn{background:#6a1b9a;}
 .back-btn{background:#1565c0;}
 .preview-btn{background:#ff9800;}
 .reset-btn{background:#9e9e9e; display:none;}
-@media(max-width:768px){
-    .row{flex-direction:column;}
-    .photo-box{float:none;margin:auto;display:block;}
-    .signature-section{flex-direction:column;gap:15px;}
-}
-@media print{
-    .buttons{display:none;}
-    body{background:white;}
-    .container{
-        box-shadow:none;
-        border:none;
-    }
-}
+@media(max-width:768px){.row{flex-direction:column;}.photo-box{float:none;margin:auto;display:block;}.signature-section{flex-direction:column;gap:15px;}}
+@media print{.buttons{display:none;}body{background:white;}.container{box-shadow:none;border:none;}}
 </style>
 </head>
 <body>
@@ -103,29 +42,20 @@ button{
 <div class="container" id="formArea">
 
 <div class="header">
-    <div class="school-name">KALYANI DEVI SCHOOL OF EDUCATION</div>
-    <div class="address">Kalyani Devi School of Education, Piparkhunta, Post office - Dewarhat, Block - Lormi, Mungeli, Chhattisgarh – 495115</div>
-    <div class="contact">Mobile: 8224821843 | Email: kdse1227@gmail.com</div>
-    <div class="udise">UDISE Code - 22191213904</div>
-    <div class="session">Examination Form 2025-26</div>
+<div class="school-name">KALYANI DEVI SCHOOL OF EDUCATION</div>
+<div class="address">Kalyani Devi School of Education, Piparkhunta, Post office - Dewarhat, Block - Lormi, Mungeli, Chhattisgarh – 495115</div>
+<div class="contact">Mobile: 8224821843 | Email: kdse1227@gmail.com</div>
+<div class="udise">UDISE Code - 22191213904</div>
+<div class="session">Examination Form 2025-26</div>
 </div>
 
 <div class="photo-box"><img id="preview"></div>
 
 <form id="examForm">
+<!-- Form fields -->
 <div class="row">
-<div class="form-group">
-<label>Form ID</label>
-<input type="text" id="formID" readonly placeholder="Form ID will be generated after Save">
-</div>
-<div class="form-group">
-<label>Class</label>
-<select id="classSelect">
-<option value="">Select</option>
-<option>9</option>
-<option>11</option>
-</select>
-</div>
+<div class="form-group"><label>Form ID</label><input type="text" id="formID" readonly placeholder="Form ID will be generated after Save"></div>
+<div class="form-group"><label>Class</label><select id="classSelect"><option value="">Select</option><option>9</option><option>11</option></select></div>
 </div>
 
 <div class="row">
@@ -145,9 +75,7 @@ button{
 
 <div class="row">
 <div class="form-group"><label>DOB</label><input type="date" id="dob"></div>
-<div class="form-group"><label>Gender</label>
-<select id="gender"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select>
-</div>
+<div class="form-group"><label>Gender</label><select id="gender"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>
 </div>
 
 <div class="row">
@@ -170,9 +98,7 @@ button{
 </form>
 
 <div style="text-align:center;margin-top:10px;">
-<button type="button" class="preview-btn" onclick="showPreview()" id="previewBtn">
-Preview Form
-</button>
+<button type="button" class="preview-btn" onclick="showPreview()" id="previewBtn">Preview Form</button>
 </div>
 
 <div class="signature-section">
@@ -190,141 +116,66 @@ Preview Form
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <script>
-let formID;
-
-document.addEventListener("DOMContentLoaded", function(){
-  formID = document.getElementById("formID");
-});
-
 // IMAGE PREVIEW
-function previewImage(event){
-  let reader = new FileReader();
-  reader.onload = function(){
-    document.getElementById("preview").src = reader.result;
-  }
-  reader.readAsDataURL(event.target.files[0]);
-}
+function previewImage(event){let reader=new FileReader();reader.onload=function(){document.getElementById("preview").src=reader.result;};reader.readAsDataURL(event.target.files[0]);}
 
-// CHECK REQUIRED
-function validateForm(){
-  return document.getElementById("studentEng").value &&
-         document.getElementById("studentHin").value &&
-         document.getElementById("fatherEng").value &&
-         document.getElementById("fatherHin").value &&
-         document.getElementById("motherEng").value &&
-         document.getElementById("motherHin").value &&
-         document.getElementById("dob").value &&
-         document.getElementById("gender").value &&
-         document.getElementById("caste").value &&
-         document.getElementById("aadhar").value &&
-         document.getElementById("mobile").value &&
-         document.getElementById("email").value &&
-         document.getElementById("address").value &&
-         document.getElementById("classSelect").value &&
-         document.getElementById("declaration").checked;
+// VALIDATION
+function validateForm(){return document.getElementById("studentEng").value && document.getElementById("studentHin").value &&
+document.getElementById("fatherEng").value && document.getElementById("fatherHin").value &&
+document.getElementById("motherEng").value && document.getElementById("motherHin").value &&
+document.getElementById("dob").value && document.getElementById("gender").value &&
+document.getElementById("caste").value && document.getElementById("aadhar").value &&
+document.getElementById("mobile").value && document.getElementById("email").value &&
+document.getElementById("address").value && document.getElementById("classSelect").value &&
+document.getElementById("declaration").checked;
 }
 
 // SHOW PREVIEW
-function showPreview(){
-  if(!validateForm()){
-    alert("Please fill all required fields before Preview.");
-    return;
-  }
-  document.getElementById("previewBtn").style.display="none";
-  document.querySelector(".print-btn").style.display="inline-block";
-  document.querySelector(".pdf-btn").style.display="inline-block";
+function showPreview(){if(!validateForm()){alert("Please fill all required fields before Preview.");return;}
+document.getElementById("previewBtn").style.display="none";
+document.querySelector(".print-btn").style.display="inline-block";
+document.querySelector(".pdf-btn").style.display="inline-block";
 }
 
 // DOWNLOAD PDF
-function downloadPDF(){
-  const element = document.getElementById("formArea");
-  html2pdf().set({
-    margin:0,
-    filename:'KDSE_Exam_Form.pdf',
-    html2canvas:{scale:3},
-    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
-  }).from(element).save();
-}
+function downloadPDF(){const element=document.getElementById("formArea");html2pdf().set({margin:0,filename:'KDSE_Exam_Form.pdf',html2canvas:{scale:3},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(element).save();}
 
-// SAVE RECORD
+// SAVE RECORD (CORS-friendly)
 function saveRecord(){
-  if(!validateForm()){
-    alert("Please fill all required fields");
-    return;
-  }
-  if(document.getElementById("aadhar").value.length !== 12){
-    alert("❌ Aadhar must be exactly 12 digits.");
-    return;
-  }
-  if(document.getElementById("mobile").value.length !== 10){
-    alert("❌ Mobile number must be exactly 10 digits.");
-    return;
-  }
+if(!validateForm()){alert("Please fill all required fields");return;}
+if(document.getElementById("aadhar").value.length!==12){alert("❌ Aadhar must be exactly 12 digits.");return;}
+if(document.getElementById("mobile").value.length!==10){alert("❌ Mobile must be 10 digits.");return;}
 
-  // GENERATE UNIQUE FORM ID
-  let uniqueID = "F" + crypto.randomUUID().slice(0,8);
+const data={studentEng:document.getElementById("studentEng").value,
+studentHin:document.getElementById("studentHin").value,
+fatherEng:document.getElementById("fatherEng").value,
+fatherHin:document.getElementById("fatherHin").value,
+motherEng:document.getElementById("motherEng").value,
+motherHin:document.getElementById("motherHin").value,
+class:document.getElementById("classSelect").value,
+mobile:document.getElementById("mobile").value,
+email:document.getElementById("email").value,
+dob:document.getElementById("dob").value,
+gender:document.getElementById("gender").value,
+caste:document.getElementById("caste").value,
+aadhar:document.getElementById("aadhar").value,
+address:document.getElementById("address").value};
 
-  let formData = {
-    formID: uniqueID,
-    studentEng: document.getElementById("studentEng").value,
-    studentHin: document.getElementById("studentHin").value,
-    fatherEng: document.getElementById("fatherEng").value,
-    fatherHin: document.getElementById("fatherHin").value,
-    motherEng: document.getElementById("motherEng").value,
-    motherHin: document.getElementById("motherHin").value,
-    class: document.getElementById("classSelect").value,
-    mobile: document.getElementById("mobile").value,
-    email: document.getElementById("email").value,
-    dob: document.getElementById("dob").value,
-    gender: document.getElementById("gender").value,
-    caste: document.getElementById("caste").value,
-    aadhar: document.getElementById("aadhar").value,
-    address: document.getElementById("address").value
-  };
+// Use your own Web App URL
+const url="https://script.google.com/macros/s/AKfycbzcb29ppbwVJhvx1V_hV0SsVGonl51w_5iOQe-ZsmpV7cUsJkPgdReNQroLZIGxq8j3/exec";
 
-  fetch("https://script.google.com/macros/s/AKfycbzcb29ppbwVJhvx1V_hV0SsVGonl51w_5iOQe-ZsmpV7cUsJkPgdReNQroLZIGxq8j3/exec", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(formData)
-  })
-  .then(res=>res.text())
-  .then(response=>{
-    if(response === "DUPLICATE"){
-      alert("❌ This Aadhar is already registered.");
-      return;
-    }
-    if(response === "ERROR"){
-      alert("❌ Error saving record. Try again.");
-      return;
-    }
-
-    // ✅ Record saved successfully
-    alert("✅ Record Saved Successfully!\nForm ID: " + uniqueID);
-    document.getElementById("formID").value = uniqueID;
-
-    document.querySelector(".print-btn").style.display = "inline-block";
-    document.querySelector(".pdf-btn").style.display = "inline-block";
-    document.querySelector(".reset-btn").style.display = "inline-block";
-    document.getElementById("previewBtn").style.display="none";
-  })
-  .catch(err=>{
-    alert("❌ Error Saving Record");
-    console.log(err);
-  });
+fetch(url,{method:"POST",mode:"no-cors",body:JSON.stringify(data)})
+.then(()=>{alert("✅ Record submitted! FormID will be generated by WebApp.");})
+.catch(err=>{alert("❌ Error saving record (CORS/network)");console.log(err);});
 }
 
-// RESET FORM
-function resetForm(){
-  document.getElementById("examForm").reset();
-  document.getElementById("formID").value = "";
-  document.querySelector(".print-btn").style.display = "none";
-  document.querySelector(".pdf-btn").style.display = "none";
-  document.querySelector(".reset-btn").style.display = "none";
-  document.getElementById("previewBtn").style.display="inline-block";
-  document.getElementById("preview").src = "";
-}
+function resetForm(){document.getElementById("examForm").reset();document.getElementById("formID").value="";
+document.querySelector(".print-btn").style.display="none";
+document.querySelector(".pdf-btn").style.display="none";
+document.querySelector(".reset-btn").style.display="none";
+document.getElementById("previewBtn").style.display="inline-block";
+document.getElementById("preview").src="";}
 </script>
 </body>
 </html>
