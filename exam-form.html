@@ -256,7 +256,7 @@ function saveRecord(){
     return;
   }
 
- if(document.getElementById("aadhar").value.length !== 12){
+  if(document.getElementById("aadhar").value.length !== 12){
     alert("❌ Aadhar must be exactly 12 digits.");
     return;
   }
@@ -267,21 +267,21 @@ function saveRecord(){
   }
 
   let formData = {
-  studentEng: document.getElementById("studentEng").value,
-  studentHin: document.getElementById("studentHin").value,
-  fatherEng: document.getElementById("fatherEng").value,
-  fatherHin: document.getElementById("fatherHin").value,
-  motherEng: document.getElementById("motherEng").value,
-  motherHin: document.getElementById("motherHin").value,
-  class: document.getElementById("classSelect").value,
-  mobile: document.getElementById("mobile").value,
-  email: document.getElementById("email").value,
-  dob: document.getElementById("dob").value,
-  gender: document.getElementById("gender").value,
-  caste: document.getElementById("caste").value,
-  aadhar: document.getElementById("aadhar").value,
-  address: document.getElementById("address").value
-};
+    studentEng: document.getElementById("studentEng").value,
+    studentHin: document.getElementById("studentHin").value,
+    fatherEng: document.getElementById("fatherEng").value,
+    fatherHin: document.getElementById("fatherHin").value,
+    motherEng: document.getElementById("motherEng").value,
+    motherHin: document.getElementById("motherHin").value,
+    class: document.getElementById("classSelect").value,
+    mobile: document.getElementById("mobile").value,
+    email: document.getElementById("email").value,
+    dob: document.getElementById("dob").value,
+    gender: document.getElementById("gender").value,
+    caste: document.getElementById("caste").value,
+    aadhar: document.getElementById("aadhar").value,
+    address: document.getElementById("address").value
+  };
 
   fetch("https://script.google.com/macros/s/AKfycbxHz4Q6mGOlqm_BiS1Ag1xSQ6f-7xQd0DJQ_hQujtuaNS2HWKFtx15mH_1HCa_CIRQ/exec",{
     method:"POST",
@@ -298,19 +298,11 @@ function saveRecord(){
       return;
     }
 
- .then(response=>{
+    alert("✅ Record Saved Successfully!");
+    document.getElementById("examForm").reset();
+    formID.value = response;
 
-  if(response === "DUPLICATE"){
-    alert("❌ This Aadhar is already registered.");
-    return;
-  }
-
-  alert("✅ Record Saved Successfully!");
-
-  document.getElementById("examForm").reset();
-  formID.value = response;   // Reset ke baad set karein
-
-})
+  })
   .catch(err=>{
     alert("❌ Error Saving Record");
     console.log(err);
