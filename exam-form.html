@@ -11,6 +11,8 @@ body{
     font-family:'Segoe UI',sans-serif;
     background:linear-gradient(135deg,#e8f5e9,#e3f2fd);
 }
+
+/* ===== CONTAINER ===== */
 .container{
     max-width:850px;
     margin:5px auto;
@@ -20,6 +22,8 @@ body{
     position:relative;
     overflow:hidden;
 }
+
+/* WATERMARK */
 .container::after{
     content:"KALYANI DEVI SCHOOL OF EDUCATION";
     position:absolute;
@@ -32,15 +36,44 @@ body{
     white-space:nowrap;
     pointer-events:none;
 }
-.header{text-align:center;margin-bottom:6px;}
-.school-name{font-size:24px;font-weight:900;color:#1b5e20;}
-.address,.contact{font-size:14px;font-weight:700;color:#1b5e20;}
-.udise{font-weight:900;color:#c62828;font-size:14px;}
-.session{font-size:16px;font-weight:900;color:#0d47a1;}
-.header-line{border-top:2px solid #000;margin:4px 0 6px;}
 
+/* ===== HEADER ===== */
+.header{text-align:center;margin-bottom:6px;}
+
+.school-name{
+    font-size:24px;
+    font-weight:900;
+    color:#1b5e20;
+}
+
+.address,
+.contact{
+    font-size:14px;
+    font-weight:700;
+    color:#1b5e20;
+}
+
+.udise{
+    font-weight:900;
+    color:#c62828;
+    font-size:14px;
+}
+
+.session{
+    font-size:16px;
+    font-weight:900;
+    color:#0d47a1;
+}
+
+.header-line{
+    border-top:2px solid #000;
+    margin:4px 0 6px;
+}
+
+/* ===== FORM ===== */
 .form-group{margin-bottom:5px;}
 label{font-weight:700;font-size:11.5px;}
+
 input,textarea,select{
     width:97%;
     padding:3px 4px;
@@ -49,10 +82,18 @@ input,textarea,select{
     font-size:11.5px;
     box-sizing:border-box;
 }
-textarea{resize:none;}
-.row{display:flex;gap:5px;}
-.row .form-group{flex:1;}
 
+textarea{resize:none;}
+
+.row{
+    display:flex;
+    gap:5px;
+}
+.row .form-group{
+    flex:1;
+}
+
+/* ===== PHOTO ===== */
 .photo-box{
     width:90px;
     height:110px;
@@ -66,6 +107,7 @@ textarea{resize:none;}
     object-fit:cover;
 }
 
+/* ===== DECLARATION ===== */
 .declaration-box{
     display:flex;
     align-items:center;
@@ -74,16 +116,27 @@ textarea{resize:none;}
     white-space:nowrap;
     margin-bottom:25px;   
 }
-.declaration-box input{width:auto;margin:0;cursor:pointer;}
 
+.declaration-box input{
+    width:auto;
+    margin:0;
+    cursor:pointer;
+}
+
+/* ===== SIGNATURE ===== */
 .signature-section{
     display:flex;
     justify-content:space-between;
     margin-top:12px;
     font-size:11.5px;
 }
-.signature{width:32%;text-align:center;font-weight:bold;}
+.signature{
+    width:32%;
+    text-align:center;
+    font-weight:bold;
+}
 
+/* ===== BUTTONS ===== */
 .buttons{text-align:center;margin-top:6px;}
 button{
     padding:4px 9px;
@@ -103,12 +156,19 @@ button{
     .row{flex-direction:column;}
 }
 
-@page{size:A4;margin:4mm;}
+/* ===== PRINT SETTINGS ===== */
+@page{
+    size:A4;
+    margin:4mm;
+}
+
 @media print{
     .buttons{display:none;}
     .no-print{display:none !important;}
     body{background:white;}
-    .container{padding:5px 8px;}
+    .container{
+        padding:5px 8px;
+    }
 }
 </style>
 </head>
@@ -155,6 +215,7 @@ button{
 <option>11</option>
 </select>
 </div>
+
 <div class="form-group">
 <label>DOB</label>
 <input type="date" id="dob">
@@ -172,6 +233,7 @@ button{
 <option>ST</option>
 </select>
 </div>
+
 <div class="form-group">
 <label>Gender</label>
 <select id="gender">
@@ -216,15 +278,14 @@ oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)">
 
 <div class="form-group declaration-box">
 <input type="checkbox" id="declaration" required>
-<span>मैं प्रमाणित करता/करती हूँ कि मेरे द्वारा दी गई समस्त जानकारी सत्य है।</span>
-<span>भविष्य में किसी भी त्रुटि के लिए मैं स्वयं जिम्मेदार रहूँगा/रहूँगी।</span>
+<span>मैं प्रमाणित करता/करती हूँ कि दी गयी जानकारी सत्य है।</span>
 </div>
 
 </form>
 
 <div class="signature-section">
 <div class="signature">_____________________<br>Student</div>
-<div class="signature">_____________________<br>Examination In-charge</div>
+<div class="signature">_____________________<br>Incharge</div>
 <div class="signature">_____________________<br>Principal</div>
 </div>
 
@@ -242,14 +303,6 @@ reader.onload=function(){preview.src=reader.result;}
 reader.readAsDataURL(event.target.files[0]);
 }
 
-function formatDate(dateStr){
-let d=new Date(dateStr);
-let day=String(d.getDate()).padStart(2,'0');
-let month=String(d.getMonth()+1).padStart(2,'0');
-let year=d.getFullYear();
-return day+"-"+month+"-"+year;
-}
-
 function validateForm(){
 return studentEng.value && studentHin.value &&
 fatherEng.value && fatherHin.value &&
@@ -259,13 +312,6 @@ caste.value && aadhar.value &&
 mobile.value && email.value &&
 address.value && classSelect.value &&
 declaration.checked;
-}
-
-function resetForm(){
-document.getElementById("examForm").reset();
-preview.src="";
-document.querySelector(".print-btn").style.display="none";
-document.querySelector(".reset-btn").style.display="none";
 }
 
 function saveRecord(){
@@ -300,22 +346,13 @@ alert("Form Saved Successfully!");
 document.querySelector(".print-btn").style.display="inline-block";
 document.querySelector(".reset-btn").style.display="inline-block";
 
-let adminNumber = "918224821843";
+}
 
-let message =
-"📘 KDSE Examination Form Submitted\n\n" +
-"Student Name: " + studentEng.value + "\n" +
-"Father Name: " + fatherEng.value + "\n" +
-"Mother Name: " + motherEng.value + "\n" +
-"Class: " + classSelect.value + "\n" +
-"DOB: " + formatDate(dob.value) + "\n" +
-"Mobile: " + mobile.value + "\n" +
-"Aadhar: " + aadhar.value + "\n\n" +
-"Form Saved Successfully.";
-
-let url = "https://wa.me/" + adminNumber + "?text=" + encodeURIComponent(message);
-
-window.open(url, "_blank");
+function resetForm(){
+document.getElementById("examForm").reset();
+preview.src="";
+document.querySelector(".print-btn").style.display="none";
+document.querySelector(".reset-btn").style.display="none";
 }
 </script>
 
