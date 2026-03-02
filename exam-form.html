@@ -206,7 +206,7 @@ async function saveRecord(){
     return;
   }
 
-  // build and submit hidden form to avoid CORS
+  // build and submit hidden form to avoid CORS (Apps Script will postMessage back)
   const hf = document.createElement('form');
   hf.method = 'post';
   hf.action = GAS_URL;
@@ -245,19 +245,19 @@ async function saveRecord(){
   saveBtn.textContent = "Submitting...";
   saveBtn.disabled = true;
 
-  // submit into hidden iframe so page doesn't navigate away and we can read response
+  // create iframe to receive response
   const iframe = document.createElement('iframe');
   iframe.name = 'resp_iframe';
   iframe.style.display = 'none';
   document.body.appendChild(iframe);
   hf.target = 'resp_iframe';
 
-  iframe.onload = function(){
+  // message listener to receive postMessage from Apps Script response
+  function messageHandler(ev){
     try{
-      const doc = iframe.contentDocument || iframe.contentWindow.document;
-      const text = doc.body ? doc.body.innerText : null;
-      const j = text ? JSON.parse(text) : null;
-      if(j && j.status === 'success'){
+      const j = ev.data;
+      if(!j || typeof j !== 'object') return;
+      if(j.status === 'success'){
         savedAadhars.push($('aadhar').value);
         localStorage.setItem("savedAadhars", JSON.stringify(savedAadhars));
         $('formId').value = j.formId;
@@ -267,17 +267,19 @@ async function saveRecord(){
         document.querySelector(".print-btn").style.display="inline-block";
         document.querySelector(".reset-btn").style.display="inline-block";
       } else {
-        const msg = (j && j.message) ? j.message : 'Submission failed';
-        alert(msg);
+        alert('Submission failed: ' + (j && j.message ? j.message : 'Unknown error'));
       }
     } catch(e){
-      alert("Submission completed but could not read response.");
+      alert("Could not read response");
     } finally {
+      window.removeEventListener('message', messageHandler);
       saveBtn.textContent = prevText;
       saveBtn.disabled = false;
       setTimeout(()=>{ iframe.remove(); hf.remove(); }, 1000);
     }
-  };
+  }
+
+  window.addEventListener('message', messageHandler, false);
 
   hf.submit();
 }
