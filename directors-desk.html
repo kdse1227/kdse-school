@@ -1,241 +1,288 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <title>From the Director's Desk</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-
-  <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      background: #f0f4f8;
-      color: #333;
-    }
-
-    header {
-      background: #0b4d91;
-      color: white;
-      padding: 20px 15px;
-      text-align: center;
-      font-family: 'Montserrat', sans-serif;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
-
-    header h1 {
-      margin: 0;
-      font-weight: 700;
-      letter-spacing: 1px;
-      font-size: 28px;
-    }
-
-    /* Container box for message + director */
-    .message-container {
-      max-width: 1000px;
-      margin: 30px auto;
-      padding: 30px 25px;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    }
-
-    /* Multi-line Section (inside box) */
-    section.message {
-      line-height: 1.8;
-      font-size: 16px;
-      padding: 0;
-      margin: 0;
-    }
-
-    section.message h2 {
-      color: #0b4d91;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      margin-bottom: 15px;
-    }
-
-    section.message p {
-      margin-top: 15px;
-      white-space: pre-line;
-    }
-
-    /* Director section */
-    .director-section {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-top: 30px;
-      gap: 20px;
-    }
-
-    .director-section img {
-      width: 180px;
-      height: 180px;       
-      object-fit: cover;   
-      border-radius: 50%;  
-      border: 4px solid #0b4d91;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .director-section img:hover {
-      transform: scale(1.08);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    }
-
-    .director-info {
-      flex: 1;
-      min-width: 220px;
-    }
-
-    .director-info h3 {
-      font-weight: bold;
-      margin: 0;
-      color: #0b4d91;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 20px;
-    }
-
-    .director-info p {
-      font-weight: bold;
-      margin: 3px 0 0 0;
-    }
-
-    /* Quotes section */
-    .quotes-section {
-      max-width: 1000px;
-      margin: 50px auto;
-      padding: 0 20px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-    }
-
-    .quote-box {
-      position: relative;
-      padding: 25px;
-      border-radius: 20px;
-      font-size: 16px;
-      line-height: 1.8;
-      color: #fff;
-      font-family: 'Roboto', sans-serif;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-      overflow: hidden;
-      white-space: pre-line;
-      
-      /* Animation */
-      transform: translateY(20px);
-      opacity: 0;
-      animation: fadeUp 0.8s forwards;
-    }
-
-    .quote-box:nth-child(1) { animation-delay: 0.1s; background: linear-gradient(135deg, #6a11cb, #2575fc);}
-    .quote-box:nth-child(2) { animation-delay: 0.2s; background: linear-gradient(135deg, #ff7e5f, #feb47b); color:#333;}
-    .quote-box:nth-child(3) { animation-delay: 0.3s; background: linear-gradient(135deg, #43cea2, #185a9d);}
-    .quote-box:nth-child(4) { animation-delay: 0.4s; background: linear-gradient(135deg, #ff9966, #ff5e62);}
-    .quote-box:nth-child(5) { animation-delay: 0.5s; background: linear-gradient(135deg, #00c6ff, #0072ff);}
-    .quote-box:nth-child(6) { animation-delay: 0.6s; background: linear-gradient(135deg, #f7971e, #ffd200); color:#333;}
-    .quote-box:nth-child(7) { animation-delay: 0.7s; background: linear-gradient(135deg, #c471f5, #fa71cd);}
-    .quote-box:nth-child(8) { animation-delay: 0.8s; background: linear-gradient(135deg, #11998e, #38ef7d);}
-
-    /* Hover zoom */
-    .quote-box:hover {
-      transform: scale(1.05);
-      box-shadow: 0 12px 35px rgba(0,0,0,0.3);
-      z-index: 10;
-    }
-
-    /* Quotation marks */
-    .quote-box::before {
-      content: "“";
-      font-size: 40px;
-      position: absolute;
-      top: 10px;
-      left: 20px;
-      opacity: 0.2;
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    .quote-box::after {
-      content: "”";
-      font-size: 40px;
-      position: absolute;
-      bottom: 10px;
-      right: 20px;
-      opacity: 0.2;
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    @keyframes fadeUp {
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    @media(max-width:700px){
-      .director-section {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-
-      .director-info {
-        flex: unset;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KDSE Examination Form 2025-26</title>
+<style>
+body{margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#e8f5e9,#e3f2fd);}
+.container{max-width:850px;margin:5px auto;background:white;padding:8px 12px;border-radius:8px;position:relative;overflow:hidden;}
+.container::after{content:"KALYANI DEVI SCHOOL OF EDUCATION";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);font-size:42px;color:rgba(0,100,0,0.05);font-weight:bold;white-space:nowrap;pointer-events:none;}
+.header{text-align:center;margin-bottom:6px;}
+.school-name{font-size:24px;font-weight:900;color:#1b5e20;}
+.address,.contact{font-size:14px;font-weight:700;color:#1b5e20;}
+.udise{font-weight:900;color:#c62828;font-size:14px;}
+.session{font-size:16px;font-weight:900;color:#0d47a1;}
+.header-line{border-top:2px solid #000;margin:4px 0 6px;}
+.form-group{margin-bottom:5px;}label{font-weight:700;font-size:11.5px;}
+input,textarea,select{width:97%;padding:3px 4px;border:1px solid #555;border-radius:4px;font-size:11.5px;box-sizing:border-box;}
+textarea{resize:none;}
+.row{display:flex;gap:5px;}
+.row .form-group{flex:1;}
+.photo-box{width:90px;height:110px;float:right;margin-left:12px;border:1px solid #555;}
+.photo-box img{width:100%;height:100%;object-fit:cover;}
+.declaration-box{display:flex;align-items:center;gap:6px;font-size:11.5px;white-space:nowrap;margin-bottom:25px;}
+.declaration-box input{width:auto;margin:0;cursor:pointer;}
+.signature-section{display:flex;justify-content:space-between;margin-top:12px;font-size:11.5px;}
+.signature{width:32%;text-align:center;font-weight:bold;}
+.buttons{text-align:center;margin-top:6px;}
+button{padding:4px 9px;border:none;border-radius:4px;margin:2px;font-size:11px;cursor:pointer;color:white;}
+.print-btn{background:#2e7d32;display:none;}
+.save-btn{background:#6a1b9a;}
+.back-btn{background:#1565c0;}
+.reset-btn{background:#9e9e9e;display:none;}
+.form-id-box{display:none;margin-top:8px;}
+@media(max-width:768px){.row{flex-direction:column;}}
+@page{size:A4;margin:4mm;}
+@media print{.buttons{display:none}.no-print{display:none !important}body{background:white}.container{padding:5px 8px}}
+</style>
 </head>
-
 <body>
+<div class="container">
+  <div class="header">
+    <div class="school-name">KALYANI DEVI SCHOOL OF EDUCATION</div>
+    <div class="address">Piparkhunta, Dewarhat, Lormi, Mungeli, Chhattisgarh – 495115</div>
+    <div class="contact">Mobile: 8224821843 | Email: kdse1227@gmail.com</div>
+    <div class="udise">UDISE Code - 22191213904</div>
+    <div class="session">Examination Form 2025-26</div>
+  </div>
 
-<header>
-  <h1>From the Director's Desk</h1>
-</header>
+  <div class="header-line"></div>
 
-<div class="message-container">
-  <section class="message">
-    <h2>प्रिय अभिभावकों एवं विद्यार्थियों,</h2>
+  <div class="photo-box"><img id="preview" alt=""></div>
 
-    <p>
-      शिक्षा जीवन का सबसे मजबूत आधार है।  
-      हमारा विद्यालय बच्चों को केवल परीक्षा के लिए नहीं,  
-      बल्कि जीवन के लिए तैयार करता है।
-    </p>
-
-    <p>
-      अनुशासन, संस्कार और आधुनिक शिक्षा —  
-      यही हमारे विद्यालय की पहचान है।
-    </p>
-
-    <p>
-      हम निरंतर प्रयास करते हैं कि हर बच्चा  
-      आत्मनिर्भर और जिम्मेदार नागरिक बने।
-    </p>
-  </section>
-
-  <div class="director-section">
-   <img src="images/director.jpg" alt="Director Paras Ram Kashyap">
-    <div class="director-info">
-      <h3>Paras Ram Kashyap</h3>
-      <p>Director</p>
-      <p>Kalyani Devi School of Education</p>
+  <form id="KDSE-2026-01">
+    <div class="form-group form-id-box" id="formIdBox">
+      <label>Form ID</label>
+      <input type="text" id="formIdDisplay" readonly>
+      <input type="hidden" id="formId">
     </div>
+
+    <div class="row">
+      <div class="form-group"><label>Student Name (English)</label><input type="text" id="studentEng"></div>
+      <div class="form-group"><label>Student Name (Hindi)</label><input type="text" id="studentHin"></div>
+    </div>
+
+    <div class="row">
+      <div class="form-group"><label>Father Name (English)</label><input type="text" id="fatherEng"></div>
+      <div class="form-group"><label>Father Name (Hindi)</label><input type="text" id="fatherHin"></div>
+    </div>
+
+    <div class="row">
+      <div class="form-group"><label>Mother Name (English)</label><input type="text" id="motherEng"></div>
+      <div class="form-group"><label>Mother Name (Hindi)</label><input type="text" id="motherHin"></div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label>Class</label>
+        <select id="classSelect">
+          <option value="">Select</option>
+          <option>9</option>
+          <option>11</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>DOB</label>
+        <input type="date" id="dob">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label>Caste</label>
+        <select id="caste">
+          <option value="">Select</option>
+          <option>General</option>
+          <option>OBC</option>
+          <option>SC</option>
+          <option>ST</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Gender</label>
+        <select id="gender">
+          <option value="">Select</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label>Aadhar</label>
+        <input type="text" id="aadhar" maxlength="12" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,12)">
+      </div>
+
+      <div class="form-group">
+        <label>Mobile</label>
+        <input type="text" id="mobile" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)">
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="email">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Address</label>
+      <textarea rows="2" id="address"></textarea>
+    </div>
+
+    <div class="form-group no-print">
+      <label>Upload Photo</label>
+      <input type="file" accept="image/*" onchange="previewImage(event)">
+    </div>
+
+    <div class="form-group declaration-box">
+      <input type="checkbox" id="declaration" required>
+      <span>मैं प्रमाणित करता/करती हूँ कि दी गयी जानकारी सत्य है। भविष्य में किसी भी त्रुटि के लिए मैं स्वयं जिम्मेदार रहूँगा/रहूँगी</span>
+    </div>
+  </form>
+
+  <div class="signature-section">
+    <div class="signature">_____________________<br>Student</div>
+    <div class="signature">_____________________<br>Incharge</div>
+    <div class="signature">_____________________<br>Principal</div>
+  </div>
+
+  <div class="buttons">
+    <button class="print-btn" onclick="window.print()">Print</button>
+    <button type="button" class="save-btn" onclick="saveRecord()">Save</button>
+    <button class="back-btn" onclick="history.back()">Back</button>
+    <button type="button" class="reset-btn" onclick="resetForm()">Reset Form</button>
   </div>
 </div>
 
-<div class="quotes-section">
-  <div class="quote-box">शिक्षा केवल ज्ञान नहीं, बल्कि सही सोच और सही चरित्र का निर्माण है।</div>
-  <div class="quote-box">हर बच्चा विशेष होता है — हमारा कार्य उसकी क्षमता को पहचानना और निखारना है।</div>
-  <div class="quote-box">अनुशासन और संस्कार के बिना शिक्षा अधूरी है।</div>
-  <div class="quote-box">हम बच्चों को परीक्षा के लिए नहीं, जीवन के लिए तैयार करते हैं।</div>
-  <div class="quote-box">आधुनिक शिक्षा के साथ भारतीय मूल्यों का संतुलन ही सच्ची शिक्षा है।</div>
-  <div class="quote-box">सफलता वही है जो ज्ञान के साथ नैतिकता भी सिखाए।</div>
-  <div class="quote-box">एक शिक्षक भविष्य गढ़ता है और एक विद्यालय राष्ट्र का निर्माण करता है।</div>
-  <div class="quote-box">हमारा लक्ष्य केवल अच्छे विद्यार्थी नहीं, अच्छे इंसान बनाना है।</div>
-</div>
+<script>
+/* Replace with your deployed Apps Script web app URL (the /exec URL) */
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzLRaJ8a8eG1VQYs-HMreRQ2KW1HIwiwn8hJANzdtiBiwi62o_hfOt5XALe9B5CBYwM/exec";
 
+function previewImage(event){
+  const reader = new FileReader();
+  reader.onload = function(){ document.getElementById('preview').src = reader.result; }
+  if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
+}
+
+function $(id){ return document.getElementById(id); }
+
+function validateForm(){
+  return $('studentEng').value && $('studentHin').value &&
+    $('fatherEng').value && $('fatherHin').value &&
+    $('motherEng').value && $('motherHin').value &&
+    $('dob').value && $('gender').value &&
+    $('caste').value && $('aadhar').value &&
+    $('mobile').value && $('email').value &&
+    $('address').value && $('classSelect').value &&
+    $('declaration').checked;
+}
+
+function resetForm(){
+  document.getElementById('KDSE-2026-01').reset();
+  document.getElementById('preview').src = "";
+  document.querySelector(".print-btn").style.display="none";
+  document.querySelector(".reset-btn").style.display="none";
+  document.getElementById('formIdBox').style.display = 'none';
+  $('formId').value = '';
+  $('formIdDisplay').value = '';
+}
+
+async function saveRecord(){
+  if(!validateForm()){
+    alert("Please fill all required fields");
+    return;
+  }
+  if($('aadhar').value.length !== 12){ alert("Aadhar must be 12 digits"); return; }
+  if($('mobile').value.length !== 10){ alert("Mobile must be 10 digits"); return; }
+
+  let savedAadhars = JSON.parse(localStorage.getItem("savedAadhars") || "[]");
+  if(savedAadhars.includes($('aadhar').value)){
+    alert("इस Aadhar से पहले ही फॉर्म भरा जा चुका है!");
+    return;
+  }
+
+  // build and submit hidden form to avoid CORS (Apps Script will postMessage back)
+  const hf = document.createElement('form');
+  hf.method = 'post';
+  hf.action = GAS_URL;
+  hf.style.display = 'none';
+
+  const fields = {
+    studentEng: $('studentEng').value,
+    studentHin: $('studentHin').value,
+    fatherEng: $('fatherEng').value,
+    fatherHin: $('fatherHin').value,
+    motherEng: $('motherEng').value,
+    motherHin: $('motherHin').value,
+    class: $('classSelect').value,
+    dob: $('dob').value,
+    caste: $('caste').value,
+    gender: $('gender').value,
+    aadhar: $('aadhar').value,
+    mobile: $('mobile').value,
+    email: $('email').value,
+    address: $('address').value,
+    timestamp: new Date().toISOString()
+  };
+
+  for(const k in fields){
+    const inp = document.createElement('input');
+    inp.type = 'hidden';
+    inp.name = k;
+    inp.value = fields[k] || '';
+    hf.appendChild(inp);
+  }
+
+  document.body.appendChild(hf);
+
+  const saveBtn = document.querySelector(".save-btn");
+  const prevText = saveBtn.textContent;
+  saveBtn.textContent = "Submitting...";
+  saveBtn.disabled = true;
+
+  // create iframe to receive response
+  const iframe = document.createElement('iframe');
+  iframe.name = 'resp_iframe';
+  iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+  hf.target = 'resp_iframe';
+
+  // message listener to receive postMessage from Apps Script response
+  function messageHandler(ev){
+    try{
+      const j = ev.data;
+      if(!j || typeof j !== 'object') return;
+      if(j.status === 'success'){
+        savedAadhars.push($('aadhar').value);
+        localStorage.setItem("savedAadhars", JSON.stringify(savedAadhars));
+        $('formId').value = j.formId;
+        $('formIdDisplay').value = j.formId;
+        document.getElementById('formIdBox').style.display = 'block';
+        alert("Form submitted and saved to sheet successfully!\nForm ID: " + j.formId);
+        document.querySelector(".print-btn").style.display="inline-block";
+        document.querySelector(".reset-btn").style.display="inline-block";
+      } else {
+        alert('Submission failed: ' + (j && j.message ? j.message : 'Unknown error'));
+      }
+    } catch(e){
+      alert("Could not read response");
+    } finally {
+      window.removeEventListener('message', messageHandler);
+      saveBtn.textContent = prevText;
+      saveBtn.disabled = false;
+      setTimeout(()=>{ iframe.remove(); hf.remove(); }, 1000);
+    }
+  }
+
+  window.addEventListener('message', messageHandler, false);
+
+  hf.submit();
+}
+</script>
 </body>
 </html>
