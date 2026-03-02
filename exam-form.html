@@ -254,30 +254,32 @@ async function saveRecord(){
 
   // message listener to receive postMessage from Apps Script response
   function messageHandler(ev){
-    try{
-      const j = ev.data;
-      if(!j || typeof j !== 'object') return;
-      if(j.status === 'success'){
-        savedAadhars.push($('aadhar').value);
-        localStorage.setItem("savedAadhars", JSON.stringify(savedAadhars));
-        $('formId').value = j.formId;
-        $('formIdDisplay').value = j.formId;
-        document.getElementById('formIdBox').style.display = 'block';
-        alert("Form submitted and saved to sheet successfully!\nForm ID: " + j.formId);
-        document.querySelector(".print-btn").style.display="inline-block";
-        document.querySelector(".reset-btn").style.display="inline-block";
-      } else {
-        alert('Submission failed: ' + (j && j.message ? j.message : 'Unknown error'));
-      }
-    } catch(e){
-      alert("Could not read response");
-    } finally {
-      window.removeEventListener('message', messageHandler);
-      saveBtn.textContent = prevText;
-      saveBtn.disabled = false;
-      setTimeout(()=>{ iframe.remove(); hf.remove(); }, 1000);
+  try{
+    // only accept messages from the iframe we created
+    if (!iframe || ev.source !== iframe.contentWindow) return;
+    const j = ev.data;
+    if(!j || typeof j !== 'object') return;
+    if(j.status === 'success'){
+      savedAadhars.push($('aadhar').value);
+      localStorage.setItem("savedAadhars", JSON.stringify(savedAadhars));
+      $('formId').value = j.formId;
+      $('formIdDisplay').value = j.formId;
+      document.getElementById('formIdBox').style.display = 'block';
+      alert("Form submitted and saved to sheet successfully!\nForm ID: " + j.formId);
+      document.querySelector(".print-btn").style.display="inline-block";
+      document.querySelector(".reset-btn").style.display="inline-block";
+    } else {
+      alert('Submission failed: ' + (j && j.message ? j.message : 'Unknown error'));
     }
+  } catch(e){
+    alert("Could not read response");
+  } finally {
+    window.removeEventListener('message', messageHandler);
+    saveBtn.textContent = prevText;
+    saveBtn.disabled = false;
+    setTimeout(()=>{ iframe.remove(); hf.remove(); }, 1000);
   }
+}
 
   window.addEventListener('message', messageHandler, false);
 
