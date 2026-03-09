@@ -5,267 +5,650 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>KDSE Admission Form 2026-27</title>
 <style>
-/* Compact, print-friendly styles */
-body{margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#e8f5e9,#e3f2fd);}
-.container{max-width:850px;margin:6px auto;background:white;padding:8px 12px;border-radius:8px;position:relative;overflow:hidden;}
-.container::after{content:"KALYANI DEVI SCHOOL OF EDUCATION";position:absolute;top:52%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);font-size:42px;color:rgba(0,100,0,0.04);font-weight:bold;white-space:nowrap;pointer-events:none;}
-.header{text-align:center;margin-bottom:6px;}
-.school-name{font-size:22px;font-weight:900;color:#1b5e20;}
-.address,.contact{font-size:13px;font-weight:700;color:#1b5e20;}
-.udise{font-weight:900;color:#c62828;font-size:13px;}
-.session{font-size:15px;font-weight:900;color:#0d47a1;}
-.header-line{border-top:2px solid #000;margin:4px 0 6px;}
-.form-row{display:flex;gap:6px;align-items:flex-start;}
-.col{flex:1;min-width:0;}
-.photo-box{width:92px;height:112px;border:1px solid #555;border-radius:4px;overflow:hidden;flex:0 0 92px;}
-.photo-box img{width:100%;height:100%;object-fit:cover;}
-.side-box{flex:0 0 220px;margin-right:8px;border:1px dashed #bbb;padding:6px;border-radius:6px;background:#fbfbfb;font-size:12px;}
-.form-group{margin-bottom:6px;}label{font-weight:700;font-size:12px;display:block;margin-bottom:3px;}
-input,textarea,select{width:100%;padding:4px 6px;border:1px solid #666;border-radius:4px;font-size:12px;box-sizing:border-box;background:white;}
-textarea{resize:none;}
-.small{font-size:11px;font-weight:700;color:#444;margin-top:4px;}
-.note{font-size:11px;color:#333;margin-top:4px;}
-.inline{display:flex;gap:6px;}
-.inline .form-group{flex:1;}
-.declaration-box{display:flex;align-items:center;gap:6px;font-size:12px;white-space:nowrap;margin-bottom:8px;}
-.declaration-box input{width:auto;margin:0;cursor:pointer;}
-.signature-section{display:flex;justify-content:space-between;margin-top:8px;font-size:11.5px;}
-.signature{width:32%;text-align:center;font-weight:bold;}
-.buttons{text-align:center;margin-top:6px;}
-button{padding:5px 10px;border:none;border-radius:4px;margin:2px;font-size:12px;cursor:pointer;color:white;}
-.print-btn{background:#2e7d32;display:none;}
-.save-btn{background:#6a1b9a;}
-.back-btn{background:#1565c0;}
-.reset-btn{background:#9e9e9e;display:none;}
-.form-id-box{margin-top:6px;}
-@media(max-width:780px){.form-row{flex-direction:column}.side-box{order:2;width:100%}.photo-box{order:1;margin-bottom:6px}}
-@page{size:A4;margin:6mm;}
-@media print{.buttons{display:none}.no-print{display:none !important}body{background:white}.container{padding:6px}}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f5f5f5;
+  padding: 10px;
+}
+
+.page {
+  width: 210mm;
+  height: 297mm;
+  background: white;
+  margin: 10px auto;
+  padding: 12mm;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  position: relative;
+  overflow: visible;
+}
+
+.page::before {
+  content: "KALYANI DEVI SCHOOL OF EDUCATION";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  font-size: 60px;
+  color: rgba(34, 139, 34, 0.06);
+  font-weight: bold;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER SECTION */
+.header {
+  text-align: center;
+  margin-bottom: 6px;
+  border-bottom: 2px solid #000;
+  padding-bottom: 4px;
+}
+
+.school-name {
+  font-size: 20px;
+  font-weight: 900;
+  color: #228B22;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.address {
+  font-size: 12px;
+  font-weight: 600;
+  color: #000;
+  margin: 1px 0;
+}
+
+.contact {
+  font-size: 11px;
+  font-weight: 600;
+  color: #000;
+  margin: 1px 0;
+}
+
+.udise {
+  font-size: 11px;
+  font-weight: 700;
+  color: #000;
+  margin: 1px 0;
+}
+
+.session {
+  font-size: 12px;
+  font-weight: 900;
+  color: #228B22;
+  margin: 2px 0;
+}
+
+.form-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #333;
+  margin: 2px 0 0 0;
+}
+
+/* TOP SECTION - Personal & Photo */
+.top-section {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+  align-items: flex-start;
+}
+
+.top-left {
+  flex: 1;
+}
+
+.top-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.photo-box {
+  width: 85px;
+  height: 105px;
+  border: 2px solid #333;
+  background: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.photo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-label {
+  font-size: 9px;
+  font-weight: 700;
+  text-align: center;
+  color: #666;
+}
+
+/* FORM GRID */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.form-row.full {
+  grid-template-columns: 1fr;
+}
+
+.form-row.three {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 2px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  font-size: 11px;
+  padding: 4px;
+  border: 1px solid #333;
+  border-radius: 2px;
+  font-family: inherit;
+  background: white;
+}
+
+.form-group textarea {
+  resize: none;
+  min-height: 30px;
+}
+
+.required-text {
+  font-weight: 700;
+  color: #c62828;
+  font-size: 9px;
+}
+
+/* SECTION HEADERS */
+.section-header {
+  font-size: 10px;
+  font-weight: 900;
+  color: #fff;
+  background: #228B22;
+  padding: 3px 6px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  border-radius: 2px;
+}
+
+/* DOCUMENTS SECTION */
+.doc-section {
+  margin-bottom: 5px;
+}
+
+.doc-checklist {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3px;
+  font-size: 10px;
+}
+
+.doc-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.doc-item input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.doc-item label {
+  margin: 0;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+/* DECLARATION */
+.declaration {
+  display: flex;
+  gap: 4px;
+  align-items: flex-start;
+  font-size: 10px;
+  margin: 5px 0;
+  padding: 4px;
+  border: 1px dashed #999;
+  border-radius: 2px;
+  background: #fafafa;
+}
+
+.declaration input {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.declaration span {
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+/* SIGNATURE SECTION */
+.signature-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+  text-align: center;
+  font-size: 9px;
+}
+
+.sig-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 45px;
+}
+
+.sig-line {
+  border-top: 1px solid #000;
+  margin-bottom: 3px;
+  min-height: 30px;
+}
+
+.sig-label {
+  font-weight: 700;
+  font-size: 9px;
+}
+
+/* BUTTONS */
+.buttons {
+  text-align: center;
+  margin-top: 10px;
+  gap: 5px;
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  color: white;
+}
+
+.print-btn { background: #228B22; display: none; }
+.save-btn { background: #6a1b9a; }
+.back-btn { background: #1565c0; }
+.reset-btn { background: #9e9e9e; display: none; }
+
+.form-id-box {
+  background: #e8f5e9;
+  padding: 4px;
+  border: 1px solid #228B22;
+  border-radius: 2px;
+  margin-bottom: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+  display: none;
+}
+
+.form-id-box input {
+  width: 100%;
+  text-align: center;
+  font-weight: 700;
+  color: #228B22;
+  margin-top: 2px;
+}
+
+.no-print {
+  display: block;
+}
+
+/* PRINT STYLES */
+@media print {
+  body { padding: 0; background: white; }
+  .page { width: 100%; height: 100%; margin: 0; padding: 10mm; box-shadow: none; }
+  .buttons { display: none; }
+  .no-print { display: none !important; }
+  input[type="file"] { display: none !important; }
+}
+
+@page {
+  size: A4;
+  margin: 10mm;
+}
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="header">
-    <div class="school-name">KALYANI DEVI SCHOOL OF EDUCATION</div>
-    <div class="address">Piparkhunta, Dewarhat, Lormi, Mungeli, Chhattisgarh – 495115</div>
-    <div class="contact">Mobile: 8224821843 | Email: kdse1227@gmail.com</div>
-    <div class="udise">UDISE Code - 22191213904</div>
-    <div class="session">Admission Form 2026-27</div>
-  </div>
 
-  <div class="header-line"></div>
+<div class="page">
+  <div class="content">
+    
+    <!-- HEADER -->
+    <div class="header">
+      <div class="school-name">KALYANI DEVI SCHOOL OF EDUCATION</div>
+      <div class="address">Piparkhunta, Dewarhat, Lormi, Mungeli, Chhattisgarh – 495115</div>
+      <div class="contact">Mobile: 8224821843 | Email: kdse1227@gmail.com</div>
+      <div class="udise">UDISE Code: 22191213904</div>
+      <div class="session">ADMISSION FORM 2026-27</div>
+      <div class="form-title">Form ID: <span id="formIdHeader">____________________</span></div>
+    </div>
 
-  <div class="form-row">
-    <!-- Left side: new sidebar for guardian & form id -->
-    <div class="side-box col" id="leftSide">
-      <div class="form-group form-id-box" id="formIdBox" style="display:none">
-        <label>Form ID</label>
-        <input type="text" id="formIdDisplay" readonly>
-        <input type="hidden" id="formId">
-      </div>
-
-      <div class="form-group">
-        <label>Guardian's Full Name</label>
-        <input type="text" id="guardianName" placeholder="Guardian / Parent">
-      </div>
-      <div class="inline">
-        <div class="form-group">
-          <label>Guardian's Relation</label>
-          <input type="text" id="guardianRelation" placeholder="eg. Father / Mother / Uncle">
+    <!-- TOP SECTION: Personal Info + Photo -->
+    <div class="top-section">
+      <div class="top-left">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Student Name (English) <span class="required-text">*</span></label>
+            <input type="text" id="studentEng">
+          </div>
+          <div class="form-group">
+            <label>Student Name (Hindi)</label>
+            <input type="text" id="studentHin">
+          </div>
         </div>
-        <div class="form-group">
-          <label>Parents/Guardian's Occupation</label>
-          <input type="text" id="guardianOccupation" placeholder="Occupation">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Father's Name (English) <span class="required-text">*</span></label>
+            <input type="text" id="fatherEng">
+          </div>
+          <div class="form-group">
+            <label>Father's Name (Hindi)</label>
+            <input type="text" id="fatherHin">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Mother's Name (English) <span class="required-text">*</span></label>
+            <input type="text" id="motherEng">
+          </div>
+          <div class="form-group">
+            <label>Mother's Name (Hindi)</label>
+            <input type="text" id="motherHin">
+          </div>
         </div>
       </div>
+
+      <div class="top-right">
+        <div class="photo-box">
+          <img id="preview" alt="Photo">
+        </div>
+        <div class="photo-label">Passport Size Photo</div>
+        <input type="file" id="photoFile" accept="image/*" onchange="previewImage(event)" class="no-print" style="font-size: 9px; width: 85px;">
+      </div>
+    </div>
+
+    <!-- SECTION: ADMISSION DETAILS -->
+    <div class="section-header">ADMISSION DETAILS</div>
+    
+    <div class="form-row three">
       <div class="form-group">
-        <label>Student Blood Group</label>
+        <label>Class of Admission <span class="required-text">*</span></label>
+        <select id="classSelect">
+          <option value="">Select</option>
+          <option>KG</option><option>I</option><option>II</option><option>III</option><option>IV</option>
+          <option>V</option><option>VI</option><option>VII</option><option>VIII</option>
+          <option>IX</option><option>X</option><option>XI</option><option>XII</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Date of Birth <span class="required-text">*</span><br><span class="required-text">(AS PER DOCUMENT)</span></label>
+        <input type="date" id="dob">
+      </div>
+      <div class="form-group">
+        <label>Gender <span class="required-text">*</span></label>
+        <select id="gender">
+          <option value="">Select</option>
+          <option>Male</option><option>Female</option><option>Other</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- SECTION: PERSONAL INFORMATION -->
+    <div class="section-header">PERSONAL INFORMATION</div>
+
+    <div class="form-row three">
+      <div class="form-group">
+        <label>Caste <span class="required-text">*</span><br><span class="required-text">(AS PER DOCUMENT)</span></label>
+        <select id="caste">
+          <option value="">Select</option>
+          <option>General</option><option>OBC</option><option>SC</option><option>ST</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Blood Group</label>
         <select id="bloodGroup">
           <option value="">Select</option>
           <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
           <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
         </select>
       </div>
-      <div class="note"><strong>PLEASE PROVIDE DOCUMENTATION</strong></div>
-    </div>
-
-    <!-- Right: photo and main fields -->
-    <div style="flex:1;display:flex;gap:8px;align-items:flex-start">
-      <div style="flex:1">
-        <div class="form-row" style="gap:8px;">
-          <div class="col">
-            <div class="form-group"><label>Student Name (English)</label><input type="text" id="studentEng"></div>
-          </div>
-          <div class="col">
-            <div class="form-group"><label>Student Name (Hindi)</label><input type="text" id="studentHin"></div>
-          </div>
-        </div>
-
-        <div class="form-row" style="gap:8px;">
-          <div class="col"><div class="form-group"><label>Father Name (English)</label><input type="text" id="fatherEng"></div></div>
-          <div class="col"><div class="form-group"><label>Father Name (Hindi)</label><input type="text" id="fatherHin"></div></div>
-        </div>
-
-        <div class="form-row" style="gap:8px;">
-          <div class="col"><div class="form-group"><label>Mother Name (English)</label><input type="text" id="motherEng"></div></div>
-          <div class="col"><div class="form-group"><label>Mother Name (Hindi)</label><input type="text" id="motherHin"></div></div>
-        </div>
-
-        <div class="form-row" style="gap:8px;">
-          <div class="col"><div class="form-group"><label>Which Class of Admission</label>
-            <select id="classSelect">
-              <option value="">Select</option>
-              <option>KG</option><option>I</option><option>II</option><option>III</option><option>IV</option>
-              <option>V</option><option>VI</option><option>VII</option><option>VIII</option>
-              <option>IX</option><option>X</option><option>XI</option><option>XII</option>
-            </select>
-          </div></div>
-
-          <div class="col">
-            <div class="form-group"><label>DOB <span style="font-weight:700;color:#b71c1c;font-size:11px"> (AS PER DOCUMENT PROVIDED)</span></label>
-              <input type="date" id="dob">
-            </div>
-          </div>
-        </div>
-
-        <div class="form-row" style="gap:8px;">
-          <div class="col">
-            <div class="form-group"><label>Caste</label>
-              <select id="caste">
-                <option value="">Select</option><option>General</option><option>OBC</option><option>SC</option><option>ST</option>
-              </select>
-              <div class="small">PLEASE PROVIDE DOCUMENTATION</div>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="form-group"><label>Gender</label>
-              <select id="gender"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-row" style="gap:8px;">
-          <div class="col"><div class="form-group"><label>Aadhar</label><input type="text" id="aadhar" maxlength="12" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,12)"></div></div>
-          <div class="col"><div class="form-group"><label>Mobile</label><input type="text" id="mobile" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)"></div></div>
-          <div class="col"><div class="form-group"><label>Email</label><input type="email" id="email"></div></div>
-        </div>
-
-        <div class="form-group"><label>Address</label><textarea rows="2" id="address"></textarea></div>
-
-        <!-- Documentation checklist placed above declaration -->
-        <div class="form-group" id="documentationList">
-          <label>Document(s) Submitted (tick)</label>
-          <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:12px;">
-            <label><input type="checkbox" id="docBirth"> Self-attested Birth Certificate (Mandatory)</label>
-            <label><input type="checkbox" id="docTC"> Transfer Certificate original (if applicable)</label>
-            <label><input type="checkbox" id="docAad"> Aadhaar Card of Student/Parents</label>
-            <label><input type="checkbox" id="docAddr"> Address proof (Aadhaar/Ration/Voter/Electricity/Water bill)</label>
-          </div>
-        </div>
-
-        <div class="form-group no-print">
-          <label>Upload Photo</label>
-          <input type="file" accept="image/*" onchange="previewImage(event)">
-        </div>
-
-        <div class="declaration-box">
-          <input type="checkbox" id="declaration" required>
-          <span>मैं प्रमाणित करता/करती हूँ कि दी गयी जानकारी और दस्तावेज सत्य हैं।</span>
-        </div>
-
-      </div>
-
-      <div class="photo-box">
-        <img id="preview" alt="">
+      <div class="form-group">
+        <label>Aadhar <span class="required-text">*</span></label>
+        <input type="text" id="aadhar" maxlength="12" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,12)">
       </div>
     </div>
-  </div>
 
-  <div class="signature-section">
-    <div class="signature">_____________________<br>Student</div>
-    <div class="signature">_____________________<br>Parent / Guardian</div>
-    <div class="signature">_____________________<br>Principal</div>
-  </div>
+    <div class="form-row three">
+      <div class="form-group">
+        <label>Mobile <span class="required-text">*</span></label>
+        <input type="text" id="mobile" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)">
+      </div>
+      <div class="form-group">
+        <label>Email <span class="required-text">*</span></label>
+        <input type="email" id="email">
+      </div>
+      <div></div>
+    </div>
 
-  <div class="buttons no-print">
-    <button class="print-btn" onclick="window.print()">Print</button>
-    <button type="button" class="save-btn" onclick="saveRecord()">Save</button>
-    <button class="back-btn" onclick="history.back()">Back</button>
-    <button type="button" class="reset-btn" onclick="resetForm()">Reset Form</button>
+    <div class="form-row full">
+      <div class="form-group">
+        <label>Parent/Guardian/Student Address <span class="required-text">*</span></label>
+        <textarea id="address"></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION: PREVIOUS SCHOOL DETAILS -->
+    <div class="section-header">PREVIOUS SCHOOL DETAILS</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Previous Class</label>
+        <input type="text" id="prevClass">
+      </div>
+      <div class="form-group">
+        <label>Previous School Name</label>
+        <input type="text" id="prevSchool">
+      </div>
+    </div>
+
+    <!-- SECTION: GUARDIAN INFORMATION -->
+    <div class="section-header">GUARDIAN INFORMATION</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Guardian's Full Name</label>
+        <input type="text" id="guardianName" placeholder="Parent/Guardian">
+      </div>
+      <div class="form-group">
+        <label>Relation to Student</label>
+        <input type="text" id="guardianRelation" placeholder="eg. Father / Mother / Uncle">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Occupation</label>
+        <input type="text" id="guardianOccupation">
+      </div>
+      <div></div>
+    </div>
+
+    <!-- SECTION: DOCUMENTS -->
+    <div class="section-header">DOCUMENTS SUBMITTED</div>
+
+    <div class="doc-section">
+      <div class="doc-checklist">
+        <div class="doc-item">
+          <input type="checkbox" id="docBirth">
+          <label for="docBirth">Self-attested Birth Certificate (Mandatory)</label>
+        </div>
+        <div class="doc-item">
+          <input type="checkbox" id="docTC">
+          <label for="docTC">Transfer Certificate original (if applicable)</label>
+        </div>
+        <div class="doc-item">
+          <input type="checkbox" id="docAad">
+          <label for="docAad">Aadhaar Card of Student/Parents</label>
+        </div>
+        <div class="doc-item">
+          <input type="checkbox" id="docAddr">
+          <label for="docAddr">Address proof (Aadhaar/Ration/Voter/Electricity/Water bill)</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- DECLARATION -->
+    <div class="declaration">
+      <input type="checkbox" id="declaration" required>
+      <span>मैं प्रमाणित करता/करती हूँ कि दी गई जानकारी और दस्तावेज पूर्ण एवं सत्य हैं।</span>
+    </div>
+
+    <!-- FORM ID (Hidden until submitted) -->
+    <div class="form-id-box" id="formIdBox">
+      <div>Form ID</div>
+      <input type="text" id="formIdDisplay" readonly>
+      <input type="hidden" id="formId">
+    </div>
+
+    <!-- SIGNATURES -->
+    <div class="signature-section">
+      <div class="sig-box">
+        <div class="sig-line"></div>
+        <div class="sig-label">Student's Signature</div>
+      </div>
+      <div class="sig-box">
+        <div class="sig-line"></div>
+        <div class="sig-label">Parent/Guardian Signature</div>
+      </div>
+      <div class="sig-box">
+        <div class="sig-line"></div>
+        <div class="sig-label">Principal Signature</div>
+      </div>
+    </div>
+
   </div>
 </div>
 
+<!-- BUTTONS (Only visible on screen, not in print) -->
+<div class="buttons no-print" style="margin-top: 20px;">
+  <button class="print-btn" onclick="window.print()">Print</button>
+  <button class="save-btn" onclick="saveRecord()">Save Form</button>
+  <button class="back-btn" onclick="history.back()">Back</button>
+  <button class="reset-btn" onclick="resetForm()">Reset</button>
+</div>
+
 <script>
-/* Replace with your deployed Apps Script web app URL (the /exec URL) */
 const GAS_URL = "https://script.google.com/macros/s/AKfycbw5nJP_7GLLKjRNw7IXSIC5IYmkU-r7-FNCUn-jx5kNmXpLCrEIrScyYvJozOFKVwJnBw/exec";
 
-function previewImage(event){
+function previewImage(event) {
   const reader = new FileReader();
-  reader.onload = function(){ document.getElementById('preview').src = reader.result; }
+  reader.onload = function() { document.getElementById('preview').src = reader.result; }
   if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
 }
-function $(id){ return document.getElementById(id); }
 
-function validateForm(){
-  // required fields (adjust as needed)
-  return $('studentEng').value && $('studentHin').value &&
-    $('fatherEng').value && $('motherEng').value &&
-    $('dob').value && $('gender').value &&
-    $('caste').value && $('aadhar').value &&
-    $('mobile').value && $('email').value &&
-    $('address').value && $('classSelect').value &&
+function $(id) { return document.getElementById(id); }
+
+function validateForm() {
+  return $('studentEng').value && $('fatherEng').value && $('motherEng').value &&
+    $('dob').value && $('gender').value && $('caste').value && $('aadhar').value &&
+    $('mobile').value && $('email').value && $('address').value && $('classSelect').value &&
     $('declaration').checked;
 }
 
-function resetForm(){
-  document.querySelector('form')?.reset();
-  // clear inputs manually
-  $('studentEng').value='';$('studentHin').value='';$('fatherEng').value='';$('fatherHin').value='';
-  $('motherEng').value='';$('motherHin').value='';$('classSelect').value='';$('dob').value='';
-  $('caste').value='';$('gender').value='';$('aadhar').value='';$('mobile').value='';$('email').value='';
-  $('address').value='';$('preview').src='';$('formId').value='';$('formIdDisplay').value='';document.querySelector(".print-btn").style.display="none";document.querySelector(".reset-btn").style.display="none";document.getElementById('formIdBox').style.display='none';
+function resetForm() {
+  document.querySelectorAll('input, textarea, select').forEach(el => el.value = '');
+  document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
+  $('preview').src = '';
+  document.querySelector(".print-btn").style.display = "none";
+  document.querySelector(".reset-btn").style.display = "none";
+  document.getElementById('formIdBox').style.display = 'none';
 }
 
-async function saveRecord(){
-  if(!validateForm()){ alert("Please fill all required fields"); return; }
-  if($('aadhar').value.length !== 12){ alert("Aadhar must be 12 digits"); return; }
-  if($('mobile').value.length !== 10){ alert("Mobile must be 10 digits"); return; }
+async function saveRecord() {
+  if(!validateForm()) { alert("Please fill all required fields"); return; }
+  if($('aadhar').value.length !== 12) { alert("Aadhar must be 12 digits"); return; }
+  if($('mobile').value.length !== 10) { alert("Mobile must be 10 digits"); return; }
 
   let savedAadhars = JSON.parse(localStorage.getItem("savedAadhars") || "[]");
-  if(savedAadhars.includes($('aadhar').value)){ alert("इस Aadhar से पहले ही फॉर्म भरा जा चुका है!"); return; }
+  if(savedAadhars.includes($('aadhar').value)) { alert("इस Aadhar से पहले ही फॉर्म भरा जा चुका है!"); return; }
 
   const hf = document.createElement('form');
   hf.method = 'post'; hf.action = GAS_URL; hf.style.display = 'none';
+  
+  const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+  
   const fields = {
-    studentEng: $('studentEng').value,
-    studentHin: $('studentHin').value,
-    fatherEng: $('fatherEng').value,
-    fatherHin: $('fatherHin').value,
-    motherEng: $('motherEng').value,
-    motherHin: $('motherHin').value,
-    guardianName: $('guardianName').value,
-    guardianRelation: $('guardianRelation').value,
-    guardianOccupation: $('guardianOccupation').value,
-    bloodGroup: $('bloodGroup').value,
-    class: $('classSelect').value,
+    formId: 'FRM' + Date.now(),
+    studentEngName: $('studentEng').value,
+    studentHinName: $('studentHin').value,
+    fatherEngName: $('fatherEng').value,
+    fatherHinName: $('fatherHin').value,
+    motherEngName: $('motherEng').value,
+    motherHinName: $('motherHin').value,
+    classAdmission: $('classSelect').value,
     dob: $('dob').value,
-    caste: $('caste').value,
     gender: $('gender').value,
+    caste: $('caste').value,
+    bloodGroup: $('bloodGroup').value,
     aadhar: $('aadhar').value,
     mobile: $('mobile').value,
     email: $('email').value,
     address: $('address').value,
-    docBirth: $('docBirth').checked,
-    docTC: $('docTC').checked,
-    docAad: $('docAad').checked,
-    docAddr: $('docAddr').checked,
-    timestamp: new Date().toISOString()
+    prevClass: $('prevClass').value,
+    prevSchool: $('prevSchool').value,
+    guardianName: $('guardianName').value,
+    guardianRelation: $('guardianRelation').value,
+    guardianOccupation: $('guardianOccupation').value,
+    timestamp: timestamp,
+    photoData: document.getElementById('preview').src || ''
   };
 
-  for(const k in fields){
-    const inp=document.createElement('input');
-    inp.type='hidden'; inp.name=k; inp.value = (typeof fields[k]==='boolean')? (fields[k]? 'Yes':'No') : (fields[k]||'');
+  for(const k in fields) {
+    const inp = document.createElement('input');
+    inp.type = 'hidden'; inp.name = k; inp.value = fields[k] || '';
     hf.appendChild(inp);
   }
 
@@ -274,30 +657,32 @@ async function saveRecord(){
   const prevText = saveBtn.textContent; saveBtn.textContent = "Submitting..."; saveBtn.disabled = true;
 
   const iframe = document.createElement('iframe');
-  iframe.name = 'resp_iframe'; iframe.style.display='none'; document.body.appendChild(iframe);
+  iframe.name = 'resp_iframe'; iframe.style.display = 'none'; document.body.appendChild(iframe);
   hf.target = 'resp_iframe';
 
-  function messageHandler(ev){
-    try{
+  function messageHandler(ev) {
+    try {
       const j = ev.data;
       if(!j || typeof j !== 'object') return;
-      if(j.status === 'success'){
+      if(j.status === 'success') {
         savedAadhars.push($('aadhar').value);
         localStorage.setItem("savedAadhars", JSON.stringify(savedAadhars));
-        $('formId').value = j.formId; $('formIdDisplay').value = j.formId;
+        $('formId').value = j.formId; 
+        $('formIdDisplay').value = j.formId;
+        $('formIdHeader').textContent = j.formId;
         document.getElementById('formIdBox').style.display = 'block';
         alert("Form submitted and saved to sheet successfully!\nForm ID: " + j.formId);
-        document.querySelector(".print-btn").style.display="inline-block";
-        document.querySelector(".reset-btn").style.display="inline-block";
+        document.querySelector(".print-btn").style.display = "inline-block";
+        document.querySelector(".reset-btn").style.display = "inline-block";
       } else {
         alert('Submission failed: ' + (j && j.message ? j.message : 'Unknown error'));
       }
-    } catch(e){
+    } catch(e) {
       alert("Could not read response");
     } finally {
       window.removeEventListener('message', messageHandler);
       saveBtn.textContent = prevText; saveBtn.disabled = false;
-      setTimeout(()=>{ iframe.remove(); hf.remove(); }, 1000);
+      setTimeout(() => { iframe.remove(); hf.remove(); }, 1000);
     }
   }
 
@@ -305,5 +690,6 @@ async function saveRecord(){
   hf.submit();
 }
 </script>
+
 </body>
 </html>
