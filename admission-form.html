@@ -350,6 +350,11 @@ button:hover {
   opacity: 0.9;
 }
 
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .print-btn { background: #228B22; display: none; }
 .save-btn { background: #6a1b9a; }
 .back-btn { background: #1565c0; }
@@ -357,11 +362,11 @@ button:hover {
 
 .form-id-box {
   background: #e8f5e9;
-  padding: 4px;
-  border: 1px solid #228B22;
+  padding: 8px;
+  border: 2px solid #228B22;
   border-radius: 2px;
   margin-bottom: 4px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   text-align: center;
   display: none;
@@ -372,7 +377,9 @@ button:hover {
   text-align: center;
   font-weight: 700;
   color: #228B22;
-  margin-top: 2px;
+  margin-top: 4px;
+  padding: 6px;
+  border: 1px solid #228B22;
 }
 
 .no-print {
@@ -637,9 +644,9 @@ button:hover {
 
     <!-- FORM ID (Hidden until submitted) -->
     <div class="form-id-box" id="formIdBox">
-      <div>Form ID</div>
+      <div>✅ Form Submitted Successfully!</div>
+      <div style="font-size: 12px; margin-top: 4px;">Your Form ID:</div>
       <input type="text" id="formIdDisplay" readonly>
-      <input type="hidden" id="formId">
     </div>
 
   </div>
@@ -648,12 +655,13 @@ button:hover {
 <!-- BUTTONS (Only visible on screen, not in print) -->
 <div class="buttons no-print">
   <button class="print-btn" onclick="window.print()">🖨️ Print</button>
-  <button class="save-btn" onclick="saveRecord()">💾 Save Form</button>
+  <button class="save-btn" id="saveBtn" onclick="saveRecord()">💾 Save Form</button>
   <button class="back-btn" onclick="history.back()">⬅️ Back</button>
-  <button class="reset-btn" onclick="resetForm()">🔄 Reset</button>
+  <button class="reset-btn" id="resetBtn" onclick="resetForm()">🔄 Reset</button>
 </div>
 
 <script>
+// ✅ CORRECTED: Apps Script URL को अपने URL से replace करें
 const GAS_URL = "https://script.google.com/macros/s/AKfycbw5nJP_7GLLKjRNw7IXSIC5IYmkU-r7-FNCUn-jx5kNmXpLCrEIrScyYvJozOFKVwJnBw/exec";
 
 function previewImage(event) {
@@ -740,7 +748,7 @@ function validateForm() {
 function resetForm() {
   document.querySelectorAll('input, textarea, select').forEach(el => {
     if(el.type === 'checkbox') el.checked = false;
-    else el.value = '';
+    else if(el.type !== 'hidden') el.value = '';
   });
   document.getElementById('preview').src = '';
   document.getElementById('preview').style.display = 'none';
@@ -749,110 +757,90 @@ function resetForm() {
   document.querySelector(".print-btn").style.display = "none";
   document.querySelector(".reset-btn").style.display = "none";
   document.getElementById('formIdBox').style.display = 'none';
+  document.getElementById('formIdHeader').textContent = '____________________';
   alert('✓ Form reset successfully!');
 }
 
+// ✅ CORRECTED: Fetch API use कर रहे हैं
 async function saveRecord() {
   if(!validateForm()) { 
     return; 
   }
 
+  // Check if Aadhar already exists
   let savedAadhars = JSON.parse(localStorage.getItem("savedAadhars") || "[]");
   if(savedAadhars.includes($('aadhar').value)) { 
     alert("❌ इस Aadhar से पहले ही फॉर्म भरा जा चुका है!"); 
     return; 
   }
 
-  const hf = document.createElement('form');
-  hf.method = 'post'; 
-  hf.action = GAS_URL; 
-  hf.style.display = 'none';
-  
-  const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
-  const formId = 'FRM' + Date.now();
-  
-  const fields = {
-    formId: formId,
-    studentEngName: $('studentEng').value,
-    studentHinName: $('studentHin').value,
-    fatherEngName: $('fatherEng').value,
-    fatherHinName: $('fatherHin').value,
-    motherEngName: $('motherEng').value,
-    motherHinName: $('motherHin').value,
-    classAdmission: $('classSelect').value,
-    dob: $('dob').value,
-    gender: $('gender').value,
-    caste: $('caste').value,
-    bloodGroup: $('bloodGroup').value,
-    aadhar: $('aadhar').value,
-    mobile: $('mobile').value,
-    email: $('email').value,
-    address: $('address').value,
-    prevClass: $('prevClass').value,
-    prevSchool: $('prevSchool').value,
-    guardianName: $('guardianName').value,
-    guardianRelation: $('guardianRelation').value,
-    guardianOccupation: $('guardianOccupation').value,
-    timestamp: timestamp,
-    photoData: document.getElementById('preview').src || ''
-  };
-
-  for(const k in fields) {
-    const inp = document.createElement('input');
-    inp.type = 'hidden'; 
-    inp.name = k; 
-    inp.value = fields[k] || '';
-    hf.appendChild(inp);
-  }
-
-  document.body.appendChild(hf);
-  const saveBtn = document.querySelector(".save-btn");
+  const saveBtn = document.getElementById("saveBtn");
   const prevText = saveBtn.textContent; 
   saveBtn.textContent = "⏳ Submitting..."; 
   saveBtn.disabled = true;
 
-  const iframe = document.createElement('iframe');
-  iframe.name = 'resp_iframe'; 
-  iframe.style.display = 'none'; 
-  document.body.appendChild(iframe);
-  hf.target = 'resp_iframe';
+  try {
+    const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+    
+    // ✅ CORRECTED: FormData बनाओ
+    const formData = new FormData();
+    formData.append('timestamp', timestamp);
+    formData.append('studentEngName', $('studentEng').value);
+    formData.append('studentHinName', $('studentHin').value);
+    formData.append('fatherEngName', $('fatherEng').value);
+    formData.append('fatherHinName', $('fatherHin').value);
+    formData.append('motherEngName', $('motherEng').value);
+    formData.append('motherHinName', $('motherHin').value);
+    formData.append('classAdmission', $('classSelect').value);
+    formData.append('dob', $('dob').value);
+    formData.append('gender', $('gender').value);
+    formData.append('caste', $('caste').value);
+    formData.append('bloodGroup', $('bloodGroup').value);
+    formData.append('aadhar', $('aadhar').value);
+    formData.append('mobile', $('mobile').value);
+    formData.append('email', $('email').value);
+    formData.append('address', $('address').value);
+    formData.append('prevClass', $('prevClass').value);
+    formData.append('prevSchool', $('prevSchool').value);
+    formData.append('guardianName', $('guardianName').value);
+    formData.append('guardianRelation', $('guardianRelation').value);
+    formData.append('guardianOccupation', $('guardianOccupation').value);
+    formData.append('photoData', document.getElementById('preview').src || '');
 
-  function messageHandler(ev) {
-    try {
-      const j = JSON.parse(ev.data);
-      if(!j || typeof j !== 'object') return;
-      if(j.status === 'success') {
-        savedAadhars.push($('aadhar').value);
-        localStorage.setItem("savedAadhars", JSON.stringify(savedAadhars));
-        $('formId').value = formId; 
-        $('formIdDisplay').value = formId;
-        $('formIdHeader').textContent = formId;
-        document.getElementById('formIdBox').style.display = 'block';
-        alert("✅ Form submitted successfully!\n\nForm ID: " + formId);
-        document.querySelector(".print-btn").style.display = "inline-block";
-        document.querySelector(".reset-btn").style.display = "inline-block";
-      } else {
-        alert('❌ Submission failed: ' + (j && j.message ? j.message : 'Unknown error'));
-      }
-    } catch(e) {
-      alert("✅ Form submitted successfully!\nForm ID: " + formId);
-      document.querySelector(".print-btn").style.display = "inline-block";
-      document.querySelector(".reset-btn").style.display = "inline-block";
+    // ✅ CORRECTED: Fetch API से भेजो
+    const response = await fetch(GAS_URL, {
+      method: 'POST',
+      body: formData
+    });
+
+    const result = await response.json();
+    console.log("Response:", result);
+
+    if(result.status === 'success' && result.formId) {
+      // ✅ CORRECTED: Apps Script से आया Form ID use करो
+      const formId = result.formId;
+      
+      savedAadhars.push($('aadhar').value);
+      localStorage.setItem("savedAadhars", JSON.stringify(savedAadhars));
+      
       $('formIdDisplay').value = formId;
       $('formIdHeader').textContent = formId;
       document.getElementById('formIdBox').style.display = 'block';
-      savedAadhars.push($('aadhar').value);
-      localStorage.setItem("savedAadhars", JSON.stringify(savedAadhars));
-    } finally {
-      window.removeEventListener('message', messageHandler);
-      saveBtn.textContent = prevText; 
-      saveBtn.disabled = false;
-      setTimeout(() => { iframe.remove(); hf.remove(); }, 1000);
+      
+      alert("✅ Form submitted successfully!\n\nForm ID: " + formId);
+      
+      document.querySelector(".print-btn").style.display = "inline-block";
+      document.querySelector(".reset-btn").style.display = "inline-block";
+    } else {
+      alert('❌ Submission failed: ' + (result.message || 'Unknown error'));
     }
+  } catch(error) {
+    console.error('Error:', error);
+    alert('❌ Error submitting form: ' + error.message);
+  } finally {
+    saveBtn.textContent = prevText; 
+    saveBtn.disabled = false;
   }
-
-  window.addEventListener('message', messageHandler, false);
-  hf.submit();
 }
 </script>
 
