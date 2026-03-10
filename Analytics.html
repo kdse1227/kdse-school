@@ -551,15 +551,12 @@ tbody tr:nth-child(even) {
 </div>
 
 <script>
-// ✅ Google Apps Script Backend URL
-const GAS_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/usercontent.usercontent.com/macros/s/YOUR_SCRIPT_ID/exec";
-
-// ✅ Replace करो अपना actual URL ���े!
+// ✅ CORRECT FORMAT का URL
+const GAS_URL = "https://script.google.com/macros/s/AKfycbxoULVLnQpTP8uYWLyz4JWAR9l5QjhJacLC7A1dKW_hI9ArrW6YO5slwalPohzDP4cA/exec"; // Google Apps Script URL भरो!
 
 let authToken = null;
 let allData = [];
 
-// PASSWORD CHECK - SERVER-SIDE
 function handleEnter(event) {
   if (event.key === 'Enter') {
     loginUser();
@@ -578,42 +575,45 @@ async function loginUser() {
     return;
   }
   
-  // UI update
   loginBtn.disabled = true;
   loginBtn.textContent = 'Logging in...';
   successMsg.classList.add('show');
   errorMsg.classList.remove('show');
   
   try {
-    // ✅ Backend को भेजो login request
+    console.log("Sending login request to:", GAS_URL);
+    
+    // ✅ CORRECT FORMAT - FormData use करो
+    const formData = new FormData();
+    formData.append('action', 'login');
+    formData.append('password', password);
+    
+    console.log("Form data prepared:", {
+      action: 'login',
+      password: '***'
+    });
+    
     const response = await fetch(GAS_URL, {
       method: 'POST',
-      body: new URLSearchParams({
-        action: 'login',
-        password: password
-      })
+      payload: formData
     });
+    
+    console.log("Response received:", response);
     
     const result = await response.json();
     console.log("Login response:", result);
     
     if (result.status === 'success' && result.token) {
-      // ✅ Password सही है!
       authToken = result.token;
-      
-      // Session storage में token save करो
       sessionStorage.setItem('authToken', authToken);
       
-      // Login page hide करो
       document.getElementById('loginPage').style.display = 'none';
       document.getElementById('analyticsPage').style.display = 'block';
       document.getElementById('passwordInput').value = '';
       successMsg.classList.remove('show');
       
-      // Data load करो
       loadAnalytics();
     } else {
-      // ❌ Password गलत है
       errorMsg.textContent = '❌ Invalid Password';
       errorMsg.classList.add('show');
       successMsg.classList.remove('show');
@@ -621,7 +621,7 @@ async function loginUser() {
     }
   } catch(error) {
     console.error('Login error:', error);
-    errorMsg.textContent = '❌ Connection error: ' + error.message;
+    errorMsg.textContent = '❌ Error: ' + error.message;
     errorMsg.classList.add('show');
     successMsg.classList.remove('show');
   } finally {
@@ -641,7 +641,6 @@ function logoutUser() {
   document.getElementById('successMsg').classList.remove('show');
 }
 
-// Check if already logged in
 window.addEventListener('load', function() {
   const savedToken = sessionStorage.getItem('authToken');
   if (savedToken) {
@@ -652,7 +651,6 @@ window.addEventListener('load', function() {
   }
 });
 
-// ✅ DATA LOADING - Token के साथ
 async function loadAnalytics() {
   if (!authToken) {
     alert('❌ Session expired! Please login again.');
@@ -661,19 +659,22 @@ async function loadAnalytics() {
   }
   
   try {
+    console.log("Fetching data with token:", authToken.substring(0, 20) + "...");
+    
+    const formData = new FormData();
+    formData.append('action', 'getData');
+    formData.append('token', authToken);
+    
     const response = await fetch(GAS_URL, {
       method: 'POST',
-      body: new URLSearchParams({
-        action: 'getData',
-        token: authToken
-      })
+      payload: formData
     });
     
     const result = await response.json();
     console.log("Data response:", result);
     
     if (result.status === 'success' && result.data) {
-      allData = result.data.slice(1); // Skip header
+      allData = result.data.slice(1);
       displayAnalytics();
       updateLastUpdated();
       showAnalyticsContent();
@@ -681,13 +682,13 @@ async function loadAnalytics() {
       alert('❌ Session expired! Please login again.');
       logoutUser();
     } else {
-      alert('❌ Error loading data: ' + result.message);
+      alert('❌ Error: ' + result.message);
     }
   } catch(error) {
     console.error('Data loading error:', error);
     document.getElementById('loadingState').innerHTML = `
-      <p style="color: red; font-size: 16px;">❌ Error loading data!</p>
-      <p style="color: white; font-size: 12px;">${error.message}</p>
+      <p style="color: red; font-size: 16px;">❌ Error: ${error.message}</p>
+      <p style="color: white; font-size: 12px;">Check console for details</p>
     `;
   }
 }
