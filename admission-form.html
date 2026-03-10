@@ -23,6 +23,7 @@ body {
   overflow: visible;
 }
 
+/* ✅ WATERMARK - BACKGROUND ME "KDSE SCHOOL" LIKHO */
 .page::before {
   content: "KALYANI DEVI SCHOOL OF EDUCATION";
   position: absolute;
@@ -51,6 +52,8 @@ body {
   margin-bottom: 6px;
   border-bottom: 2px solid #000;
   padding-bottom: 4px;
+  overflow: hidden;
+  overflow-wrap: break-word;
 }
 
 .school-name {
@@ -59,6 +62,8 @@ body {
   color: #228B22;
   letter-spacing: 1.5px;
   margin-bottom: 2px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .address {
@@ -66,6 +71,8 @@ body {
   font-weight: 600;
   color: #000;
   margin: 1px 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .contact {
@@ -96,6 +103,8 @@ body {
   font-weight: 700;
   color: #333;
   margin: 2px 0 0 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* TOP SECTION - Personal & Photo */
@@ -104,10 +113,12 @@ body {
   gap: 8px;
   margin-bottom: 6px;
   align-items: flex-start;
+  page-break-inside: avoid;
 }
 
 .top-left {
   flex: 1;
+  page-break-inside: avoid;
 }
 
 .top-right {
@@ -128,6 +139,7 @@ body {
   overflow: hidden;
   border-radius: 2px;
   position: relative;
+  flex-shrink: 0;
 }
 
 .photo-box img {
@@ -185,6 +197,7 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 8px;
   margin-bottom: 5px;
+  page-break-inside: avoid;
 }
 
 .form-row.full {
@@ -198,6 +211,7 @@ body {
 .form-group {
   display: flex;
   flex-direction: column;
+  page-break-inside: avoid;
 }
 
 .form-group label {
@@ -205,6 +219,8 @@ body {
   font-weight: 700;
   color: #000;
   margin-bottom: 2px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .form-group input,
@@ -216,6 +232,8 @@ body {
   border-radius: 2px;
   font-family: inherit;
   background: white;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .form-group textarea {
@@ -239,11 +257,14 @@ body {
   margin-bottom: 5px;
   margin-top: 5px;
   border-radius: 2px;
+  page-break-inside: avoid;
+  page-break-after: avoid;
 }
 
 /* DOCUMENTS SECTION */
 .doc-section {
   margin-bottom: 5px;
+  page-break-inside: avoid;
 }
 
 .doc-checklist {
@@ -270,6 +291,8 @@ body {
   margin: 0;
   font-weight: normal;
   cursor: pointer;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* DECLARATION */
@@ -283,6 +306,9 @@ body {
   border: 1px dashed #999;
   border-radius: 2px;
   background: #fafafa;
+  page-break-inside: avoid;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .declaration input {
@@ -296,6 +322,8 @@ body {
 .declaration span {
   line-height: 1.4;
   font-weight: 600;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* SIGNATURE SECTION */
@@ -306,6 +334,7 @@ body {
   margin-top: 8px;
   text-align: center;
   font-size: 9px;
+  page-break-inside: avoid;
 }
 
 .sig-box {
@@ -324,6 +353,8 @@ body {
 .sig-label {
   font-weight: 700;
   font-size: 9px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* BUTTONS */
@@ -360,6 +391,7 @@ button:disabled {
 .back-btn { background: #1565c0; }
 .reset-btn { background: #9e9e9e; display: none; }
 
+/* ✅ FORM ID BOX - PRINT ME SHOW HOGA */
 .form-id-box {
   background: #e8f5e9;
   padding: 8px;
@@ -370,6 +402,7 @@ button:disabled {
   font-weight: 700;
   text-align: center;
   display: none;
+  page-break-inside: avoid;
 }
 
 .form-id-box input {
@@ -398,15 +431,183 @@ button:disabled {
   display: block;
 }
 
-/* PRINT STYLES */
+/* ✅ UPDATED PRINT STYLES */
 @media print {
-  body { padding: 0; background: white; }
-  .page { width: 100%; height: 100%; margin: 0; padding: 10mm; box-shadow: none; page-break-after: avoid; }
-  .buttons { display: none; }
-  .no-print { display: none !important; }
-  input[type="file"] { display: none !important; }
-  .file-input-wrapper { display: none !important; }
-  .file-input-label { display: none !important; }
+  body { 
+    padding: 0; 
+    background: white;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  .page { 
+    width: 100%; 
+    height: auto !important;
+    margin: 0; 
+    padding: 10mm; 
+    box-shadow: none; 
+    page-break-after: auto;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    break-inside: avoid;
+  }
+
+  /* ✅ WATERMARK - PRINT ME BHI DIKHEGA */
+  .page::before {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color: rgba(34, 139, 34, 0.06) !important;
+  }
+  
+  .buttons { 
+    display: none !important; 
+  }
+  
+  .no-print { 
+    display: none !important; 
+  }
+  
+  /* ✅ HEADER - NAME CUT NA HO */
+  .header {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .school-name {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color: #228B22 !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.2;
+  }
+
+  .address {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* ✅ TOP SECTION WITH PHOTO - PRINT ME SHOW HOGA */
+  .top-section {
+    display: flex !important;
+    page-break-inside: avoid !important;
+  }
+  
+  .top-right {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .photo-box {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    border: 2px solid #333 !important;
+    width: 85px;
+    height: 105px;
+    flex-shrink: 0;
+  }
+  
+  .photo-box img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+  
+  /* Photo label hide */
+  .photo-label {
+    display: none !important;
+  }
+  
+  /* File input section hide */
+  input[type="file"] { 
+    display: none !important; 
+  }
+  
+  .file-input-wrapper { 
+    display: none !important; 
+  }
+  
+  .file-input-label { 
+    display: none !important; 
+  }
+  
+  /* Section headers */
+  .section-header {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    background: #228B22 !important;
+    color: #fff !important;
+    page-break-inside: avoid !important;
+    page-break-after: avoid !important;
+  }
+  
+  /* UDISE aur Session colors */
+  .udise {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color: #c62828 !important;
+  }
+  
+  .session {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color: #0066cc !important;
+  }
+  
+  .sig-line {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    border-top: 1px solid #000 !important;
+  }
+  
+  /* ✅ FORM ID BOX - PRINT ME SHOW HOGA */
+  .form-id-box {
+    display: block !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    background: #e8f5e9 !important;
+    border: 2px solid #228B22 !important;
+    page-break-inside: avoid !important;
+  }
+
+  .form-id-box input {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color: #228B22 !important;
+    border: 1px solid #228B22 !important;
+  }
+  
+  /* Text wrapping properties for print */
+  p, div, label, span {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  
+  /* Prevent cutting of content */
+  .form-row {
+    page-break-inside: avoid !important;
+  }
+
+  .form-group {
+    page-break-inside: avoid !important;
+  }
+
+  .declaration {
+    page-break-inside: avoid !important;
+  }
+
+  .doc-section {
+    page-break-inside: avoid !important;
+  }
+
+  .signature-section {
+    page-break-inside: avoid !important;
+  }
 }
 
 @page {
@@ -642,7 +843,7 @@ button:disabled {
       </div>
     </div>
 
-    <!-- FORM ID (Hidden until submitted) -->
+    <!-- ✅ FORM ID BOX - PRINT ME SHOW HOGA -->
     <div class="form-id-box" id="formIdBox">
       <div>✅ Form Submitted Successfully!</div>
       <div style="font-size: 12px; margin-top: 4px;">Your Form ID:</div>
@@ -661,18 +862,24 @@ button:disabled {
 </div>
 
 <script>
-// ✅ CORRECTED: Apps Script URL को अपने URL से replace करें
 const GAS_URL = "https://script.google.com/macros/s/AKfycbw5nJP_7GLLKjRNw7IXSIC5IYmkU-r7-FNCUn-jx5kNmXpLCrEIrScyYvJozOFKVwJnBw/exec";
+
+let photoBase64Data = '';
 
 function previewImage(event) {
   const file = event.target.files[0];
   if(file) {
     const reader = new FileReader();
-    reader.onload = function() {
+    reader.onload = function(e) {
       const preview = document.getElementById('preview');
-      preview.src = reader.result;
+      preview.src = e.target.result;
       preview.style.display = 'block';
       document.getElementById('photoBox').classList.remove('empty');
+      
+      const fullBase64 = e.target.result;
+      photoBase64Data = fullBase64.split(',')[1];
+      
+      console.log("Photo converted to Base64 successfully");
     }
     reader.readAsDataURL(file);
   }
@@ -696,10 +903,8 @@ function validateForm() {
     { id: 'classSelect', name: 'Class of Admission' }
   ];
 
-  // Clear previous errors
   document.querySelectorAll('.form-group.error').forEach(el => el.classList.remove('error'));
 
-  // Validate required fields
   requiredFields.forEach(field => {
     const element = $(field.id);
     if(!element.value.trim()) {
@@ -708,27 +913,23 @@ function validateForm() {
     }
   });
 
-  // Validate photo
-  if(!$('preview').src || $('preview').style.display === 'none') {
+  if(!photoBase64Data || photoBase64Data.trim() === '') {
     alert('📸 Please upload a Passport Size Photo!');
     isValid = false;
   }
 
-  // Validate Aadhar (12 digits)
   if($('aadhar').value.length !== 12) {
     $('aadhar').parentElement.classList.add('error');
     alert('❌ Aadhar must be exactly 12 digits');
     isValid = false;
   }
 
-  // Validate Mobile (10 digits)
   if($('mobile').value.length !== 10) {
     $('mobile').parentElement.classList.add('error');
     alert('❌ Mobile must be exactly 10 digits');
     isValid = false;
   }
 
-  // Validate Email
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if(!emailRegex.test($('email').value)) {
     $('email').parentElement.classList.add('error');
@@ -736,7 +937,6 @@ function validateForm() {
     isValid = false;
   }
 
-  // Validate Declaration
   if(!$('declaration').checked) {
     alert('✓ Please agree to the declaration');
     isValid = false;
@@ -753,6 +953,7 @@ function resetForm() {
   document.getElementById('preview').src = '';
   document.getElementById('preview').style.display = 'none';
   document.getElementById('photoBox').classList.add('empty');
+  photoBase64Data = '';
   document.querySelectorAll('.form-group.error').forEach(el => el.classList.remove('error'));
   document.querySelector(".print-btn").style.display = "none";
   document.querySelector(".reset-btn").style.display = "none";
@@ -761,13 +962,11 @@ function resetForm() {
   alert('✓ Form reset successfully!');
 }
 
-// ✅ CORRECTED: Fetch API use कर रहे हैं
 async function saveRecord() {
   if(!validateForm()) { 
     return; 
   }
 
-  // Check if Aadhar already exists
   let savedAadhars = JSON.parse(localStorage.getItem("savedAadhars") || "[]");
   if(savedAadhars.includes($('aadhar').value)) { 
     alert("❌ इस Aadhar से पहले ही फॉर्म भरा जा चुका है!"); 
@@ -782,7 +981,6 @@ async function saveRecord() {
   try {
     const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
     
-    // ✅ CORRECTED: FormData बनाओ
     const formData = new FormData();
     formData.append('timestamp', timestamp);
     formData.append('studentEngName', $('studentEng').value);
@@ -805,9 +1003,8 @@ async function saveRecord() {
     formData.append('guardianName', $('guardianName').value);
     formData.append('guardianRelation', $('guardianRelation').value);
     formData.append('guardianOccupation', $('guardianOccupation').value);
-    formData.append('photoData', document.getElementById('preview').src || '');
+    formData.append('photoData', photoBase64Data);
 
-    // ✅ CORRECTED: Fetch API से भेजो
     const response = await fetch(GAS_URL, {
       method: 'POST',
       body: formData
@@ -817,8 +1014,8 @@ async function saveRecord() {
     console.log("Response:", result);
 
     if(result.status === 'success' && result.formId) {
-      // ✅ CORRECTED: Apps Script से आया Form ID use करो
       const formId = result.formId;
+      const photoFileId = result.photoFileId || '';
       
       savedAadhars.push($('aadhar').value);
       localStorage.setItem("savedAadhars", JSON.stringify(savedAadhars));
@@ -827,7 +1024,11 @@ async function saveRecord() {
       $('formIdHeader').textContent = formId;
       document.getElementById('formIdBox').style.display = 'block';
       
-      alert("✅ Form submitted successfully!\n\nForm ID: " + formId);
+      let successMsg = "✅ Form submitted successfully!\n\nForm ID: " + formId;
+      if(photoFileId) {
+        successMsg += "\nPhoto File ID: " + photoFileId;
+      }
+      alert(successMsg);
       
       document.querySelector(".print-btn").style.display = "inline-block";
       document.querySelector(".reset-btn").style.display = "inline-block";
