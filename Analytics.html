@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KDSE Admission Analytics</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* LOGIN PAGE */
+.login-container {
+  max-width: 400px;
+  margin: 100px auto;
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.login-container h1 {
+  color: #228B22;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.login-container p {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-form input {
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: #228B22;
+  box-shadow: 0 0 5px rgba(34, 139, 34, 0.3);
+}
+
+.login-form button {
+  padding: 12px;
+  background: #228B22;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.login-form button:hover {
+  background: #1a6b1a;
+}
+
+.login-form button:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+.error-msg {
+  color: #c62828;
+  font-size: 12px;
+  text-align: center;
+  display: none;
+}
+
+.error-msg.show {
+  display: block;
+}
+
+.success-msg {
+  color: #228B22;
+  font-size: 12px;
+  text-align: center;
+  display: none;
+}
+
+.success-msg.show {
+  display: block;
+}
+
+/* ANALYTICS PAGE */
+.header {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-content {
+  flex: 1;
+  text-align: center;
+}
+
+.header h1 {
+  color: #228B22;
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.header p {
+  color: #666;
+  font-size: 16px;
+}
+
+.logout-btn {
+  padding: 10px 20px;
+  background: #c62828;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.logout-btn:hover {
+  background: #9a1f1f;
+}
+
+.last-updated {
+  color: #999;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.card-header {
+  font-size: 14px;
+  font-weight: 700;
+  color: #666;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+.card-value {
+  font-size: 48px;
+  font-weight: 900;
+  color: #228B22;
+  margin: 20px 0;
+}
+
+.card-subtitle {
+  font-size: 12px;
+  color: #999;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.stat-item:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #333;
+  font-weight: 600;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 900;
+  color: #228B22;
+  min-width: 50px;
+  text-align: right;
+}
+
+.stat-bar {
+  margin-top: 5px;
+  height: 6px;
+  background: #f0f0f0;
+  border-radius: 3px;
+  overflow: hidden;
+  flex: 1;
+  margin: 0 10px;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  background: #228B22;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.chart-container {
+  position: relative;
+  height: 300px;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 20px 10px;
+}
+
+.chart-bar {
+  flex: 1;
+  background: linear-gradient(180deg, #228B22 0%, #1a6b1a 100%);
+  border-radius: 5px 5px 0 0;
+  position: relative;
+  min-height: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 10px 5px;
+  transition: all 0.3s ease;
+}
+
+.chart-bar:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(34, 139, 34, 0.3);
+}
+
+.chart-bar-label {
+  position: absolute;
+  bottom: -25px;
+  font-size: 12px;
+  color: #333;
+  width: 100%;
+  text-align: center;
+}
+
+.legend {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+}
+
+.table-container {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #228B22;
+  color: white;
+}
+
+th {
+  padding: 15px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 13px;
+}
+
+tbody tr:hover {
+  background: #f5f5f5;
+}
+
+tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.button-group {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: white;
+}
+
+.btn-primary {
+  background: #228B22;
+}
+
+.btn-primary:hover {
+  background: #1a6b1a;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: #667eea;
+}
+
+.btn-secondary:hover {
+  background: #5568d3;
+  transform: translateY(-2px);
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: white;
+  font-size: 18px;
+}
+
+.spinner {
+  border: 4px solid rgba(255,255,255,0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .card-value {
+    font-size: 36px;
+  }
+  
+  .chart-container {
+    height: 250px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .logout-btn {
+    width: 100%;
+  }
+}
+
+@media print {
+  body {
+    background: white;
+  }
+  
+  .button-group {
+    display: none;
+  }
+
+  .logout-btn {
+    display: none;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="login-container">
+  <h1>🔒 Analytics Dashboard</h1>
+  <p>School Owner Only - Secure Access</p>
+  
+  <div class="login-form">
+    <input type="password" id="passwordInput" placeholder="Enter Admin Password" onkeypress="handleEnter(event)">
+    <button id="loginBtn" onclick="loginUser()">Login</button>
+    <div id="errorMsg" class="error-msg">❌ Invalid Password</div>
+    <div id="successMsg" class="success-msg">✅ Logging in...</div>
+  </div>
+</div>
+
+<!-- ANALYTICS PAGE -->
+<div id="analyticsPage" style="display: none;">
+  <div class="container">
+    <div class="header">
+      <div class="header-content">
+        <h1>📊 KDSE Admission Analytics 2026-27</h1>
+        <p>Kalyani Devi School of Education - Form Submission Statistics</p>
+        <div class="last-updated">Last updated: <span id="lastUpdated">--:--:--</span></div>
+      </div>
+      <button class="logout-btn" onclick="logoutUser()">🔓 Logout</button>
+    </div>
+
+    <div id="loadingState" class="loading">
+      <div class="spinner"></div>
+      <p>Loading analytics data...</p>
+    </div>
+
+    <div id="analyticsContent" style="display: none;">
+      
+      <div class="analytics-grid">
+        <div class="card">
+          <div class="card-header">📝 कुल फॉर्म भरे गए</div>
+          <div class="card-value" id="totalForms">0</div>
+          <div class="card-subtitle">Total Form Submissions</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">👨 लड़के (Male)</div>
+          <div class="card-value" id="maleCount">0</div>
+          <div class="card-subtitle" id="malePercent">0%</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">👩 लड़कियां (Female)</div>
+          <div class="card-value" id="femaleCount">0</div>
+          <div class="card-subtitle" id="femalePercent">0%</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">👥 अन्य (Other)</div>
+          <div class="card-value" id="otherCount">0</div>
+          <div class="card-subtitle" id="otherPercent">0%</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">Gender Distribution</div>
+        <div class="chart-container" id="genderChart"></div>
+        <div class="legend" id="genderLegend"></div>
+      </div>
+
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">📚 Class Wise Distribution (क्लास के हिसाब से)</div>
+        <div class="chart-container" id="classChart"></div>
+      </div>
+
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">Class Wise Statistics</div>
+        <div id="classStats"></div>
+      </div>
+
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">🏘️ Caste Wise Distribution (जाति के हिसाब से)</div>
+        <div id="casteStats"></div>
+      </div>
+
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">🩸 Blood Group Distribution</div>
+        <div id="bloodGroupStats"></div>
+      </div>
+
+      <div class="table-container">
+        <div class="card-header" style="margin: 0; border-radius: 10px 10px 0 0; background: #228B22; color: white;">
+          📋 Recent Form Submissions (हाल के फॉर्म)
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Form ID</th>
+              <th>Student Name</th>
+              <th>Class</th>
+              <th>Gender</th>
+              <th>Caste</th>
+              <th>Submission Time</th>
+            </tr>
+          </thead>
+          <tbody id="recentSubmissions">
+            <tr>
+              <td colspan="6" style="text-align: center; color: #999;">Loading...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <div class="button-group">
+      <button class="btn btn-primary" onclick="refreshData()">🔄 Refresh Data</button>
+      <button class="btn btn-secondary" onclick="exportAsCSV()">📥 Download CSV</button>
+      <button class="btn btn-secondary" onclick="window.print()">🖨️ Print Report</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ✅ Google Apps Script Backend URL
+const GAS_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/usercontent.usercontent.com/macros/s/YOUR_SCRIPT_ID/exec";
+
+// ✅ Replace करो अपना actual URL ���े!
+
+let authToken = null;
+let allData = [];
+
+// PASSWORD CHECK - SERVER-SIDE
+function handleEnter(event) {
+  if (event.key === 'Enter') {
+    loginUser();
+  }
+}
+
+async function loginUser() {
+  const password = document.getElementById('passwordInput').value;
+  const errorMsg = document.getElementById('errorMsg');
+  const successMsg = document.getElementById('successMsg');
+  const loginBtn = document.getElementById('loginBtn');
+  
+  if (!password) {
+    errorMsg.textContent = '❌ Please enter password';
+    errorMsg.classList.add('show');
+    return;
+  }
+  
+  // UI update
+  loginBtn.disabled = true;
+  loginBtn.textContent = 'Logging in...';
+  successMsg.classList.add('show');
+  errorMsg.classList.remove('show');
+  
+  try {
+    // ✅ Backend को भेजो login request
+    const response = await fetch(GAS_URL, {
+      method: 'POST',
+      body: new URLSearchParams({
+        action: 'login',
+        password: password
+      })
+    });
+    
+    const result = await response.json();
+    console.log("Login response:", result);
+    
+    if (result.status === 'success' && result.token) {
+      // ✅ Password सही है!
+      authToken = result.token;
+      
+      // Session storage में token save करो
+      sessionStorage.setItem('authToken', authToken);
+      
+      // Login page hide करो
+      document.getElementById('loginPage').style.display = 'none';
+      document.getElementById('analyticsPage').style.display = 'block';
+      document.getElementById('passwordInput').value = '';
+      successMsg.classList.remove('show');
+      
+      // Data load करो
+      loadAnalytics();
+    } else {
+      // ❌ Password गलत है
+      errorMsg.textContent = '❌ Invalid Password';
+      errorMsg.classList.add('show');
+      successMsg.classList.remove('show');
+      document.getElementById('passwordInput').value = '';
+    }
+  } catch(error) {
+    console.error('Login error:', error);
+    errorMsg.textContent = '❌ Connection error: ' + error.message;
+    errorMsg.classList.add('show');
+    successMsg.classList.remove('show');
+  } finally {
+    loginBtn.disabled = false;
+    loginBtn.textContent = 'Login';
+  }
+}
+
+function logoutUser() {
+  authToken = null;
+  sessionStorage.removeItem('authToken');
+  
+  document.getElementById('analyticsPage').style.display = 'none';
+  document.getElementById('loginPage').style.display = 'block';
+  document.getElementById('passwordInput').value = '';
+  document.getElementById('errorMsg').classList.remove('show');
+  document.getElementById('successMsg').classList.remove('show');
+}
+
+// Check if already logged in
+window.addEventListener('load', function() {
+  const savedToken = sessionStorage.getItem('authToken');
+  if (savedToken) {
+    authToken = savedToken;
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('analyticsPage').style.display = 'block';
+    loadAnalytics();
+  }
+});
+
+// ✅ DATA LOADING - Token के साथ
+async function loadAnalytics() {
+  if (!authToken) {
+    alert('❌ Session expired! Please login again.');
+    logoutUser();
+    return;
+  }
+  
+  try {
+    const response = await fetch(GAS_URL, {
+      method: 'POST',
+      body: new URLSearchParams({
+        action: 'getData',
+        token: authToken
+      })
+    });
+    
+    const result = await response.json();
+    console.log("Data response:", result);
+    
+    if (result.status === 'success' && result.data) {
+      allData = result.data.slice(1); // Skip header
+      displayAnalytics();
+      updateLastUpdated();
+      showAnalyticsContent();
+    } else if (result.status === 'error' && result.message.includes('Unauthorized')) {
+      alert('❌ Session expired! Please login again.');
+      logoutUser();
+    } else {
+      alert('❌ Error loading data: ' + result.message);
+    }
+  } catch(error) {
+    console.error('Data loading error:', error);
+    document.getElementById('loadingState').innerHTML = `
+      <p style="color: red; font-size: 16px;">❌ Error loading data!</p>
+      <p style="color: white; font-size: 12px;">${error.message}</p>
+    `;
+  }
+}
+
+function displayAnalytics() {
+  const stats = calculateStats(allData);
+  
+  document.getElementById('totalForms').textContent = stats.total;
+  document.getElementById('maleCount').textContent = stats.male;
+  document.getElementById('femaleCount').textContent = stats.female;
+  document.getElementById('otherCount').textContent = stats.other;
+  
+  document.getElementById('malePercent').textContent = `${stats.malePercent}%`;
+  document.getElementById('femalePercent').textContent = `${stats.femalePercent}%`;
+  document.getElementById('otherPercent').textContent = `${stats.otherPercent}%`;
+  
+  displayGenderChart(stats);
+  displayClassChart(stats.classWise);
+  displayClassStats(stats.classWise);
+  displayCasteStats(stats.casteWise);
+  displayBloodGroupStats(stats.bloodGroupWise);
+  displayRecentSubmissions();
+}
+
+function calculateStats(data) {
+  const stats = {
+    total: 0,
+    male: 0,
+    female: 0,
+    other: 0,
+    classWise: {},
+    casteWise: {},
+    bloodGroupWise: {}
+  };
+  
+  data.forEach(row => {
+    if (row.length < 11) return;
+    
+    stats.total++;
+    
+    const gender = row[10] ? row[10].toLowerCase() : '';
+    if (gender.includes('male') && !gender.includes('female')) {
+      stats.male++;
+    } else if (gender.includes('female')) {
+      stats.female++;
+    } else if (gender.includes('other')) {
+      stats.other++;
+    }
+    
+    const classVal = row[8] || 'Unknown';
+    stats.classWise[classVal] = (stats.classWise[classVal] || 0) + 1;
+    
+    const casteVal = row[11] || 'Unknown';
+    stats.casteWise[casteVal] = (stats.casteWise[casteVal] || 0) + 1;
+    
+    const bloodVal = row[12] || '-';
+    stats.bloodGroupWise[bloodVal] = (stats.bloodGroupWise[bloodVal] || 0) + 1;
+  });
+  
+  stats.malePercent = stats.total > 0 ? Math.round((stats.male / stats.total) * 100) : 0;
+  stats.femalePercent = stats.total > 0 ? Math.round((stats.female / stats.total) * 100) : 0;
+  stats.otherPercent = stats.total > 0 ? Math.round((stats.other / stats.total) * 100) : 0;
+  
+  return stats;
+}
+
+function displayGenderChart(stats) {
+  const container = document.getElementById('genderChart');
+  container.innerHTML = '';
+  
+  const total = stats.total;
+  const genders = [
+    { label: 'Male', value: stats.male, color: '#3498db' },
+    { label: 'Female', value: stats.female, color: '#e74c3c' },
+    { label: 'Other', value: stats.other, color: '#f39c12' }
+  ];
+  
+  genders.forEach(g => {
+    const height = total > 0 ? (g.value / total) * 100 : 0;
+    const bar = document.createElement('div');
+    bar.className = 'chart-bar';
+    bar.style.background = `linear-gradient(180deg, ${g.color} 0%, ${g.color}aa 100%)`;
+    bar.style.height = `${Math.max(height, 5)}%`;
+    bar.innerHTML = `<span>${g.value}</span><div class="chart-bar-label">${g.label}</div>`;
+    container.appendChild(bar);
+  });
+  
+  const legend = document.getElementById('genderLegend');
+  legend.innerHTML = genders.map(g => `
+    <div class="legend-item">
+      <div class="legend-color" style="background: ${g.color};"></div>
+      <span>${g.label}: ${g.value}</span>
+    </div>
+  `).join('');
+}
+
+function displayClassChart(classWise) {
+  const container = document.getElementById('classChart');
+  container.innerHTML = '';
+  
+  const maxValue = Math.max(...Object.values(classWise), 1);
+  const order = ['KG', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+  
+  Object.entries(classWise)
+    .sort((a, b) => order.indexOf(a[0]) - order.indexOf(b[0]))
+    .forEach(([classVal, count]) => {
+      const height = (count / maxValue) * 100;
+      const bar = document.createElement('div');
+      bar.className = 'chart-bar';
+      bar.style.height = `${height}%`;
+      bar.innerHTML = `<span>${count}</span><div class="chart-bar-label">${classVal}</div>`;
+      container.appendChild(bar);
+    });
+}
+
+function displayClassStats(classWise) {
+  const container = document.getElementById('classStats');
+  const total = Object.values(classWise).reduce((a, b) => a + b, 0);
+  const order = ['KG', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+  
+  container.innerHTML = Object.entries(classWise)
+    .sort((a, b) => order.indexOf(a[0]) - order.indexOf(b[0]))
+    .map(([classVal, count]) => {
+      const percent = total > 0 ? Math.round((count / total) * 100) : 0;
+      return `
+        <div class="stat-item">
+          <span class="stat-label">${classVal}</span>
+          <span class="stat-value">${count}</span>
+          <div class="stat-bar"><div class="stat-bar-fill" style="width: ${percent}%;"></div></div>
+          <span style="font-size: 12px; color: #999;">${percent}%</span>
+        </div>
+      `;
+    })
+    .join('');
+}
+
+function displayCasteStats(casteWise) {
+  const container = document.getElementById('casteStats');
+  const total = Object.values(casteWise).reduce((a, b) => a + b, 0);
+  
+  container.innerHTML = Object.entries(casteWise)
+    .sort((a, b) => b[1] - a[1])
+    .map(([caste, count]) => {
+      const percent = total > 0 ? Math.round((count / total) * 100) : 0;
+      return `
+        <div class="stat-item">
+          <span class="stat-label">${caste}</span>
+          <span class="stat-value">${count}</span>
+          <div class="stat-bar"><div class="stat-bar-fill" style="width: ${percent}%;"></div></div>
+          <span style="font-size: 12px; color: #999;">${percent}%</span>
+        </div>
+      `;
+    })
+    .join('');
+}
+
+function displayBloodGroupStats(bloodGroupWise) {
+  const container = document.getElementById('bloodGroupStats');
+  const total = Object.values(bloodGroupWise).reduce((a, b) => a + b, 0);
+  
+  container.innerHTML = Object.entries(bloodGroupWise)
+    .sort((a, b) => b[1] - a[1])
+    .map(([bg, count]) => {
+      const percent = total > 0 ? Math.round((count / total) * 100) : 0;
+      return `
+        <div class="stat-item">
+          <span class="stat-label">${bg}</span>
+          <span class="stat-value">${count}</span>
+          <div class="stat-bar"><div class="stat-bar-fill" style="width: ${percent}%;"></div></div>
+          <span style="font-size: 12px; color: #999;">${percent}%</span>
+        </div>
+      `;
+    })
+    .join('');
+}
+
+function displayRecentSubmissions() {
+  const container = document.getElementById('recentSubmissions');
+  
+  if (allData.length === 0) {
+    container.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #999;">No data available</td></tr>';
+    return;
+  }
+  
+  container.innerHTML = allData
+    .reverse()
+    .slice(0, 10)
+    .map(row => `
+      <tr>
+        <td><strong>${row[0] || '-'}</strong></td>
+        <td>${row[2] || '-'}</td>
+        <td>${row[8] || '-'}</td>
+        <td>${row[10] || '-'}</td>
+        <td>${row[11] || '-'}</td>
+        <td style="font-size: 11px;">${row[1] || '-'}</td>
+      </tr>
+    `)
+    .join('');
+}
+
+function updateLastUpdated() {
+  const now = new Date();
+  const time = now.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+  document.getElementById('lastUpdated').textContent = time;
+}
+
+function showAnalyticsContent() {
+  document.getElementById('loadingState').style.display = 'none';
+  document.getElementById('analyticsContent').style.display = 'block';
+}
+
+function refreshData() {
+  document.getElementById('loadingState').style.display = 'block';
+  document.getElementById('analyticsContent').style.display = 'none';
+  loadAnalytics();
+}
+
+function exportAsCSV() {
+  if (allData.length === 0) {
+    alert('No data to export');
+    return;
+  }
+  
+  let csv = 'Form ID,Timestamp,Student Name,Class,Gender,Caste,Blood Group\n';
+  
+  allData.forEach(row => {
+    csv += [
+      row[0] || '',
+      row[1] || '',
+      row[2] || '',
+      row[8] || '',
+      row[10] || '',
+      row[11] || '',
+      row[12] || ''
+    ].map(cell => `"${cell}"`).join(',') + '\n';
+  });
+  
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'KDSE_Admission_Analytics.csv';
+  a.click();
+}
+</script>
+
+</body>
+</html>
