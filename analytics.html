@@ -551,8 +551,8 @@ tbody tr:nth-child(even) {
 </div>
 
 <script>
-// ✅ CORRECT FORMAT का URL
-const GAS_URL = "https://script.google.com/macros/s/AKfycbxoULVLnQpTP8uYWLyz4JWAR9l5QjhJacLC7A1dKW_hI9ArrW6YO5slwalPohzDP4cA/exec"; // Google Apps Script URL भरो!
+// ✅ Google Apps Script URL
+const GAS_URL = "https://script.google.com/macros/s/AKfycbxoULVLnQpTP8uYWLyz4JWAR9l5QjhJacLC7A1dKW_hI9ArrW6YO5slwalPohzDP4cA/exec";
 
 let authToken = null;
 let allData = [];
@@ -583,19 +583,9 @@ async function loginUser() {
   try {
     console.log("Sending login request to:", GAS_URL);
     
-    // ✅ CORRECT FORMAT - FormData use करो
-    const formData = new FormData();
-    formData.append('action', 'login');
-    formData.append('password', password);
-    
-    console.log("Form data prepared:", {
-      action: 'login',
-      password: '***'
-    });
-    
-    const response = await fetch(GAS_URL, {
-      method: 'POST',
-      payload: formData
+    // ✅ CORRECT FORMAT - URL parameters
+    const response = await fetch(GAS_URL + "?action=login&password=" + encodeURIComponent(password), {
+      method: 'POST'
     });
     
     console.log("Response received:", response);
@@ -661,13 +651,9 @@ async function loadAnalytics() {
   try {
     console.log("Fetching data with token:", authToken.substring(0, 20) + "...");
     
-    const formData = new FormData();
-    formData.append('action', 'getData');
-    formData.append('token', authToken);
-    
-    const response = await fetch(GAS_URL, {
-      method: 'POST',
-      payload: formData
+    // ✅ CORRECT FORMAT - URL parameters
+    const response = await fetch(GAS_URL + "?action=getData&token=" + encodeURIComponent(authToken), {
+      method: 'POST'
     });
     
     const result = await response.json();
