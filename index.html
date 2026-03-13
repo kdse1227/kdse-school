@@ -8,14 +8,25 @@
 <meta name="keywords" content="Kalyani Devi School, Lormi school, CGSE school, Chhattisgarh">
 <meta name="google-site-verification" content="SWuonhn6-A-BNkDzXsrqmritrWcfT-j3vUevDk1g49s" />
 <meta name="robots" content="index, follow">
+
+<!-- Security Headers -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+<meta http-equiv="X-XSS-Protection" content="1; mode=block">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<!-- Social Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Kalyani Devi School of Education">
 <meta name="twitter:description" content="Best School in Lormi, Chhattisgarh">
 <meta name="twitter:image" content="https://kdse1227.github.io/kdse-school/images/slider/slide1.jpg">
 <meta property="og:url" content="https://kdse1227.github.io/kdse-school/">
 <meta property="og:type" content="website">
+<meta property="og:title" content="Kalyani Devi School of Education">
+<meta property="og:description" content="Best School in Lormi, Chhattisgarh">
 
-<!-- ✅ Structured Data -->
+<!-- Structured Data - School -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -39,31 +50,88 @@
   }
 }
 </script>
-  
+
+<!-- Structured Data - Breadcrumb -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://kdse1227.github.io/kdse-school/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "About",
+      "item": "https://kdse1227.github.io/kdse-school/#about"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Academics",
+      "item": "https://kdse1227.github.io/kdse-school/#academics"
+    }
+  ]
+}
+</script>
+
 <meta name="theme-color" content="#0b4d91">
 <meta name="format-detection" content="telephone=no">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 <link rel="canonical" href="https://kdse1227.github.io/kdse-school/">
 <link rel="preload" as="image" href="images/slider/slide1.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="manifest" href="manifest.json">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 <style>
 /* ================= RESET & BASE ================= */
 *{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
 body{font-family:'Poppins','Segoe UI',sans-serif;background:#f5f7fa;color:#333;line-height:1.6;}
 a{text-decoration:none;color:inherit;}
 img{max-width:100%;display:block;height:auto;}
+
+/* Skip to main content link (Accessibility) */
+.skip-link{
+  position:absolute;
+  top:-40px;
+  left:0;
+  background:#0b4d91;
+  color:#fff;
+  padding:8px;
+  z-index:10000;
+}
+.skip-link:focus{
+  top:0;
+}
+
+/* Loading skeleton animation */
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.skeleton-loader{
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
 
 /* ================= HEADER ================= */
 header{
   position:sticky; top:0; z-index:6000;
   background:#0b4d91; color:#fff;
-  display:flex; justify-content:center; align-items:center; gap:14px;
+  display:flex; justify-content:space-between; align-items:center; 
   padding:14px 20px; transition:all 0.35s ease;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
+
 .school-title{display:flex; align-items:center; gap:14px;}
 .logo-short{display:flex; align-items:center; gap:8px;}
 .logo-short img{height:72px; transition:all 0.35s ease;}
@@ -71,16 +139,36 @@ header{
 .full-name{font-weight:700; font-size:26px; white-space:nowrap; transition:all 0.35s ease;}
 header.shrink .logo-short img{height:40px;}
 header.shrink .full-name{font-size:13px;}
-.menu-toggle{display:none; font-size:28px; cursor:pointer; position:absolute; right:15px;}
+
+.menu-toggle{
+  display:none; 
+  font-size:28px; 
+  cursor:pointer; 
+  background:none;
+  border:none;
+  color:#fff;
+  padding:8px;
+  border-radius:4px;
+  transition:background 0.3s ease;
+}
+
+.menu-toggle:hover{
+  background:rgba(255,255,255,0.2);
+}
+
+.menu-toggle:focus{
+  outline:2px solid #fff;
+  outline-offset:2px;
+}
 
 /* ===== MOBILE HEADER ===== */
 @media(max-width:768px){
-  header{flex-direction:column; align-items:center; padding:12px 10px;}
-  .school-title{flex-direction:column; align-items:center; text-align:center;}
-  .logo-short{justify-content:center;}
+  header{flex-direction:row; gap:10px;}
+  .school-title{flex:1;}
+  .logo-short{justify-content:flex-start;}
   .logo-short img{height:48px;}
   .short-name{display:inline-block; font-size:18px;}
-  .full-name{font-size:14px; white-space:normal; line-height:1.3; margin-top:4px;}
+  .full-name{font-size:14px; white-space:normal; line-height:1.3;}
   header.shrink .logo-short img{height:36px;}
   header.shrink .full-name{font-size:12px;}
   .menu-toggle{display:block;}
@@ -98,11 +186,17 @@ nav a{
   font-weight:500;
   margin:0 10px;
   padding:10px;
+  transition:background 0.3s ease;
+  border-radius:4px;
+}
+
+nav a:hover, nav a:focus{
+  background:rgba(255,255,255,0.1);
+  outline:none;
 }
 
 /* ===== MOBILE NAV ===== */
 @media(max-width:768px){
-
   nav{
     position:fixed;
     top:70px;
@@ -112,6 +206,8 @@ nav a{
     flex-direction:column;
     background:#083b70;
     z-index:5000;
+    max-height:calc(100vh - 70px);
+    overflow-y:auto;
   }
 
   nav.open{
@@ -121,6 +217,8 @@ nav a{
   nav a{
     border-bottom:1px solid rgba(255,255,255,0.25);
     padding:14px;
+    margin:0;
+    text-align:left;
   }
 
   body.menu-open{
@@ -162,6 +260,16 @@ nav a{
   border-radius:50%;
   cursor:pointer;
   z-index:10;
+  border:none;
+  transition:background 0.3s ease;
+}
+
+.slider .prev:hover,
+.slider .next:hover,
+.slider .prev:focus,
+.slider .next:focus{
+  background:rgba(0,0,0,0.8);
+  outline:2px solid #fff;
 }
 
 .slider .prev{ left:10px; }
@@ -170,8 +278,8 @@ nav a{
 /* ================= MARQUEE ================= */
 .marquee{background:#e8f0fe; padding:10px 0; overflow:hidden; white-space:nowrap; position:relative;}
 #marqueeTrack{display:inline-block; white-space:nowrap;}
-#marqueeTrack a{display:inline-block; font-weight:bold; color:#0b4d91; margin-right:60px; text-decoration:none;}
-#marqueeTrack a:hover{color:#b30000;}
+#marqueeTrack a{display:inline-block; font-weight:bold; color:#0b4d91; margin-right:60px; text-decoration:none; transition:color 0.3s ease;}
+#marqueeTrack a:hover, #marqueeTrack a:focus{color:#b30000; outline:none;}
 @keyframes scrollNotices {0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
 #marqueeTrack.scrolling{animation:scrollNotices 25s linear infinite; animation-play-state:running;}
 .marquee:hover #marqueeTrack.scrolling,
@@ -180,12 +288,39 @@ nav a{
 
 /* ================= SECTIONS ================= */
 section{padding:30px 20px; max-width:1100px; margin:auto;}
-h2{color:#0b4d91; margin-bottom:20px; border-bottom:2px solid #ddd; padding-bottom:6px;}
+
+@media(max-width:1024px){
+  section{padding:25px 15px;}
+}
+
+@media(max-width:480px){
+  section{padding:20px 12px;}
+}
+
+h2{color:#0b4d91; margin-bottom:20px; border-bottom:2px solid #ddd; padding-bottom:6px; font-size:24px;}
+
+@media(max-width:768px){
+  h2{font-size:20px;}
+}
 
 /* ================= ABOUT ================= */
-.about-box{background: linear-gradient(135deg,#e8f0fe,#fff); border-left:6px solid #0b4d91; border-radius:14px; padding:35px 25px; box-shadow:0 6px 18px rgba(0,0,0,0.08);}
-.about-box p{margin-bottom:15px;}
-.slogan{text-align:center;font-weight:700;color:#0b4d91;margin:15px 0 25px; font-size:18px;}
+.about-box{
+  background: linear-gradient(135deg,#e8f0fe,#fff); 
+  border-left:6px solid #0b4d91; 
+  border-radius:14px; 
+  padding:35px 25px; 
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+.about-box p{margin-bottom:15px; line-height:1.8;}
+
+.slogan{
+  text-align:center;
+  font-weight:700;
+  color:#0b4d91;
+  margin:15px 0 25px; 
+  font-size:18px;
+}
 
 /* ================= WHY CHOOSE US ================= */
 .why-box{
@@ -207,6 +342,7 @@ h2{color:#0b4d91; margin-bottom:20px; border-bottom:2px solid #ddd; padding-bott
   padding-left:28px;
   position:relative;
   font-weight:500;
+  line-height:1.6;
 }
 
 .why-box li::before{
@@ -218,92 +354,144 @@ h2{color:#0b4d91; margin-bottom:20px; border-bottom:2px solid #ddd; padding-bott
 }
 
 /* ================= PREMIUM ACADEMIC BUTTONS ================= */
-
 .academic-buttons{
-display:flex;
-gap:25px;
-margin-top:25px;
-flex-wrap:wrap;
+  display:flex;
+  gap:25px;
+  margin-top:25px;
+  flex-wrap:wrap;
 }
 
 /* Base Button */
 .academic-btn{
-display:flex;
-align-items:center;
-justify-content:center;
-gap:12px;
-padding:15px 28px;
-border-radius:50px;
-font-weight:600;
-font-size:16px;
-color:#fff;
-text-decoration:none;
-cursor:pointer;
-transition:all 0.35s ease;
-min-width:240px;
-position:relative;
-overflow:hidden;
-box-shadow:0 6px 18px rgba(0,0,0,0.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  padding:15px 28px;
+  border-radius:50px;
+  font-weight:600;
+  font-size:16px;
+  color:#fff;
+  text-decoration:none;
+  cursor:pointer;
+  transition:all 0.35s ease;
+  min-width:240px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 6px 18px rgba(0,0,0,0.15);
+  border:none;
 }
 
 /* Admission Button - Green Gradient */
 .academic-btn:first-child{
-background:linear-gradient(135deg,#28a745,#1e7e34);
+  background:linear-gradient(135deg,#28a745,#1e7e34);
 }
 
 /* Exam Button - Blue Gradient */
 .academic-btn:last-child{
-background:linear-gradient(135deg,#0b4d91,#08386b);
-border:none;
+  background:linear-gradient(135deg,#0b4d91,#08386b);
 }
 
 /* Icon Circle */
 .academic-btn .icon{
-background:rgba(255,255,255,0.2);
-padding:8px 12px;
-border-radius:50%;
-font-size:18px;
+  background:rgba(255,255,255,0.2);
+  padding:8px 12px;
+  border-radius:50%;
+  font-size:18px;
 }
 
-/* Hover Effect */
-.academic-btn:hover{
-transform:translateY(-4px) scale(1.03);
-box-shadow:0 12px 25px rgba(0,0,0,0.25);
+/* Hover & Focus Effect */
+.academic-btn:hover,
+.academic-btn:focus{
+  transform:translateY(-4px) scale(1.03);
+  box-shadow:0 12px 25px rgba(0,0,0,0.25);
+  outline:none;
 }
 
 /* Glow Animation */
 .academic-btn::after{
-content:'';
-position:absolute;
-width:0;
-height:100%;
-top:0;
-left:0;
-background:rgba(255,255,255,0.2);
-transition:width 0.4s ease;
+  content:'';
+  position:absolute;
+  width:0;
+  height:100%;
+  top:0;
+  left:0;
+  background:rgba(255,255,255,0.2);
+  transition:width 0.4s ease;
 }
 
 .academic-btn:hover::after{
-width:100%;
+  width:100%;
 }
 
 /* Mobile Responsive */
 @media(max-width:600px){
-.academic-buttons{
-flex-direction:column;
-}
-.academic-btn{
-width:100%;
-}
+  .academic-buttons{
+    flex-direction:column;
+  }
+  .academic-btn{
+    width:100%;
+    min-width:unset;
+  }
 }
 
 /* ================= GRID & CARDS ================= */
-.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:15px;}
-.card{background:#fff; padding:12px; text-align:center; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.1); transition:transform 0.35s ease, box-shadow 0.35s ease;}
-.card:hover{transform:translateY(-8px) scale(1.02); box-shadow:0 14px 30px rgba(0,0,0,0.18);}
-.card img{width:90px; height:90px; object-fit:cover; border-radius:50%; margin-bottom:8px;}
-.view-btn{margin-top:8px; padding:8px 18px; background:#0b4d91; color:#fff; border:none; border-radius:20px; cursor:pointer;}
-.view-btn:hover{background:#083b70;}
+.grid{
+  display:grid; 
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); 
+  gap:15px;
+}
+
+@media(max-width:1024px){
+  .grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+}
+
+@media(max-width:768px){
+  .grid{grid-template-columns:repeat(auto-fit,minmax(130px,1fr));}
+}
+
+.card{
+  background:#fff; 
+  padding:12px; 
+  text-align:center; 
+  border-radius:10px; 
+  box-shadow:0 4px 10px rgba(0,0,0,0.1); 
+  transition:transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.card:hover,
+.card:focus-within{
+  transform:translateY(-8px) scale(1.02); 
+  box-shadow:0 14px 30px rgba(0,0,0,0.18);
+}
+
+.card img{
+  width:90px; 
+  height:90px; 
+  object-fit:cover; 
+  border-radius:50%; 
+  margin-bottom:8px;
+}
+
+.view-btn{
+  margin-top:8px; 
+  padding:8px 18px; 
+  background:#0b4d91; 
+  color:#fff; 
+  border:none; 
+  border-radius:20px; 
+  cursor:pointer;
+  font-weight:600;
+  transition:background 0.3s ease;
+}
+
+.view-btn:hover,
+.view-btn:focus{
+  background:#083b70;
+  outline:2px solid #0b4d91;
+  outline-offset:2px;
+}
+
 .founder-card{
   border:3px solid gold;
   background:linear-gradient(180deg,#fffbea,#ffffff);
@@ -315,23 +503,95 @@ width:100%;
 }
 
 /* ================= POPUP ================= */
-.popup{position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; justify-content:center; align-items:center; z-index:9999;}
-.popup-box{background:#fff; width:90%; max-width:420px; padding:25px; border-radius:16px; text-align:center; animation:popIn 0.4s ease; position:relative;}
-.popup-box img{width:130px; height:130px; object-fit:cover; border-radius:50%; margin-bottom:15px;}
-.popup .close{position:absolute; top:12px; right:15px; font-size:22px; cursor:pointer;}
-.popup.founder-popup .popup-box{
-  border:4px solid gold;
-  background:linear-gradient(180deg,#fff9e6,#fff);
+.popup{
+  position:fixed; 
+  inset:0; 
+  background:rgba(0,0,0,0.6); 
+  display:none; 
+  justify-content:center; 
+  align-items:center; 
+  z-index:9999;
+  padding:20px;
 }
-@keyframes popIn{from{transform:scale(0.7);opacity:0} to{transform:scale(1);opacity:1;}}
-.popup-actions a{display:inline-block;margin:6px 8px;background:#0b4d91;color:#fff;font-weight:600;padding:10px 18px;border-radius:8px;text-decoration:none;transition:0.3s;}
-.popup-actions a:hover{background:#083b70;}
+
+.popup-box{
+  background:#fff; 
+  width:90%; 
+  max-width:420px; 
+  padding:25px; 
+  border-radius:16px; 
+  text-align:center; 
+  animation:popIn 0.4s ease; 
+  position:relative;
+  max-height:90vh;
+  overflow-y:auto;
+}
+
+.popup-box img{
+  width:130px; 
+  height:130px; 
+  object-fit:cover; 
+  border-radius:50%; 
+  margin-bottom:15px;
+}
+
+.popup .close{
+  position:absolute; 
+  top:12px; 
+  right:15px; 
+  font-size:22px; 
+  cursor:pointer;
+  background:none;
+  border:none;
+  transition:transform 0.2s ease;
+}
+
+.popup .close:hover,
+.popup .close:focus{
+  transform:scale(1.2);
+  outline:2px solid #0b4d91;
+}
+
+@keyframes popIn{
+  from{transform:scale(0.7);opacity:0} 
+  to{transform:scale(1);opacity:1;}
+}
+
+.popup-actions a{
+  display:inline-block;
+  margin:6px 8px;
+  background:#0b4d91;
+  color:#fff;
+  font-weight:600;
+  padding:10px 18px;
+  border-radius:8px;
+  text-decoration:none;
+  transition:background 0.3s ease;
+}
+
+.popup-actions a:hover,
+.popup-actions a:focus{
+  background:#083b70;
+  outline:2px solid #0b4d91;
+}
 
 /* ================= GALLERY SLIDER ================= */
-.gallery-slider{position:relative; overflow:hidden; border-radius:14px;}
+.gallery-slider{
+  position:relative; 
+  overflow:hidden; 
+  border-radius:14px;
+}
+
 .gallery-wrapper{overflow:hidden;}
-.gallery-track{display:flex; transition:transform 0.5s ease; width:100%;}
+
+.gallery-track{
+  display:flex; 
+  transition:transform 0.5s ease; 
+  width:100%;
+}
+
 .gallery-slide{min-width:100%;}
+
 .gallery-slide img{
   width:100%;
   height:35vh;
@@ -339,10 +599,31 @@ width:100%;
   min-height:180px;
   object-fit:cover;
 }
-.gallery-slider .prev, .gallery-slider .next{
-  position:absolute; top:50%; transform:translateY(-50%);
-  background:rgba(0,0,0,0.5); color:#fff; padding:12px; font-size:22px; border-radius:50%; cursor:pointer; z-index:10;
+
+.gallery-slider .prev, 
+.gallery-slider .next{
+  position:absolute; 
+  top:50%; 
+  transform:translateY(-50%);
+  background:rgba(0,0,0,0.5); 
+  color:#fff; 
+  padding:12px; 
+  font-size:22px; 
+  border-radius:50%; 
+  cursor:pointer; 
+  z-index:10;
+  border:none;
+  transition:background 0.3s ease;
 }
+
+.gallery-slider .prev:hover,
+.gallery-slider .next:hover,
+.gallery-slider .prev:focus,
+.gallery-slider .next:focus{
+  background:rgba(0,0,0,0.8);
+  outline:2px solid #fff;
+}
+
 .gallery-slider .prev{left:10px;}
 .gallery-slider .next{right:10px;}
 
@@ -366,22 +647,107 @@ width:100%;
   opacity:0;
   transition:opacity 1s ease;
 }
+
 .sport-slide.active{opacity:1; z-index:1;}
-.sports-slider .prev,.sports-slider .next{position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:#fff; padding:12px; font-size:22px; border-radius:50%; cursor:pointer;}
-.sports-slider .prev{left:10px;} .sports-slider .next{right:10px;}
+
+.sports-slider .prev,
+.sports-slider .next{
+  position:absolute; 
+  top:50%; 
+  transform:translateY(-50%); 
+  background:rgba(0,0,0,0.5); 
+  color:#fff; 
+  padding:12px; 
+  font-size:22px; 
+  border-radius:50%; 
+  cursor:pointer;
+  border:none;
+  transition:background 0.3s ease;
+  z-index:10;
+}
+
+.sports-slider .prev:hover,
+.sports-slider .next:hover,
+.sports-slider .prev:focus,
+.sports-slider .next:focus{
+  background:rgba(0,0,0,0.8);
+  outline:2px solid #fff;
+}
+
+.sports-slider .prev{left:10px;}
+.sports-slider .next{right:10px;}
 
 /* ================= CONTACT ================= */
-#contact a{display:inline-block; margin-top:5px; color:#fff; text-decoration:none;}
-#contact a.call-btn{background:#28a745;padding:8px 14px;border-radius:6px;}
-#contact a.map-btn{background:#0b4d91;padding:8px 14px;border-radius:6px;}
+#contact a{
+  display:inline-block; 
+  margin-top:5px; 
+  color:#fff; 
+  text-decoration:none;
+  transition:transform 0.3s ease;
+}
+
+#contact a.call-btn{
+  background:#28a745;
+  padding:8px 14px;
+  border-radius:6px;
+}
+
+#contact a.map-btn{
+  background:#0b4d91;
+  padding:8px 14px;
+  border-radius:6px;
+}
+
+#contact a:hover,
+#contact a:focus{
+  transform:scale(1.05);
+  outline:2px solid #333;
+}
 
 /* ================= WHATSAPP ================= */
-.whatsapp{position:fixed; bottom:20px; right:20px; display:flex; align-items:center; gap:10px; background:#25D366; color:#fff; padding:14px 22px; border-radius:50px; font-weight:600; box-shadow:0 6px 15px rgba(0,0,0,0.3); z-index:9999;}
+.whatsapp{
+  position:fixed; 
+  bottom:20px; 
+  right:20px; 
+  display:flex; 
+  align-items:center; 
+  gap:10px; 
+  background:#25D366; 
+  color:#fff; 
+  padding:14px 22px; 
+  border-radius:50px; 
+  font-weight:600; 
+  box-shadow:0 6px 15px rgba(0,0,0,0.3); 
+  z-index:9999;
+  text-decoration:none;
+  transition:all 0.3s ease;
+}
+
 .whatsapp img{width:22px;height:22px;}
-.whatsapp:hover{transform:scale(1.06); box-shadow:0 8px 18px rgba(0,0,0,0.4);}
+
+.whatsapp:hover,
+.whatsapp:focus{
+  transform:scale(1.06); 
+  box-shadow:0 8px 18px rgba(0,0,0,0.4);
+  outline:2px solid #fff;
+}
+
+@media(max-width:480px){
+  .whatsapp{
+    bottom:15px;
+    right:15px;
+    padding:12px 16px;
+  }
+}
 
 /* ================= FOOTER ================= */
-footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-top:20px;}
+footer{
+  background:#0b4d91; 
+  color:#fff; 
+  text-align:center; 
+  padding:15px; 
+  margin-top:20px;
+}
 
 /* ===== NOTICE STYLES ===== */
 .notice-latest{
@@ -395,6 +761,7 @@ footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-t
 .notice-latest a{
   color:#b30000;
   font-weight:600;
+  text-decoration:underline;
 }
 
 .notice-year{
@@ -414,32 +781,96 @@ footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-t
 }
 
 .form-control{
-width:100%;
-padding:8px;
-margin:6px 0 15px 0;
-border-radius:6px;
-border:1px solid #ccc;
+  width:100%;
+  padding:8px;
+  margin:6px 0 15px 0;
+  border-radius:6px;
+  border:1px solid #ccc;
+  font-family:inherit;
+  transition:border-color 0.3s ease;
 }
+
+.form-control:focus{
+  outline:none;
+  border-color:#0b4d91;
+  box-shadow:0 0 5px rgba(11, 77, 145, 0.3);
+}
+
+/* Select dropdown styling */
+select{
+  font-family:inherit;
+  border-radius:6px;
+  padding:8px;
+  border:1px solid #ccc;
+  transition:border-color 0.3s ease;
+}
+
+select:focus{
+  outline:none;
+  border-color:#0b4d91;
+  box-shadow:0 0 5px rgba(11, 77, 145, 0.3);
+}
+
+/* Results list styling */
+#results-list{
+  list-style:none;
+  padding:0;
+}
+
+#results-list li{
+  margin:10px 0;
+}
+
+#results-list a{
+  display:inline-block;
+  background:#0b4d91;
+  color:#fff;
+  padding:10px 20px;
+  border-radius:6px;
+  text-decoration:none;
+  transition:background 0.3s ease;
+}
+
+#results-list a:hover,
+#results-list a:focus{
+  background:#083b70;
+  outline:2px solid #0b4d91;
+}
+
+/* ================= RESPONSIVE ADJUSTMENTS ================= */
+@media(max-width:480px){
+  .academic-buttons{gap:15px;}
+  .academic-btn{min-width:200px; font-size:14px;}
+  h2{font-size:18px;}
+  .slogan{font-size:16px;}
+  .about-box, .why-box{padding:20px 15px;}
 }
 </style>
 </head>
 <body>
 
+<!-- Skip to Main Content Link (Accessibility) -->
+<a href="#about" class="skip-link">Skip to main content</a>
+
 <!-- HEADER -->
-<header>
+<header role="banner">
   <div class="school-title">
     <div class="logo-short">
-     <img src="images/logo.png" alt="KDSE Logo" width="72" height="72">
+      <img src="images/logo.png" alt="KDSE Logo" width="72" height="72">
       <span class="short-name">KDSE</span>
     </div>
     <div class="full-name">KALYANI DEVI SCHOOL OF EDUCATION</div>
   </div>
-  <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+  <button class="menu-toggle" 
+          id="menuToggle"
+          aria-label="Toggle Navigation Menu"
+          aria-expanded="false"
+          aria-controls="mainNav">☰</button>
 </header>
 
 <!-- NAVIGATION -->
-<nav id="mainNav">
-  <a href="#">Home</a>
+<nav id="mainNav" role="navigation" aria-label="Main Navigation">
+  <a href="#home">Home</a>
   <a href="#about">About</a>
   <a href="#academics">Academics</a>
   <a href="#teachers">Teachers</a>
@@ -449,30 +880,41 @@ border:1px solid #ccc;
   <a href="#notice">Notice</a>
   <a href="#contact">Contact</a>
   <a href="analytics.html">Analytics</a>
-  <a href="directors-desk.html">Director’s Desk</a>
+  <a href="directors-desk.html">Director's Desk</a>
 </nav>
 
 <!-- SLIDER -->
-<div class="slider">
-<img class="slide active" src="images/slider/slide1.jpg" alt="Kalyani Devi School Main Building Lormi" loading="eager">
-<img class="slide" src="images/slider/slide2.jpg" alt="Students Activities at Kalyani Devi School" loading="lazy">
-<img class="slide" src="images/slider/slide3.jpg" alt="Annual Function Celebration at Kalyani Devi School" loading="lazy">
-<span class="prev" onclick="changeSlide(-1)">❮</span>
-<span class="next" onclick="changeSlide(1)">❯</span>
-</div>
+<section class="slider" role="region" aria-label="Featured Images Carousel">
+  <picture>
+    <source srcset="images/slider/slide1.webp" type="image/webp">
+    <img class="slide active" src="images/slider/slide1.jpg" alt="Kalyani Devi School Main Building Lormi" loading="eager">
+  </picture>
+  <picture>
+    <source srcset="images/slider/slide2.webp" type="image/webp">
+    <img class="slide" src="images/slider/slide2.jpg" alt="Students Activities at Kalyani Devi School" loading="lazy">
+  </picture>
+  <picture>
+    <source srcset="images/slider/slide3.webp" type="image/webp">
+    <img class="slide" src="images/slider/slide3.jpg" alt="Annual Function Celebration at Kalyani Devi School" loading="lazy">
+  </picture>
+  <button class="prev" onclick="changeSlide(-1)" aria-label="Previous slide">❮</button>
+  <button class="next" onclick="changeSlide(1)" aria-label="Next slide">❯</button>
+</section>
 
 <!-- MARQUEE -->
-<div class="marquee">
+<div class="marquee" role="region" aria-label="Important Notices">
   <div id="marqueeTrack">Loading notices...</div>
 </div>
+
+<main>
 
 <section id="about" class="about-box">
 <h2>विद्यालय के बारे में</h2>
 
-<p class="slogan">🌟 “ज्ञान • संस्कार • अनुशासन • उज्ज्वल भविष्य” 🌟</p>
+<p class="slogan">🌟 "ज्ञान • संस्कार • अनुशासन • उज्ज्वल भविष्य" 🌟</p>
 
 <p>
-<strong>Kalyani Devi School of Education</strong>, ग्राम-पीपरखुंटा, ब्लॉक-लोरमी, जिला-मुंगेली, छत्तीसगढ़ 495115 में स्थित 
+<strong>Kalyani Devi School of Education</strong>, ग्राम-पीपरखुंटा, ब्लॉक-लोरमी, जिला-मुंगेली, छत्तीसगढ़ 495115 में स्थित 
 एक प्रतिष्ठित शिक्षण संस्थान है, जो गुणवत्तापूर्ण शिक्षा और श्रेष्ठ संस्कारों 
 के लिए समर्पित है। हमारा उद्देश्य केवल पुस्तकीय ज्ञान देना नहीं, 
 बल्कि विद्यार्थियों के सर्वांगीण विकास को सुनिश्चित करना है।
@@ -481,7 +923,7 @@ border:1px solid #ccc;
 <p>
 हमारे विद्यालय में अनुभवी एवं समर्पित शिक्षक आधुनिक शिक्षण पद्धतियों 
 के माध्यम से बच्चों को आत्मविश्वासी, जिम्मेदार और जागरूक नागरिक 
-बनाने का कार्य करते हैं। यहाँ शिक्षा के साथ-साथ अनुशासन, नैतिक मूल्य 
+बनाने का कार्य करते हैं। यहाँ शिक्षा के साथ-साथ अनुशासन, न���तिक मूल्य 
 और जीवन कौशल पर विशेष ध्यान दिया जाता है।
 </p>
 
@@ -496,7 +938,7 @@ border:1px solid #ccc;
 यदि आप अपने बच्चे के लिए लोरमी में एक भरोसेमंद और 
 उच्च गुणवत्ता वाला विद्यालय खोज रहे हैं, 
 तो <strong>Kalyani Devi School of Education</strong> 
-आपके विश्वास पर खरा उतरने के लिए सदैव प्रतिबद्ध है।
+आपके विश्वास पर खरा उतरने के ल���ए सदैव प्रतिबद्ध है।
 </p>
 
 </section>
@@ -526,7 +968,7 @@ border:1px solid #ccc;
 <div class="academic-buttons">
 
 <!-- Online Admission -->
-<a href="admission-form.html" class="academic-btn">
+<a href="admission-form.html" class="academic-btn" tabindex="0">
 <span class="icon">📋</span>
 <span>Online Admission Form</span>
 </a>
@@ -547,51 +989,74 @@ border:1px solid #ccc;
 <!-- TEACHERS -->
 <section id="teachers">
 <h2>👥 Our Management & Teachers</h2>
-<div class="grid" id="teachersGrid"></div>
+<div class="grid" id="teachersGrid" role="list"></div>
 </section>
 
 <!-- PROFILE POPUP -->
-<div id="profilePopup" class="popup" onclick="closePopup()">
-<div class="popup-box" onclick="event.stopPropagation()">
-<span class="close" onclick="closePopup()">✖</span>
-<img id="popImg" src="">
+<div id="profilePopup" class="popup" role="dialog" aria-modal="true" aria-labelledby="popName">
+<div class="popup-box">
+<button class="close" onclick="closePopup()" aria-label="Close popup">✖</button>
+<img id="popImg" src="" alt="">
 <h2 id="popName"></h2>
 <p id="popRole"></p>
 <div class="qualifications" id="popQual"></div>
 <p id="popExp" style="font-weight:600;color:#0b4d91;margin-top:6px;"></p>
 <div class="popup-actions">
-<a id="popCall" href="#">📞 Call</a>
-<a id="popWhatsApp" href="#" target="_blank" rel="noopener">💬 WhatsApp</a>
+<a id="popCall" href="#" aria-label="Call teacher">📞 Call</a>
+<a id="popWhatsApp" href="#" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">💬 WhatsApp</a>
 </div>
 </div>
 </div>
 
 <!-- GALLERY -->
-<section id="gallery">
+<section id="gallery" role="region" aria-label="School Gallery">
 <h2>Gallery</h2>
 <div class="gallery-slider">
   <div class="gallery-wrapper">
-    <div class="gallery-track" id="galleryTrack">
-      <div class="gallery-slide"><img src="images/gallery1.jpg" alt="Sports Day Celebration at Kalyani Devi School Lormi" loading="lazy"></div>
-      <div class="gallery-slide"><img src="images/gallery2.jpg" alt="Students Activities at Kalyani Devi School Lormi" loading="lazy"></div>
-      <div class="gallery-slide"><img src="images/gallery3.jpg" alt="Annual Function Celebration at Kalyani Devi School Lormi" loading="lazy"></div>
+    <div class="gallery-track" id="galleryTrack" role="region" aria-label="Gallery images carousel">
+      <div class="gallery-slide">
+        <picture>
+          <source srcset="images/gallery1.webp" type="image/webp">
+          <img src="images/gallery1.jpg" alt="Sports Day Celebration at Kalyani Devi School Lormi" loading="lazy">
+        </picture>
+      </div>
+      <div class="gallery-slide">
+        <picture>
+          <source srcset="images/gallery2.webp" type="image/webp">
+          <img src="images/gallery2.jpg" alt="Students Activities at Kalyani Devi School Lormi" loading="lazy">
+        </picture>
+      </div>
+      <div class="gallery-slide">
+        <picture>
+          <source srcset="images/gallery3.webp" type="image/webp">
+          <img src="images/gallery3.jpg" alt="Annual Function Celebration at Kalyani Devi School Lormi" loading="lazy">
+        </picture>
+      </div>
     </div>
   </div>
-  <span class="prev" onclick="changeGallerySlide(-1)">❮</span>
-  <span class="next" onclick="changeGallerySlide(1)">❯</span>
+  <button class="prev" onclick="changeGallerySlide(-1)" aria-label="Previous gallery image">❮</button>
+  <button class="next" onclick="changeGallerySlide(1)" aria-label="Next gallery image">❯</button>
 </div>
 </section>
 
 <!-- SPORTS -->
-<section id="sports">
+<section id="sports" role="region" aria-label="Sports and Activities">
 <h2>Sports & Activities</h2>
-<div class="sports-slider">
-<span class="prev" onclick="changeSportSlide(-1)">❮</span>
-<span class="next" onclick="changeSportSlide(1)">❯</span>
-<img class="sport-slide active" src="images/sports1.jpg" alt="Sports Activities at Kalyani Devi School Lormi" loading="eager">
-<img class="sport-slide" src="images/sports2.jpg" alt="Students Playing Outdoor Games at KDSE Lormi" loading="lazy">
-<img class="sport-slide" src="images/sports3.jpg" alt="Annual Sports Competition at Kalyani Devi School" loading="lazy">
-
+<div class="sports-slider" role="region" aria-label="Sports images carousel">
+<button class="prev" onclick="changeSportSlide(-1)" aria-label="Previous sports image">❮</button>
+<button class="next" onclick="changeSportSlide(1)" aria-label="Next sports image">❯</button>
+<picture>
+  <source srcset="images/sports1.webp" type="image/webp">
+  <img class="sport-slide active" src="images/sports1.jpg" alt="Sports Activities at Kalyani Devi School Lormi" loading="eager">
+</picture>
+<picture>
+  <source srcset="images/sports2.webp" type="image/webp">
+  <img class="sport-slide" src="images/sports2.jpg" alt="Students Playing Outdoor Games at KDSE Lormi" loading="lazy">
+</picture>
+<picture>
+  <source srcset="images/sports3.webp" type="image/webp">
+  <img class="sport-slide" src="images/sports3.jpg" alt="Annual Sports Competition at Kalyani Devi School" loading="lazy">
+</picture>
 </div>
 </section>
 
@@ -600,39 +1065,40 @@ border:1px solid #ccc;
 
   <!-- Year selection dropdown -->
   <label for="year-select">Select Year:</label>
-  <select id="year-select"></select>
+  <select id="year-select" aria-label="Select academic year for results"></select>
 
-  <ul id="results-list"></ul>
+  <ul id="results-list" role="list"></ul>
 </section>
 
 <!-- NOTICE -->
-<section id="notice">
+<section id="notice" role="region" aria-label="Notice Board">
 <h2>📢 Notice Board</h2>
 
-<div id="liveNotice"></div>
+<div id="liveNotice" role="list"></div>
 
 <p style="margin-top:10px;">
  <a id="pdfNotice" href="#" target="_blank" rel="noopener">📄 Download Latest Notice</a>
 </p>
 
-<label style="font-weight:600;">🔍 Filter by Year:</label>
-<select id="yearFilter" style="margin-left:8px;padding:6px;border-radius:6px;">
+<label style="font-weight:600;" for="yearFilter">🔍 Filter by Year:</label>
+<select id="yearFilter" aria-label="Filter notices by year" style="margin-left:8px;padding:6px;border-radius:6px;">
   <option value="all">All</option>
 </select>
 
-<div id="noticeArchive"></div>
+<div id="noticeArchive" role="list"></div>
 </section>
 
 <!-- CONTACT -->
-<section id="contact">
+<section id="contact" role="region" aria-label="Contact Information">
 <h2>Contact Us</h2>
 <p>📍 Kalyani Devi School of Education, Piparkhunta, Post office - Dewarhat, Block - Lormi, Mungeli, Chhattisgarh – 495115</p>  
-<p>✉ kdse1227@gmail.com</p>  
+<p>✉ <a href="mailto:kdse1227@gmail.com">kdse1227@gmail.com</a></p>  
 <p>📞 <a class="call-btn" href="tel:+918224821843">Call Now</a></p>
 <a class="map-btn"
    href="https://www.google.com/maps/dir/?api=1&destination=22.1947883,81.7529802"
    target="_blank"
-   rel="noopener">
+   rel="noopener"
+   aria-label="Get directions to school on Google Maps">
 📍 Get Directions
 </a>
 
@@ -644,38 +1110,59 @@ border:1px solid #ccc;
     style="border:0;" 
     allowfullscreen="" 
     loading="lazy"
+    title="Location of Kalyani Devi School of Education"
     referrerpolicy="no-referrer-when-downgrade">
   </iframe>
 </div>
 </section>
 
-<!-- WHATSAPP -->
+</main>
+
+<!-- WHATSAPP BUTTON -->
 <a href="https://wa.me/918224821843?text=Hello%20KDSE"
    class="whatsapp"
    target="_blank"
-   rel="noopener">
-<img src="images/whatsapp.svg" alt="WhatsApp"> WhatsApp
+   rel="noopener"
+   aria-label="Chat with us on WhatsApp">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.272-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378c-1.56.934-2.846 2.32-3.476 3.911-.629 1.59-.563 3.355.166 4.923.728 1.567 2.054 2.857 3.737 3.616 1.682.759 3.56.868 5.227.236 1.667-.632 3.019-1.587 3.8-2.953.78-1.366 1.047-2.889.767-4.494-.28-1.605-1.12-3.007-2.343-3.984-1.222-.977-2.799-1.47-4.465-1.517z"/>
+</svg>
+WhatsApp
 </a>
 
 <!-- FOOTER -->
-<footer>
+<footer role="contentinfo">
 &copy; 2026 Kalyani Devi School of Education. All rights reserved.
 </footer>
 
 <script defer>
-// ===== MOBILE MENU =====
+// ===== MOBILE MENU TOGGLE WITH ACCESSIBILITY =====
+const menuToggle = document.getElementById('menuToggle');
+const mainNav = document.getElementById('mainNav');
+
 function toggleMenu(){
-  const nav = document.getElementById('mainNav');
-  nav.classList.toggle('open');
-  document.body.classList.toggle('menu-open');
+  const isOpen = mainNav.classList.toggle('open');
+  menuToggle.setAttribute('aria-expanded', isOpen);
+  document.body.classList.toggle('menu-open', isOpen);
 }
+
+menuToggle.addEventListener('click', toggleMenu);
+
+// Close menu on escape key
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape' && mainNav.classList.contains('open')){
+    mainNav.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('menu-open');
+  }
+});
 
 // ===== AUTO-CLOSE MENU ON LINK CLICK =====
 document.querySelectorAll('#mainNav a').forEach(link => {
   link.addEventListener('click', () => {
-    const nav = document.getElementById('mainNav');
-    if(nav.classList.contains('open')) {
-      nav.classList.remove('open');
+    if(mainNav.classList.contains('open')) {
+      mainNav.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
       document.body.classList.remove('menu-open');
     }
   });
@@ -684,7 +1171,7 @@ document.querySelectorAll('#mainNav a').forEach(link => {
 // ===== HEADER SHRINK ON SCROLL =====
 window.addEventListener('scroll', () => {
   const header = document.querySelector('header');
-  if(window.scrollY > 80){ // scroll threshold
+  if(window.scrollY > 80){
     header.classList.add('shrink');
   } else {
     header.classList.remove('shrink');
@@ -705,7 +1192,6 @@ function changeSlide(n){
   showSlide(slideIndex + n);
 }
 
-// Initial load
 showSlide(slideIndex);
 
 // Auto slide every 4 sec
@@ -742,36 +1228,38 @@ fetch('notice.json')
         const a = document.createElement('a');
         a.href = n.link;
         a.target = "_blank";
+        a.rel = "noopener";
         a.textContent = `📢 ${n.title} (${formatDate(n.date)})`;
-        a.style.marginRight = "40px";   // spacing
+        a.style.marginRight = "40px";
         marqueeTrack.appendChild(a);
       }
 
       // ===== RED HIGHLIGHT SECTION =====
       if(n.latest){
-       const div = document.createElement("div");
-div.className = "notice-latest";
+        const div = document.createElement("div");
+        div.className = "notice-latest";
+        div.setAttribute('role', 'listitem');
 
-const text = document.createTextNode(
-  "🗓 " + formatDate(n.date) + " – "
-);
-div.appendChild(text);
+        const text = document.createTextNode(
+          "🗓 " + formatDate(n.date) + " – "
+        );
+        div.appendChild(text);
 
-const a = document.createElement("a");
-a.href = n.link;
-a.target = "_blank";
-a.rel = "noopener";
-a.textContent = n.title;
-div.appendChild(a);
+        const a = document.createElement("a");
+        a.href = n.link;
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.textContent = n.title;
+        div.appendChild(a);
 
-if(n.new === true){
-  const badge = document.createElement("span");
-  badge.className = "new-badge";
-  badge.textContent = "NEW";
-  div.appendChild(badge);
-}
+        if(n.new === true){
+          const badge = document.createElement("span");
+          badge.className = "new-badge";
+          badge.textContent = "NEW";
+          div.appendChild(badge);
+        }
 
-liveNotice.appendChild(div);
+        liveNotice.appendChild(div);
       }
     });
 
@@ -801,8 +1289,7 @@ liveNotice.appendChild(div);
     console.error(err);
   });
 
-
-// ===== RENDER ARCHIVE (SECURE VERSION) =====
+// ===== RENDER ARCHIVE =====
 function renderArchive(year){
   const archive = document.getElementById('noticeArchive');
   archive.innerHTML = '';
@@ -820,23 +1307,20 @@ function renderArchive(year){
   Object.keys(grouped)
     .sort((a,b) => b - a)
     .forEach(y => {
-
       const h = document.createElement('div');
       h.className = "notice-year";
       h.textContent = "📂 Notices " + y;
       archive.appendChild(h);
 
       grouped[y].forEach(n => {
-
         const p = document.createElement('p');
+        p.setAttribute('role', 'listitem');
 
-        // Date text
         const text = document.createTextNode(
           "• " + formatDate(n.date) + " – "
         );
         p.appendChild(text);
 
-        // Link
         const a = document.createElement("a");
         a.href = n.link;
         a.target = "_blank";
@@ -844,7 +1328,6 @@ function renderArchive(year){
         a.textContent = n.title;
         p.appendChild(a);
 
-        // NEW badge
         if(n.new === true){
           const badge = document.createElement("span");
           badge.className = "new-badge";
@@ -853,9 +1336,7 @@ function renderArchive(year){
         }
 
         archive.appendChild(p);
-
       });
-
     });
 }
 
@@ -894,46 +1375,52 @@ const teachers = [
   },
   {
     name:"Shyamu Prashad Soni",
-    role:"zoology & English",
+    role:"Zoology & English",
     img:"images/teachers/shyamu.jpg",
-    qual:"M.Sc zoology, B.Ed",
+    qual:"M.Sc Zoology, B.Ed",
     experience:"6 Years Teaching Experience",
     phone:"+916260196835"
   },
   {
     name:"Shailendra Singh Rajput",
-    role:"Sanskrit, history & Hindi)",
+    role:"Sanskrit, History & Hindi",
     img:"images/teachers/Shailendra.jpg",
-    qual:"M.A (Sanskrit history Hindi) B.Ed, D.Ed",
+    qual:"M.A (Sanskrit History Hindi) B.Ed, D.Ed",
     experience:"8 Years Teaching Experience",
     phone:"+918085583392"
   }
 ];
+
 const teachersGrid = document.getElementById('teachersGrid');
 teachers.forEach((t,i)=>{
   let card = document.createElement('div');
   card.className = 'card' + (t.role === 'Founder & Director' ? ' founder-card' : '');
-const img = document.createElement("img");
-img.src = t.img;
-img.alt = t.name;
+  card.setAttribute('role', 'listitem');
 
-const h3 = document.createElement("h3");
-h3.textContent = t.name;
+  const img = document.createElement("img");
+  img.src = t.img;
+  img.alt = t.name;
+  img.loading = "lazy";
 
-const p = document.createElement("p");
-p.textContent = t.role;
+  const h3 = document.createElement("h3");
+  h3.textContent = t.name;
 
-const btn = document.createElement("button");
-btn.className = "view-btn";
-btn.textContent = "View Profile";
-btn.onclick = function(){ showProfile(i); };
+  const p = document.createElement("p");
+  p.textContent = t.role;
 
-card.appendChild(img);
-card.appendChild(h3);
-card.appendChild(p);
-card.appendChild(btn);
-teachersGrid.appendChild(card);
+  const btn = document.createElement("button");
+  btn.className = "view-btn";
+  btn.textContent = "View Profile";
+  btn.onclick = function(){ showProfile(i); };
+  btn.setAttribute('aria-label', `View profile of ${t.name}`);
+
+  card.appendChild(img);
+  card.appendChild(h3);
+  card.appendChild(p);
+  card.appendChild(btn);
+  teachersGrid.appendChild(card);
 });
+
 function showProfile(i){
   const t = teachers[i];
   const popup = document.getElementById('profilePopup');
@@ -945,6 +1432,7 @@ function showProfile(i){
   }
 
   document.getElementById('popImg').src = t.img;
+  document.getElementById('popImg').alt = t.name;
   document.getElementById('popName').innerText = t.name;
   document.getElementById('popRole').innerText = t.role;
   document.getElementById('popQual').innerText = t.qual;
@@ -953,6 +1441,7 @@ function showProfile(i){
   document.getElementById('popWhatsApp').href = `https://api.whatsapp.com/send?phone=${t.phone.replace(/\D/g,'')}&text=Hello`;
 
   popup.style.display = 'flex';
+  popup.focus();
 }
 
 function closePopup(){
@@ -961,23 +1450,43 @@ function closePopup(){
   popup.classList.remove('founder-popup');
 }
 
+// Close popup on Escape key
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape'){
+    closePopup();
+  }
+});
+
 // ===== GALLERY SLIDER =====
 let gIndex=0;
 const gTrack=document.getElementById('galleryTrack');
 const gSlides=gTrack.children;
-function showGallerySlide(n){ gIndex=(n+gSlides.length)%gSlides.length; gTrack.style.transform=`translateX(${-gIndex*100}%)`; }
-function changeGallerySlide(n){ showGallerySlide(gIndex+n); }
+
+function showGallerySlide(n){ 
+  gIndex=(n+gSlides.length)%gSlides.length; 
+  gTrack.style.transform=`translateX(${-gIndex*100}%)`;
+}
+
+function changeGallerySlide(n){ 
+  showGallerySlide(gIndex+n); 
+}
+
 showGallerySlide(gIndex);
 
 // ===== SPORTS SLIDER =====
 let sIndex=0;
 const sSlides=document.querySelectorAll('.sport-slide');
+
 function showSportSlide(n){
   sSlides.forEach(s=>s.classList.remove('active'));
   sIndex=(n+sSlides.length)%sSlides.length;
   sSlides[sIndex].classList.add('active');
 }
-function changeSportSlide(n){ showSportSlide(sIndex+n); }
+
+function changeSportSlide(n){ 
+  showSportSlide(sIndex+n); 
+}
+
 showSportSlide(sIndex);
 
 // ===== RESULTS DROPDOWN & PDF LINKS =====
@@ -1035,14 +1544,41 @@ function renderResults(year) {
     resultsList.appendChild(li);
   });
 }
-</script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+// ===== WEB VITALS MONITORING =====
+if ('PerformanceObserver' in window) {
+  // Largest Contentful Paint
+  try {
+    new PerformanceObserver((list) => {
+      list.getEntries().forEach((entry) => {
+        console.log('LCP (Largest Contentful Paint):', entry.renderTime || entry.loadTime);
+      });
+    }).observe({entryTypes: ['largest-contentful-paint']});
+  } catch(e) {
+    console.log('LCP observer not supported');
+  }
 
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
+  // Cumulative Layout Shift
+  try {
+    new PerformanceObserver((list) => {
+      let clsValue = 0;
+      list.getEntries().forEach((entry) => {
+        if (!entry.hadRecentInput) {
+          clsValue += entry.value;
+        }
+      });
+      console.log('CLS (Cumulative Layout Shift):', clsValue);
+    }).observe({entryTypes: ['layout-shift']});
+  } catch(e) {
+    console.log('CLS observer not supported');
+  }
 }
+
+// ===== SERVICE WORKER REGISTRATION =====
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(err => {
+    console.log('Service Worker registration failed:', err);
+  });
 </script>
 </body>
 </html>
