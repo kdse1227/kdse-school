@@ -331,24 +331,90 @@ width:100%;
 .popup-actions a{display:inline-block;margin:6px 8px;background:#0b4d91;color:#fff;font-weight:600;padding:10px 18px;border-radius:8px;text-decoration:none;transition:0.3s;}
 .popup-actions a:hover{background:#083b70;}
 
-/* ================= GALLERY SLIDER ================= */
-.gallery-slider{position:relative; overflow:hidden; border-radius:14px;}
-.gallery-wrapper{overflow:hidden;}
-.gallery-track{display:flex; transition:transform 0.5s ease; width:100%;}
-.gallery-slide{min-width:100%;}
+/* ================= GALLERY SLIDER (UPDATED SPORTS STYLE) ================= */
+
+.gallery-slider{
+  position:relative;
+  height:32vh;
+  max-height:260px;
+  min-height:180px;
+  overflow:hidden;
+  border-radius:14px;
+}
+
+/* track container (for JS transform if needed later) */
+.gallery-wrapper{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+/* slides container */
+.gallery-track{
+  display:flex;
+  transition:transform 0.6s ease;
+  width:100%;
+  height:100%;
+}
+
+/* EACH SLIDE */
+.gallery-slide{
+  min-width:100%;
+  height:100%;
+  position:relative;
+}
+
+/* IMAGE STYLE */
 .gallery-slide img{
   width:100%;
-  height:35vh;
-  max-height:280px;
-  min-height:180px;
+  height:100%;
   object-fit:cover;
+  border-radius:14px;
 }
-.gallery-slider .prev, .gallery-slider .next{
-  position:absolute; top:50%; transform:translateY(-50%);
-  background:rgba(0,0,0,0.5); color:#fff; padding:12px; font-size:22px; border-radius:50%; cursor:pointer; z-index:10;
+
+/* ARROWS */
+.gallery-slider .prev,
+.gallery-slider .next{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(0,0,0,0.5);
+  color:#fff;
+  padding:12px;
+  font-size:22px;
+  border-radius:50%;
+  cursor:pointer;
+  z-index:10;
 }
+
 .gallery-slider .prev{left:10px;}
 .gallery-slider .next{right:10px;}
+
+/* DOTS */
+.gallery-dots{
+  position:absolute;
+  bottom:10px;
+  width:100%;
+  text-align:center;
+  z-index:5;
+}
+
+.gallery-dots span{
+  display:inline-block;
+  width:10px;
+  height:10px;
+  margin:0 4px;
+  background:#fff;
+  border-radius:50%;
+  opacity:0.5;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.gallery-dots span.active{
+  background:#0b4d91;
+  opacity:1;
+}
 
 /* ================= SPORTS ================= */
 .sports-slider{
@@ -597,16 +663,33 @@ border:1px solid #ccc;
 <!-- GALLERY -->
 <section id="gallery">
 <h2>Gallery</h2>
+
 <div class="gallery-slider">
-  <div class="gallery-wrapper">
-    <div class="gallery-track" id="galleryTrack">
-      <div class="gallery-slide"><img src="images/gallery1.jpg" alt="Sports Day Celebration at Kalyani Devi School Lormi" loading="lazy"></div>
-      <div class="gallery-slide"><img src="images/gallery2.jpg" alt="Students Activities at Kalyani Devi School Lormi" loading="lazy"></div>
-      <div class="gallery-slide"><img src="images/gallery3.jpg" alt="Annual Function Celebration at Kalyani Devi School Lormi" loading="lazy"></div>
-    </div>
-  </div>
+
   <span class="prev" onclick="changeGallerySlide(-1)">❮</span>
   <span class="next" onclick="changeGallerySlide(1)">❯</span>
+
+  <div class="gallery-wrapper">
+    <div class="gallery-track">
+
+      <div class="gallery-slide">
+        <img src="images/gallery1.jpg" alt="Sports Day Celebration at Kalyani Devi School Lormi" loading="lazy">
+      </div>
+
+      <div class="gallery-slide">
+        <img src="images/gallery2.jpg" alt="Students Activities at Kalyani Devi School Lormi" loading="lazy">
+      </div>
+
+      <div class="gallery-slide">
+        <img src="images/gallery3.jpg" alt="Annual Function Celebration at Kalyani Devi School Lormi" loading="lazy">
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DOTS -->
+  <div class="gallery-dots" id="galleryDots"></div>
+
 </div>
 </section>
 
@@ -991,13 +1074,77 @@ function closePopup(){
   popup.classList.remove('founder-popup');
 }
 
-// ===== GALLERY SLIDER =====
-let gIndex=0;
-const gTrack=document.getElementById('galleryTrack');
-const gSlides=gTrack.children;
-function showGallerySlide(n){ gIndex=(n+gSlides.length)%gSlides.length; gTrack.style.transform=`translateX(${-gIndex*100}%)`; }
-function changeGallerySlide(n){ showGallerySlide(gIndex+n); }
-showGallerySlide(gIndex);
+
+// ===== GALLERY SLIDER (CLEAN VERSION) =====
+let gIndex = 0;
+
+const gTrack = document.querySelector('.gallery-track');
+const gSlides = document.querySelectorAll('.gallery-slide');
+const gDotsContainer = document.getElementById('galleryDots');
+
+if (gTrack && gSlides.length && gDotsContainer) {
+
+  // ===== CREATE DOTS (ONLY ONCE) =====
+  gSlides.forEach((_, i) => {
+    const dot = document.createElement('span');
+    dot.addEventListener('click', () => showGallerySlide(i));
+    gDotsContainer.appendChild(dot);
+  });
+
+  const gDots = gDotsContainer.children;
+
+  // ===== SHOW SLIDE =====
+  function showGallerySlide(n) {
+    gIndex = (n + gSlides.length) % gSlides.length;
+
+    gTrack.style.transform = `translateX(-${gIndex * 100}%)`;
+
+    [...gDots].forEach(d => d.classList.remove('active'));
+    if (gDots[gIndex]) gDots[gIndex].classList.add('active');
+  }
+
+  // expose for HTML buttons
+  window.showGallerySlide = showGallerySlide;
+
+  window.changeGallerySlide = function (n) {
+    showGallerySlide(gIndex + n);
+  };
+
+  // ===== INIT =====
+  showGallerySlide(0);
+
+  // ===== AUTO SLIDE =====
+let galleryAuto = setInterval(() => {
+  changeGallerySlide(1);
+}, 4000);
+
+  // ===== SWIPE SUPPORT =====
+  const gallerySlider = document.querySelector('.gallery-slider');
+
+  let galleryStartX = 0;
+  let startY = 0;
+
+  if (gallerySlider) {
+    gallerySlider.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    });
+
+    gallerySlider.addEventListener('touchend', (e) => {
+      const endX = e.changedTouches[0].clientX;
+      const endY = e.changedTouches[0].clientY;
+
+      const diffX = startX - endX;
+      const diffY = startY - endY;
+
+      // ignore vertical scroll
+      if (Math.abs(diffY) > Math.abs(diffX)) return;
+
+      if (diffX > 50) changeGallerySlide(1);
+      else if (diffX < -50) changeGallerySlide(-1);
+    });
+  }
+}
 
 // ===== ADVANCED SPORTS SLIDER =====
 let sIndex = 0;
@@ -1052,7 +1199,7 @@ sportsSlider.addEventListener('mouseleave', () => {
 });
 
 // ===== TOUCH SWIPE (MOBILE) =====
-let startX = 0;
+let sportsStartX = 0;
 
 sportsSlider.addEventListener('touchstart', (e) => {
   startX = e.touches[0].clientX;
