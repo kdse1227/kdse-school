@@ -106,7 +106,6 @@ nav a{
 
 /* ===== MOBILE NAV ===== */
 @media(max-width:768px){
-
   nav{
     position:fixed;
     top:70px;
@@ -132,13 +131,16 @@ nav a{
   }
 }
 
-/* ================= SLIDER ================= */
+/* ================= SLIDER (PREMIUM FADE VERSION) ================= */
 .slider{
   position:relative;
   overflow:hidden;
   height:60vh;   
   max-height:420px;
   min-height:220px;
+  border-radius:0;
+  background:#000;
+  box-shadow:0 8px 24px rgba(0,0,0,0.15);
 }
 
 .slide{
@@ -147,11 +149,13 @@ nav a{
   height:100%;
   object-fit:cover;
   opacity:0;
-  transition:opacity 0.8s ease;
+  transition:opacity 1s ease-in-out;
+  z-index:1;
 }
 
 .slide.active{
   opacity:1;
+  z-index:2;
 }
 
 .slider .prev,
@@ -159,17 +163,54 @@ nav a{
   position:absolute;
   top:50%;
   transform:translateY(-50%);
-  background:rgba(0,0,0,0.5);
+  background:rgba(0,0,0,0.55);
   color:#fff;
-  padding:12px;
-  font-size:22px;
+  padding:14px 16px;
+  font-size:24px;
   border-radius:50%;
   cursor:pointer;
   z-index:10;
+  transition:all 0.3s ease;
+  border:2px solid rgba(255,255,255,0.3);
 }
 
-.slider .prev{ left:10px; }
-.slider .next{ right:10px; }
+.slider .prev:hover,
+.slider .next:hover{
+  background:rgba(0,0,0,0.8);
+  border-color:rgba(255,255,255,0.6);
+  transform:translateY(-50%) scale(1.1);
+}
+
+.slider .prev{ left:15px; }
+.slider .next{ right:15px; }
+
+/* ===== SLIDER DOTS ===== */
+.slider-dots{
+  position:absolute;
+  bottom:15px;
+  width:100%;
+  text-align:center;
+  z-index:5;
+}
+
+.slider-dots span{
+  display:inline-block;
+  width:12px;
+  height:12px;
+  margin:0 6px;
+  background:rgba(255,255,255,0.5);
+  border-radius:50%;
+  cursor:pointer;
+  transition:all 0.3s ease;
+  border:2px solid rgba(255,255,255,0.3);
+}
+
+.slider-dots span:hover,
+.slider-dots span.active{
+  background:#0b4d91;
+  border-color:#0b4d91;
+  transform:scale(1.2);
+}
 
 /* ================= MARQUEE ================= */
 .marquee{background:#e8f0fe; padding:10px 0; overflow:hidden; white-space:nowrap; position:relative;}
@@ -331,7 +372,7 @@ width:100%;
 .popup-actions a{display:inline-block;margin:6px 8px;background:#0b4d91;color:#fff;font-weight:600;padding:10px 18px;border-radius:8px;text-decoration:none;transition:0.3s;}
 .popup-actions a:hover{background:#083b70;}
 
-/* ================= GALLERY SLIDER (UPDATED SPORTS STYLE) ================= */
+/* ================= GALLERY SLIDER (ENHANCED SPORTS STYLE) ================= */
 
 .gallery-slider{
   position:relative;
@@ -340,9 +381,11 @@ width:100%;
   min-height:180px;
   overflow:hidden;
   border-radius:14px;
+  background:#000;
+  box-shadow:0 8px 24px rgba(0,0,0,0.15);
 }
 
-/* track container (for JS transform if needed later) */
+/* track container */
 .gallery-wrapper{
   width:100%;
   height:100%;
@@ -352,7 +395,7 @@ width:100%;
 /* slides container */
 .gallery-track{
   display:flex;
-  transition:transform 0.6s ease;
+  transition:transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   width:100%;
   height:100%;
 }
@@ -362,6 +405,7 @@ width:100%;
   min-width:100%;
   height:100%;
   position:relative;
+  flex-shrink:0;
 }
 
 /* IMAGE STYLE */
@@ -369,7 +413,7 @@ width:100%;
   width:100%;
   height:100%;
   object-fit:cover;
-  border-radius:14px;
+  border-radius:0;
 }
 
 /* ARROWS */
@@ -378,22 +422,31 @@ width:100%;
   position:absolute;
   top:50%;
   transform:translateY(-50%);
-  background:rgba(0,0,0,0.5);
+  background:rgba(0,0,0,0.55);
   color:#fff;
-  padding:12px;
-  font-size:22px;
+  padding:14px 16px;
+  font-size:24px;
   border-radius:50%;
   cursor:pointer;
   z-index:10;
+  transition:all 0.3s ease;
+  border:2px solid rgba(255,255,255,0.3);
 }
 
-.gallery-slider .prev{left:10px;}
-.gallery-slider .next{right:10px;}
+.gallery-slider .prev:hover,
+.gallery-slider .next:hover{
+  background:rgba(0,0,0,0.8);
+  border-color:rgba(255,255,255,0.6);
+  transform:translateY(-50%) scale(1.1);
+}
+
+.gallery-slider .prev{left:15px;}
+.gallery-slider .next{right:15px;}
 
 /* DOTS */
 .gallery-dots{
   position:absolute;
-  bottom:10px;
+  bottom:15px;
   width:100%;
   text-align:center;
   z-index:5;
@@ -401,19 +454,23 @@ width:100%;
 
 .gallery-dots span{
   display:inline-block;
-  width:10px;
-  height:10px;
-  margin:0 4px;
-  background:#fff;
+  width:12px;
+  height:12px;
+  margin:0 6px;
+  background:rgba(255,255,255,0.5);
   border-radius:50%;
-  opacity:0.5;
+  opacity:0.7;
   cursor:pointer;
-  transition:0.3s;
+  transition:all 0.3s ease;
+  border:2px solid rgba(255,255,255,0.3);
 }
 
+.gallery-dots span:hover,
 .gallery-dots span.active{
   background:#0b4d91;
+  border-color:#0b4d91;
   opacity:1;
+  transform:scale(1.2);
 }
 
 /* ================= SPORTS ================= */
@@ -424,6 +481,8 @@ width:100%;
   min-height:180px;
   overflow:hidden;
   border-radius:14px;
+  background:#000;
+  box-shadow:0 8px 24px rgba(0,0,0,0.15);
 }
 
 .sport-slide{
@@ -434,35 +493,69 @@ width:100%;
   height:100%;
   object-fit:cover;
   opacity:0;
-  transition:opacity 1s ease;
+  transition:opacity 1s ease-in-out;
+  z-index:1;
 }
-.sport-slide.active{opacity:1; z-index:1;}
-.sports-slider .prev,.sports-slider .next{position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:#fff; padding:12px; font-size:22px; border-radius:50%; cursor:pointer;}
-.sports-slider .prev{left:10px;} .sports-slider .next{right:10px;}
+
+.sport-slide.active{
+  opacity:1;
+  z-index:2;
+}
+
+.sports-slider .prev,
+.sports-slider .next{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(0,0,0,0.55);
+  color:#fff;
+  padding:14px 16px;
+  font-size:24px;
+  border-radius:50%;
+  cursor:pointer;
+  z-index:10;
+  transition:all 0.3s ease;
+  border:2px solid rgba(255,255,255,0.3);
+}
+
+.sports-slider .prev:hover,
+.sports-slider .next:hover{
+  background:rgba(0,0,0,0.8);
+  border-color:rgba(255,255,255,0.6);
+  transform:translateY(-50%) scale(1.1);
+}
+
+.sports-slider .prev{left:15px;}
+.sports-slider .next{right:15px;}
 
 /* ===== SPORTS DOTS ===== */
 .sports-dots{
   position:absolute;
-  bottom:10px;
+  bottom:15px;
   width:100%;
   text-align:center;
+  z-index:5;
 }
 
 .sports-dots span{
   display:inline-block;
-  width:10px;
-  height:10px;
-  margin:0 4px;
-  background:#fff;
+  width:12px;
+  height:12px;
+  margin:0 6px;
+  background:rgba(255,255,255,0.5);
   border-radius:50%;
-  opacity:0.5;
+  opacity:0.7;
   cursor:pointer;
-  transition:0.3s;
+  transition:all 0.3s ease;
+  border:2px solid rgba(255,255,255,0.3);
 }
 
+.sports-dots span:hover,
 .sports-dots span.active{
   opacity:1;
   background:#0b4d91;
+  border-color:#0b4d91;
+  transform:scale(1.2);
 }
 
 /* ================= CONTACT ================= */
@@ -471,9 +564,9 @@ width:100%;
 #contact a.map-btn{background:#0b4d91;padding:8px 14px;border-radius:6px;}
 
 /* ================= WHATSAPP ================= */
-.whatsapp{position:fixed; bottom:20px; right:20px; display:flex; align-items:center; gap:10px; background:#25D366; color:#fff; padding:14px 22px; border-radius:50px; font-weight:600; box-shadow:0 6px 15px rgba(0,0,0,0.3); z-index:9999;}
+.whatsapp{position:fixed; bottom:20px; right:20px; display:flex; align-items:center; gap:10px; background:#25D366; color:#fff; padding:14px 22px; border-radius:50px; font-weight:600; box-shadow:0 6px 15px rgba(0,0,0,0.3); z-index:9999; transition:all 0.3s ease;}
 .whatsapp img{width:22px;height:22px;}
-.whatsapp:hover{transform:scale(1.06); box-shadow:0 8px 18px rgba(0,0,0,0.4);}
+.whatsapp:hover{transform:scale(1.08); box-shadow:0 8px 20px rgba(0,0,0,0.4);}
 
 /* ================= FOOTER ================= */
 footer{background:#0b4d91; color:#fff; text-align:center; padding:15px; margin-top:20px;}
@@ -515,6 +608,17 @@ margin:6px 0 15px 0;
 border-radius:6px;
 border:1px solid #ccc;
 }
+
+/* ================= ANIMATIONS ================= */
+@keyframes slideIn {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.gallery-slider, .sports-slider, .slider {
+  animation: slideIn 0.5s ease-out;
+}
+
 </style>
 </head>
 <body>
@@ -543,16 +647,17 @@ border:1px solid #ccc;
   <a href="#notice">Notice</a>
   <a href="#contact">Contact</a>
   <a href="analytics.html">Analytics</a>
-  <a href="directors-desk.html">Director’s Desk</a>
+  <a href="directors-desk.html">Director's Desk</a>
 </nav>
 
-<!-- SLIDER -->
+<!-- SLIDER (ENHANCED) -->
 <div class="slider">
 <img class="slide active" src="images/slider/slide1.jpg" alt="Kalyani Devi School Main Building Lormi" loading="eager">
 <img class="slide" src="images/slider/slide2.jpg" alt="Students Activities at Kalyani Devi School" loading="lazy">
 <img class="slide" src="images/slider/slide3.jpg" alt="Annual Function Celebration at Kalyani Devi School" loading="lazy">
 <span class="prev" onclick="changeSlide(-1)">❮</span>
 <span class="next" onclick="changeSlide(1)">❯</span>
+<div class="slider-dots" id="sliderDots"></div>
 </div>
 
 <!-- MARQUEE -->
@@ -563,10 +668,10 @@ border:1px solid #ccc;
 <section id="about" class="about-box">
 <h2>विद्यालय के बारे में</h2>
 
-<p class="slogan">🌟 “ज्ञान • संस्कार • अनुशासन • उज्ज्वल भविष्य” 🌟</p>
+<p class="slogan">🌟 "ज्ञान • संस्कार • अनुशासन • उज्ज्वल भविष्य" 🌟</p>
 
 <p>
-<strong>Kalyani Devi School of Education</strong>, ग्राम-पीपरखुंटा, ब्लॉक-लोरमी, जिला-मुंगेली, छत्तीसगढ़ 495115 में स्थित 
+<strong>Kalyani Devi School of Education</strong>, ग्राम-पीपरखुंटा, ब्लॉक-लोरमी, जिला-मुंगेली, छत्तीसगढ़ 495115 में स्थित 
 एक प्रतिष्ठित शिक्षण संस्थान है, जो गुणवत्तापूर्ण शिक्षा और श्रेष्ठ संस्कारों 
 के लिए समर्पित है। हमारा उद्देश्य केवल पुस्तकीय ज्ञान देना नहीं, 
 बल्कि विद्यार्थियों के सर्वांगीण विकास को सुनिश्चित करना है।
@@ -660,9 +765,9 @@ border:1px solid #ccc;
 </div>
 </div>
 
-<!-- GALLERY -->
+<!-- GALLERY (ENHANCED) -->
 <section id="gallery">
-<h2>Gallery</h2>
+<h2>📸 Gallery</h2>
 
 <div class="gallery-slider">
 
@@ -693,9 +798,9 @@ border:1px solid #ccc;
 </div>
 </section>
 
-<!-- SPORTS -->
+<!-- SPORTS (ENHANCED) -->
 <section id="sports">
-<h2>Sports & Activities</h2>
+<h2>🏅 Sports & Activities</h2>
 <div class="sports-slider">
 <span class="prev" onclick="changeSportSlide(-1)">❮</span>
 <span class="next" onclick="changeSportSlide(1)">❯</span>
@@ -797,21 +902,34 @@ document.querySelectorAll('#mainNav a').forEach(link => {
 // ===== HEADER SHRINK ON SCROLL =====
 window.addEventListener('scroll', () => {
   const header = document.querySelector('header');
-  if(window.scrollY > 80){ // scroll threshold
+  if(window.scrollY > 80){
     header.classList.add('shrink');
   } else {
     header.classList.remove('shrink');
   }
 });
 
-// ===== SLIDER (SMOOTH FADE VERSION) =====
+// ===== ENHANCED SLIDER WITH DOTS (MAIN BANNER) =====
 let slideIndex = 0;
 const slides = document.querySelectorAll('.slide');
+const sliderDotsContainer = document.getElementById('sliderDots');
+
+// Create dots for slider
+slides.forEach((_, i) => {
+  const dot = document.createElement('span');
+  dot.addEventListener('click', () => showSlide(i));
+  sliderDotsContainer.appendChild(dot);
+});
+
+const sliderDots = sliderDotsContainer.children;
 
 function showSlide(n){
   slides.forEach(s => s.classList.remove('active'));
+  [...sliderDots].forEach(d => d.classList.remove('active'));
+  
   slideIndex = (n + slides.length) % slides.length;
   slides[slideIndex].classList.add('active');
+  sliderDots[slideIndex].classList.add('active');
 }
 
 function changeSlide(n){
@@ -822,9 +940,16 @@ function changeSlide(n){
 showSlide(slideIndex);
 
 // Auto slide every 4 sec
-setInterval(() => {
+let sliderAuto = setInterval(() => {
   changeSlide(1);
 }, 4000);
+
+// Pause on hover
+const slider = document.querySelector('.slider');
+slider.addEventListener('mouseenter', () => clearInterval(sliderAuto));
+slider.addEventListener('mouseleave', () => {
+  sliderAuto = setInterval(() => changeSlide(1), 4000);
+});
 
 // ===== NOTICE SYSTEM WITH YEAR FILTER + DOWNLOAD BUTTON =====
 let noticeData = [];
@@ -856,7 +981,7 @@ fetch('notice.json')
         a.href = n.link;
         a.target = "_blank";
         a.textContent = `📢 ${n.title} (${formatDate(n.date)})`;
-        a.style.marginRight = "40px";   // spacing
+        a.style.marginRight = "40px";
         marqueeTrack.appendChild(a);
       }
 
@@ -914,7 +1039,6 @@ liveNotice.appendChild(div);
     console.error(err);
   });
 
-
 // ===== RENDER ARCHIVE (SECURE VERSION) =====
 function renderArchive(year){
   const archive = document.getElementById('noticeArchive');
@@ -943,13 +1067,11 @@ function renderArchive(year){
 
         const p = document.createElement('p');
 
-        // Date text
         const text = document.createTextNode(
           "• " + formatDate(n.date) + " – "
         );
         p.appendChild(text);
 
-        // Link
         const a = document.createElement("a");
         a.href = n.link;
         a.target = "_blank";
@@ -957,7 +1079,6 @@ function renderArchive(year){
         a.textContent = n.title;
         p.appendChild(a);
 
-        // NEW badge
         if(n.new === true){
           const badge = document.createElement("span");
           badge.className = "new-badge";
@@ -1022,31 +1143,34 @@ const teachers = [
     phone:"+918085583392"
   }
 ];
+
 const teachersGrid = document.getElementById('teachersGrid');
 teachers.forEach((t,i)=>{
   let card = document.createElement('div');
   card.className = 'card' + (t.role === 'Founder & Director' ? ' founder-card' : '');
-const img = document.createElement("img");
-img.src = t.img;
-img.alt = t.name;
+  
+  const img = document.createElement("img");
+  img.src = t.img;
+  img.alt = t.name;
 
-const h3 = document.createElement("h3");
-h3.textContent = t.name;
+  const h3 = document.createElement("h3");
+  h3.textContent = t.name;
 
-const p = document.createElement("p");
-p.textContent = t.role;
+  const p = document.createElement("p");
+  p.textContent = t.role;
 
-const btn = document.createElement("button");
-btn.className = "view-btn";
-btn.textContent = "View Profile";
-btn.onclick = function(){ showProfile(i); };
+  const btn = document.createElement("button");
+  btn.className = "view-btn";
+  btn.textContent = "View Profile";
+  btn.onclick = function(){ showProfile(i); };
 
-card.appendChild(img);
-card.appendChild(h3);
-card.appendChild(p);
-card.appendChild(btn);
-teachersGrid.appendChild(card);
+  card.appendChild(img);
+  card.appendChild(h3);
+  card.appendChild(p);
+  card.appendChild(btn);
+  teachersGrid.appendChild(card);
 });
+
 function showProfile(i){
   const t = teachers[i];
   const popup = document.getElementById('profilePopup');
@@ -1074,8 +1198,7 @@ function closePopup(){
   popup.classList.remove('founder-popup');
 }
 
-
-// ===== GALLERY SLIDER (CLEAN VERSION) =====
+// ===== ENHANCED GALLERY SLIDER (MATCHING SPORTS STYLE) =====
 let gIndex = 0;
 
 const gTrack = document.querySelector('.gallery-track');
@@ -1084,7 +1207,7 @@ const gDotsContainer = document.getElementById('galleryDots');
 
 if (gTrack && gSlides.length && gDotsContainer) {
 
-  // ===== CREATE DOTS (ONLY ONCE) =====
+  // ===== CREATE DOTS =====
   gSlides.forEach((_, i) => {
     const dot = document.createElement('span');
     dot.addEventListener('click', () => showGallerySlide(i));
@@ -1096,14 +1219,12 @@ if (gTrack && gSlides.length && gDotsContainer) {
   // ===== SHOW SLIDE =====
   function showGallerySlide(n) {
     gIndex = (n + gSlides.length) % gSlides.length;
-
     gTrack.style.transform = `translateX(-${gIndex * 100}%)`;
 
     [...gDots].forEach(d => d.classList.remove('active'));
     if (gDots[gIndex]) gDots[gIndex].classList.add('active');
   }
 
-  // expose for HTML buttons
   window.showGallerySlide = showGallerySlide;
 
   window.changeGallerySlide = function (n) {
@@ -1114,39 +1235,42 @@ if (gTrack && gSlides.length && gDotsContainer) {
   showGallerySlide(0);
 
   // ===== AUTO SLIDE =====
-let galleryAuto = setInterval(() => {
-  changeGallerySlide(1);
-}, 4000);
+  let galleryAuto = setInterval(() => {
+    changeGallerySlide(1);
+  }, 4000);
 
-  // ===== SWIPE SUPPORT =====
+  // ===== PAUSE ON HOVER =====
   const gallerySlider = document.querySelector('.gallery-slider');
 
+  gallerySlider.addEventListener('mouseenter', () => clearInterval(galleryAuto));
+  gallerySlider.addEventListener('mouseleave', () => {
+    galleryAuto = setInterval(() => changeGallerySlide(1), 4000);
+  });
+
+  // ===== SWIPE SUPPORT =====
   let galleryStartX = 0;
-  let startY = 0;
+  let galleryStartY = 0;
 
-  if (gallerySlider) {
-    gallerySlider.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
-    });
+  gallerySlider.addEventListener('touchstart', (e) => {
+    galleryStartX = e.touches[0].clientX;
+    galleryStartY = e.touches[0].clientY;
+  });
 
-    gallerySlider.addEventListener('touchend', (e) => {
-      const endX = e.changedTouches[0].clientX;
-      const endY = e.changedTouches[0].clientY;
+  gallerySlider.addEventListener('touchend', (e) => {
+    const endX = e.changedTouches[0].clientX;
+    const endY = e.changedTouches[0].clientY;
 
-      const diffX = startX - endX;
-      const diffY = startY - endY;
+    const diffX = galleryStartX - endX;
+    const diffY = galleryStartY - endY;
 
-      // ignore vertical scroll
-      if (Math.abs(diffY) > Math.abs(diffX)) return;
+    if (Math.abs(diffY) > Math.abs(diffX)) return;
 
-      if (diffX > 50) changeGallerySlide(1);
-      else if (diffX < -50) changeGallerySlide(-1);
-    });
-  }
+    if (diffX > 50) changeGallerySlide(1);
+    else if (diffX < -50) changeGallerySlide(-1);
+  });
 }
 
-// ===== ADVANCED SPORTS SLIDER =====
+// ===== ENHANCED SPORTS SLIDER =====
 let sIndex = 0;
 const sSlides = document.querySelectorAll('.sport-slide');
 const dotsContainer = document.getElementById('sportsDots');
@@ -1202,17 +1326,17 @@ sportsSlider.addEventListener('mouseleave', () => {
 let sportsStartX = 0;
 
 sportsSlider.addEventListener('touchstart', (e) => {
-  startX = e.touches[0].clientX;
+  sportsStartX = e.touches[0].clientX;
 });
 
 sportsSlider.addEventListener('touchend', (e) => {
   let endX = e.changedTouches[0].clientX;
 
-  if(startX - endX > 50){
-    changeSportSlide(1); // swipe left
+  if(sportsStartX - endX > 50){
+    changeSportSlide(1);
   }
-  else if(endX - startX > 50){
-    changeSportSlide(-1); // swipe right
+  else if(endX - sportsStartX > 50){
+    changeSportSlide(-1);
   }
 });
 
@@ -1225,14 +1349,12 @@ const resultsFiles = [
 const yearSelect = document.getElementById('year-select');
 const resultsList = document.getElementById('results-list');
 
-// Fetch years from JSON
 fetch('results/years.json')
   .then(res => {
     if (!res.ok) throw new Error('Years file not found');
     return res.json();
   })
   .then(years => {
-    // Populate dropdown
     years.forEach(year => {
       const option = document.createElement('option');
       option.value = year;
@@ -1240,14 +1362,11 @@ fetch('results/years.json')
       yearSelect.appendChild(option);
     });
 
-    // Set default year
     const currentYear = new Date().getFullYear().toString();
     yearSelect.value = years.includes(currentYear) ? currentYear : years[0];
 
-    // Render initial results
     renderResults(yearSelect.value);
 
-    // Change results on year change
     yearSelect.addEventListener('change', e => {
       renderResults(e.target.value);
     });
@@ -1257,7 +1376,6 @@ fetch('results/years.json')
     console.error(err);
   });
 
-// Render results function
 function renderResults(year) {
   resultsList.innerHTML = '';
   resultsFiles.forEach(r => {
