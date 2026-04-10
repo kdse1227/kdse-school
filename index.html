@@ -14,6 +14,7 @@
 <meta name="twitter:image" content="https://kdse1227.github.io/kdse-school/images/slider/slide1.jpg">
 <meta property="og:url" content="https://kdse1227.github.io/kdse-school/">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://kdse1227.github.io/kdse-school/images/slider/slide1.jpg">
 
 <!-- ✅ Structured Data -->
 <script type="application/ld+json">
@@ -50,6 +51,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="apple-touch-icon" href="icon-192.png">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 <style>
@@ -372,6 +374,31 @@ width:100%;
 .sports-slider .prev,.sports-slider .next{position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:#fff; padding:12px; font-size:22px; border-radius:50%; cursor:pointer;}
 .sports-slider .prev{left:10px;} .sports-slider .next{right:10px;}
 
+/* ===== SPORTS DOTS ===== */
+.sports-dots{
+  position:absolute;
+  bottom:10px;
+  width:100%;
+  text-align:center;
+}
+
+.sports-dots span{
+  display:inline-block;
+  width:10px;
+  height:10px;
+  margin:0 4px;
+  background:#fff;
+  border-radius:50%;
+  opacity:0.5;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.sports-dots span.active{
+  opacity:1;
+  background:#0b4d91;
+}
+
 /* ================= CONTACT ================= */
 #contact a{display:inline-block; margin-top:5px; color:#fff; text-decoration:none;}
 #contact a.call-btn{background:#28a745;padding:8px 14px;border-radius:6px;}
@@ -421,7 +448,6 @@ padding:8px;
 margin:6px 0 15px 0;
 border-radius:6px;
 border:1px solid #ccc;
-}
 }
 </style>
 </head>
@@ -593,6 +619,8 @@ border:1px solid #ccc;
 <img class="sport-slide active" src="images/sports1.jpg" alt="Sports Activities at Kalyani Devi School Lormi" loading="eager">
 <img class="sport-slide" src="images/sports2.jpg" alt="Students Playing Outdoor Games at KDSE Lormi" loading="lazy">
 <img class="sport-slide" src="images/sports3.jpg" alt="Annual Sports Competition at Kalyani Devi School" loading="lazy">
+
+<div class="sports-dots" id="sportsDots"></div>
 
 </div>
 </section>
@@ -799,7 +827,7 @@ liveNotice.appendChild(div);
   })
   .catch(err => {
     const marqueeTrack = document.getElementById('marqueeTrack');
-    marqueeTrack.innerText = "⚠️ Notices unavailable";
+    marqueeTrack.innerText = "📢 No notices available right now";
     console.error(err);
   });
 
@@ -896,7 +924,7 @@ const teachers = [
   },
   {
     name:"Shyamu Prashad Soni",
-    role:"zoology & English",
+    role:"Zoology & English",
     img:"images/teachers/shyamu.jpg",
     qual:"M.Sc zoology, B.Ed",
     experience:"6 Years Teaching Experience",
@@ -904,9 +932,9 @@ const teachers = [
   },
   {
     name:"Shailendra Singh Rajput",
-    role:"Sanskrit, history & Hindi)",
+    role:"Sanskrit, history & Hindi",
     img:"images/teachers/Shailendra.jpg",
-    qual:"M.A (Sanskrit history Hindi) B.Ed, D.Ed",
+    qual:"M.A (Sanskrit History Hindi) B.Ed, D.Ed",
     experience:"8 Years Teaching Experience",
     phone:"+918085583392"
   }
@@ -971,16 +999,75 @@ function showGallerySlide(n){ gIndex=(n+gSlides.length)%gSlides.length; gTrack.s
 function changeGallerySlide(n){ showGallerySlide(gIndex+n); }
 showGallerySlide(gIndex);
 
-// ===== SPORTS SLIDER =====
-let sIndex=0;
-const sSlides=document.querySelectorAll('.sport-slide');
+// ===== ADVANCED SPORTS SLIDER =====
+let sIndex = 0;
+const sSlides = document.querySelectorAll('.sport-slide');
+const dotsContainer = document.getElementById('sportsDots');
+const sportsSlider = document.querySelector('.sports-slider');
+
+// ===== CREATE DOTS =====
+sSlides.forEach((_, i) => {
+  const dot = document.createElement('span');
+  dot.addEventListener('click', () => {
+    showSportSlide(i);
+  });
+  dotsContainer.appendChild(dot);
+});
+
+const dots = dotsContainer.children;
+
+// ===== SHOW SLIDE =====
 function showSportSlide(n){
-  sSlides.forEach(s=>s.classList.remove('active'));
-  sIndex=(n+sSlides.length)%sSlides.length;
+  sSlides.forEach(s => s.classList.remove('active'));
+  [...dots].forEach(d => d.classList.remove('active'));
+
+  sIndex = (n + sSlides.length) % sSlides.length;
+
   sSlides[sIndex].classList.add('active');
+  dots[sIndex].classList.add('active');
 }
-function changeSportSlide(n){ showSportSlide(sIndex+n); }
+
+// ===== BUTTON CONTROL =====
+function changeSportSlide(n){
+  showSportSlide(sIndex + n);
+}
+
+// Initial load
 showSportSlide(sIndex);
+
+// ===== AUTO SLIDE =====
+let sportAuto = setInterval(() => {
+  changeSportSlide(1);
+}, 4000);
+
+// ===== HOVER PAUSE =====
+sportsSlider.addEventListener('mouseenter', () => {
+  clearInterval(sportAuto);
+});
+
+sportsSlider.addEventListener('mouseleave', () => {
+  sportAuto = setInterval(() => {
+    changeSportSlide(1);
+  }, 4000);
+});
+
+// ===== TOUCH SWIPE (MOBILE) =====
+let startX = 0;
+
+sportsSlider.addEventListener('touchstart', (e) => {
+  startX = e.touches[0].clientX;
+});
+
+sportsSlider.addEventListener('touchend', (e) => {
+  let endX = e.changedTouches[0].clientX;
+
+  if(startX - endX > 50){
+    changeSportSlide(1); // swipe left
+  }
+  else if(endX - startX > 50){
+    changeSportSlide(-1); // swipe right
+  }
+});
 
 // ===== RESULTS DROPDOWN & PDF LINKS =====
 const resultsFiles = [
