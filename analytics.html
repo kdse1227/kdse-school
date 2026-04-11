@@ -830,15 +830,15 @@ async function loginUser() {
   try {
     // ✅ SECURE: Password sent in body, NOT URL
     const response = await fetch(GAS_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        action: 'login',
-        password: password
-      })
-    });
+  method: 'POST',
+  headers: {
+    'Content-Type': 'text/plain'
+  },
+  body: JSON.stringify({
+    action: 'login',
+    password: password
+  })
+});
     
     const result = await response.json();
     
@@ -983,15 +983,15 @@ async function loadAnalytics() {
   try {
     // ✅ SECURE: Token sent in body
     const response = await fetch(GAS_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        action: 'getData',
-        token: authToken
-      })
-    });
+  method: 'POST',
+  headers: {
+    'Content-Type': 'text/plain'
+  },
+  body: JSON.stringify({
+    action: 'getData',
+    token: authToken
+  })
+});
     
     const result = await response.json();
     
