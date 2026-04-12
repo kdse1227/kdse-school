@@ -602,6 +602,14 @@ tbody tr:nth-child(even) {
   .logout-btn { display: none; }
   .search-filter { display: none; }
 }
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  min-width: 900px;
+}
 </style>
 </head>
 <body>
@@ -634,7 +642,7 @@ tbody tr:nth-child(even) {
       <div class="header-content">
         <h1>📊 KDSE Analytics 2026-27</h1>
         <p>Admission Form Submissions</p>
-        <div class="last-updated">Updated: <span id="lastUpdated">--</span> | Auto-refresh: <span id="autoRefreshTimer">30s</span></div>
+        <div class="last-updated">Updated: <span id="lastUpdated">--</span></div>
       </div>
       <button class="logout-btn" onclick="logoutUser()">Logout</button>
     </div>
@@ -739,15 +747,17 @@ tbody tr:nth-child(even) {
         </div>
         <table>
           <thead>
-            <tr>
-              <th>ID</th>
-              <th>Student</th>
-              <th>Class</th>
-              <th>Gender</th>
-              <th>Caste</th>
-              <th>Blood Group</th>
-              <th>Time</th>
-            </tr>
+          <tr>
+          <th>ID</th>
+          <th>Timestamp</th>
+          <th>Student Name</th>
+          <th>Father Name</th>
+          <th>Class</th>
+          <th>DOB</th>
+          <th>Gender</th>
+          <th>Caste</th>
+          <th>Blood Group</th>
+          </tr>
           </thead>
           <tbody id="recentSubmissions">
             <tr><td colspan="7" style="text-align: center; color: #999;">Loading...</td></tr>
@@ -764,22 +774,24 @@ tbody tr:nth-child(even) {
 </div>
 
 <script>
+  
+  window.addEventListener("storage", (e) => {
+  if (e.key === "authToken") {
+    logoutUser();
+  }
+});
+
 // ========== SECURITY CONFIG ==========
 const GAS_URL = "https://script.google.com/macros/s/AKfycbwzkLcX4pUctjh0c2uIEjXJZhHQQYSb14DidLVioFgQ7lxRa786XP3mBJs3czF1BVAp/exec";
 const SESSION_TIMEOUT = 3600000; // 1 hour
 const SESSION_WARNING_TIME = 300000; // 5 minutes before timeout
-const AUTO_REFRESH_INTERVAL = 30000; // 30 seconds
 const COLUMN_MAP = {
   id: 0,
   timestamp: 1,
   name: 2,
-  fatherName: 3,
-  motherName: 4,
-  dob: 5,
-  address: 6,
-  phone: 7,
+  fatherName: 4,
   class: 8,
-  section: 9,
+  dob: 9,
   gender: 10,
   caste: 11,
   bloodGroup: 12
@@ -791,7 +803,6 @@ let allData = [];
 let filteredData = [];
 let sessionTimeout = null;
 let sessionWarningTimeout = null;
-let autoRefreshInterval = null;
 let lastActivityTime = Date.now();
 let chartInstances = {};
 
@@ -814,7 +825,17 @@ function handleEnter(event) {
 }
 
 async function loginUser() {
-  const password = document.getElementById('passwordInput').value;
+  if (loginUser.loading) return; // prevent double click
+  loginUser.loading = true;
+
+  const password = document.getElementById('passwordInput').value.trim();
+  loginUser.loading = false;
+
+  // ✅ ADD HERE (exactly here)
+  sessionStorage.removeItem('authToken');
+  sessionStorage.removeItem('tokenTime');
+  authToken = null;
+
   const errorMsg = document.getElementById('errorMsg');
   const successMsg = document.getElementById('successMsg');
   const loginBtn = document.getElementById('loginBtn');
@@ -832,12 +853,12 @@ async function loginUser() {
     const response = await fetch(GAS_URL, {
   method: 'POST',
   headers: {
-    'Content-Type': 'text/plain'
-  },
-  body: JSON.stringify({
-    action: 'login',
-    password: password
-  })
+   'Content-Type': 'text/plain;charset=utf-8'
+ },
+ body: JSON.stringify({
+  action: 'login',
+  password: password
+})
 });
     
     const result = await response.json();
@@ -884,13 +905,14 @@ function showSuccess(el, msg) {
 // ========== SESSION MANAGEMENT ==========
 function initSessionManagement() {
   resetSessionTimeout();
-  startAutoRefresh();
+  if (!autoRefreshInterval) startAutoRefresh();
 }
 
 function resetSessionTimeout() {
   clearTimeout(sessionTimeout);
   clearTimeout(sessionWarningTimeout);
   lastActivityTime = Date.now();
+  sessionStorage.setItem('tokenTime', Date.now());
   
   // Show warning 5 min before logout
   sessionWarningTimeout = setTimeout(() => {
@@ -931,7 +953,6 @@ function logoutUser() {
   sessionStorage.removeItem('tokenTime');
   clearTimeout(sessionTimeout);
   clearTimeout(sessionWarningTimeout);
-  clearInterval(autoRefreshInterval);
   
   // Destroy charts
   Object.values(chartInstances).forEach(chart => {
@@ -951,21 +972,23 @@ function logoutUser() {
 window.addEventListener('load', function() {
   const savedToken = sessionStorage.getItem('authToken');
   const tokenTime = sessionStorage.getItem('tokenTime');
-  
-  // Check if token is still valid (less than 1 hour old)
+
   if (savedToken && tokenTime && (Date.now() - parseInt(tokenTime) < SESSION_TIMEOUT)) {
     authToken = savedToken;
-    lastActivityTime = Date.now();
+
+    // ✅ IMPORTANT FIX
+    resetSessionTimeout();  // <-- ye add karo
+
     document.getElementById('loginPage').style.display = 'none';
     document.getElementById('analyticsPage').style.display = 'block';
+
     initSessionManagement();
     loadAnalytics();
   } else {
     sessionStorage.removeItem('authToken');
     sessionStorage.removeItem('tokenTime');
   }
-  
-  // Auto-focus on login input
+
   document.getElementById('passwordInput').focus();
 });
 
@@ -985,12 +1008,12 @@ async function loadAnalytics() {
     const response = await fetch(GAS_URL, {
   method: 'POST',
   headers: {
-    'Content-Type': 'text/plain'
-  },
-  body: JSON.stringify({
-    action: 'getData',
-    token: authToken
-  })
+   'Content-Type': 'text/plain;charset=utf-8'
+},
+body: JSON.stringify({
+  action: 'getData',
+  token: authToken
+})
 });
     
     const result = await response.json();
@@ -1019,14 +1042,17 @@ async function loadAnalytics() {
 
 function updateColumnMap(headers) {
   headers.forEach((header, index) => {
-    const lowerHeader = header.toLowerCase();
-    if (lowerHeader.includes('id')) COLUMN_MAP.id = index;
-    if (lowerHeader.includes('time')) COLUMN_MAP.timestamp = index;
-    if (lowerHeader.includes('name') && !lowerHeader.includes('father') && !lowerHeader.includes('mother')) COLUMN_MAP.name = index;
-    if (lowerHeader.includes('class')) COLUMN_MAP.class = index;
-    if (lowerHeader.includes('gender')) COLUMN_MAP.gender = index;
-    if (lowerHeader.includes('caste')) COLUMN_MAP.caste = index;
-    if (lowerHeader.includes('blood')) COLUMN_MAP.bloodGroup = index;
+    const h = header.toLowerCase().trim();
+
+    if (h.includes('form id')) COLUMN_MAP.id = index;
+    if (h.includes('timestamp')) COLUMN_MAP.timestamp = index;
+    if (h.includes('student name (english)')) COLUMN_MAP.name = index;
+    if (h.includes('father name (english')) COLUMN_MAP.fatherName = index; // fix
+    if (h === 'class') COLUMN_MAP.class = index;
+    if (h.includes('dob')) COLUMN_MAP.dob = index;
+    if (h.includes('gender')) COLUMN_MAP.gender = index;
+    if (h.includes('caste')) COLUMN_MAP.caste = index;
+    if (h.includes('blood')) COLUMN_MAP.bloodGroup = index;
   });
 }
 
@@ -1049,6 +1075,11 @@ function displayAnalytics() {
   displayCasteStats(stats.casteWise);
   displayBloodGroupStats(stats.bloodGroupWise);
   displayRecentSubmissions(filteredData);
+
+ setTimeout(() => {
+    displayGenderChart(stats);
+    displayClassChart(stats.classWise);
+  }, 300);
 }
 
 // ========== SMOOTH NUMBER ANIMATION ==========
@@ -1114,7 +1145,10 @@ function calculateStats(data) {
 function displayGenderChart(stats) {
   const ctx = document.getElementById('genderChart').getContext('2d');
   
-  if (chartInstances.gender) chartInstances.gender.destroy();
+  if (chartInstances.gender) {
+  chartInstances.gender.destroy();
+  chartInstances.gender = null;
+}
   
   const total = stats.total;
   if (total === 0) {
@@ -1154,7 +1188,10 @@ function displayGenderChart(stats) {
 function displayClassChart(classWise) {
   const ctx = document.getElementById('classChart').getContext('2d');
   
-  if (chartInstances.class) chartInstances.class.destroy();
+  if (chartInstances.class) {
+  chartInstances.class.destroy();
+  chartInstances.class= null;
+}
   
   if (Object.keys(classWise).length === 0) {
     ctx.canvas.parentElement.innerHTML = '<div class="chart-empty">📚 No data available</div>';
@@ -1269,49 +1306,70 @@ function displayBloodGroupStats(bloodGroupWise) {
 }
 
 // ========== SEARCH & FILTER ==========
+let filterTimeout;
+
 function filterTable() {
-  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-  const classFilter = document.getElementById('classFilter').value;
-  const genderFilter = document.getElementById('genderFilter').value;
-  
-  filteredData = allData.filter(row => {
-    const id = (row[COLUMN_MAP.id] || '').toString();
-    const name = (row[COLUMN_MAP.name] || '').toLowerCase();
-    const classVal = row[COLUMN_MAP.class] || '';
-    const gender = (row[COLUMN_MAP.gender] || '').toLowerCase();
-    
-    const matchesSearch = id.includes(searchTerm) || name.includes(searchTerm) || classVal.includes(searchTerm);
-    const matchesClass = !classFilter || classVal === classFilter;
-    const matchesGender = !genderFilter || gender === genderFilter.toLowerCase();
-    
-    return matchesSearch && matchesClass && matchesGender;
-  });
-  
-  displayRecentSubmissions(filteredData);
+  clearTimeout(filterTimeout);
+
+  filterTimeout = setTimeout(() => {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const classFilter = document.getElementById('classFilter').value;
+    const genderFilter = document.getElementById('genderFilter').value;
+
+    filteredData = allData.filter(row => {
+      const id = (row[COLUMN_MAP.id] || '').toString();
+      const name = (row[COLUMN_MAP.name] || '').toLowerCase();
+      const classVal = row[COLUMN_MAP.class] || '';
+      const gender = (row[COLUMN_MAP.gender] || '').toLowerCase();
+
+      const matchesSearch = id.includes(searchTerm) || name.includes(searchTerm) || classVal.includes(searchTerm);
+      const matchesClass = !classFilter || classVal === classFilter;
+      const matchesGender = !genderFilter || gender === genderFilter.toLowerCase();
+
+      return matchesSearch && matchesClass && matchesGender;
+    });
+
+    displayRecentSubmissions(filteredData);
+  }, 150);
 }
 
 function displayRecentSubmissions(data) {
   const container = document.getElementById('recentSubmissions');
   
   if (!data || data.length === 0) {
-    container.innerHTML = '<tr><td colspan="7" class="no-results">No submissions found</td></tr>';
+    container.innerHTML = '<tr><td colspan="9" class="no-results">No submissions found</td></tr>';
     return;
   }
   
   // ✅ Fix: Don't mutate original array, use spread operator
   container.innerHTML = [...data].reverse().slice(0, 50)
-    .map(row => `
-      <tr>
-        <td><strong>${row[COLUMN_MAP.id] || '-'}</strong></td>
-        <td>${row[COLUMN_MAP.name] || '-'}</td>
-        <td>${row[COLUMN_MAP.class] || '-'}</td>
-        <td>${row[COLUMN_MAP.gender] || '-'}</td>
-        <td>${row[COLUMN_MAP.caste] || '-'}</td>
-        <td>${row[COLUMN_MAP.bloodGroup] || '-'}</td>
-        <td style="font-size: 11px;">${row[COLUMN_MAP.timestamp] || '-'}</td>
-      </tr>
-    `)
-    .join('');
+  .map(row => `
+    <tr>
+      <td><strong>${row[COLUMN_MAP.id] || '-'}</strong></td>
+      <td>${row[COLUMN_MAP.timestamp] || '-'}</td>
+      <td>${row[COLUMN_MAP.name] || '-'}</td>
+      <td>${row[COLUMN_MAP.fatherName] || '-'}</td>
+      <td>${row[COLUMN_MAP.class] || '-'}</td>
+      <td>${formatDOB(row[COLUMN_MAP.dob])}</td>
+      <td>${row[COLUMN_MAP.gender] || '-'}</td>
+      <td>${row[COLUMN_MAP.caste] || '-'}</td>
+      <td>${row[COLUMN_MAP.bloodGroup] || '-'}</td>
+    </tr>
+  `)
+  .join('');
+}
+
+function formatDOB(dob) {
+  if (!dob) return '-';
+
+  const date = new Date(dob);
+  if (isNaN(date.getTime())) return dob;
+
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
 }
 
 function updateLastUpdated() {
@@ -1321,26 +1379,8 @@ function updateLastUpdated() {
 }
 
 // ========== AUTO-REFRESH ==========
-function startAutoRefresh() {
-  clearInterval(autoRefreshInterval);
-  let timeLeft = AUTO_REFRESH_INTERVAL / 1000;
-  
-  const updateTimer = () => {
-    document.getElementById('autoRefreshTimer').textContent = timeLeft + 's';
-    timeLeft--;
-    if (timeLeft < 0) {
-      loadAnalytics();
-      timeLeft = AUTO_REFRESH_INTERVAL / 1000;
-    }
-  };
-  
-  autoRefreshInterval = setInterval(updateTimer, 1000);
-  updateTimer();
-}
-
 function refreshData() {
   loadAnalytics();
-  startAutoRefresh();
 }
 
 // ========== CSV EXPORT WITH PROPER ESCAPING ==========
