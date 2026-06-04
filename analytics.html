@@ -24,7 +24,6 @@ body {
   margin: 0 auto;
 }
 
-/* LANGUAGE TOGGLE */
 .language-toggle {
   position: fixed;
   top: 20px;
@@ -45,7 +44,6 @@ body {
   transform: translateY(-2px);
 }
 
-/* LOGIN PAGE */
 .login-container {
   max-width: 400px;
   margin: 80px auto;
@@ -141,7 +139,7 @@ body {
   cursor: not-allowed;
 }
 
-.error-msg, .success-msg, .warning-msg {
+.error-msg, .success-msg {
   font-size: 13px;
   text-align: center;
   display: none;
@@ -167,13 +165,6 @@ body {
   background: #e8f5e9;
 }
 
-.warning-msg.show {
-  display: block;
-  color: #f57f17;
-  background: #fff3e0;
-}
-
-/* ANALYTICS PAGE */
 .header {
   background: white;
   padding: 30px;
@@ -362,29 +353,6 @@ body {
   font-size: 14px;
 }
 
-.legend {
-  display: flex;
-  gap: 24px;
-  justify-content: center;
-  margin-top: 30px;
-  flex-wrap: wrap;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: #333;
-  font-weight: 600;
-}
-
-.legend-color {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-}
-
 .search-filter {
   background: white;
   padding: 20px;
@@ -543,25 +511,6 @@ tbody tr:nth-child(even) {
   100% { transform: rotate(360deg); }
 }
 
-.session-warning {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: #fff3e0;
-  border-left: 4px solid #f57f17;
-  padding: 16px;
-  border-radius: 6px;
-  max-width: 300px;
-  z-index: 1000;
-  animation: slideInRight 0.3s ease;
-  display: none;
-}
-
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(20px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
 @media (max-width: 768px) {
   body { padding: 12px; }
   
@@ -610,12 +559,6 @@ tbody tr:nth-child(even) {
     width: 100%;
   }
 
-  .session-warning {
-    max-width: calc(100% - 24px);
-    right: 12px;
-    left: 12px;
-  }
-
   .language-toggle {
     top: 60px;
   }
@@ -640,10 +583,8 @@ table {
 </head>
 <body>
 
-<!-- LANGUAGE TOGGLE -->
 <button class="language-toggle" id="langToggle" onclick="toggleLanguage()">English</button>
 
-<!-- LOGIN PAGE -->
 <div id="loginPage" class="login-container">
   <h1>🔒 <span data-lang-hi="विश्लेषण" data-lang-en="Analytics">Analytics</span></h1>
   <p data-lang-hi="केवल प्रशासक पहुँच" data-lang-en="Admin Access Only">Admin Access Only</p>
@@ -659,12 +600,6 @@ table {
   </div>
 </div>
 
-<!-- SESSION WARNING -->
-<div id="sessionWarning" class="session-warning">
-  ⚠️ <span data-lang-hi="आपका सेशन समाप्त होगा" data-lang-en="Your session will expire">Your session will expire</span> <span id="warningTimer">5</span> <span data-lang-hi="मिनट में। ताज़ा करने के लिए क्लिक करें।" data-lang-en="minutes. Click refresh to extend.">minutes. Click refresh to extend.</span>
-</div>
-
-<!-- ANALYTICS PAGE -->
 <div id="analyticsPage" style="display: none;">
   <div class="container">
     <div class="header">
@@ -708,7 +643,6 @@ table {
         </div>
       </div>
 
-      <!-- Gender Distribution Chart -->
       <div class="card" style="margin-bottom: 20px;">
         <div class="card-header" data-lang-hi="लिंग वितरण" data-lang-en="GENDER DISTRIBUTION">लिंग वितरण</div>
         <div class="chart-wrapper">
@@ -716,7 +650,6 @@ table {
         </div>
       </div>
 
-      <!-- Class Wise Distribution Chart -->
       <div class="card" style="margin-bottom: 20px;">
         <div class="card-header">📚 <span data-lang-hi="कक्षा के अनुसार वितरण" data-lang-en="CLASS WISE DISTRIBUTION">कक्षा के अनुसार वितरण</span></div>
         <div class="chart-wrapper">
@@ -724,29 +657,25 @@ table {
         </div>
       </div>
 
-      <!-- Class Stats -->
       <div class="card" style="margin-bottom: 20px;">
         <div class="card-header" data-lang-hi="कक्षा के हिसाब से" data-lang-en="CLASS WISE STATS">कक्षा के हिसाब से</div>
         <div id="classStats"></div>
       </div>
 
-      <!-- Caste Distribution -->
       <div class="card" style="margin-bottom: 20px;">
         <div class="card-header">🏘️ <span data-lang-hi="जाति वितरण" data-lang-en="CASTE DISTRIBUTION">जाति वितरण</span></div>
         <div id="casteStats"></div>
       </div>
 
-      <!-- Blood Group -->
       <div class="card" style="margin-bottom: 20px;">
         <div class="card-header">🩸 <span data-lang-hi="रक्त समूह" data-lang-en="BLOOD GROUP">रक्त समूह</span></div>
         <div id="bloodGroupStats"></div>
       </div>
 
-      <!-- Search & Filter -->
       <div class="search-filter">
         <input type="text" id="searchInput" placeholder="🔍 नाम, ID, या कक्षा से खोजें / Search by name, ID, or class..." onkeyup="filterTable()">
         <select id="classFilter" onchange="filterTable()">
-          <option value=""><span data-lang-hi="सभी कक्षाएं" data-lang-en="All Classes">सभी कक्षाएं</span></option>
+          <option value="">सभी कक्षाएं / All Classes</option>
           <option value="KG">KG</option>
           <option value="I">I</option>
           <option value="II">II</option>
@@ -762,14 +691,13 @@ table {
           <option value="XII">XII</option>
         </select>
         <select id="genderFilter" onchange="filterTable()">
-          <option value=""><span data-lang-hi="सभी लिंग" data-lang-en="All Genders">सभी लिंग</span></option>
-          <option value="Male"><span data-lang-hi="पुरुष" data-lang-en="Male">पुरुष</span></option>
-          <option value="Female"><span data-lang-hi="महिला" data-lang-en="Female">महिला</span></option>
-          <option value="Other"><span data-lang-hi="अन्य" data-lang-en="Other">अन्य</span></option>
+          <option value="">सभी लिंग / All Genders</option>
+          <option value="Male">पुरुष / Male</option>
+          <option value="Female">महिला / Female</option>
+          <option value="Other">अन्य / Other</option>
         </select>
       </div>
 
-      <!-- Recent Submissions Table -->
       <div class="table-container">
         <div class="card-header" style="margin: 0; border-radius: 12px 12px 0 0; background: #228B22; color: white; border: none; padding: 16px;">
           📋 <span data-lang-hi="हाल के जमा किए गए" data-lang-en="RECENT SUBMISSIONS">हाल के जमा किए गए</span>
@@ -777,33 +705,32 @@ table {
         <table>
           <thead>
           <tr>
-          <th data-lang-hi="आईडी" data-lang-en="ID">ID</th>
-          <th data-lang-hi="समय" data-lang-en="TIMESTAMP">Timestamp</th>
-          <th data-lang-hi="छात्र का नाम" data-lang-en="STUDENT NAME">Student Name</th>
-          <th data-lang-hi="पिता का नाम" data-lang-en="FATHER NAME">Father Name</th>
-          <th data-lang-hi="कक्षा" data-lang-en="CLASS">Class</th>
-          <th data-lang-hi="जन्मतिथि" data-lang-en="DOB">DOB</th>
-          <th data-lang-hi="लिंग" data-lang-en="GENDER">Gender</th>
-          <th data-lang-hi="जाति" data-lang-en="CASTE">Caste</th>
-          <th data-lang-hi="रक्त समूह" data-lang-en="BLOOD GROUP">Blood Group</th>
+          <th>ID</th>
+          <th>Timestamp</th>
+          <th>Student Name</th>
+          <th>Father Name</th>
+          <th>Class</th>
+          <th>DOB</th>
+          <th>Gender</th>
+          <th>Caste</th>
+          <th>Blood Group</th>
           </tr>
           </thead>
           <tbody id="recentSubmissions">
-            <tr><td colspan="9" style="text-align: center; color: #999;" data-lang-hi="लोड हो रहा है..." data-lang-en="Loading...">Loading...</td></tr>
+            <tr><td colspan="9" style="text-align: center; color: #999;">Loading...</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
     <div class="button-group">
-      <button class="btn btn-primary" onclick="refreshData()">🔄 <span data-lang-hi="ताज़ा करें" data-lang-en="Refresh">ताज़ा करें</span></button>
-      <button class="btn btn-secondary" onclick="exportAsCSV()">📥 <span data-lang-hi="CSV डाउनलोड करें" data-lang-en="Download CSV">CSV डाउनलोड करें</span></button>
+      <button class="btn btn-primary" onclick="refreshData()">🔄 Refresh</button>
+      <button class="btn btn-secondary" onclick="exportAsCSV()">📥 Download CSV</button>
     </div>
   </div>
 </div>
 
 <script>
-  // ========== LANGUAGE MANAGEMENT ==========
 let currentLanguage = localStorage.getItem('selectedLanguage') || 'en';
 
 function toggleLanguage() {
@@ -819,16 +746,13 @@ function updateLanguage() {
   });
 }
 
-// Initialize language on page load
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('langToggle').textContent = currentLanguage === 'en' ? 'हिंदी' : 'English';
   updateLanguage();
 });
 
-// ========== SECURITY CONFIG ==========
-const GAS_URL = "https://script.google.com/macros/s/AKfycbwTOkxas5U6BaF92Bj0Rf4HMumri_jvf82wQqn8SqSt9FfnqfzDD0b98S-LPFU244nC/exec";
-const SESSION_TIMEOUT = 3600000; // 1 hour
-const SESSION_WARNING_TIME = 300000; // 5 minutes before timeout
+const GAS_URL = "https://script.google.com/macros/s/AKfycbz8YyKot84TFBrX49jMgB9dCxkyjmqSw6bzc4e84jr5b1REGgUFQQdTu-hYJHKW2xZS/exec";
+
 const COLUMN_MAP = {
   id: 0,
   timestamp: 1,
@@ -841,23 +765,11 @@ const COLUMN_MAP = {
   bloodGroup: 12
 };
 
-// ========== STATE MANAGEMENT ==========
 let authToken = null;
 let allData = [];
 let filteredData = [];
-let sessionTimeout = null;
-let sessionWarningTimeout = null;
-let lastActivityTime = Date.now();
 let chartInstances = {};
-let autoRefreshInterval = null;
 
-window.addEventListener("storage", (e) => {
-  if (e.key === "authToken") {
-    logoutUser();
-  }
-});
-
-// ========== PASSWORD VISIBILITY ==========
 function togglePasswordVisibility() {
   const input = document.getElementById('passwordInput');
   const btn = document.getElementById('togglePassword');
@@ -870,13 +782,12 @@ function togglePasswordVisibility() {
   }
 }
 
-// ========== LOGIN SECURITY (BODY, NOT URL) ==========
 function handleEnter(event) {
   if (event.key === 'Enter') loginUser();
 }
 
 async function loginUser() {
-  if (loginUser.loading) return; // prevent double click
+  if (loginUser.loading) return;
   loginUser.loading = true;
 
   const password = document.getElementById('passwordInput').value.trim();
@@ -894,47 +805,54 @@ async function loginUser() {
   showSuccess(successMsg, '🔐 लॉगिन कर रहे हैं / Logging in...');
   
   try {
-    // ✅ SECURE: Password sent in body, NOT URL
     const response = await fetch(GAS_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'text/plain;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json'
       },
       body: JSON.stringify({
         action: 'login',
         password: password
       })
     });
-    
-    const result = await response.json();
-    
-    if (result.status === 'success' && result.token) {
+
+    const raw = await response.clone().text();
+    console.log('Login response:', raw);
+
+    let result;
+    try {
+      result = JSON.parse(raw);
+    } catch (err) {
+      showError(errorMsg, '❌ Server error. Check console.');
+      console.error('JSON parse error:', err, raw);
+      loginUser.loading = false;
+      loginBtn.disabled = false;
+      return;
+    }
+
+    if (result && result.status === 'success' && result.token) {
       authToken = result.token;
-      // ✅ Store token with expiry metadata
       sessionStorage.setItem('authToken', authToken);
-      sessionStorage.setItem('tokenTime', Date.now());
-      lastActivityTime = Date.now();
       
-      // ✅ HIDE login, SHOW loading first
       document.getElementById('loginPage').style.display = 'none';
+      document.getElementById('analyticsPage').style.display = 'block';
       document.getElementById('loadingState').style.display = 'block';
       document.getElementById('analyticsContent').style.display = 'none';
       document.getElementById('passwordInput').value = '';
       successMsg.classList.remove('show');
       
-      // ✅ Initialize session first
-      initSessionManagement();
-      
-      // ✅ Then load analytics
       setTimeout(() => {
         loadAnalytics();
       }, 300);
       
     } else {
-      showError(errorMsg, '❌ गलत पासवर्ड / Invalid Password');
+      const msg = result && result.message ? result.message : 'Invalid Password';
+      showError(errorMsg, '❌ ' + msg);
     }
   } catch(error) {
-    showError(errorMsg, '❌ ' + error.message);
+    console.error('Fetch error:', error);
+    showError(errorMsg, '❌ नेटवर्क त्रुटि / Network error: ' + error.message);
   } finally {
     loginBtn.disabled = false;
     loginUser.loading = false;
@@ -953,70 +871,10 @@ function showSuccess(el, msg) {
   document.getElementById('errorMsg').classList.remove('show');
 }
 
-// ========== SESSION MANAGEMENT ==========
-function initSessionManagement() {
-  resetSessionTimeout();
-  startAutoRefresh();
-}
-
-function startAutoRefresh() {
-  if (autoRefreshInterval) clearInterval(autoRefreshInterval);
-  autoRefreshInterval = setInterval(() => {
-    if (authToken) {
-      loadAnalytics();
-    }
-  }, 60000); // Refresh every 1 minute
-}
-
-function resetSessionTimeout() {
-  clearTimeout(sessionTimeout);
-  clearTimeout(sessionWarningTimeout);
-  lastActivityTime = Date.now();
-  sessionStorage.setItem('tokenTime', Date.now());
-  
-  // Show warning 5 min before logout
-  sessionWarningTimeout = setTimeout(() => {
-    showSessionWarning();
-  }, SESSION_TIMEOUT - SESSION_WARNING_TIME);
-  
-  // Auto logout after 1 hour
-  sessionTimeout = setTimeout(() => {
-    showError(document.getElementById('errorMsg'), '⏱️ सेशन समाप्त! फिर से लॉगिन करें / Session expired! Please login again.');
-    setTimeout(() => logoutUser(), 2000);
-  }, SESSION_TIMEOUT);
-  
-  document.getElementById('sessionWarning').style.display = 'none';
-}
-
-function showSessionWarning() {
-  const warning = document.getElementById('sessionWarning');
-  warning.style.display = 'block';
-  
-  let timeLeft = Math.ceil(SESSION_WARNING_TIME / 60000);
-  const timer = setInterval(() => {
-    timeLeft--;
-    document.getElementById('warningTimer').textContent = timeLeft;
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      warning.style.display = 'none';
-    }
-  }, 60000);
-}
-
-// Update on user activity
-document.addEventListener('click', () => resetSessionTimeout());
-document.addEventListener('keypress', () => resetSessionTimeout());
-
 function logoutUser() {
   authToken = null;
   sessionStorage.removeItem('authToken');
-  sessionStorage.removeItem('tokenTime');
-  clearTimeout(sessionTimeout);
-  clearTimeout(sessionWarningTimeout);
-  if (autoRefreshInterval) clearInterval(autoRefreshInterval);
-  autoRefreshInterval = null;
   
-  // Destroy charts
   Object.values(chartInstances).forEach(chart => {
     if (chart) chart.destroy();
   });
@@ -1027,41 +885,29 @@ function logoutUser() {
   document.getElementById('analyticsContent').style.display = 'none';
   document.getElementById('loginPage').style.display = 'block';
   document.getElementById('passwordInput').value = '';
-  document.getElementById('sessionWarning').style.display = 'none';
   document.getElementById('errorMsg').classList.remove('show');
   document.getElementById('successMsg').classList.remove('show');
   
-  // Focus on password field
   setTimeout(() => {
     document.getElementById('passwordInput').focus();
   }, 100);
 }
 
-// ========== AUTO-LOAD ON REFRESH ==========
 window.addEventListener('load', function() {
   const savedToken = sessionStorage.getItem('authToken');
-  const tokenTime = sessionStorage.getItem('tokenTime');
 
-  if (savedToken && tokenTime && (Date.now() - parseInt(tokenTime) < SESSION_TIMEOUT)) {
+  if (savedToken) {
     authToken = savedToken;
     
-    // ✅ Show analytics page with loading state
     document.getElementById('loginPage').style.display = 'none';
     document.getElementById('analyticsPage').style.display = 'block';
     document.getElementById('loadingState').style.display = 'block';
     document.getElementById('analyticsContent').style.display = 'none';
-
-    // ✅ Initialize session
-    initSessionManagement();
     
-    // ✅ Load data
     setTimeout(() => {
       loadAnalytics();
     }, 300);
   } else {
-    // ✅ Clear invalid tokens
-    sessionStorage.removeItem('authToken');
-    sessionStorage.removeItem('tokenTime');
     document.getElementById('loginPage').style.display = 'block';
     document.getElementById('analyticsPage').style.display = 'none';
   }
@@ -1069,7 +915,6 @@ window.addEventListener('load', function() {
   document.getElementById('passwordInput').focus();
 });
 
-// ========== DATA LOADING (SECURE BODY) ==========
 async function loadAnalytics() {
   if (!authToken) {
     alert('Session expired! Login again.');
@@ -1081,22 +926,31 @@ async function loadAnalytics() {
   document.getElementById('analyticsContent').style.display = 'none';
   
   try {
-    // ✅ SECURE: Token sent in body
     const response = await fetch(GAS_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'text/plain;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json'
       },
       body: JSON.stringify({
         action: 'getData',
         token: authToken
       })
     });
-    
-    const result = await response.json();
-    
+
+    const raw = await response.clone().text();
+    console.log('getData response:', raw);
+
+    let result;
+    try {
+      result = JSON.parse(raw);
+    } catch (err) {
+      document.getElementById('loadingState').innerHTML = `<p style="color: red;">❌ Server error</p>`;
+      console.error('getData JSON parse error:', err, raw);
+      return;
+    }
+
     if (result.status === 'success' && result.data) {
-      // ✅ Parse headers dynamically
       const headers = result.data[0] || [];
       updateColumnMap(headers);
       
@@ -1106,25 +960,25 @@ async function loadAnalytics() {
       updateLastUpdated();
       document.getElementById('analyticsContent').style.display = 'block';
       document.getElementById('loadingState').style.display = 'none';
-    } else if (result.status === 'error') {
-      showError(document.getElementById('errorMsg'), '❌ डेटा लोड करने में विफल / ' + (result.message || 'Failed to load data'));
+    } else {
+      showError(document.getElementById('errorMsg'), '❌ ' + (result.message || 'Failed to load data'));
       document.getElementById('loadingState').style.display = 'none';
-      logoutUser();
     }
   } catch(error) {
+    console.error('Fetch getData error:', error);
     document.getElementById('loadingState').innerHTML = `<p style="color: red;">❌ ${error.message}</p>`;
   }
 }
 
 function updateColumnMap(headers) {
   headers.forEach((header, index) => {
-    const h = header.toLowerCase().trim();
+    const h = String(header || '').toLowerCase().trim();
 
     if (h.includes('form id')) COLUMN_MAP.id = index;
     if (h.includes('timestamp')) COLUMN_MAP.timestamp = index;
-    if (h.includes('student name (english)')) COLUMN_MAP.name = index;
-    if (h.includes('father name (english')) COLUMN_MAP.fatherName = index;
-    if (h === 'class') COLUMN_MAP.class = index;
+    if (h.includes('student name')) COLUMN_MAP.name = index;
+    if (h.includes('father name')) COLUMN_MAP.fatherName = index;
+    if (h === 'class' || h.includes('class')) COLUMN_MAP.class = index;
     if (h.includes('dob')) COLUMN_MAP.dob = index;
     if (h.includes('gender')) COLUMN_MAP.gender = index;
     if (h.includes('caste')) COLUMN_MAP.caste = index;
@@ -1135,7 +989,6 @@ function updateColumnMap(headers) {
 function displayAnalytics() {
   const stats = calculateStats(allData);
   
-  // ✅ Smooth animations
   animateValue('totalForms', 0, stats.total, 500);
   animateValue('maleCount', 0, stats.male, 500);
   animateValue('femaleCount', 0, stats.female, 500);
@@ -1151,14 +1004,8 @@ function displayAnalytics() {
   displayCasteStats(stats.casteWise);
   displayBloodGroupStats(stats.bloodGroupWise);
   displayRecentSubmissions(filteredData);
-
-  setTimeout(() => {
-    displayGenderChart(stats);
-    displayClassChart(stats.classWise);
-  }, 300);
 }
 
-// ========== SMOOTH NUMBER ANIMATION ==========
 function animateValue(id, start, end, duration) {
   const element = document.getElementById(id);
   if (!element) return;
@@ -1178,7 +1025,6 @@ function animateValue(id, start, end, duration) {
   }, 16);
 }
 
-// ========== STATS CALCULATION ==========
 function calculateStats(data) {
   const stats = {
     total: 0,
@@ -1194,11 +1040,10 @@ function calculateStats(data) {
     if (!row || row.length === 0) return;
     stats.total++;
     
-    // ✅ Exact gender matching
-    const gender = (row[COLUMN_MAP.gender] || '').trim().toLowerCase();
+    const gender = String(row[COLUMN_MAP.gender] || '').trim().toLowerCase();
     if (gender === 'male') stats.male++;
     else if (gender === 'female') stats.female++;
-    else if (gender === 'other' || gender === 'prefer not to say') stats.other++;
+    else stats.other++;
     
     const classVal = row[COLUMN_MAP.class] || 'Unknown';
     stats.classWise[classVal] = (stats.classWise[classVal] || 0) + 1;
@@ -1217,18 +1062,15 @@ function calculateStats(data) {
   return stats;
 }
 
-// ========== GENDER CHART (Chart.js) ==========
 function displayGenderChart(stats) {
   const ctx = document.getElementById('genderChart').getContext('2d');
   
   if (chartInstances.gender) {
     chartInstances.gender.destroy();
-    chartInstances.gender = null;
   }
   
-  const total = stats.total;
-  if (total === 0) {
-    ctx.canvas.parentElement.innerHTML = '<div class="chart-empty">📊 कोई डेटा नहीं / No data available</div>';
+  if (stats.total === 0) {
+    ctx.canvas.parentElement.innerHTML = '<div class="chart-empty">No data available</div>';
     return;
   }
   
@@ -1247,30 +1089,21 @@ function displayGenderChart(stats) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: { stepSize: 1 }
-        }
-      }
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true } }
     }
   });
 }
 
-// ========== CLASS CHART (Chart.js) ==========
 function displayClassChart(classWise) {
   const ctx = document.getElementById('classChart').getContext('2d');
   
   if (chartInstances.class) {
     chartInstances.class.destroy();
-    chartInstances.class = null;
   }
   
   if (Object.keys(classWise).length === 0) {
-    ctx.canvas.parentElement.innerHTML = '<div class="chart-empty">📚 कोई डेटा नहीं / No data available</div>';
+    ctx.canvas.parentElement.innerHTML = '<div class="chart-empty">No data available</div>';
     return;
   }
   
@@ -1292,15 +1125,8 @@ function displayClassChart(classWise) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: { stepSize: 1 }
-        }
-      }
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true } }
     }
   });
 }
@@ -1311,14 +1137,14 @@ function displayClassStats(classWise) {
   const order = ['KG', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
   
   if (total === 0) {
-    container.innerHTML = '<p style="text-align: center; color: #999;">कोई डेटा उपलब्ध नहीं / No data available</p>';
+    container.innerHTML = '<p style="text-align: center; color: #999;">No data available</p>';
     return;
   }
   
   container.innerHTML = Object.entries(classWise)
     .sort((a, b) => order.indexOf(a[0]) - order.indexOf(b[0]))
     .map(([classVal, count]) => {
-      const percent = total > 0 ? Math.round((count / total) * 100) : 0;
+      const percent = Math.round((count / total) * 100);
       return `
         <div class="stat-item">
           <span class="stat-label">${classVal}</span>
@@ -1336,14 +1162,14 @@ function displayCasteStats(casteWise) {
   const total = Object.values(casteWise).reduce((a, b) => a + b, 0);
   
   if (total === 0) {
-    container.innerHTML = '<p style="text-align: center; color: #999;">कोई डेटा उपलब्ध नहीं / No data available</p>';
+    container.innerHTML = '<p style="text-align: center; color: #999;">No data available</p>';
     return;
   }
   
   container.innerHTML = Object.entries(casteWise)
     .sort((a, b) => b[1] - a[1])
     .map(([caste, count]) => {
-      const percent = total > 0 ? Math.round((count / total) * 100) : 0;
+      const percent = Math.round((count / total) * 100);
       return `
         <div class="stat-item">
           <span class="stat-label">${caste}</span>
@@ -1361,14 +1187,14 @@ function displayBloodGroupStats(bloodGroupWise) {
   const total = Object.values(bloodGroupWise).reduce((a, b) => a + b, 0);
   
   if (total === 0) {
-    container.innerHTML = '<p style="text-align: center; color: #999;">कोई डेटा उपलब्ध नहीं / No data available</p>';
+    container.innerHTML = '<p style="text-align: center; color: #999;">No data available</p>';
     return;
   }
   
   container.innerHTML = Object.entries(bloodGroupWise)
     .sort((a, b) => b[1] - a[1])
     .map(([bg, count]) => {
-      const percent = total > 0 ? Math.round((count / total) * 100) : 0;
+      const percent = Math.round((count / total) * 100);
       return `
         <div class="stat-item">
           <span class="stat-label">${bg}</span>
@@ -1381,7 +1207,6 @@ function displayBloodGroupStats(bloodGroupWise) {
     .join('');
 }
 
-// ========== SEARCH & FILTER ==========
 let filterTimeout;
 
 function filterTable() {
@@ -1413,11 +1238,10 @@ function displayRecentSubmissions(data) {
   const container = document.getElementById('recentSubmissions');
   
   if (!data || data.length === 0) {
-    container.innerHTML = '<tr><td colspan="9" class="no-results">कोई जमा नहीं मिला / No submissions found</td></tr>';
+    container.innerHTML = '<tr><td colspan="9" class="no-results">No submissions found</td></tr>';
     return;
   }
   
-  // ✅ Fix: Don't mutate original array
   container.innerHTML = [...data].reverse().slice(0, 50)
     .map(row => `
       <tr>
@@ -1437,14 +1261,11 @@ function displayRecentSubmissions(data) {
 
 function formatDOB(dob) {
   if (!dob) return '-';
-
   const date = new Date(dob);
   if (isNaN(date.getTime())) return dob;
-
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();
-
   return `${day}/${month}/${year}`;
 }
 
@@ -1454,15 +1275,13 @@ function updateLastUpdated() {
   document.getElementById('lastUpdated').textContent = time;
 }
 
-// ========== AUTO-REFRESH ==========
 function refreshData() {
   loadAnalytics();
 }
 
-// ========== CSV EXPORT WITH PROPER ESCAPING ==========
 function exportAsCSV() {
   if (allData.length === 0) {
-    alert('❌ निर्यात करने के लिए कोई डेटा नहीं / No data to export');
+    alert('No data to export');
     return;
   }
   
@@ -1479,7 +1298,6 @@ function exportAsCSV() {
       row[COLUMN_MAP.bloodGroup] || ''
     ];
     
-    // ✅ Proper CSV escaping
     csv += values
       .map(cell => {
         const cellStr = String(cell).trim();
