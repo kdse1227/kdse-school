@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -12,7 +12,9 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji",
+               sans-serif;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
   padding: 20px;
@@ -34,6 +36,10 @@ body {
   box-shadow: 0 20px 60px rgba(0,0,0,0.15);
   text-align: center;
   animation: slideUp 0.5s ease-out;
+}
+
+.login-container {
+  position: relative;
 }
 
 @keyframes slideUp {
@@ -108,6 +114,20 @@ body {
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
+}
+
+.login-language {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+
+  font-size: 13px;
+  background: white;
+  cursor: pointer;
 }
 
 .login-form button:hover:not(:disabled) {
@@ -594,6 +614,12 @@ tbody tr:nth-child(even) {
     right: 12px;
     left: 12px;
   }
+  
+  .table-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  }
 }
 
 @media print {
@@ -616,15 +642,31 @@ table {
 
 <!-- LOGIN PAGE -->
 <div id="loginPage" class="login-container">
-  <h1>🔒 Analytics</h1>
-  <p>Admin Access Only</p>
+
+  <select id="loginLanguageSwitcher"
+          class="login-language"
+          onchange="changeLanguage(this.value)">
+
+    <option value="en">English</option>
+    <option value="hi">हिंदी</option>
+
+  </select>
+
+  <h1 data-emoji="🔒"
+      data-translate="analytics">
+    🔒 Analytics
+  </h1>
+  <p data-translate="admin_access">Admin Access Only</p>
   
   <div class="login-form">
     <div class="password-input-wrapper">
-      <input type="password" id="passwordInput" placeholder="Enter Password" onkeypress="handleEnter(event)">
+      <input type="password"
+       id="passwordInput"
+       placeholder=""
+       onkeypress="handleEnter(event)">
       <button type="button" class="password-toggle" id="togglePassword" onclick="togglePasswordVisibility()" title="Show/Hide">👁️</button>
     </div>
-    <button id="loginBtn" onclick="loginUser()">Login</button>
+    <button id="loginBtn" onclick="loginUser()" data-translate="login">🚀 Login</button>
     <div id="errorMsg" class="error-msg"></div>
     <div id="successMsg" class="success-msg"></div>
   </div>
@@ -638,13 +680,37 @@ table {
 <!-- ANALYTICS PAGE -->
 <div id="analyticsPage" style="display: none;">
   <div class="container">
+
     <div class="header">
       <div class="header-content">
-        <h1>📊 KDSE Analytics 2026-27</h1>
-        <p>Admission Form Submissions</p>
-        <div class="last-updated">Updated: <span id="lastUpdated">--</span></div>
+        <h1 data-emoji="📊"
+    data-translate="analytics_title">
+  📊 KDSE Analytics 2026-27
+</h1>
+
+<p data-translate="admission_forms">
+  Admission Form Submissions
+</p>
+        <div class="last-updated">
+          Updated: <span id="lastUpdated">--</span>
+        </div>
       </div>
-      <button class="logout-btn" onclick="logoutUser()">Logout</button>
+
+      <select id="languageSwitcher"
+              onchange="changeLanguage(this.value)"
+              style="padding:8px;border-radius:6px;margin-bottom:10px;">
+
+        <option value="en">English</option>
+        <option value="hi">हिंदी</option>
+
+      </select>
+
+      <button class="logout-btn"
+              onclick="logoutUser()"
+              data-emoji="🚪"
+              data-translate="logout">
+        🚪 Logout
+      </button>
     </div>
 
     <div id="loadingState" class="loading" style="display: none;">
@@ -653,69 +719,144 @@ table {
     </div>
 
     <div id="analyticsContent" style="display: none;">
+
       <div class="analytics-grid">
+
         <div class="card total-card">
-          <div class="card-header">कुल फॉर्म भरे गए</div>
+          <div class="card-header"
+               data-emoji="📄"
+               data-translate="total_forms">
+            📄 कुल फॉर्म भरे गए
+          </div>
+
           <div class="card-value" id="totalForms">0</div>
-          <div class="card-subtitle">Total Submissions</div>
+
+          <div class="card-subtitle">
+            Total Submissions
+          </div>
         </div>
 
         <div class="card male-card">
-          <div class="card-header">👨 लड़के</div>
+          <div class="card-header"
+               data-emoji="👨"
+               data-translate="boys">
+            👨 लड़के
+          </div>
+
           <div class="card-value" id="maleCount">0</div>
-          <div class="card-subtitle" id="malePercent">0%</div>
+
+          <div class="card-subtitle" id="malePercent">
+            0%
+          </div>
         </div>
 
         <div class="card female-card">
-          <div class="card-header">👩 लड़कियां</div>
+          <div class="card-header"
+               data-emoji="👩"
+               data-translate="girls">
+            👩 लड़कियां
+          </div>
+
           <div class="card-value" id="femaleCount">0</div>
-          <div class="card-subtitle" id="femalePercent">0%</div>
+
+          <div class="card-subtitle" id="femalePercent">
+            0%
+          </div>
         </div>
 
         <div class="card other-card">
-          <div class="card-header">👥 अन्य</div>
+          <div class="card-header"
+               data-emoji="👥"
+               data-translate="other">
+            👥 अन्य
+          </div>
+
           <div class="card-value" id="otherCount">0</div>
-          <div class="card-subtitle" id="otherPercent">0%</div>
+
+          <div class="card-subtitle" id="otherPercent">
+            0%
+          </div>
         </div>
+
       </div>
 
       <!-- Gender Distribution Chart -->
       <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header">Gender Distribution</div>
+
+        <div class="card-header"
+             data-emoji="👥"
+             data-translate="gender_distribution">
+          👥 Gender Distribution
+        </div>
+
         <div class="chart-wrapper">
           <canvas id="genderChart"></canvas>
         </div>
+
       </div>
 
       <!-- Class Wise Distribution Chart -->
       <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header">📚 Class Wise Distribution</div>
+
+        <div class="card-header"
+             data-emoji="📚"
+             data-translate="class_distribution">
+          📚 Class Wise Distribution
+        </div>
+
         <div class="chart-wrapper">
           <canvas id="classChart"></canvas>
         </div>
+
       </div>
 
       <!-- Class Stats -->
       <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header">क्लास के हिसाब से</div>
+
+        <div class="card-header"
+             data-emoji="📚"
+             data-translate="class_distribution">
+          📚 Class Wise Distribution
+        </div>
+
         <div id="classStats"></div>
+
       </div>
 
       <!-- Caste Distribution -->
       <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header">🏘️ Caste Distribution</div>
+
+        <div class="card-header"
+             data-emoji="🏘️"
+             data-translate="caste_distribution">
+          🏘️ Caste Distribution
+        </div>
+
         <div id="casteStats"></div>
+
       </div>
 
       <!-- Blood Group -->
       <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header">🩸 Blood Group</div>
+
+        <div class="card-header"
+             data-emoji="🩸"
+             data-translate="blood_group">
+          🩸 Blood Group
+        </div>
+
         <div id="bloodGroupStats"></div>
+
       </div>
 
       <!-- Search & Filter -->
       <div class="search-filter">
-        <input type="text" id="searchInput" placeholder="🔍 Search by name, ID, or class..." onkeyup="filterTable()">
+
+        <input type="text"
+               id="searchInput"
+               placeholder="🔍 Search by name, ID, or class..."
+               onkeyup="filterTable()">
+
         <select id="classFilter" onchange="filterTable()">
           <option value="">All Classes</option>
           <option value="KG">KG</option>
@@ -732,51 +873,202 @@ table {
           <option value="XI">XI</option>
           <option value="XII">XII</option>
         </select>
+
         <select id="genderFilter" onchange="filterTable()">
           <option value="">All Genders</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
           <option value="Other">Other</option>
         </select>
+
       </div>
 
       <!-- Recent Submissions Table -->
       <div class="table-container">
-        <div class="card-header" style="margin: 0; border-radius: 12px 12px 0 0; background: #228B22; color: white; border: none; padding: 16px;">
+
+        <div class="card-header"
+             style="margin: 0;
+                    border-radius: 12px 12px 0 0;
+                    background: #228B22;
+                    color: white;
+                    border: none;
+                    padding: 16px;"
+             data-emoji="📋"
+             data-translate="recent_submissions">
+
           📋 Recent Submissions
+
         </div>
+
         <table>
+
           <thead>
-          <tr>
-          <th>ID</th>
-          <th>Timestamp</th>
-          <th>Student Name</th>
-          <th>Father Name</th>
-          <th>Class</th>
-          <th>DOB</th>
-          <th>Gender</th>
-          <th>Caste</th>
-          <th>Blood Group</th>
-          </tr>
+            <tr>
+              <th>ID</th>
+              <th id="thTimestamp">Timestamp</th>
+              <th id="thStudent">Student Name</th>
+              <th id="thFather">Father Name</th>
+              <th id="thClass">Class</th>
+              <th id="thDob">DOB</th>
+              <th id="thGender">Gender</th>
+              <th id="thCaste">Caste</th>
+              <th id="thBlood">Blood Group</th>
+            </tr>
           </thead>
+
           <tbody id="recentSubmissions">
-            <tr><td colspan="7" style="text-align: center; color: #999;">Loading...</td></tr>
+            <tr>
+              <td colspan="7"
+                  style="text-align: center; color: #999;">
+                Loading...
+              </td>
+            </tr>
           </tbody>
+
         </table>
+
       </div>
+
     </div>
 
     <div class="button-group">
-      <button class="btn btn-primary" onclick="refreshData()">🔄 Refresh</button>
-      <button class="btn btn-secondary" onclick="exportAsCSV()">📥 Download CSV</button>
+
+      <button class="btn btn-primary"
+              onclick="refreshData()"
+              data-emoji="🔄"
+              data-translate="refresh">
+
+        🔄 Refresh
+
+      </button>
+
+      <button class="btn btn-secondary"
+              onclick="exportAsCSV()"
+              data-emoji="📥"
+              data-translate="download_csv">
+
+        📥 Download CSV
+
+      </button>
+
     </div>
+
   </div>
 </div>
 
 <script>
   
+  const translations = {
+  en: {
+    admin_access: "Admin Access Only",
+    login: "Login",
+    enter_password: "Enter Password",
+    analytics: "Analytics",
+    logout: "Logout",
+
+    analytics_title: "KDSE Analytics 2026-27",
+    admission_forms: "Admission Form Submissions",
+
+    total_forms: "Total Forms Submitted",
+    boys: "Boys",
+    girls: "Girls",
+    other: "Other",
+
+    refresh: "Refresh",
+    download_csv: "Download CSV",
+
+    gender_distribution: "Gender Distribution",
+    class_distribution: "Class Wise Distribution",
+    class_stats: "Class Wise Statistics",
+    caste_distribution: "Caste Distribution",
+    blood_group: "Blood Group",
+    recent_submissions: "Recent Submissions",
+
+    loading: "Loading...",
+    no_data: "No data available",
+    no_results: "No submissions found",
+
+    search_placeholder: "Search by name, ID, or class...",
+    all_classes: "All Classes",
+    all_genders: "All Genders",
+
+    male: "Male",
+    female: "Female",
+
+    total_submissions: "Total Submissions",
+
+    updated: "Updated",
+
+    student_name: "Student Name",
+    father_name: "Father Name",
+    timestamp: "Timestamp",
+
+    class: "Class",
+    gender: "Gender",
+    caste: "Caste",
+    blood_group_text: "Blood Group",
+    dob: "DOB",
+
+    session_expire: "Session expired! Please login again."
+  },
+
+  hi: {
+    admin_access: "केवल एडमिन एक्सेस",
+    login: "लॉगिन",
+    enter_password: "पासवर्ड दर्ज करें",
+    analytics: "एनालिटिक्स",
+    logout: "लॉगआउट",
+
+    analytics_title: "KDSE एनालिटिक्स 2026-27",
+    admission_forms: "एडमिशन फॉर्म सबमिशन",
+
+    total_forms: "कुल फॉर्म भरे गए",
+    boys: "लड़के",
+    girls: "लड़कियां",
+    other: "अन्य",
+
+    refresh: "रीफ्रेश",
+    download_csv: "CSV डाउनलोड करें",
+
+    gender_distribution: "लिंग के आधार पर वितरण",
+    class_distribution: "कक्षा अनुसार वितरण",
+    class_stats: "कक्षा अनुसार आँकड़े",
+    caste_distribution: "जाति अनुसार वितरण",
+    blood_group: "ब्लड ग्रुप",
+    recent_submissions: "हाल की एंट्री",
+
+    loading: "लोड हो रहा है...",
+    no_data: "कोई डेटा उपलब्ध नहीं",
+    no_results: "कोई एंट्री नहीं मिली",
+
+    search_placeholder: "नाम, आईडी या क्लास से खोजें...",
+    all_classes: "सभी क्लास",
+    all_genders: "सभी जेंडर",
+
+    male: "पुरुष",
+    female: "महिला",
+
+    total_submissions: "कुल सबमिशन",
+
+    updated: "अपडेट",
+
+    student_name: "छात्र का नाम",
+    father_name: "पिता का नाम",
+    timestamp: "समय",
+
+    class: "कक्षा",
+    gender: "लिंग",
+    caste: "जाति",
+    blood_group_text: "ब्लड ग्रुप",
+    dob: "जन्म तिथि",
+
+    session_expire: "सेशन समाप्त! फिर से लॉगिन करें।"
+  }
+};
+  
   window.addEventListener("storage", (e) => {
-  if (e.key === "authToken") {
+  // Only logout if token removed from another tab
+  if (e.key === "authToken" && !e.newValue) {
     logoutUser();
   }
 });
@@ -825,68 +1117,79 @@ function handleEnter(event) {
 }
 
 async function loginUser() {
-  if (loginUser.loading) return; // prevent double click
+  if (loginUser.loading) return;
+
   loginUser.loading = true;
 
   const password = document.getElementById('passwordInput').value.trim();
-  loginUser.loading = false;
-
-  // ✅ ADD HERE (exactly here)
-  sessionStorage.removeItem('authToken');
-  sessionStorage.removeItem('tokenTime');
-  authToken = null;
 
   const errorMsg = document.getElementById('errorMsg');
   const successMsg = document.getElementById('successMsg');
   const loginBtn = document.getElementById('loginBtn');
-  
+
+  sessionStorage.removeItem('authToken');
+  sessionStorage.removeItem('tokenTime');
+  authToken = null;
+
   if (!password) {
     showError(errorMsg, '❌ Enter password');
+    loginUser.loading = false;
     return;
   }
-  
+
   loginBtn.disabled = true;
   showSuccess(successMsg, '🔐 Logging in...');
-  
+
   try {
-    // ✅ SECURE: Password sent in body, NOT URL
+
     const response = await fetch(GAS_URL, {
-  method: 'POST',
-  headers: {
-   'Content-Type': 'text/plain;charset=utf-8'
- },
- body: JSON.stringify({
-  action: 'login',
-  password: password
-})
-});
-    
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      },
+      body: JSON.stringify({
+        action: 'login',
+        password: password
+      })
+    });
+
     const result = await response.json();
-    
+
     if (result.status === 'success' && result.token) {
+
       authToken = result.token;
-      // ✅ Store token with expiry metadata
+
       sessionStorage.setItem('authToken', authToken);
       sessionStorage.setItem('tokenTime', Date.now());
+
       lastActivityTime = Date.now();
-      
+
       document.getElementById('loginPage').style.display = 'none';
       document.getElementById('analyticsPage').style.display = 'block';
+
       document.getElementById('passwordInput').value = '';
+
       successMsg.classList.remove('show');
-      
-      // Auto-focus password field for next attempt if needed
-      document.getElementById('passwordInput').focus();
-      
+
       initSessionManagement();
-      loadAnalytics();
+
+      await loadAnalytics();
+
     } else {
+
       showError(errorMsg, '❌ Invalid Password');
+
     }
+
   } catch(error) {
+
     showError(errorMsg, '❌ ' + error.message);
+
   } finally {
+
     loginBtn.disabled = false;
+    loginUser.loading = false;
+
   }
 }
 
@@ -905,7 +1208,6 @@ function showSuccess(el, msg) {
 // ========== SESSION MANAGEMENT ==========
 function initSessionManagement() {
   resetSessionTimeout();
-  if (!autoRefreshInterval) startAutoRefresh();
 }
 
 function resetSessionTimeout() {
@@ -944,8 +1246,18 @@ function showSessionWarning() {
 }
 
 // Update on user activity
-document.addEventListener('click', () => resetSessionTimeout());
-document.addEventListener('keypress', () => resetSessionTimeout());
+let activityThrottle;
+
+function trackActivity() {
+  clearTimeout(activityThrottle);
+
+  activityThrottle = setTimeout(() => {
+    resetSessionTimeout();
+  }, 1000);
+}
+
+document.addEventListener('click', trackActivity);
+document.addEventListener('keypress', trackActivity);
 
 function logoutUser() {
   authToken = null;
@@ -970,6 +1282,11 @@ function logoutUser() {
 
 // ========== AUTO-LOAD ON REFRESH ==========
 window.addEventListener('load', function() {
+  const savedLanguage = localStorage.getItem('language') || 'en';
+
+document.getElementById('languageSwitcher').value = savedLanguage;
+
+changeLanguage(savedLanguage);
   const savedToken = sessionStorage.getItem('authToken');
   const tokenTime = sessionStorage.getItem('tokenTime');
 
@@ -1016,14 +1333,20 @@ body: JSON.stringify({
 })
 });
     
-    const result = await response.json();
+    if (!response.ok) {
+  throw new Error('Server Error');
+}
+
+const result = await response.json();
     
     if (result.status === 'success' && result.data) {
       // ✅ Parse headers dynamically
       const headers = result.data[0] || [];
       updateColumnMap(headers);
       
-      allData = result.data.slice(1);
+      allData = Array.isArray(result.data)
+  ? result.data.slice(1)
+  : [];
       filteredData = [...allData];
       displayAnalytics();
       updateLastUpdated();
@@ -1033,7 +1356,10 @@ body: JSON.stringify({
       logoutUser();
     }
   } catch(error) {
-    document.getElementById('loadingState').innerHTML = `<p style="color: red;">❌ ${error.message}</p>`;
+    showError(
+  document.getElementById('errorMsg'),
+  '❌ ' + error.message
+);
   } finally {
     // ✅ Always reset loading state
     document.getElementById('loadingState').style.display = 'none';
@@ -1075,11 +1401,6 @@ function displayAnalytics() {
   displayCasteStats(stats.casteWise);
   displayBloodGroupStats(stats.bloodGroupWise);
   displayRecentSubmissions(filteredData);
-
- setTimeout(() => {
-    displayGenderChart(stats);
-    displayClassChart(stats.classWise);
-  }, 300);
 }
 
 // ========== SMOOTH NUMBER ANIMATION ==========
@@ -1143,41 +1464,39 @@ function calculateStats(data) {
 
 // ========== GENDER CHART (Chart.js) ==========
 function displayGenderChart(stats) {
-  const ctx = document.getElementById('genderChart').getContext('2d');
-  
+  const canvas = document.getElementById('genderChart');
+
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+
   if (chartInstances.gender) {
-  chartInstances.gender.destroy();
-  chartInstances.gender = null;
-}
-  
+    chartInstances.gender.destroy();
+    chartInstances.gender = null;
+  }
+
   const total = stats.total;
+
   if (total === 0) {
-    ctx.canvas.parentElement.innerHTML = '<div class="chart-empty">📊 No data available</div>';
     return;
   }
-  
+
   chartInstances.gender = new Chart(ctx, {
-    type: 'bar',
+    type: 'doughnut',
     data: {
       labels: ['Male', 'Female', 'Other'],
       datasets: [{
-        label: 'Count',
         data: [stats.male, stats.female, stats.other],
         backgroundColor: ['#3498db', '#e74c3c', '#f39c12'],
-        borderRadius: 8,
-        borderSkipped: false
+        borderWidth: 2
       }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { display: false }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: { stepSize: 1 }
+        legend: {
+          position: 'bottom'
         }
       }
     }
@@ -1186,21 +1505,25 @@ function displayGenderChart(stats) {
 
 // ========== CLASS CHART (Chart.js) ==========
 function displayClassChart(classWise) {
-  const ctx = document.getElementById('classChart').getContext('2d');
-  
+  const canvas = document.getElementById('classChart');
+
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+
   if (chartInstances.class) {
-  chartInstances.class.destroy();
-  chartInstances.class= null;
-}
-  
-  if (Object.keys(classWise).length === 0) {
-    ctx.canvas.parentElement.innerHTML = '<div class="chart-empty">📚 No data available</div>';
-    return;
+    chartInstances.class.destroy();
+    chartInstances.class = null;
   }
-  
+
+  if (Object.keys(classWise).length === 0) return;
+
   const order = ['KG', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
-  const sorted = Object.entries(classWise).sort((a, b) => order.indexOf(a[0]) - order.indexOf(b[0]));
-  
+
+  const sorted = Object.entries(classWise).sort(
+    (a, b) => order.indexOf(a[0]) - order.indexOf(b[0])
+  );
+
   chartInstances.class = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -1209,20 +1532,15 @@ function displayClassChart(classWise) {
         label: 'Students',
         data: sorted.map(([, val]) => val),
         backgroundColor: '#228B22',
-        borderRadius: 8,
-        borderSkipped: false
+        borderRadius: 6
       }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false }
-      },
       scales: {
         y: {
-          beginAtZero: true,
-          ticks: { stepSize: 1 }
+          beginAtZero: true
         }
       }
     }
@@ -1345,16 +1663,16 @@ function displayRecentSubmissions(data) {
   container.innerHTML = [...data].reverse().slice(0, 50)
   .map(row => `
     <tr>
-      <td><strong>${row[COLUMN_MAP.id] || '-'}</strong></td>
-      <td>${row[COLUMN_MAP.timestamp] || '-'}</td>
-      <td>${row[COLUMN_MAP.name] || '-'}</td>
-      <td>${row[COLUMN_MAP.fatherName] || '-'}</td>
-      <td>${row[COLUMN_MAP.class] || '-'}</td>
-      <td>${formatDOB(row[COLUMN_MAP.dob])}</td>
-      <td>${row[COLUMN_MAP.gender] || '-'}</td>
-      <td>${row[COLUMN_MAP.caste] || '-'}</td>
-      <td>${row[COLUMN_MAP.bloodGroup] || '-'}</td>
-    </tr>
+  <td><strong>${escapeHTML(row[COLUMN_MAP.id] || '-')}</strong></td>
+  <td>${escapeHTML(formatTimestamp(row[COLUMN_MAP.timestamp]))}</td>
+  <td>${escapeHTML(row[COLUMN_MAP.name] || '-')}</td>
+  <td>${escapeHTML(row[COLUMN_MAP.fatherName] || '-')}</td>
+  <td>${escapeHTML(row[COLUMN_MAP.class] || '-')}</td>
+  <td>${escapeHTML(formatDOB(row[COLUMN_MAP.dob]))}</td>
+  <td>${escapeHTML(row[COLUMN_MAP.gender] || '-')}</td>
+  <td>${escapeHTML(row[COLUMN_MAP.caste] || '-')}</td>
+  <td>${escapeHTML(row[COLUMN_MAP.bloodGroup] || '-')}</td>
+</tr>
   `)
   .join('');
 }
@@ -1420,7 +1738,111 @@ function exportAsCSV() {
   const link = document.createElement('a');
   link.setAttribute('href', URL.createObjectURL(blob));
   link.setAttribute('download', `KDSE_Analytics_${new Date().toISOString().split('T')[0]}.csv`);
-  link.click();
+  document.body.appendChild(link);
+link.click();
+document.body.removeChild(link);
+URL.revokeObjectURL(link.href);
+}
+
+function changeLanguage(lang) {
+  localStorage.setItem('language', lang);
+
+  document.querySelectorAll('[data-translate]').forEach(el => {
+    const key = el.getAttribute('data-translate');
+    const emoji = el.getAttribute('data-emoji') || '';
+
+    if (translations[lang]?.[key]) {
+      el.textContent = emoji
+        ? `${emoji} ${translations[lang][key]}`
+        : translations[lang][key];
+    }
+  });
+
+  const searchInput = document.getElementById("searchInput");
+  if (searchInput) {
+    searchInput.placeholder = translations[lang].search_placeholder;
+  }
+
+  document.querySelectorAll('#classFilter option[value=""]').forEach(el => {
+    el.textContent = translations[lang].all_classes;
+  });
+
+  document.querySelectorAll('#genderFilter option[value=""]').forEach(el => {
+    el.textContent = translations[lang].all_genders;
+  });
+
+  document.querySelectorAll('#genderFilter option[value="Male"]').forEach(el => {
+    el.textContent = translations[lang].male;
+  });
+
+  document.querySelectorAll('#genderFilter option[value="Female"]').forEach(el => {
+    el.textContent = translations[lang].female;
+  });
+
+  const map = {
+    thTimestamp: 'timestamp',
+    thStudent: 'student_name',
+    thFather: 'father_name',
+    thClass: 'class',
+    thDob: 'dob',
+    thGender: 'gender',
+    thCaste: 'caste',
+    thBlood: 'blood_group_text'
+  };
+  
+  // Login page password placeholder
+const passwordInput = document.getElementById('passwordInput');
+
+if (passwordInput) {
+  passwordInput.placeholder =
+    translations[lang].enter_password;
+}
+
+// Sync both language switchers
+const loginSwitcher =
+  document.getElementById('loginLanguageSwitcher');
+
+const mainSwitcher =
+  document.getElementById('languageSwitcher');
+
+if (loginSwitcher) loginSwitcher.value = lang;
+if (mainSwitcher) mainSwitcher.value = lang;
+
+  Object.entries(map).forEach(([id, key]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = translations[lang][key];
+  });
+}
+
+function escapeHTML(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function formatTimestamp(timestamp) {
+  if (!timestamp) return '-';
+
+  const date = new Date(timestamp);
+
+  if (isNaN(date.getTime())) return timestamp;
+
+  return date
+    .toLocaleString('en-IN', {
+      timeZone: 'Asia/Kolkata',
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true
+    })
+    .replace('AM', 'am')
+    .replace('PM', 'pm');
 }
 </script>
 
