@@ -8,9 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
 html { scroll-behavior: smooth; }
-
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Noto Sans Devanagari', sans-serif;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -18,12 +16,7 @@ body {
   padding: 20px;
   -webkit-font-smoothing: antialiased;
 }
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
+.container { max-width: 1200px; margin: 0 auto; }
 .language-toggle {
   position: fixed;
   top: 20px;
@@ -38,12 +31,10 @@ body {
   z-index: 100;
   transition: all 0.3s ease;
 }
-
 .language-toggle:hover {
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   transform: translateY(-2px);
 }
-
 .login-container {
   max-width: 400px;
   margin: 80px auto;
@@ -54,37 +45,31 @@ body {
   text-align: center;
   animation: slideUp 0.5s ease-out;
 }
-
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
 .login-container h1 {
   color: #228B22;
   font-size: 28px;
   margin-bottom: 8px;
   font-weight: 700;
 }
-
 .login-container p {
   color: #666;
   font-size: 14px;
   margin-bottom: 30px;
 }
-
 .login-form {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
-
 .password-input-wrapper {
   position: relative;
   display: flex;
   align-items: center;
 }
-
 .password-input-wrapper input {
   flex: 1;
   padding: 12px 14px;
@@ -94,7 +79,6 @@ body {
   font-family: inherit;
   transition: all 0.3s ease;
 }
-
 .password-toggle {
   position: absolute;
   right: 12px;
@@ -106,17 +90,14 @@ body {
   padding: 5px;
   transition: color 0.3s ease;
 }
-
 .password-toggle:hover {
   color: #228B22;
 }
-
 .login-form input:focus {
   outline: none;
   border-color: #228B22;
   box-shadow: 0 0 0 3px rgba(34, 139, 34, 0.1);
 }
-
 .login-form button {
   padding: 12px;
   background: #228B22;
@@ -128,17 +109,14 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
 }
-
 .login-form button:hover:not(:disabled) {
   background: #1a6b1a;
   transform: translateY(-2px);
 }
-
 .login-form button:disabled {
   background: #bbb;
   cursor: not-allowed;
 }
-
 .error-msg, .success-msg {
   font-size: 13px;
   text-align: center;
@@ -147,24 +125,20 @@ body {
   border-radius: 4px;
   animation: fadeIn 0.3s ease;
 }
-
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
-
 .error-msg.show {
   display: block;
   color: #c62828;
   background: #ffebee;
 }
-
 .success-msg.show {
   display: block;
   color: #228B22;
   background: #e8f5e9;
 }
-
 .header {
   background: white;
   padding: 30px;
@@ -176,34 +150,26 @@ body {
   align-items: center;
   animation: slideDown 0.5s ease-out;
 }
-
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-20px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
-.header-content {
-  flex: 1;
-}
-
+.header-content { flex: 1; }
 .header h1 {
   color: #228B22;
   font-size: 32px;
   margin-bottom: 8px;
   font-weight: 700;
 }
-
 .header p {
   color: #666;
   font-size: 15px;
   margin-bottom: 8px;
 }
-
 .last-updated {
   color: #999;
   font-size: 12px;
 }
-
 .logout-btn {
   padding: 10px 20px;
   background: #c62828;
@@ -215,19 +181,16 @@ body {
   font-size: 13px;
   transition: all 0.3s ease;
 }
-
 .logout-btn:hover {
   background: #9a1f1f;
   transform: translateY(-2px);
 }
-
 .analytics-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
   margin-bottom: 20px;
 }
-
 .card {
   background: white;
   padding: 24px;
@@ -236,17 +199,14 @@ body {
   transition: all 0.3s ease;
   animation: fadeInScale 0.5s ease-out;
 }
-
 @keyframes fadeInScale {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
 }
-
 .card:hover {
   box-shadow: 0 4px 12px rgba(0,0,0,0.12);
   transform: translateY(-4px);
 }
-
 .card-header {
   font-size: 13px;
   font-weight: 700;
@@ -257,43 +217,20 @@ body {
   border-bottom: 3px solid;
   padding-bottom: 12px;
 }
-
-.card.total-card .card-header {
-  border-bottom-color: #228B22;
-  color: #228B22;
-}
-
-.card.male-card .card-header {
-  border-bottom-color: #3498db;
-  color: #3498db;
-}
-
-.card.female-card .card-header {
-  border-bottom-color: #e74c3c;
-  color: #e74c3c;
-}
-
-.card.other-card .card-header {
-  border-bottom-color: #f39c12;
-  color: #f39c12;
-}
-
+.card.total-card .card-header { border-bottom-color: #228B22; color: #228B22; }
+.card.male-card .card-header { border-bottom-color: #3498db; color: #3498db; }
+.card.female-card .card-header { border-bottom-color: #e74c3c; color: #e74c3c; }
+.card.other-card .card-header { border-bottom-color: #f39c12; color: #f39c12; }
 .card-value {
   font-size: 48px;
   font-weight: 900;
   margin: 16px 0;
 }
-
 .card.total-card .card-value { color: #228B22; }
 .card.male-card .card-value { color: #3498db; }
 .card.female-card .card-value { color: #e74c3c; }
 .card.other-card .card-value { color: #f39c12; }
-
-.card-subtitle {
-  font-size: 13px;
-  color: #999;
-}
-
+.card-subtitle { font-size: 13px; color: #999; }
 .stat-item {
   display: flex;
   justify-content: space-between;
@@ -301,58 +238,13 @@ body {
   padding: 12px 0;
   border-bottom: 1px solid #f5f5f5;
 }
-
-.stat-item:last-child {
-  border-bottom: none;
-}
-
-.stat-label {
-  font-size: 14px;
-  color: #333;
-  font-weight: 600;
-  flex: 1;
-}
-
-.stat-value {
-  font-size: 18px;
-  font-weight: 900;
-  color: #228B22;
-  min-width: 50px;
-  text-align: right;
-  margin: 0 12px;
-}
-
-.stat-bar {
-  flex: 1;
-  height: 6px;
-  background: #f0f0f0;
-  border-radius: 3px;
-  overflow: hidden;
-  margin: 0 12px;
-}
-
-.stat-bar-fill {
-  height: 100%;
-  background: #228B22;
-  border-radius: 3px;
-  transition: width 0.3s ease;
-}
-
-.chart-wrapper {
-  position: relative;
-  height: 350px;
-  margin: 20px 0;
-}
-
-.chart-empty {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  color: #999;
-  font-size: 14px;
-}
-
+.stat-item:last-child { border-bottom: none; }
+.stat-label { font-size: 14px; color: #333; font-weight: 600; flex: 1; }
+.stat-value { font-size: 18px; font-weight: 900; color: #228B22; min-width: 50px; text-align: right; margin: 0 12px; }
+.stat-bar { flex: 1; height: 6px; background: #f0f0f0; border-radius: 3px; overflow: hidden; margin: 0 12px; }
+.stat-bar-fill { height: 100%; background: #228B22; border-radius: 3px; transition: width 0.3s ease; }
+.chart-wrapper { position: relative; height: 350px; margin: 20px 0; }
+.chart-empty { display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-size: 14px; }
 .search-filter {
   background: white;
   padding: 20px;
@@ -363,10 +255,7 @@ body {
   gap: 12px;
   flex-wrap: wrap;
 }
-
-.search-filter input {
-  flex: 1;
-  min-width: 200px;
+.search-filter input, .search-filter select {
   padding: 10px 14px;
   border: 2px solid #e0e0e0;
   border-radius: 6px;
@@ -374,29 +263,12 @@ body {
   font-family: inherit;
   transition: all 0.3s ease;
 }
-
-.search-filter input:focus {
+.search-filter input { flex: 1; min-width: 200px; background: white; }
+.search-filter input:focus, .search-filter select:focus {
   outline: none;
   border-color: #228B22;
   box-shadow: 0 0 0 3px rgba(34, 139, 34, 0.1);
 }
-
-.search-filter select {
-  padding: 10px 14px;
-  border: 2px solid #e0e0e0;
-  border-radius: 6px;
-  font-size: 13px;
-  font-family: inherit;
-  background: white;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.search-filter select:focus {
-  outline: none;
-  border-color: #228B22;
-}
-
 .table-container {
   background: white;
   border-radius: 12px;
@@ -404,19 +276,16 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   margin-bottom: 20px;
 }
-
 table {
   width: 100%;
   border-collapse: collapse;
 }
-
 thead {
   background: #228B22;
   color: white;
   position: sticky;
   top: 0;
 }
-
 th {
   padding: 16px;
   text-align: left;
@@ -424,27 +293,14 @@ th {
   font-size: 13px;
   letter-spacing: 0.3px;
 }
-
 td {
   padding: 14px 16px;
   border-bottom: 1px solid #f0f0f0;
   font-size: 13px;
 }
-
-tbody tr:hover {
-  background: #f9f9f9;
-}
-
-tbody tr:nth-child(even) {
-  background: #fafafa;
-}
-
-.no-results {
-  text-align: center;
-  padding: 40px 20px;
-  color: #999;
-}
-
+tbody tr:hover { background: #f9f9f9; }
+tbody tr:nth-child(even) { background: #fafafa; }
+.no-results { text-align: center; padding: 40px 20px; color: #999; }
 .button-group {
   text-align: center;
   margin: 30px 0;
@@ -453,7 +309,6 @@ tbody tr:nth-child(even) {
   gap: 12px;
   flex-wrap: wrap;
 }
-
 .btn {
   display: inline-flex;
   align-items: center;
@@ -468,34 +323,24 @@ tbody tr:nth-child(even) {
   text-decoration: none;
   color: white;
 }
-
-.btn-primary {
-  background: #228B22;
-}
-
+.btn-primary { background: #228B22; }
 .btn-primary:hover {
   background: #1a6b1a;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(34, 139, 34, 0.3);
 }
-
-.btn-secondary {
-  background: #667eea;
-}
-
+.btn-secondary { background: #667eea; }
 .btn-secondary:hover {
   background: #5568d3;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
-
 .loading {
   text-align: center;
   padding: 60px 20px;
   color: white;
   font-size: 16px;
 }
-
 .spinner {
   border: 4px solid rgba(255,255,255,0.2);
   border-top: 4px solid white;
@@ -505,65 +350,25 @@ tbody tr:nth-child(even) {
   animation: spin 0.8s linear infinite;
   margin: 0 auto 20px;
 }
-
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-
 @media (max-width: 768px) {
   body { padding: 12px; }
-  
-  .analytics-grid {
-    grid-template-columns: 1fr;
-  }
-  
+  .analytics-grid { grid-template-columns: 1fr; }
   .card { padding: 16px; }
-  
-  .card-value {
-    font-size: 36px;
-  }
-  
-  .chart-wrapper {
-    height: 250px;
-  }
-
-  .header {
-    flex-direction: column;
-    gap: 16px;
-    text-align: center;
-  }
-
-  .logout-btn {
-    width: 100%;
-  }
-
-  .button-group {
-    flex-direction: column;
-  }
-
-  .btn {
-    width: 100%;
-  }
-
-  .login-container {
-    margin: 40px auto;
-  }
-
-  .search-filter {
-    flex-direction: column;
-  }
-
-  .search-filter input,
-  .search-filter select {
-    width: 100%;
-  }
-
-  .language-toggle {
-    top: 60px;
-  }
+  .card-value { font-size: 36px; }
+  .chart-wrapper { height: 250px; }
+  .header { flex-direction: column; gap: 16px; text-align: center; }
+  .logout-btn { width: 100%; }
+  .button-group { flex-direction: column; }
+  .btn { width: 100%; }
+  .login-container { margin: 40px auto; }
+  .search-filter { flex-direction: column; }
+  .search-filter input, .search-filter select { width: 100%; }
+  .language-toggle { top: 60px; }
 }
-
 @media print {
   body { background: white; }
   .button-group { display: none; }
@@ -571,14 +376,8 @@ tbody tr:nth-child(even) {
   .search-filter { display: none; }
   .language-toggle { display: none; }
 }
-
-.table-container {
-  overflow-x: auto;
-}
-
-table {
-  min-width: 900px;
-}
+.table-container { overflow-x: auto; }
+table { min-width: 900px; }
 </style>
 </head>
 <body>
@@ -586,15 +385,14 @@ table {
 <button class="language-toggle" id="langToggle" onclick="toggleLanguage()">English</button>
 
 <div id="loginPage" class="login-container">
-  <h1>🔒 <span data-lang-hi="विश्लेषण" data-lang-en="Analytics">Analytics</span></h1>
-  <p data-lang-hi="केवल प्रशासक पहुँच" data-lang-en="Admin Access Only">Admin Access Only</p>
-  
+  <h1>🔒 Analytics</h1>
+  <p>Admin Access Only</p>
   <div class="login-form">
     <div class="password-input-wrapper">
-      <input type="password" id="passwordInput" placeholder="पासवर्ड दर्ज करें / Enter Password" onkeypress="handleEnter(event)">
+      <input type="password" id="passwordInput" placeholder="Enter Password" onkeypress="handleEnter(event)">
       <button type="button" class="password-toggle" id="togglePassword" onclick="togglePasswordVisibility()" title="Show/Hide">👁️</button>
     </div>
-    <button id="loginBtn" onclick="loginUser()"><span data-lang-hi="लॉगिन करें" data-lang-en="Login">Login</span></button>
+    <button id="loginBtn" onclick="loginUser()">Login</button>
     <div id="errorMsg" class="error-msg"></div>
     <div id="successMsg" class="success-msg"></div>
   </div>
@@ -604,78 +402,71 @@ table {
   <div class="container">
     <div class="header">
       <div class="header-content">
-        <h1>📊 KDSE <span data-lang-hi="विश्लेषण" data-lang-en="Analytics">Analytics</span> 2026-27</h1>
-        <p data-lang-hi="आवेदन फॉर्म जमा" data-lang-en="Admission Form Submissions">Admission Form Submissions</p>
-        <div class="last-updated"><span data-lang-hi="अपडेट किया गया:" data-lang-en="Updated:">Updated:</span> <span id="lastUpdated">--</span></div>
+        <h1>📊 KDSE Analytics 2026-27</h1>
+        <p>Admission Form Submissions</p>
+        <div class="last-updated">Updated: <span id="lastUpdated">--</span></div>
       </div>
-      <button class="logout-btn" onclick="logoutUser()" data-lang-hi="लॉग आउट करें" data-lang-en="Logout">Logout</button>
+      <button class="logout-btn" onclick="logoutUser()">Logout</button>
     </div>
 
     <div id="loadingState" class="loading" style="display: none;">
       <div class="spinner"></div>
-      <p data-lang-hi="लोड हो रहा है..." data-lang-en="Loading...">Loading...</p>
+      <p>Loading...</p>
     </div>
 
     <div id="analyticsContent" style="display: none;">
       <div class="analytics-grid">
         <div class="card total-card">
-          <div class="card-header" data-lang-hi="कुल फॉर्म भरे गए" data-lang-en="TOTAL FORMS">कुल फॉर्म भरे गए</div>
+          <div class="card-header">Total Forms</div>
           <div class="card-value" id="totalForms">0</div>
-          <div class="card-subtitle" data-lang-hi="कुल जमा" data-lang-en="Total Submissions">Total Submissions</div>
+          <div class="card-subtitle">Total Submissions</div>
         </div>
-
         <div class="card male-card">
-          <div class="card-header">👨 <span data-lang-hi="लड़के" data-lang-en="BOYS">लड़के</span></div>
+          <div class="card-header">👨 Boys</div>
           <div class="card-value" id="maleCount">0</div>
           <div class="card-subtitle" id="malePercent">0%</div>
         </div>
-
         <div class="card female-card">
-          <div class="card-header">👩 <span data-lang-hi="लड़कियां" data-lang-en="GIRLS">लड़कियां</span></div>
+          <div class="card-header">👩 Girls</div>
           <div class="card-value" id="femaleCount">0</div>
           <div class="card-subtitle" id="femalePercent">0%</div>
         </div>
-
         <div class="card other-card">
-          <div class="card-header">👥 <span data-lang-hi="अन्य" data-lang-en="OTHER">अन्य</span></div>
+          <div class="card-header">👥 Other</div>
           <div class="card-value" id="otherCount">0</div>
           <div class="card-subtitle" id="otherPercent">0%</div>
         </div>
       </div>
 
       <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header" data-lang-hi="लिंग वितरण" data-lang-en="GENDER DISTRIBUTION">लिंग वितरण</div>
-        <div class="chart-wrapper">
-          <canvas id="genderChart"></canvas>
-        </div>
+        <div class="card-header">Gender Distribution</div>
+        <div class="chart-wrapper"><canvas id="genderChart"></canvas></div>
       </div>
 
       <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header">📚 <span data-lang-hi="कक्षा के अनुसार वितरण" data-lang-en="CLASS WISE DISTRIBUTION">कक्षा के अनुसार वितरण</span></div>
-        <div class="chart-wrapper">
-          <canvas id="classChart"></canvas>
-        </div>
+        <div class="card-header">📚 Class Wise Distribution</div>
+        <div class="chart-wrapper"><canvas id="classChart"></canvas></div>
       </div>
 
       <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header" data-lang-hi="कक्षा के हिसाब से" data-lang-en="CLASS WISE STATS">कक्षा के हिसाब से</div>
+        <div class="card-header">Class Stats</div>
         <div id="classStats"></div>
       </div>
 
       <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header">🏘️ <span data-lang-hi="जाति वितरण" data-lang-en="CASTE DISTRIBUTION">जाति वितरण</span></div>
+        <div class="card-header">🏘️ Caste Distribution</div>
         <div id="casteStats"></div>
       </div>
 
       <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header">🩸 <span data-lang-hi="रक्त समूह" data-lang-en="BLOOD GROUP">रक्त समूह</span></div>
+        <div class="card-header">🩸 Blood Group</div>
         <div id="bloodGroupStats"></div>
       </div>
 
       <div class="search-filter">
-        <input type="text" id="searchInput" placeholder="🔍 नाम, ID, या कक्षा से खोजें / Search by name, ID, or class..." onkeyup="filterTable()">
+        <input type="text" id="searchInput" placeholder="Search by name, ID, or class..." onkeyup="filterTable()">
         <select id="classFilter" onchange="filterTable()">
-          <option value="">सभी कक्षाएं / All Classes</option>
+          <option value="">All Classes</option>
           <option value="KG">KG</option>
           <option value="I">I</option>
           <option value="II">II</option>
@@ -691,16 +482,16 @@ table {
           <option value="XII">XII</option>
         </select>
         <select id="genderFilter" onchange="filterTable()">
-          <option value="">सभी लिंग / All Genders</option>
-          <option value="Male">पुरुष / Male</option>
-          <option value="Female">महिला / Female</option>
-          <option value="Other">अन्य / Other</option>
+          <option value="">All Genders</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
         </select>
       </div>
 
       <div class="table-container">
         <div class="card-header" style="margin: 0; border-radius: 12px 12px 0 0; background: #228B22; color: white; border: none; padding: 16px;">
-          📋 <span data-lang-hi="हाल के जमा किए गए" data-lang-en="RECENT SUBMISSIONS">हाल के जमा किए गए</span>
+          📋 Recent Submissions
         </div>
         <table>
           <thead>
@@ -731,27 +522,7 @@ table {
 </div>
 
 <script>
-let currentLanguage = localStorage.getItem('selectedLanguage') || 'en';
-
-function toggleLanguage() {
-  currentLanguage = currentLanguage === 'en' ? 'hi' : 'en';
-  localStorage.setItem('selectedLanguage', currentLanguage);
-  updateLanguage();
-  document.getElementById('langToggle').textContent = currentLanguage === 'en' ? 'हिंदी' : 'English';
-}
-
-function updateLanguage() {
-  document.querySelectorAll('[data-lang-hi]').forEach(el => {
-    el.textContent = el.getAttribute(`data-lang-${currentLanguage}`);
-  });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('langToggle').textContent = currentLanguage === 'en' ? 'हिंदी' : 'English';
-  updateLanguage();
-});
-
-const GAS_URL = "https://script.google.com/macros/s/AKfycbz8YyKot84TFBrX49jMgB9dCxkyjmqSw6bzc4e84jr5b1REGgUFQQdTu-hYJHKW2xZS/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbyXi3ahm-8D7_d_QBGJ3-n3Ko9t1K49yFWB4uRy6dywgjO1FdunbURfhxKiTr9-y82y/exec";
 
 const COLUMN_MAP = {
   id: 0,
@@ -786,6 +557,35 @@ function handleEnter(event) {
   if (event.key === 'Enter') loginUser();
 }
 
+function makeJSONPRequest(action, params) {
+  return new Promise((resolve, reject) => {
+    const callbackName = 'jsonpCallback_' + Date.now();
+    
+    window[callbackName] = function(data) {
+      delete window[callbackName];
+      document.head.removeChild(script);
+      resolve(data);
+    };
+
+    const url = new URL(GAS_URL);
+    url.searchParams.append('action', action);
+    url.searchParams.append('callback', callbackName);
+    
+    Object.keys(params).forEach(key => {
+      url.searchParams.append(key, params[key]);
+    });
+
+    const script = document.createElement('script');
+    script.src = url.toString();
+    script.onerror = function() {
+      delete window[callbackName];
+      document.head.removeChild(script);
+      reject(new Error('JSONP request failed'));
+    };
+    document.head.appendChild(script);
+  });
+}
+
 async function loginUser() {
   if (loginUser.loading) return;
   loginUser.loading = true;
@@ -796,40 +596,16 @@ async function loginUser() {
   const loginBtn = document.getElementById('loginBtn');
   
   if (!password) {
-    showError(errorMsg, '❌ पासवर्ड दर्ज करें / Enter password');
+    showError(errorMsg, '❌ Enter password');
     loginUser.loading = false;
     return;
   }
   
   loginBtn.disabled = true;
-  showSuccess(successMsg, '🔐 लॉगिन कर रहे हैं / Logging in...');
+  showSuccess(successMsg, '🔐 Logging in...');
   
   try {
-    const response = await fetch(GAS_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        action: 'login',
-        password: password
-      })
-    });
-
-    const raw = await response.clone().text();
-    console.log('Login response:', raw);
-
-    let result;
-    try {
-      result = JSON.parse(raw);
-    } catch (err) {
-      showError(errorMsg, '❌ Server error. Check console.');
-      console.error('JSON parse error:', err, raw);
-      loginUser.loading = false;
-      loginBtn.disabled = false;
-      return;
-    }
+    const result = await makeJSONPRequest('login', { password: password });
 
     if (result && result.status === 'success' && result.token) {
       authToken = result.token;
@@ -851,8 +627,8 @@ async function loginUser() {
       showError(errorMsg, '❌ ' + msg);
     }
   } catch(error) {
-    console.error('Fetch error:', error);
-    showError(errorMsg, '❌ नेटवर्क त्रुटि / Network error: ' + error.message);
+    console.error('Login error:', error);
+    showError(errorMsg, '❌ Error: ' + error.message);
   } finally {
     loginBtn.disabled = false;
     loginUser.loading = false;
@@ -926,29 +702,7 @@ async function loadAnalytics() {
   document.getElementById('analyticsContent').style.display = 'none';
   
   try {
-    const response = await fetch(GAS_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        action: 'getData',
-        token: authToken
-      })
-    });
-
-    const raw = await response.clone().text();
-    console.log('getData response:', raw);
-
-    let result;
-    try {
-      result = JSON.parse(raw);
-    } catch (err) {
-      document.getElementById('loadingState').innerHTML = `<p style="color: red;">❌ Server error</p>`;
-      console.error('getData JSON parse error:', err, raw);
-      return;
-    }
+    const result = await makeJSONPRequest('getData', { token: authToken });
 
     if (result.status === 'success' && result.data) {
       const headers = result.data[0] || [];
@@ -1315,6 +1069,8 @@ function exportAsCSV() {
   link.setAttribute('download', `KDSE_Analytics_${new Date().toISOString().split('T')[0]}.csv`);
   link.click();
 }
+
+function toggleLanguage() {}
 </script>
 
 </body>
