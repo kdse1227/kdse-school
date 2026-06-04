@@ -12,7 +12,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Noto Sans Devanagari', sans-serif;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
   padding: 20px;
@@ -22,6 +22,27 @@ body {
 .container {
   max-width: 1200px;
   margin: 0 auto;
+}
+
+/* LANGUAGE TOGGLE */
+.language-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+.language-toggle:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
 }
 
 /* LOGIN PAGE */
@@ -594,6 +615,10 @@ tbody tr:nth-child(even) {
     right: 12px;
     left: 12px;
   }
+
+  .language-toggle {
+    top: 60px;
+  }
 }
 
 @media print {
@@ -601,6 +626,7 @@ tbody tr:nth-child(even) {
   .button-group { display: none; }
   .logout-btn { display: none; }
   .search-filter { display: none; }
+  .language-toggle { display: none; }
 }
 
 .table-container {
@@ -614,17 +640,20 @@ table {
 </head>
 <body>
 
+<!-- LANGUAGE TOGGLE -->
+<button class="language-toggle" id="langToggle" onclick="toggleLanguage()">English</button>
+
 <!-- LOGIN PAGE -->
 <div id="loginPage" class="login-container">
-  <h1>🔒 Analytics</h1>
-  <p>Admin Access Only</p>
+  <h1>🔒 <span data-lang-hi="विश्लेषण" data-lang-en="Analytics">Analytics</span></h1>
+  <p data-lang-hi="केवल प्रशासक पहुँच" data-lang-en="Admin Access Only">Admin Access Only</p>
   
   <div class="login-form">
     <div class="password-input-wrapper">
-      <input type="password" id="passwordInput" placeholder="Enter Password" onkeypress="handleEnter(event)">
+      <input type="password" id="passwordInput" placeholder="पासवर्ड दर्ज करें / Enter Password" onkeypress="handleEnter(event)">
       <button type="button" class="password-toggle" id="togglePassword" onclick="togglePasswordVisibility()" title="Show/Hide">👁️</button>
     </div>
-    <button id="loginBtn" onclick="loginUser()">Login</button>
+    <button id="loginBtn" onclick="loginUser()"><span data-lang-hi="लॉगिन करें" data-lang-en="Login">Login</span></button>
     <div id="errorMsg" class="error-msg"></div>
     <div id="successMsg" class="success-msg"></div>
   </div>
@@ -632,7 +661,7 @@ table {
 
 <!-- SESSION WARNING -->
 <div id="sessionWarning" class="session-warning">
-  ⚠️ Your session will expire in <span id="warningTimer">5</span> minutes. Click refresh to extend.
+  ⚠️ <span data-lang-hi="आपका सेशन समाप्त होगा" data-lang-en="Your session will expire">Your session will expire</span> <span id="warningTimer">5</span> <span data-lang-hi="मिनट में। ताज़ा करने के लिए क्लिक करें।" data-lang-en="minutes. Click refresh to extend.">minutes. Click refresh to extend.</span>
 </div>
 
 <!-- ANALYTICS PAGE -->
@@ -640,40 +669,40 @@ table {
   <div class="container">
     <div class="header">
       <div class="header-content">
-        <h1>📊 KDSE Analytics 2026-27</h1>
-        <p>Admission Form Submissions</p>
-        <div class="last-updated">Updated: <span id="lastUpdated">--</span></div>
+        <h1>📊 KDSE <span data-lang-hi="विश्लेषण" data-lang-en="Analytics">Analytics</span> 2026-27</h1>
+        <p data-lang-hi="आवेदन फॉर्म जमा" data-lang-en="Admission Form Submissions">Admission Form Submissions</p>
+        <div class="last-updated"><span data-lang-hi="अपडेट किया गया:" data-lang-en="Updated:">Updated:</span> <span id="lastUpdated">--</span></div>
       </div>
-      <button class="logout-btn" onclick="logoutUser()">Logout</button>
+      <button class="logout-btn" onclick="logoutUser()" data-lang-hi="लॉग आउट करें" data-lang-en="Logout">Logout</button>
     </div>
 
     <div id="loadingState" class="loading" style="display: none;">
       <div class="spinner"></div>
-      <p>Loading...</p>
+      <p data-lang-hi="लोड हो रहा है..." data-lang-en="Loading...">Loading...</p>
     </div>
 
     <div id="analyticsContent" style="display: none;">
       <div class="analytics-grid">
         <div class="card total-card">
-          <div class="card-header">कुल फॉर्म भरे गए</div>
+          <div class="card-header" data-lang-hi="कुल फॉर्म भरे गए" data-lang-en="TOTAL FORMS">कुल फॉर्म भरे गए</div>
           <div class="card-value" id="totalForms">0</div>
-          <div class="card-subtitle">Total Submissions</div>
+          <div class="card-subtitle" data-lang-hi="कुल जमा" data-lang-en="Total Submissions">Total Submissions</div>
         </div>
 
         <div class="card male-card">
-          <div class="card-header">👨 लड़के</div>
+          <div class="card-header">👨 <span data-lang-hi="लड़के" data-lang-en="BOYS">लड़के</span></div>
           <div class="card-value" id="maleCount">0</div>
           <div class="card-subtitle" id="malePercent">0%</div>
         </div>
 
         <div class="card female-card">
-          <div class="card-header">👩 लड़कियां</div>
+          <div class="card-header">👩 <span data-lang-hi="लड़कियां" data-lang-en="GIRLS">लड़कियां</span></div>
           <div class="card-value" id="femaleCount">0</div>
           <div class="card-subtitle" id="femalePercent">0%</div>
         </div>
 
         <div class="card other-card">
-          <div class="card-header">👥 अन्य</div>
+          <div class="card-header">👥 <span data-lang-hi="अन्य" data-lang-en="OTHER">अन्य</span></div>
           <div class="card-value" id="otherCount">0</div>
           <div class="card-subtitle" id="otherPercent">0%</div>
         </div>
@@ -681,7 +710,7 @@ table {
 
       <!-- Gender Distribution Chart -->
       <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header">Gender Distribution</div>
+        <div class="card-header" data-lang-hi="लिंग वितरण" data-lang-en="GENDER DISTRIBUTION">लिंग वितरण</div>
         <div class="chart-wrapper">
           <canvas id="genderChart"></canvas>
         </div>
@@ -689,7 +718,7 @@ table {
 
       <!-- Class Wise Distribution Chart -->
       <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header">📚 Class Wise Distribution</div>
+        <div class="card-header">📚 <span data-lang-hi="कक्षा के अनुसार वितरण" data-lang-en="CLASS WISE DISTRIBUTION">कक्षा के अनुसार वितरण</span></div>
         <div class="chart-wrapper">
           <canvas id="classChart"></canvas>
         </div>
@@ -697,27 +726,27 @@ table {
 
       <!-- Class Stats -->
       <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header">क्लास के हिसाब से</div>
+        <div class="card-header" data-lang-hi="कक्षा के हिसाब से" data-lang-en="CLASS WISE STATS">कक्षा के हिसाब से</div>
         <div id="classStats"></div>
       </div>
 
       <!-- Caste Distribution -->
       <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header">🏘️ Caste Distribution</div>
+        <div class="card-header">🏘️ <span data-lang-hi="जाति वितरण" data-lang-en="CASTE DISTRIBUTION">जाति वितरण</span></div>
         <div id="casteStats"></div>
       </div>
 
       <!-- Blood Group -->
       <div class="card" style="margin-bottom: 20px;">
-        <div class="card-header">🩸 Blood Group</div>
+        <div class="card-header">🩸 <span data-lang-hi="रक्त समूह" data-lang-en="BLOOD GROUP">रक्त समूह</span></div>
         <div id="bloodGroupStats"></div>
       </div>
 
       <!-- Search & Filter -->
       <div class="search-filter">
-        <input type="text" id="searchInput" placeholder="🔍 Search by name, ID, or class..." onkeyup="filterTable()">
+        <input type="text" id="searchInput" placeholder="🔍 नाम, ID, या कक्षा से खोजें / Search by name, ID, or class..." onkeyup="filterTable()">
         <select id="classFilter" onchange="filterTable()">
-          <option value="">All Classes</option>
+          <option value=""><span data-lang-hi="सभी कक्षाएं" data-lang-en="All Classes">सभी कक्षाएं</span></option>
           <option value="KG">KG</option>
           <option value="I">I</option>
           <option value="II">II</option>
@@ -733,56 +762,71 @@ table {
           <option value="XII">XII</option>
         </select>
         <select id="genderFilter" onchange="filterTable()">
-          <option value="">All Genders</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
+          <option value=""><span data-lang-hi="सभी लिंग" data-lang-en="All Genders">सभी लिंग</span></option>
+          <option value="Male"><span data-lang-hi="पुरुष" data-lang-en="Male">पुरुष</span></option>
+          <option value="Female"><span data-lang-hi="महिला" data-lang-en="Female">महिला</span></option>
+          <option value="Other"><span data-lang-hi="अन्य" data-lang-en="Other">अन्य</span></option>
         </select>
       </div>
 
       <!-- Recent Submissions Table -->
       <div class="table-container">
         <div class="card-header" style="margin: 0; border-radius: 12px 12px 0 0; background: #228B22; color: white; border: none; padding: 16px;">
-          📋 Recent Submissions
+          📋 <span data-lang-hi="हाल के जमा किए गए" data-lang-en="RECENT SUBMISSIONS">हाल के जमा किए गए</span>
         </div>
         <table>
           <thead>
           <tr>
-          <th>ID</th>
-          <th>Timestamp</th>
-          <th>Student Name</th>
-          <th>Father Name</th>
-          <th>Class</th>
-          <th>DOB</th>
-          <th>Gender</th>
-          <th>Caste</th>
-          <th>Blood Group</th>
+          <th data-lang-hi="आईडी" data-lang-en="ID">ID</th>
+          <th data-lang-hi="समय" data-lang-en="TIMESTAMP">Timestamp</th>
+          <th data-lang-hi="छात्र का नाम" data-lang-en="STUDENT NAME">Student Name</th>
+          <th data-lang-hi="पिता का नाम" data-lang-en="FATHER NAME">Father Name</th>
+          <th data-lang-hi="कक्षा" data-lang-en="CLASS">Class</th>
+          <th data-lang-hi="जन्मतिथि" data-lang-en="DOB">DOB</th>
+          <th data-lang-hi="लिंग" data-lang-en="GENDER">Gender</th>
+          <th data-lang-hi="जाति" data-lang-en="CASTE">Caste</th>
+          <th data-lang-hi="रक्त समूह" data-lang-en="BLOOD GROUP">Blood Group</th>
           </tr>
           </thead>
           <tbody id="recentSubmissions">
-            <tr><td colspan="9" style="text-align: center; color: #999;">Loading...</td></tr>
+            <tr><td colspan="9" style="text-align: center; color: #999;" data-lang-hi="लोड हो रहा है..." data-lang-en="Loading...">Loading...</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
     <div class="button-group">
-      <button class="btn btn-primary" onclick="refreshData()">🔄 Refresh</button>
-      <button class="btn btn-secondary" onclick="exportAsCSV()">📥 Download CSV</button>
+      <button class="btn btn-primary" onclick="refreshData()">🔄 <span data-lang-hi="ताज़ा करें" data-lang-en="Refresh">ताज़ा करें</span></button>
+      <button class="btn btn-secondary" onclick="exportAsCSV()">📥 <span data-lang-hi="CSV डाउनलोड करें" data-lang-en="Download CSV">CSV डाउनलोड करें</span></button>
     </div>
   </div>
 </div>
 
 <script>
-  
-  window.addEventListener("storage", (e) => {
-  if (e.key === "authToken") {
-    logoutUser();
-  }
+  // ========== LANGUAGE MANAGEMENT ==========
+let currentLanguage = localStorage.getItem('selectedLanguage') || 'en';
+
+function toggleLanguage() {
+  currentLanguage = currentLanguage === 'en' ? 'hi' : 'en';
+  localStorage.setItem('selectedLanguage', currentLanguage);
+  updateLanguage();
+  document.getElementById('langToggle').textContent = currentLanguage === 'en' ? 'हिंदी' : 'English';
+}
+
+function updateLanguage() {
+  document.querySelectorAll('[data-lang-hi]').forEach(el => {
+    el.textContent = el.getAttribute(`data-lang-${currentLanguage}`);
+  });
+}
+
+// Initialize language on page load
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('langToggle').textContent = currentLanguage === 'en' ? 'हिंदी' : 'English';
+  updateLanguage();
 });
 
 // ========== SECURITY CONFIG ==========
-const GAS_URL = "https://script.google.com/macros/s/AKfycbwzkLcX4pUctjh0c2uIEjXJZhHQQYSb14DidLVioFgQ7lxRa786XP3mBJs3czF1BVAp/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbwTOkxas5U6BaF92Bj0Rf4HMumri_jvf82wQqn8SqSt9FfnqfzDD0b98S-LPFU244nC/exec";
 const SESSION_TIMEOUT = 3600000; // 1 hour
 const SESSION_WARNING_TIME = 300000; // 5 minutes before timeout
 const COLUMN_MAP = {
@@ -807,6 +851,12 @@ let lastActivityTime = Date.now();
 let chartInstances = {};
 let autoRefreshInterval = null;
 
+window.addEventListener("storage", (e) => {
+  if (e.key === "authToken") {
+    logoutUser();
+  }
+});
+
 // ========== PASSWORD VISIBILITY ==========
 function togglePasswordVisibility() {
   const input = document.getElementById('passwordInput');
@@ -826,7 +876,7 @@ function handleEnter(event) {
 }
 
 async function loginUser() {
-  if (loginUser.loading) return;
+  if (loginUser.loading) return; // prevent double click
   loginUser.loading = true;
 
   const password = document.getElementById('passwordInput').value.trim();
@@ -835,19 +885,20 @@ async function loginUser() {
   const loginBtn = document.getElementById('loginBtn');
   
   if (!password) {
-    showError(errorMsg, '❌ Enter password');
+    showError(errorMsg, '❌ पासवर्ड दर्ज करें / Enter password');
     loginUser.loading = false;
     return;
   }
   
   loginBtn.disabled = true;
-  showSuccess(successMsg, '🔐 Logging in...');
+  showSuccess(successMsg, '🔐 लॉगिन कर रहे हैं / Logging in...');
   
   try {
+    // ✅ SECURE: Password sent in body, NOT URL
     const response = await fetch(GAS_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'text/plain;charset=utf-8'
       },
       body: JSON.stringify({
         action: 'login',
@@ -859,28 +910,30 @@ async function loginUser() {
     
     if (result.status === 'success' && result.token) {
       authToken = result.token;
+      // ✅ Store token with expiry metadata
       sessionStorage.setItem('authToken', authToken);
       sessionStorage.setItem('tokenTime', Date.now());
       lastActivityTime = Date.now();
       
+      // ✅ HIDE login, SHOW loading first
       document.getElementById('loginPage').style.display = 'none';
-      document.getElementById('analyticsPage').style.display = 'block';
+      document.getElementById('loadingState').style.display = 'block';
+      document.getElementById('analyticsContent').style.display = 'none';
       document.getElementById('passwordInput').value = '';
       successMsg.classList.remove('show');
       
-      document.getElementById('passwordInput').focus();
-      
+      // ✅ Initialize session first
       initSessionManagement();
       
+      // ✅ Then load analytics
       setTimeout(() => {
         loadAnalytics();
-      }, 100);
+      }, 300);
       
     } else {
-      showError(errorMsg, '❌ Invalid Password');
+      showError(errorMsg, '❌ गलत पासवर्ड / Invalid Password');
     }
   } catch(error) {
-    console.error('Login error:', error);
     showError(errorMsg, '❌ ' + error.message);
   } finally {
     loginBtn.disabled = false;
@@ -903,7 +956,16 @@ function showSuccess(el, msg) {
 // ========== SESSION MANAGEMENT ==========
 function initSessionManagement() {
   resetSessionTimeout();
-  if (!autoRefreshInterval) startAutoRefresh();
+  startAutoRefresh();
+}
+
+function startAutoRefresh() {
+  if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+  autoRefreshInterval = setInterval(() => {
+    if (authToken) {
+      loadAnalytics();
+    }
+  }, 60000); // Refresh every 1 minute
 }
 
 function resetSessionTimeout() {
@@ -912,12 +974,14 @@ function resetSessionTimeout() {
   lastActivityTime = Date.now();
   sessionStorage.setItem('tokenTime', Date.now());
   
+  // Show warning 5 min before logout
   sessionWarningTimeout = setTimeout(() => {
     showSessionWarning();
   }, SESSION_TIMEOUT - SESSION_WARNING_TIME);
   
+  // Auto logout after 1 hour
   sessionTimeout = setTimeout(() => {
-    showError(document.getElementById('errorMsg'), '⏱️ Session expired! Please login again.');
+    showError(document.getElementById('errorMsg'), '⏱️ सेशन समाप्त! फिर से लॉगिन करें / Session expired! Please login again.');
     setTimeout(() => logoutUser(), 2000);
   }, SESSION_TIMEOUT);
   
@@ -939,16 +1003,9 @@ function showSessionWarning() {
   }, 60000);
 }
 
+// Update on user activity
 document.addEventListener('click', () => resetSessionTimeout());
 document.addEventListener('keypress', () => resetSessionTimeout());
-
-function startAutoRefresh() {
-  autoRefreshInterval = setInterval(() => {
-    if (authToken && document.getElementById('analyticsPage').style.display !== 'none') {
-      loadAnalytics();
-    }
-  }, 300000); // 5 minutes
-}
 
 function logoutUser() {
   authToken = null;
@@ -956,20 +1013,28 @@ function logoutUser() {
   sessionStorage.removeItem('tokenTime');
   clearTimeout(sessionTimeout);
   clearTimeout(sessionWarningTimeout);
-  clearInterval(autoRefreshInterval);
+  if (autoRefreshInterval) clearInterval(autoRefreshInterval);
   autoRefreshInterval = null;
   
+  // Destroy charts
   Object.values(chartInstances).forEach(chart => {
     if (chart) chart.destroy();
   });
   chartInstances = {};
   
   document.getElementById('analyticsPage').style.display = 'none';
+  document.getElementById('loadingState').style.display = 'none';
+  document.getElementById('analyticsContent').style.display = 'none';
   document.getElementById('loginPage').style.display = 'block';
   document.getElementById('passwordInput').value = '';
   document.getElementById('sessionWarning').style.display = 'none';
   document.getElementById('errorMsg').classList.remove('show');
   document.getElementById('successMsg').classList.remove('show');
+  
+  // Focus on password field
+  setTimeout(() => {
+    document.getElementById('passwordInput').focus();
+  }, 100);
 }
 
 // ========== AUTO-LOAD ON REFRESH ==========
@@ -979,16 +1044,26 @@ window.addEventListener('load', function() {
 
   if (savedToken && tokenTime && (Date.now() - parseInt(tokenTime) < SESSION_TIMEOUT)) {
     authToken = savedToken;
-    resetSessionTimeout();
-
+    
+    // ✅ Show analytics page with loading state
     document.getElementById('loginPage').style.display = 'none';
     document.getElementById('analyticsPage').style.display = 'block';
+    document.getElementById('loadingState').style.display = 'block';
+    document.getElementById('analyticsContent').style.display = 'none';
 
+    // ✅ Initialize session
     initSessionManagement();
-    loadAnalytics();
+    
+    // ✅ Load data
+    setTimeout(() => {
+      loadAnalytics();
+    }, 300);
   } else {
+    // ✅ Clear invalid tokens
     sessionStorage.removeItem('authToken');
     sessionStorage.removeItem('tokenTime');
+    document.getElementById('loginPage').style.display = 'block';
+    document.getElementById('analyticsPage').style.display = 'none';
   }
 
   document.getElementById('passwordInput').focus();
@@ -1006,10 +1081,11 @@ async function loadAnalytics() {
   document.getElementById('analyticsContent').style.display = 'none';
   
   try {
+    // ✅ SECURE: Token sent in body
     const response = await fetch(GAS_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'text/plain;charset=utf-8'
       },
       body: JSON.stringify({
         action: 'getData',
@@ -1020,6 +1096,7 @@ async function loadAnalytics() {
     const result = await response.json();
     
     if (result.status === 'success' && result.data) {
+      // ✅ Parse headers dynamically
       const headers = result.data[0] || [];
       updateColumnMap(headers);
       
@@ -1028,15 +1105,14 @@ async function loadAnalytics() {
       displayAnalytics();
       updateLastUpdated();
       document.getElementById('analyticsContent').style.display = 'block';
+      document.getElementById('loadingState').style.display = 'none';
     } else if (result.status === 'error') {
-      showError(document.getElementById('errorMsg'), '❌ ' + (result.message || 'Failed to load data'));
+      showError(document.getElementById('errorMsg'), '❌ डेटा लोड करने में विफल / ' + (result.message || 'Failed to load data'));
+      document.getElementById('loadingState').style.display = 'none';
       logoutUser();
     }
   } catch(error) {
-    console.error('Load error:', error);
     document.getElementById('loadingState').innerHTML = `<p style="color: red;">❌ ${error.message}</p>`;
-  } finally {
-    document.getElementById('loadingState').style.display = 'none';
   }
 }
 
@@ -1046,8 +1122,8 @@ function updateColumnMap(headers) {
 
     if (h.includes('form id')) COLUMN_MAP.id = index;
     if (h.includes('timestamp')) COLUMN_MAP.timestamp = index;
-    if (h.includes('student name') && h.includes('english')) COLUMN_MAP.name = index;
-    if (h.includes('father name') && h.includes('english')) COLUMN_MAP.fatherName = index;
+    if (h.includes('student name (english)')) COLUMN_MAP.name = index;
+    if (h.includes('father name (english')) COLUMN_MAP.fatherName = index;
     if (h === 'class') COLUMN_MAP.class = index;
     if (h.includes('dob')) COLUMN_MAP.dob = index;
     if (h.includes('gender')) COLUMN_MAP.gender = index;
@@ -1059,6 +1135,7 @@ function updateColumnMap(headers) {
 function displayAnalytics() {
   const stats = calculateStats(allData);
   
+  // ✅ Smooth animations
   animateValue('totalForms', 0, stats.total, 500);
   animateValue('maleCount', 0, stats.male, 500);
   animateValue('femaleCount', 0, stats.female, 500);
@@ -1117,6 +1194,7 @@ function calculateStats(data) {
     if (!row || row.length === 0) return;
     stats.total++;
     
+    // ✅ Exact gender matching
     const gender = (row[COLUMN_MAP.gender] || '').trim().toLowerCase();
     if (gender === 'male') stats.male++;
     else if (gender === 'female') stats.female++;
@@ -1150,7 +1228,7 @@ function displayGenderChart(stats) {
   
   const total = stats.total;
   if (total === 0) {
-    ctx.canvas.parentElement.innerHTML = '<div class="chart-empty">📊 No data available</div>';
+    ctx.canvas.parentElement.innerHTML = '<div class="chart-empty">📊 कोई डेटा नहीं / No data available</div>';
     return;
   }
   
@@ -1192,7 +1270,7 @@ function displayClassChart(classWise) {
   }
   
   if (Object.keys(classWise).length === 0) {
-    ctx.canvas.parentElement.innerHTML = '<div class="chart-empty">📚 No data available</div>';
+    ctx.canvas.parentElement.innerHTML = '<div class="chart-empty">📚 कोई डेटा नहीं / No data available</div>';
     return;
   }
   
@@ -1233,7 +1311,7 @@ function displayClassStats(classWise) {
   const order = ['KG', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
   
   if (total === 0) {
-    container.innerHTML = '<p style="text-align: center; color: #999;">No data available</p>';
+    container.innerHTML = '<p style="text-align: center; color: #999;">कोई डेटा उपलब्ध नहीं / No data available</p>';
     return;
   }
   
@@ -1258,7 +1336,7 @@ function displayCasteStats(casteWise) {
   const total = Object.values(casteWise).reduce((a, b) => a + b, 0);
   
   if (total === 0) {
-    container.innerHTML = '<p style="text-align: center; color: #999;">No data available</p>';
+    container.innerHTML = '<p style="text-align: center; color: #999;">कोई डेटा उपलब्ध नहीं / No data available</p>';
     return;
   }
   
@@ -1283,7 +1361,7 @@ function displayBloodGroupStats(bloodGroupWise) {
   const total = Object.values(bloodGroupWise).reduce((a, b) => a + b, 0);
   
   if (total === 0) {
-    container.innerHTML = '<p style="text-align: center; color: #999;">No data available</p>';
+    container.innerHTML = '<p style="text-align: center; color: #999;">कोई डेटा उपलब्ध नहीं / No data available</p>';
     return;
   }
   
@@ -1335,10 +1413,11 @@ function displayRecentSubmissions(data) {
   const container = document.getElementById('recentSubmissions');
   
   if (!data || data.length === 0) {
-    container.innerHTML = '<tr><td colspan="9" class="no-results">No submissions found</td></tr>';
+    container.innerHTML = '<tr><td colspan="9" class="no-results">कोई जमा नहीं मिला / No submissions found</td></tr>';
     return;
   }
   
+  // ✅ Fix: Don't mutate original array
   container.innerHTML = [...data].reverse().slice(0, 50)
     .map(row => `
       <tr>
@@ -1383,7 +1462,7 @@ function refreshData() {
 // ========== CSV EXPORT WITH PROPER ESCAPING ==========
 function exportAsCSV() {
   if (allData.length === 0) {
-    alert('❌ No data to export');
+    alert('❌ निर्यात करने के लिए कोई डेटा नहीं / No data to export');
     return;
   }
   
@@ -1400,6 +1479,7 @@ function exportAsCSV() {
       row[COLUMN_MAP.bloodGroup] || ''
     ];
     
+    // ✅ Proper CSV escaping
     csv += values
       .map(cell => {
         const cellStr = String(cell).trim();
