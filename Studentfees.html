@@ -1,0 +1,441 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Student Fees Dashboard — Horizontal Months</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{--purple-1:#6d28d9;--purple-2:#7c3aed;--bg-grad:linear-gradient(135deg,#6d28d9 0%,#7c3aed 100%);--card-bg:#fff;--muted:#6b7280;font-family:"Segoe UI",Roboto,Arial,sans-serif}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg-grad);color:#111827}
+.container{max-width:1200px;margin:20px auto;padding:18px}
+/* header/login/cards/table/modal simplified styles (same look as before) */
+.login-card{max-width:420px;margin:80px auto;background:linear-gradient(180deg,rgba(255,255,255,0.98),#fff);border-radius:16px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,0.18);text-align:center}
+.input{width:100%;padding:12px;border-radius:10px;border:1px solid #e6e6e6;margin-top:10px;font-size:15px}
+.btn{display:inline-block;padding:10px 14px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--purple-1),var(--purple-2));color:white;font-weight:600;cursor:pointer;margin-top:12px;width:100%}
+.header{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.96);padding:14px;border-radius:12px;margin-bottom:16px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.select,input.search{padding:8px 10px;border-radius:10px;border:1px solid #e6e6e6}
+.btn-small{padding:8px 10px;border-radius:10px;border:none;background:#eef2ff;color:var(--purple-1);cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:16px}
+.card{background:var(--card-bg);padding:16px;border-radius:12px;box-shadow:0 8px 30px rgba(4,4,5,0.06)}
+.accordion{background:var(--card-bg);padding:12px;border-radius:12px;box-shadow:0 8px 30px rgba(4,4,5,0.06);margin-bottom:12px}
+.class-row{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;background:#fafafa;margin-bottom:8px}
+.table-wrap{background:transparent;margin-top:8px;overflow:auto;border-radius:10px}
+table{width:100%;border-collapse:collapse;background:transparent;border-radius:10px;overflow:hidden;min-width:900px}
+thead th{background:rgba(255,255,255,0.95);text-align:left;padding:12px;font-weight:700;color:var(--muted)}
+tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid #f3f4f6;vertical-align:middle}
+.name-link{color:var(--purple-1);cursor:pointer;font-weight:700;text-decoration:underline}
+.small{font-size:13px;color:var(--muted)}
+.months-row{display:flex;gap:8px;flex-wrap:nowrap;overflow:auto;padding:8px 4px}
+.month-pill{min-width:92px;padding:8px;border-radius:8px;background:#f8fafc;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px}
+.month-pill.paid{background:linear-gradient(90deg,#ecfdf5,#bbf7d0)}
+.month-pill.pending{background:linear-gradient(90deg,#fff1f2,#fecaca)}
+.modal-backdrop{position:fixed;inset:0;background:rgba(9,9,11,0.45);display:none;align-items:center;justify-content:center;padding:20px;z-index:60}
+.modal{width:100%;max-width:900px;background:white;border-radius:12px;padding:18px;box-shadow:0 20px 40px rgba(2,6,23,0.5);max-height:90vh;overflow:auto}
+.row{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:12px}
+.action-btn{padding:8px 12px;border-radius:10px;border:none;cursor:pointer}
+.action-primary{background:linear-gradient(90deg,var(--purple-1),var(--purple-2));color:white}
+.action-muted{background:#eef2ff;color:var(--purple-1);font-weight:700}
+@media(max-width:900px){table{min-width:700px}}@media(max-width:520px){.header{flex-direction:column;align-items:flex-start;gap:8px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- LOGIN -->
+  <div id="loginArea" class="login-card">
+    <div style="font-weight:700;font-size:28px;color:var(--purple-1);margin-bottom:8px">Fees</div>
+    <h3>ADMIN LOGIN</h3>
+    <input id="password" class="input" placeholder="Enter admin password" type="password" />
+    <button class="btn" onclick="doLogin()">Login</button>
+    <div class="small" style="margin-top:8px;color:#6b7280">Use your admin password (set in Apps Script)</div>
+  </div>
+
+  <!-- APP -->
+  <div id="app" style="display:none">
+    <div class="header">
+      <div style="display:flex;gap:12px;align-items:center">
+        <div style="width:46px;height:46px;border-radius:8px;background:linear-gradient(180deg,var(--purple-1),var(--purple-2));display:flex;align-items:center;justify-content:center;color:white;font-weight:700">SF</div>
+        <div>
+          <div style="font-weight:700">Student Fees — Dashboard</div>
+          <div class="small">Classes → Students → Monthly (Jul→Jun)</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn-small" onclick="refreshData()">Refresh</button>
+        <button class="btn-small" onclick="downloadMonthlyPDF()">Export Monthly PDF</button>
+        <button class="btn-small" onclick="exportCSV()">Export CSV</button>
+      </div>
+    </div>
+
+    <div class="controls">
+      <select id="filterClass" class="select" onchange="applyFilters()">
+        <option value="">All Classes</option>
+      </select>
+
+      <select id="filterStatus" class="select" onchange="applyFilters()">
+        <option value="">All Status</option><option value="Paid">Paid</option><option value="Pending">Pending</option>
+      </select>
+
+      <select id="filterMonth" class="select" onchange="applyFilters()">
+        <option value="">All Months</option>
+        <option>July</option><option>August</option><option>September</option><option>October</option>
+        <option>November</option><option>December</option><option>January</option><option>February</option>
+        <option>March</option><option>April</option><option>May</option><option>June</option>
+      </select>
+
+      <input id="searchInput" class="search" placeholder="Search name / mobile" oninput="applyFilters()" />
+      <label class="small" style="align-self:center">Rows:</label>
+      <select id="rowsPerPage" onchange="renderTable(); renderPagination()" class="select"><option>10</option><option>20</option><option>50</option></select>
+    </div>
+
+    <div class="grid">
+      <div class="card"><h4>Total Classes</h4><p id="c1">0</p></div>
+      <div class="card"><h4>Total Paid</h4><p id="c2">₹ 0</p></div>
+      <div class="card"><h4>Total Pending</h4><p id="c3">₹ 0</p></div>
+      <div class="card"><h4>Records</h4><p id="c4">0</p></div>
+    </div>
+
+    <div id="classesAccordion" class="accordion"></div>
+
+    <div class="table-wrap" id="tableArea" style="display:none">
+      <h3 id="tableTitle" style="margin:10px 0 6px">Students</h3>
+      <div style="overflow:auto">
+        <table>
+          <thead>
+            <tr><th>Student / Mobile</th><th>Amount (YTD)</th><th>Latest Month</th><th>Latest Status</th><th>Paid Date</th><th>Months</th><th>Action</th></tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="pagination" id="pagination"></div>
+
+    <div class="chart-box" style="margin-top:16px;background:white;padding:16px;border-radius:12px">
+      <canvas id="chart"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- modal -->
+<div id="modalBackdrop" class="modal-backdrop">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+      <div>
+        <h3 id="modalTitle">Student — Monthly Fees</h3>
+        <div class="small" id="modalSub">Mobile: -</div>
+        <div class="small" id="modalClass"></div>
+      </div>
+      <div style="text-align:right">
+        <div class="small" id="modalYTD" style="font-weight:700"></div>
+      </div>
+    </div>
+
+    <div style="margin-top:12px">
+      <div class="months-row" id="monthGridModal"></div>
+    </div>
+
+    <div class="row">
+      <button class="action-btn action-muted" onclick="closeModal()">Close</button>
+      <button class="action-btn action-primary" onclick="exportStudentPDF()">Export PDF</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* UPDATE this to your deployed Apps Script web app URL */
+const API_BASE = "https://script.google.com/macros/s/AKfycbx2izsbiq_r5J6iuQ9plFktP6l_mFs9zwY_iioynlYCfOIKh_UQV-PZ6na5Ylof9sjjgg/exec";
+let TOKEN = "";
+let RAW_DATA = [];
+let PARSED = [];
+let CLASSES = {};
+let FILTERED = [];
+let SELECTED_CLASS = null;
+let currentPage = 1;
+const MONTHS=["July","August","September","October","November","December","January","February","March","April","May","June"];
+const ACADEMIC_ORDER = MONTHS.slice(); // already in academic order (July→June)
+
+/* LOGIN / load */
+async function doLogin(){
+  const pw = document.getElementById('password').value.trim();
+  if(!pw){ alert("Enter password"); return; }
+  try{
+    const res = await fetch(API_BASE, { method:'POST', body: JSON.stringify({ action:'login', password: pw }) });
+    const d = await res.json();
+    if(d.status==='success'){ TOKEN = d.token; document.getElementById('loginArea').style.display='none'; document.getElementById('app').style.display='block'; load(); }
+    else alert("Login failed");
+  } catch(e){ alert("Login error"); console.error(e) }
+}
+
+async function load(){
+  if(!TOKEN) return;
+  try{
+    const res = await fetch(API_BASE, { method:'POST', body: JSON.stringify({ action:'getData', token: TOKEN }) });
+    const d = await res.json();
+    if(d.status!=='success'){ alert('Load failed: ' + (d.message||'')); return; }
+    RAW_DATA = d.data || [];
+    PARSED = RAW_DATA; // server already returns parsed objects with months
+    buildClassAggregate();
+    buildClassAccordion();
+    renderCards();
+    renderChart();
+  }catch(err){ console.error(err); alert('Error loading data') }
+}
+
+/* build CLASSES from PARSED rows */
+function buildClassAggregate(){
+  CLASSES = {};
+  PARSED.forEach(p=>{
+    const cls = p.class || "Unassigned";
+    if(!CLASSES[cls]) CLASSES[cls] = { name: cls, students: {} };
+    const id = p.mobile || p.name;
+    if(!CLASSES[cls].students[id]) CLASSES[cls].students[id] = {
+      id, name: p.name||id, class: cls, mobile: p.mobile||'', months: p.months||{}, totalYTD: p.totalYTD||0, latestMonth: p.latestMonth||null, latestStatus: p.latestStatus||null, latestPaidDate: p.latestPaidDate||null
+    };
+    // ensure fields up-to-date if duplicates
+    CLASSES[cls].students[id].months = p.months || CLASSES[cls].students[id].months;
+    CLASSES[cls].students[id].totalYTD = p.totalYTD || CLASSES[cls].students[id].totalYTD;
+    CLASSES[cls].students[id].latestMonth = p.latestMonth || CLASSES[cls].students[id].latestMonth;
+    CLASSES[cls].students[id].latestStatus = p.latestStatus || CLASSES[cls].students[id].latestStatus;
+    CLASSES[cls].students[id].latestPaidDate = p.latestPaidDate || CLASSES[cls].students[id].latestPaidDate;
+  });
+}
+
+/* build accordion UI and class filter */
+function buildClassAccordion(){
+  const container = document.getElementById('classesAccordion');
+  container.innerHTML = "";
+  const classNames = Object.keys(CLASSES).sort((a,b)=> a.localeCompare(b));
+  const filterClass = document.getElementById('filterClass');
+  filterClass.innerHTML = '<option value="">All Classes</option>';
+  classNames.forEach(cn=>{
+    const cls = CLASSES[cn];
+    const count = Object.keys(cls.students).length;
+    const div = document.createElement('div'); div.className='class-row';
+    div.innerHTML = `<div><div style="font-weight:700">${escapeHtml(cn)}</div><div class="small">${count} students</div></div>
+      <div><button class="btn-small" onclick="openClass(event,'${escapeAttr(cn)}')">Open</button></div>`;
+    container.appendChild(div);
+    const opt = document.createElement('option'); opt.value = cn; opt.innerText = cn; filterClass.appendChild(opt);
+  });
+  document.getElementById('c1').innerText = classNames.length;
+  document.getElementById('c4').innerText = PARSED.length;
+}
+
+/* open a class */
+function openClass(ev,className){
+  ev.stopPropagation();
+  SELECTED_CLASS = className;
+  document.getElementById('tableArea').style.display='block';
+  document.getElementById('tableTitle').innerText = `Class: ${className}`;
+  FILTERED = Object.values(CLASSES[className].students || {}).sort((a,b)=> (a.name||'').localeCompare(b.name||''));
+  currentPage = 1; applyFilters();
+}
+
+/* filters */
+function applyFilters(){
+  const status = document.getElementById('filterStatus').value;
+  const month = document.getElementById('filterMonth').value;
+  const clsFilter = document.getElementById('filterClass').value;
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+
+  if(clsFilter && clsFilter !== SELECTED_CLASS){
+    SELECTED_CLASS = clsFilter;
+    document.getElementById('tableArea').style.display='block';
+    document.getElementById('tableTitle').innerText = `Class: ${clsFilter}`;
+  }
+
+  let baseList = [];
+  if(SELECTED_CLASS){
+    baseList = Object.values(CLASSES[SELECTED_CLASS].students || {});
+  } else {
+    Object.values(CLASSES).forEach(c=> baseList.push(...Object.values(c.students || {})));
+  }
+
+  let filtered = baseList.filter(s=>{
+    if(q){
+      const baseMatch = (s.name||'').toLowerCase().includes(q) || (s.mobile||'').toLowerCase().includes(q);
+      if(!baseMatch){
+        const mMatch = Object.keys(s.months||{}).some(mn => mn.toLowerCase().includes(q));
+        if(!mMatch) return false;
+      }
+    }
+    if(month){
+      if(!s.months || !s.months[month]) return false;
+    }
+    if(status){
+      const hasStatus = Object.values(s.months||{}).some(md => (md.status||'').toLowerCase() === status.toLowerCase());
+      if(!hasStatus) return false;
+    }
+    return true;
+  });
+
+  filtered.sort((a,b)=> (a.name||'').localeCompare(b.name||''));
+  FILTERED = filtered;
+  currentPage = 1; renderTable(); renderPagination();
+}
+
+/* render table */
+function renderTable(){
+  const perPage = Number(document.getElementById('rowsPerPage').value || 10);
+  const start = (currentPage-1)*perPage;
+  const pageItems = FILTERED.slice(start, start+perPage);
+  const tbody = document.getElementById('tableBody'); let html = "";
+  pageItems.forEach(s=>{
+    const latestMonth = s.latestMonth||'—';
+    const latestStatus = s.latestStatus||'—';
+    const paidDate = s.latestPaidDate ? formatDate(s.latestPaidDate) : '—';
+    let monthsHtml = '<div style="display:flex;gap:6px;flex-wrap:nowrap;overflow:auto">';
+    ACADEMIC_ORDER.forEach(m=>{
+      const md = s.months[m];
+      const cls = md && (md.status||'').toLowerCase()==='paid' ? 'month-pill paid' : 'month-pill pending';
+      const amt = md ? '₹'+Number(md.amount||0).toLocaleString('en-IN') : '—';
+      monthsHtml += `<div class="${cls}" style="min-width:86px"><div style="font-weight:700">${m}</div><div style="font-size:12px">${amt}</div></div>`;
+    });
+    monthsHtml += '</div>';
+    html += `<tr>
+      <td style="width:30%"><div style="display:flex;flex-direction:column"><span class="name-link" onclick="openModal('${escapeAttr(s.class)}','${escapeAttr(s.id)}')">${escapeHtml(s.name)}</span><span class="small">${escapeHtml(s.mobile)}</span><span class="small">Class: ${escapeHtml(s.class)}</span></div></td>
+      <td style="width:12%">₹ ${Number(s.totalYTD||0).toLocaleString('en-IN')}</td>
+      <td style="width:12%">${escapeHtml(latestMonth)}</td>
+      <td style="width:12%">${escapeHtml(latestStatus)}</td>
+      <td style="width:12%">${escapeHtml(paidDate)}</td>
+      <td style="width:18%">${monthsHtml}</td>
+      <td style="width:6%"><button class="action-btn action-muted" onclick="openModal('${escapeAttr(s.class)}','${escapeAttr(s.id)}')">View</button></td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+}
+
+/* pagination */
+function renderPagination(){
+  const perPage = Number(document.getElementById('rowsPerPage').value || 10);
+  const total = FILTERED.length;
+  const pages = Math.max(1, Math.ceil(total / perPage));
+  const container = document.getElementById('pagination'); container.innerHTML = "";
+  const prev = document.createElement('button'); prev.className='btn-small'; prev.innerText='Prev'; prev.onclick = ()=>{ if(currentPage>1){ currentPage--; renderTable(); renderPagination(); } };
+  const next = document.createElement('button'); next.className='btn-small'; next.innerText='Next'; next.onclick = ()=>{ if(currentPage<pages){ currentPage++; renderTable(); renderPagination(); } };
+  container.appendChild(prev);
+  const info = document.createElement('div'); info.className='small'; info.style.alignSelf='center'; info.innerText = `Page ${currentPage} / ${pages}`;
+  container.appendChild(info); container.appendChild(next);
+}
+
+/* cards */
+function renderCards(){
+  const totals = PARSED.reduce((acc,p)=>{
+    acc.totalRecords++;
+    Object.values(p.months||{}).forEach(md=> { if((md.status||'').toLowerCase()==='paid') acc.paid += Number(md.amount||0); else acc.pending += Number(md.amount||0); });
+    return acc;
+  }, { totalRecords:0, paid:0, pending:0 });
+  document.getElementById('c2').innerText = '₹ ' + totals.paid.toLocaleString('en-IN');
+  document.getElementById('c3').innerText = '₹ ' + totals.pending.toLocaleString('en-IN');
+  document.getElementById('c4').innerText = PARSED.length;
+}
+
+/* chart */
+function renderChart(){
+  const paid = PARSED.reduce((s,p)=> s + Object.values(p.months||{}).reduce((a,b)=> a + ((b.status||'').toLowerCase()==='paid'?Number(b.amount||0):0),0), 0);
+  const pending = PARSED.reduce((s,p)=> s + Object.values(p.months||{}).reduce((a,b)=> a + ((b.status||'').toLowerCase()!=='paid'?Number(b.amount||0):0),0), 0);
+  const ctx = document.getElementById('chart').getContext('2d');
+  if(window._chart) window._chart.destroy();
+  window._chart = new Chart(ctx, { type:'doughnut', data:{ labels:['Paid','Pending'], datasets:[{ data:[paid,pending], backgroundColor:['#10b981','#ef4444'] }] }, options:{plugins:{legend:{position:'bottom'}}} });
+}
+
+/* modal */
+function openModal(className,id){
+  const student = (CLASSES[className] && CLASSES[className].students[id]);
+  if(!student){ alert("No data"); return; }
+  document.getElementById('modalTitle').innerText = student.name;
+  document.getElementById('modalSub').innerText = "Mobile: " + (student.mobile||"-");
+  document.getElementById('modalClass').innerText = "Class: " + (student.class||"-");
+  document.getElementById('modalYTD').innerText = "YTD: ₹ " + (student.totalYTD||0).toLocaleString('en-IN');
+  const grid = document.getElementById('monthGridModal'); grid.innerHTML = "";
+  ACADEMIC_ORDER.forEach(m=>{
+    const md = student.months[m] || { amount:0, status:'Pending', paidDate:'', paymentMode:'' };
+    const cls = (md.status||'').toLowerCase()==='paid' ? 'month-pill paid' : 'month-pill pending';
+    const amt = md.amount ? '₹ ' + Number(md.amount).toLocaleString('en-IN') : '—';
+    const paid = md.paidDate ? escapeHtml(formatDate(md.paidDate)) : '';
+    const card = document.createElement('div'); card.className = cls; card.style.minWidth='120px'; card.style.padding='10px';
+    card.innerHTML = `<div style="font-weight:700">${m}</div><div class="small">${amt}</div><div class="small" style="margin-top:6px">${md.paymentMode?escapeHtml(md.paymentMode):''}</div><div class="small" style="margin-top:6px">${escapeHtml(md.status||'Pending')}</div><div class="small" style="margin-top:4px">${paid}</div>
+      <div style="margin-top:8px;display:flex;gap:6px;justify-content:center">
+        <button class="action-btn action-muted" onclick="downloadSlipForStudent('${escapeAttr(className)}','${escapeAttr(id)}','${escapeAttr(m)}')">Slip</button>
+        <button class="action-btn action-muted" onclick="toggleStatus(event,'${escapeAttr(className)}','${escapeAttr(id)}','${escapeAttr(m)}')">Toggle</button>
+      </div>`;
+    grid.appendChild(card);
+  });
+  document.getElementById('modalBackdrop').style.display='flex';
+}
+function closeModal(){ document.getElementById('modalBackdrop').style.display='none'; }
+
+/* toggle status -> calls backend updateStatus */
+async function toggleStatus(ev,className,id,month){
+  ev.stopPropagation();
+  const student = CLASSES[className].students[id];
+  if(!student) return alert('Student not found');
+  const md = student.months[month] || { status:'Pending', amount:0, paymentMode:'' };
+  const target = ((md.status||'').toLowerCase()==='paid') ? 'Pending' : 'Paid';
+  if(!confirm(`Set ${month} for ${student.name} to ${target}?`)) return;
+  try{
+    const payload = { action:'updateStatus', token: TOKEN, mobile: student.mobile, name: student.name, class: student.class, month: month, status: target };
+    // Optionally include amount/paymentMode/paidDate if you want
+    const res = await fetch(API_BASE, { method:'POST', body: JSON.stringify(payload) });
+    const d = await res.json();
+    if(d.status==='success'){ alert('Updated'); load(); closeModal(); }
+    else alert('Update failed: ' + (d.message||''));
+  } catch(err){ console.error(err); alert('Error updating') }
+}
+
+/* downloads and exports */
+function downloadSlipForStudent(className,id, month){
+  const s = CLASSES[className].students[id];
+  if(!s) return alert('No data');
+  const md = s.months[month] || { amount:0, status:'Pending', paidDate:'' };
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFontSize(14); doc.text("SCHOOL FEES RECEIPT",14,16);
+  doc.setFontSize(12); doc.text(`Name: ${s.name}`,14,30); doc.text(`Class: ${s.class}`,14,40); doc.text(`Mobile: ${s.mobile}`,14,50);
+  doc.text(`Month: ${month}`,14,60); doc.text(`Amount: ₹ ${md.amount}`,14,70); doc.text(`Status: ${md.status}`,14,80);
+  if(md.paidDate) doc.text(`Paid Date: ${formatDate(md.paidDate)}`,14,90);
+  doc.save(`${s.name}_${month}_fees.pdf`);
+}
+function exportStudentPDF(){
+  const title = document.getElementById('modalTitle').innerText;
+  let found = null;
+  outer: for(const cn of Object.keys(CLASSES)){ for(const id of Object.keys(CLASSES[cn].students||{})){ if(CLASSES[cn].students[id].name === title){ found = CLASSES[cn].students[id]; break outer; } } }
+  if(!found) return;
+  const { jsPDF } = window.jspdf; const doc = new jsPDF();
+  doc.setFontSize(14); doc.text("SCHOOL — Student Fees Report",14,16);
+  doc.setFontSize(12); doc.text(`Student: ${found.name}`,14,28); doc.text(`Class: ${found.class}`,14,36);
+  doc.setFontSize(10); let y=46;
+  ACADEMIC_ORDER.forEach(m=>{ const md = found.months[m] || { amount:0, status:'Pending', paidDate:'' }; doc.text(`${m} : ₹ ${md.amount} — ${md.status}${md.paidDate? ' — ' + formatDate(md.paidDate):''}`,14,y); y+=8; if(y>270){ doc.addPage(); y=20; } });
+  doc.text(`YTD Total: ₹ ${found.totalYTD}`,14,y+8); doc.save(`${found.name}_fees_report.pdf`);
+}
+function downloadMonthlyPDF(){
+  const { jsPDF } = window.jspdf; const doc = new jsPDF(); doc.setFontSize(14); doc.text("MONTHLY FEES REPORT",14,16); doc.setFontSize(10);
+  let y=28;
+  PARSED.forEach(r=>{ doc.text(`${r.name} | ${r.class} | ${r.mobile} | ${r.latestMonth||''} | ₹ ${r.totalYTD} | ${r.latestStatus||''}`,14,y); y+=8; if(y>270){ doc.addPage(); y=20; } });
+  doc.save("monthly_fees_report.pdf");
+}
+function exportCSV(){
+  const rows = [['Student Name','Class','Mobile','Month','Amount','Status','Paid Date','Payment mode','Remarks']];
+  PARSED.forEach(r=>{
+    ACADEMIC_ORDER.forEach(m=>{
+      const md = r.months[m] || { amount:0, status:'', paidDate:'', paymentMode:'' };
+      rows.push([r.name,r.class,r.mobile,m,md.amount,md.status,md.paidDate,md.paymentMode,r.remarks||'']);
+    });
+  });
+  const csv = rows.map(r => r.map(c => '"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a = document.createElement('a'); a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv); a.download = 'student_fees_export.csv'; document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* utilities */
+function formatDate(d){ if(!d) return ""; try{ const dt=new Date(d); if(!isNaN(dt.getTime())){ const y=dt.getFullYear(), m=String(dt.getMonth()+1).padStart(2,'0'), day=String(dt.getDate()).padStart(2,'0'); return `${y}-${m}-${day}` } const s=String(d); if(s.includes('T')) return s.split('T')[0]; if(s.includes(' ')) return s.split(' ')[0]; return s; }catch(e){ return String(d); } }
+function escapeHtml(s){ return String(s||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function escapeAttr(s){ return String(s||"").replace(/'/g,"\\'").replace(/"/g,'\\"'); }
+function refreshData(){ load(); }
+
+document.addEventListener('DOMContentLoaded', ()=>{ document.getElementById('rowsPerPage').value='10'; });
+</script>
+</body>
+</html>
