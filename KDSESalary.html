@@ -1,299 +1,442 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-<title>KDSE Salary Dashboard</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>KDSE Salary Dashboard — Redesigned</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
-
-body{
-margin:0;
-font-family:Segoe UI;
-background:linear-gradient(135deg,#667eea,#764ba2);
-color:#333;
+:root{
+  --purple-1:#6d28d9;--purple-2:#7c3aed;--bg-grad:linear-gradient(135deg,#6d28d9 0%,#7c3aed 100%);
+  --card-bg:#fff;--muted:#6b7280;--radius:12px;font-family:"Segoe UI",Roboto,Arial,sans-serif;
 }
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg-grad);color:#111827}
+.container{max-width:1200px;margin:24px auto;padding:18px}
 
-/* LOGIN */
-.login{
-width:350px;
-margin:120px auto;
-background:white;
-padding:25px;
-border-radius:15px;
-text-align:center;
-box-shadow:0 10px 30px rgba(0,0,0,0.2);
-}
+/* login */
+.login-card{max-width:420px;margin:80px auto;background:linear-gradient(180deg,rgba(255,255,255,0.98),#fff);border-radius:16px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,0.18);text-align:center}
+.logo{width:72px;height:72px;border-radius:14px;background:var(--purple-1);display:inline-flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:24px;margin-bottom:12px}
+.input{width:100%;padding:12px;border-radius:10px;border:1px solid #e6e6e6;margin-top:10px;font-size:15px}
+.btn{display:inline-block;padding:10px 14px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--purple-1),var(--purple-2));color:white;font-weight:600;cursor:pointer;margin-top:12px;width:100%}
+.hint{color:var(--muted);font-size:13px;margin-top:8px}
 
-.login input{
-width:100%;
-padding:10px;
-margin-top:10px;
-}
+/* header */
+.header{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.96);padding:14px;border-radius:12px;margin-bottom:16px;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
+.brand{display:flex;gap:12px;align-items:center}
+.logo-sm{width:46px;height:46px;border-radius:10px;background:linear-gradient(180deg,var(--purple-1),var(--purple-2));display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+.title{font-size:18px;font-weight:700}
+.header-right{display:flex;gap:8px;align-items:center}
 
-.login button{
-width:100%;
-padding:10px;
-margin-top:10px;
-background:#4f46e5;
-color:white;
-border:none;
-cursor:pointer;
-}
+/* controls */
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.select,input.search{padding:8px 10px;border-radius:10px;border:1px solid #e6e6e6}
+.btn-small{padding:8px 10px;border-radius:10px;border:none;background:#eef2ff;color:var(--purple-1);cursor:pointer}
 
-/* HEADER */
-.header{
-background:white;
-padding:20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-border-radius:10px;
-margin:15px;
-}
+/* grid & cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:16px}
+.card{background:var(--card-bg);padding:16px;border-radius:12px;box-shadow:0 8px 30px rgba(4,4,5,0.06)}
+.card h4{margin:0;color:var(--muted);font-weight:600}
+.card p{margin:8px 0 0;font-size:20px;font-weight:700}
 
-/* CARDS */
-.grid{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:15px;
-padding:15px;
-}
+/* table */
+.table-wrap{background:transparent;margin-top:8px}
+table{width:100%;border-collapse:collapse;background:transparent;border-radius:10px;overflow:hidden}
+thead th{background:rgba(255,255,255,0.95);text-align:left;padding:12px;font-weight:700;color:var(--muted)}
+tbody td{background:rgba(255,255,255,0.98);padding:10px;border-bottom:1px solid #f3f4f6}
+.name-link{color:var(--purple-1);cursor:pointer;font-weight:700;text-decoration:underline}
+.small{font-size:13px;color:var(--muted)}
 
-.card{
-background:white;
-padding:20px;
-border-radius:12px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
-transition:0.3s;
-}
+/* pagination */
+.pagination{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:10px}
 
-.card:hover{
-transform:translateY(-5px);
-}
+/* modal */
+.modal-backdrop{position:fixed;inset:0;background:rgba(9,9,11,0.45);display:none;align-items:center;justify-content:center;padding:20px}
+.modal{width:100%;max-width:760px;background:white;border-radius:12px;padding:18px;box-shadow:0 20px 40px rgba(2,6,23,0.5)}
+.month-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.month-card{padding:12px;border-radius:10px;background:#f8fafc;display:flex;justify-content:space-between;align-items:center}
+.month-card.paid{background:linear-gradient(90deg,#ecfdf5,#bbf7d0)}
+.month-card.pending{background:linear-gradient(90deg,#fff1f2,#fecaca)}
+.row{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:12px}
+.action-btn{padding:8px 12px;border-radius:10px;border:none;cursor:pointer}
+.action-primary{background:linear-gradient(90deg,var(--purple-1),var(--purple-2));color:white}
+.action-muted{background:#eef2ff;color:var(--purple-1);font-weight:700}
 
-/* TABLE */
-table{
-width:100%;
-background:white;
-margin:15px;
-border-collapse:collapse;
-border-radius:10px;
-overflow:hidden;
-}
-
-th,td{
-padding:10px;
-text-align:center;
-border-bottom:1px solid #eee;
-}
-
-/* BUTTONS */
-.btn{
-padding:8px 12px;
-border:none;
-cursor:pointer;
-border-radius:6px;
-}
-
-.btn-blue{background:#4f46e5;color:white;}
-.btn-green{background:#16a34a;color:white;}
-.btn-red{background:#dc2626;color:white;}
-
-.chart-box{
-background:white;
-margin:15px;
-padding:20px;
-border-radius:12px;
-}
-
+@media(max-width:720px){.month-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
-
 <body>
+<div class="container">
 
-<!-- LOGIN -->
-<div id="loginBox" class="login">
-<h2>🔐 KDSE ADMIN LOGIN</h2>
-<input type="password" id="pass" placeholder="Enter Password">
-<button onclick="login()">Login</button>
+  <!-- LOGIN -->
+  <div id="loginArea" class="login-card">
+    <div class="logo">KD</div>
+    <h2>KDSE ADMIN LOGIN</h2>
+    <input id="password" class="input" placeholder="Enter admin password" type="password" />
+    <button class="btn" onclick="doLogin()">Login</button>
+    <div class="hint">Token-based admin. Change PASSWORD in backend.</div>
+  </div>
+
+  <!-- APP -->
+  <div id="app" style="display:none">
+    <div class="header">
+      <div class="brand">
+        <div class="logo-sm">KD</div>
+        <div>
+          <div class="title">KALYANI DEVI SCHOOL — Salary Dashboard</div>
+          <div class="small">Admin panel — view & manage teacher salaries</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="btn-small" onclick="refreshData()">Refresh</button>
+        <button class="btn-small" onclick="downloadMonthlyPDF()">Export Monthly PDF</button>
+        <button class="btn-small" onclick="exportCSV()">Export CSV</button>
+      </div>
+    </div>
+
+    <!-- controls -->
+    <div class="controls">
+      <select id="filterStatus" class="select" onchange="applyFilters()">
+        <option value="">All Status</option>
+        <option value="Paid">Paid</option>
+        <option value="Pending">Pending</option>
+      </select>
+
+      <select id="filterMonth" class="select" onchange="applyFilters()">
+        <option value="">All Months</option>
+        <option>January</option><option>February</option><option>March</option><option>April</option>
+        <option>May</option><option>June</option><option>July</option><option>August</option>
+        <option>September</option><option>October</option><option>November</option><option>December</option>
+      </select>
+
+      <input id="searchInput" class="search" placeholder="Search name / mobile / designation" oninput="applyFilters()" />
+
+      <label class="small" style="align-self:center">Rows:</label>
+      <select id="rowsPerPage" onchange="renderTable()" class="select">
+        <option>10</option><option>20</option><option>50</option>
+      </select>
+    </div>
+
+    <!-- cards -->
+    <div class="grid">
+      <div class="card"><h4>Total Teachers</h4><p id="t1">0</p></div>
+      <div class="card"><h4>Total Paid</h4><p id="t2">0</p></div>
+      <div class="card"><h4>Total Pending</h4><p id="t3">0</p></div>
+      <div class="card"><h4>Records</h4><p id="t4">0</p></div>
+    </div>
+
+    <!-- table -->
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Name / Mobile</th><th>Designation</th><th>Month</th><th>Amount</th><th>Status</th><th>Paid Date</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+    <div class="pagination" id="pagination"></div>
+
+    <!-- chart -->
+    <div class="chart-box" style="margin-top:16px;background:white;padding:16px;border-radius:12px">
+      <canvas id="chart"></canvas>
+    </div>
+  </div>
+
 </div>
 
-<!-- DASHBOARD -->
-<div id="dashboard" style="display:none;">
+<!-- modal -->
+<div id="modalBackdrop" class="modal-backdrop">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h3 id="modalTitle">Teacher — Monthly Salary</h3>
+      <div class="small" id="modalSub">Mobile: -</div>
+    </div>
 
-<div class="header">
-<h2>📊 KDSE Salary Dashboard PRO</h2>
+    <div style="display:flex;gap:12px;margin-top:8px;align-items:center">
+      <div class="small" id="modalDesignation"></div>
+      <div class="small" id="modalYTD" style="margin-left:8px;font-weight:700"></div>
+    </div>
 
-<div>
-<button class="btn btn-green" onclick="downloadMonthlyPDF()">Monthly Report PDF</button>
-<button class="btn btn-blue" onclick="refreshData()">Refresh</button>
-</div>
+    <div class="month-grid" id="monthGrid" style="margin-top:12px"></div>
 
-</div>
-
-<!-- CARDS -->
-<div class="grid">
-<div class="card"><h3>Total Teachers</h3><p id="t1">0</p></div>
-<div class="card"><h3>Total Paid</h3><p id="t2">0</p></div>
-<div class="card"><h3>Total Pending</h3><p id="t3">0</p></div>
-<div class="card"><h3>Records</h3><p id="t4">0</p></div>
-</div>
-
-<!-- TABLE -->
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>ID</th>
-<th>Month</th>
-<th>Salary</th>
-<th>Status</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody id="table"></tbody>
-</table>
-
-<!-- CHART -->
-<div class="chart-box">
-<canvas id="chart"></canvas>
-</div>
-
+    <div class="row">
+      <button class="action-btn action-muted" onclick="closeModal()">Close</button>
+      <button class="action-btn action-primary" onclick="exportTeacherPDF()">Export PDF</button>
+    </div>
+  </div>
 </div>
 
 <script>
+/* CONFIG: replace with your deployed Apps Script URL */
+const API_BASE = "https://script.google.com/macros/s/AKfycbwPO0IZt7RtqmTMjyv425TEV97nU593WO2ldIm3y7gjmx9mWE1uH7qpodtLKFMYoIo/exec";
+let TOKEN = "";
+let RAW_DATA = []; // array of rows (arrays)
+let PARSED = []; // array of objects
+let FILTERED = [];
+let TEACHERS = {};
+const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+let currentPage = 1;
 
-const API = "https://script.google.com/macros/s/AKfycbwPO0IZt7RtqmTMjyv425TEV97nU593WO2ldIm3y7gjmx9mWE1uH7qpodtLKFMYoIo/exec";
-let TOKEN="";
-let DATA=[];
-
-/* LOGIN */
-async function login(){
-const p=document.getElementById("pass").value;
-
-let res=await fetch(API,{
-method:"POST",
-body:JSON.stringify({action:"login",password:p})
-});
-
-let d=await res.json();
-
-if(d.status=="success"){
-TOKEN=d.token;
-document.getElementById("loginBox").style.display="none";
-document.getElementById("dashboard").style.display="block";
-load();
-}
+async function doLogin(){
+  const pw = document.getElementById('password').value.trim();
+  if(!pw){ alert("Enter password"); return; }
+  try{
+    const res = await fetch(API_BASE, { method:'POST', body: JSON.stringify({ action:'login', password: pw }) });
+    const d = await res.json();
+    if(d.status==='success'){ TOKEN = d.token; document.getElementById('loginArea').style.display='none'; document.getElementById('app').style.display='block'; load(); }
+    else alert("Login failed");
+  } catch(e){ alert("Login error"); console.error(e) }
 }
 
-/* LOAD DATA */
 async function load(){
-let res=await fetch(API,{
-method:"POST",
-body:JSON.stringify({action:"getData",token:TOKEN})
-});
-
-let d=await res.json();
-
-DATA=d.data.slice(1);
-
-render();
+  if(!TOKEN) return;
+  const res = await fetch(API_BASE, { method:'POST', body: JSON.stringify({ action:'getData', token: TOKEN }) });
+  const d = await res.json();
+  if(d.status!=='success'){ alert('Load failed'); return; }
+  RAW_DATA = d.data || [];
+  parseRows();
+  applyFilters();
+  renderCards();
+  renderChart();
 }
 
-/* RENDER */
-function render(){
-
-let paid=0,pending=0;
-let html="";
-
-DATA.forEach((r,i)=>{
-
-let sal=Number(r[5]);
-
-if(r[6]=="Paid") paid+=sal;
-else pending+=sal;
-
-html+=`
-<tr>
-<td>${r[0]}</td>
-<td>${r[1]}</td>
-<td>${r[4]}</td>
-<td>${sal}</td>
-<td>${r[6]}</td>
-<td><button class="btn btn-blue" onclick="pdfSlip(${i})">PDF</button></td>
-</tr>`;
-});
-
-document.getElementById("table").innerHTML=html;
-
-document.getElementById("t1").innerText=DATA.length;
-document.getElementById("t2").innerText=paid;
-document.getElementById("t3").innerText=pending;
-document.getElementById("t4").innerText=DATA.length;
-
-chart(paid,pending);
+function parseRows(){
+  // expected header order:
+  // teacher name, Designation, mobile number, month, Salary Amount, Status, Paid Date, Payment mode, Remarks
+  PARSED = RAW_DATA.map(r => ({
+    name: String(r[0]||""),
+    designation: String(r[1]||""),
+    mobile: String(r[2]||""),
+    month: String(r[3]||""),
+    amount: Number(r[4]||0),
+    status: String(r[5]||""),
+    paidDate: String(r[6]||""),
+    paymentMode: String(r[7]||""),
+    remarks: String(r[8]||"")
+  }));
+  buildTeacherAggregate();
 }
 
-/* AUTO REFRESH */
-setInterval(()=>{ if(TOKEN) load(); },30000);
+function buildTeacherAggregate(){
+  TEACHERS = {};
+  PARSED.forEach(p=>{
+    if(!TEACHERS[p.name]) TEACHERS[p.name] = { name:p.name, designation:p.designation, mobile:p.mobile, months:{}, totalYTD:0 };
+    TEACHERS[p.name].months[p.month] = { amount: p.amount, status: p.status, paidDate: p.paidDate, paymentMode: p.paymentMode, remarks: p.remarks };
+    TEACHERS[p.name].totalYTD += p.amount;
+  });
+}
+
+/* FILTERS & SEARCH */
+function applyFilters(){
+  const status = document.getElementById('filterStatus').value;
+  const month = document.getElementById('filterMonth').value;
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  FILTERED = PARSED.filter(p=>{
+    if(status && p.status !== status) return false;
+    if(month && p.month !== month) return false;
+    if(q){
+      return (p.name||"").toLowerCase().includes(q) || (p.mobile||"").toLowerCase().includes(q) || (p.designation||"").toLowerCase().includes(q);
+    }
+    return true;
+  });
+  currentPage = 1;
+  renderTable();
+  renderPagination();
+}
+
+/* TABLE & PAGINATION */
+function renderTable(){
+  const perPage = Number(document.getElementById('rowsPerPage').value || 10);
+  const start = (currentPage-1)*perPage;
+  const pageItems = FILTERED.slice(start, start+perPage);
+  const tbody = document.getElementById('tableBody');
+  let html = "";
+  pageItems.forEach((r,i)=>{
+    html += `<tr>
+      <td><div style="display:flex;flex-direction:column"><span class="name-link" onclick="openModal('${escapeAttr(r.name)}')">${escapeHtml(r.name)}</span><span class="small">${escapeHtml(r.mobile)}</span></div></td>
+      <td>${escapeHtml(r.designation)}</td>
+      <td>${escapeHtml(r.month)}</td>
+      <td>₹ ${Number(r.amount).toLocaleString('en-IN')}</td>
+      <td>${escapeHtml(r.status)}</td>
+      <td>${escapeHtml(r.paidDate)}</td>
+      <td><button class="action-btn action-muted" onclick="downloadSlip(${(PARSED.indexOf(r))})">Slip</button></td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+  document.getElementById('t4').innerText = PARSED.length;
+}
+
+/* pagination UI */
+function renderPagination(){
+  const perPage = Number(document.getElementById('rowsPerPage').value || 10);
+  const total = FILTERED.length;
+  const pages = Math.max(1, Math.ceil(total / perPage));
+  const container = document.getElementById('pagination');
+  container.innerHTML = "";
+  const prev = document.createElement('button'); prev.className='btn-small'; prev.innerText='Prev'; prev.onclick = ()=>{ if(currentPage>1){ currentPage--; renderTable(); renderPagination(); } };
+  const next = document.createElement('button'); next.className='btn-small'; next.innerText='Next'; next.onclick = ()=>{ if(currentPage<pages){ currentPage++; renderTable(); renderPagination(); } };
+  container.appendChild(prev);
+  const info = document.createElement('div'); info.className='small'; info.style.alignSelf='center'; info.innerText = `Page ${currentPage} / ${pages}`;
+  container.appendChild(info);
+  container.appendChild(next);
+}
+
+/* CARDS */
+function renderCards(){
+  const totals = PARSED.reduce((acc,p)=>{
+    acc.totalRecords++;
+    if((p.status||"").toLowerCase() === 'paid') acc.paid += p.amount;
+    else acc.pending += p.amount;
+    return acc;
+  }, { totalRecords:0, paid:0, pending:0 });
+  document.getElementById('t1').innerText = Object.keys(TEACHERS).length;
+  document.getElementById('t2').innerText = '₹ ' + totals.paid.toLocaleString('en-IN');
+  document.getElementById('t3').innerText = '₹ ' + totals.pending.toLocaleString('en-IN');
+  document.getElementById('t4').innerText = totals.totalRecords;
+}
 
 /* CHART */
-function chart(paid,pending){
-new Chart(document.getElementById("chart"),{
-type:"doughnut",
-data:{
-labels:["Paid","Pending"],
-datasets:[{data:[paid,pending],backgroundColor:["green","red"]}]
-}
-});
-}
-
-/* PDF SALARY SLIP */
-function pdfSlip(i){
-
-const { jsPDF } = window.jspdf;
-const doc = new jsPDF();
-
-let r = DATA[i];
-
-doc.text("KALYANI DEVI SCHOOL OF EDUCATION",10,10);
-doc.text("Salary Slip",10,20);
-
-doc.text("Name: "+r[0],10,40);
-doc.text("ID: "+r[1],10,50);
-doc.text("Month: "+r[4],10,60);
-doc.text("Salary: "+r[5],10,70);
-doc.text("Status: "+r[6],10,80);
-
-doc.save(r[0]+"_salary.pdf");
+function renderChart(){
+  const paid = PARSED.reduce((s,p)=> s + ((p.status||"").toLowerCase()==='paid'?p.amount:0), 0);
+  const pending = PARSED.reduce((s,p)=> s + ((p.status||"").toLowerCase()!=='paid'?p.amount:0), 0);
+  const ctx = document.getElementById('chart').getContext('2d');
+  if(window._chart) window._chart.destroy();
+  window._chart = new Chart(ctx, {
+    type:'doughnut',
+    data:{ labels:['Paid','Pending'], datasets:[{ data:[paid,pending], backgroundColor:['#10b981','#ef4444'] }] }
+  });
 }
 
-/* MONTHLY REPORT */
+/* MODAL: open teacher months */
+function openModal(name){
+  const data = TEACHERS[name];
+  if(!data){ alert("No data for " + name); return; }
+  document.getElementById('modalTitle').innerText = data.name;
+  document.getElementById('modalDesignation').innerText = "Designation: " + (data.designation||"-");
+  document.getElementById('modalSub').innerText = "Mobile: " + (data.mobile||"-");
+  document.getElementById('modalYTD').innerText = "YTD: ₹ " + (data.totalYTD||0).toLocaleString('en-IN');
+
+  const grid = document.getElementById('monthGrid');
+  grid.innerHTML = "";
+  MONTHS.forEach(m=>{
+    const mdata = data.months[m] || { amount:0, status:"Pending", paidDate:"", paymentMode:"", remarks:"" };
+    const cls = (mdata.status||"").toLowerCase()==='paid' ? 'month-card paid' : 'month-card pending';
+    const amt = mdata.amount ? "₹ " + Number(mdata.amount).toLocaleString('en-IN') : "—";
+    const card = document.createElement('div');
+    card.className = cls;
+    card.innerHTML = `<div>
+        <div style="font-weight:700">${m}</div>
+        <div class="small">${amt}</div>
+      </div>
+      <div style="text-align:right">
+        <div class="small">${escapeHtml(mdata.status || "Pending")}</div>
+        <div style="margin-top:6px">
+          <button class="action-btn action-muted" onclick="toggleStatus(event,'${escapeAttr(data.name)}','${escapeAttr(m)}')">Toggle</button>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  document.getElementById('modalBackdrop').style.display='flex';
+}
+function closeModal(){ document.getElementById('modalBackdrop').style.display='none'; }
+
+/* toggle status (calls backend) */
+async function toggleStatus(ev,name,month){
+  ev.stopPropagation();
+  const ok = confirm("Toggle Paid/Pending for " + name + " — " + month + "?");
+  if(!ok) return;
+  try{
+    const res = await fetch(API_BASE, { method:'POST', body: JSON.stringify({ action:'updateStatus', token: TOKEN, name: name, month: month }) });
+    const d = await res.json();
+    if(d.status==='success'){ alert('Updated'); load(); }
+    else alert('Update failed: ' + (d.message||''));
+  }catch(err){ alert('Error'); console.error(err) }
+}
+
+/* download slip for a parsed index */
+function downloadSlip(parsedIndex){
+  const r = PARSED[parsedIndex];
+  if(!r) return alert('Row not found');
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFontSize(14);
+  doc.text("KALYANI DEVI SCHOOL OF EDUCATION",14,16);
+  doc.setFontSize(12);
+  doc.text(`Salary Slip`,14,28);
+  doc.setFontSize(10);
+  doc.text(`Name: ${r.name}`,14,42);
+  doc.text(`Designation: ${r.designation}`,14,52);
+  doc.text(`Mobile: ${r.mobile}`,14,62);
+  doc.text(`Month: ${r.month}`,14,72);
+  doc.text(`Salary: ₹ ${r.amount}`,14,82);
+  doc.text(`Status: ${r.status}`,14,92);
+  doc.save(`${r.name}_${r.month}_salary.pdf`);
+}
+
+/* export teacher PDF from modal */
+function exportTeacherPDF(){
+  const name = document.getElementById('modalTitle').innerText;
+  const data = TEACHERS[name];
+  if(!data) return;
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFontSize(14);
+  doc.text("KALYANI DEVI SCHOOL OF EDUCATION",14,16);
+  doc.setFontSize(12);
+  doc.text(`Monthly Salary Report — ${name}`,14,28);
+  doc.setFontSize(10);
+  let y = 40;
+  MONTHS.forEach(m=>{
+    const md = data.months[m] || { amount:0, status:"Pending" };
+    doc.text(`${m} : ₹ ${md.amount} — ${md.status}`,14,y);
+    y += 8;
+    if(y>270){ doc.addPage(); y=20; }
+  });
+  doc.text(`YTD Total: ₹ ${data.totalYTD}`,14,y+8);
+  doc.save(`${name}_year_report.pdf`);
+}
+
+/* monthly PDF for all rows */
 function downloadMonthlyPDF(){
-
-const { jsPDF } = window.jspdf;
-const doc = new jsPDF();
-
-doc.text("MONTHLY SALARY REPORT",10,10);
-
-let y=30;
-
-DATA.forEach(r=>{
-doc.text(r[0]+" | "+r[4]+" | "+r[5]+" | "+r[6],10,y);
-y+=10;
-});
-
-doc.save("monthly_report.pdf");
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFontSize(14);
+  doc.text("MONTHLY SALARY REPORT",14,16);
+  doc.setFontSize(10);
+  let y = 28;
+  PARSED.forEach(r=>{
+    doc.text(`${r.name} | ${r.mobile} | ${r.month} | ₹ ${r.amount} | ${r.status}`,14,y);
+    y += 8;
+    if(y>270){ doc.addPage(); y=20; }
+  });
+  doc.save("monthly_report.pdf");
 }
 
-/* MANUAL REFRESH */
-function refreshData(){
-load();
+/* export CSV */
+function exportCSV(){
+  const rows = [['teacher name','Designation','mobile number','month','Salary Amount','Status','Paid Date','Payment mode','Remarks']];
+  PARSED.forEach(r => rows.push([r.name,r.designation,r.mobile,r.month,r.amount,r.status,r.paidDate,r.paymentMode,r.remarks]));
+  const csv = rows.map(r => r.map(c => '"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'kdse_salary_export.csv';
+  document.body.appendChild(a); a.click(); a.remove();
 }
 
+/* refresh & utilities */
+function refreshData(){ load(); }
+function escapeHtml(s){ return String(s||"").replace(/[&<>"']/g, function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];}); }
+function escapeAttr(s){ return (s||"").replace(/'/g,"\\'").replace(/"/g,'\\"'); }
+function escapeForUrl(s){ return encodeURIComponent(String(s||"")); }
+
+/* init defaults */
+document.addEventListener('DOMContentLoaded', ()=>{ document.getElementById('rowsPerPage').value = '10'; });
 </script>
-
 </body>
 </html>
