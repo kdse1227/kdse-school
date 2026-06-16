@@ -271,45 +271,94 @@ const ACADEMIC_ORDER = ["July","August","September","October","November","Decemb
 let currentPage = 1;
 
 async function doLogin(){
+
   const pw = document.getElementById('password').value.trim();
-  if(!pw){ alert("Enter password"); return; }
+
+  if(!pw){
+    alert("Enter password");
+    return;
+  }
+
   try{
-    const res = await fetch(API_BASE, { method:'POST', body: JSON.stringify({ action:'login', password: pw }) });
+
+    const res = await fetch(API_BASE,{
+      method:'POST',
+      body:JSON.stringify({
+        action:'login',
+        password:pw
+      })
+    });
+
     const d = await res.json();
-    if(d.status==='success'){ TOKEN = d.token;  localStorage.setItem("kdse_token", TOKEN); document.getElementById('loginArea').style.display='none'; document.getElementById('app').style.display='block'; load(); }
-    else alert("Login failed");
-  } catch(e){ alert("Login error"); console.error(e) }
+
+    if(d.status === 'success'){
+
+      TOKEN = d.token;
+
+      localStorage.setItem("kdse_token",TOKEN);
+
+      await load();
+
+    }else{
+      alert("Login failed");
+    }
+
+  }catch(e){
+
+    console.error(e);
+    alert("Login error");
+  }
 }
 
 async function load(){
+
   if(!TOKEN) return;
+
   try{
-    const res = await fetch(API_BASE, { method:'POST', body: JSON.stringify({ action:'getData', token: TOKEN }) });
+
+    // Loading state
+    document.getElementById('loginArea').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+
+    const res = await fetch(API_BASE,{
+      method:'POST',
+      body:JSON.stringify({
+        action:'getData',
+        token:TOKEN
+      })
+    });
+
     const d = await res.json();
+
     if(d.status !== 'success'){
 
-    localStorage.removeItem("kdse_token");
-    TOKEN = "";
+      localStorage.removeItem("kdse_token");
+      TOKEN = "";
 
-    document.getElementById('app').style.display = 'none';
-    document.getElementById('loginArea').style.display = 'block';
+      document.getElementById('app').style.display = 'none';
+      document.getElementById('loginArea').style.display = 'block';
 
-    alert("Session expired. Please login again.");
-
-    return;
-}
-
-   document.getElementById('loginArea').style.display = 'none';
-   document.getElementById('app').style.display = 'block';
+      alert("Session expired. Please login again.");
+      return;
+    }
 
     RAW_DATA = d.data || [];
+
     parseRows();
     applyFilters();
     renderCards();
     renderChart();
-  }catch(err){ console.error(err); alert('Error loading data') }
-}
 
+  }catch(err){
+
+    console.error("Load Error:",err);
+
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('loginArea').style.display = 'block';
+
+    alert("Error loading data");
+  }
+}
 function parseRows(){
   // expected header order:
   // teacher name, Designation, mobile number, month, Salary Amount, Status, Paid Date, Payment mode, Remarks
@@ -759,6 +808,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
     loadLogo();
 
     document.getElementById('rowsPerPage').value = '10';
+
+    // Enter key login
+    document.getElementById("password").addEventListener("keypress", function(e){
+        if(e.key === "Enter"){
+            doLogin();
+        }
+    });
 
     const savedToken = localStorage.getItem("kdse_token");
 
