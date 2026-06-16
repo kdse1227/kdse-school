@@ -34,6 +34,14 @@
 .controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
 .select,input.search{padding:8px 10px;border-radius:10px;border:1px solid #e6e6e6}
 .btn-small{padding:8px 10px;border-radius:10px;border:none;background:#eef2ff;color:var(--purple-1);cursor:pointer}
+.logout-btn{
+  background:#ef4444;
+  color:white;
+}
+
+.logout-btn:hover{
+  background:#dc2626;
+}
 
 /* grid & cards */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:16px}
@@ -106,6 +114,7 @@ tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid 
         <button class="btn-small" onclick="refreshData()">Refresh</button>
         <button class="btn-small" onclick="downloadMonthlyPDF()">Export Monthly PDF</button>
         <button class="btn-small" onclick="exportCSV()">Export CSV</button>
+        <button class="btn-small logout-btn" onclick="logout()">Logout</button>
       </div>
     </div>
 
@@ -155,9 +164,9 @@ tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid 
     <div class="pagination" id="pagination"></div>
 
     <!-- chart -->
-    <div class="chart-box" style="margin-top:16px;background:white;padding:16px;border-radius:12px">
-      <canvas id="chart"></canvas>
-    </div>
+    <div class="chart-box" style="margin-top:16px;background:white;padding:16px;border-radius:12px;height:300px;max-width:500px;margin-left:auto;margin-right:auto;">
+   <canvas id="chart"></canvas>
+   </div>
   </div>
 
 </div>
@@ -419,7 +428,16 @@ function renderChart(){
   window._chart = new Chart(ctx, {
     type:'doughnut',
     data:{ labels:['Paid','Pending'], datasets:[{ data:[paid,pending], backgroundColor:['#10b981','#ef4444'] }] },
-    options:{plugins:{legend:{position:'bottom'}}}
+    options:{
+  responsive:true,
+  maintainAspectRatio:false,
+  cutout:'65%',
+  plugins:{
+    legend:{
+      position:'bottom'
+    }
+  }
+}
   });
 }
 
@@ -556,6 +574,29 @@ function refreshData(){ load(); }
 function escapeHtml(s){ return String(s||"").replace(/[&<>"']/g, function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];}); }
 function escapeAttr(s){ return String(s||"").replace(/'/g,"\\'").replace(/"/g,'\\"'); }
 function escapeForUrl(s){ return encodeURIComponent(String(s||"")); }
+
+function logout(){
+
+  if(!confirm("Are you sure you want to logout?")){
+    return;
+  }
+
+  TOKEN = "";
+  RAW_DATA = [];
+  PARSED = [];
+  FILTERED = [];
+  TEACHERS = {};
+
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('loginArea').style.display = 'block';
+  document.getElementById('password').value = '';
+
+  if(window._chart){
+    window._chart.destroy();
+  }
+
+  alert("Logged out successfully");
+}
 
 /* init defaults */
 document.addEventListener('DOMContentLoaded', ()=>{ document.getElementById('rowsPerPage').value = '10'; });
