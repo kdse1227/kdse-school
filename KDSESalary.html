@@ -215,7 +215,7 @@ async function doLogin(){
   try{
     const res = await fetch(API_BASE, { method:'POST', body: JSON.stringify({ action:'login', password: pw }) });
     const d = await res.json();
-    if(d.status==='success'){ TOKEN = d.token; document.getElementById('loginArea').style.display='none'; document.getElementById('app').style.display='block'; load(); }
+    if(d.status==='success'){ TOKEN = d.token;  localStorage.setItem("kdse_token", TOKEN); document.getElementById('loginArea').style.display='none'; document.getElementById('app').style.display='block'; load(); }
     else alert("Login failed");
   } catch(e){ alert("Login error"); console.error(e) }
 }
@@ -225,7 +225,22 @@ async function load(){
   try{
     const res = await fetch(API_BASE, { method:'POST', body: JSON.stringify({ action:'getData', token: TOKEN }) });
     const d = await res.json();
-    if(d.status!=='success'){ alert('Load failed'); return; }
+    if(d.status !== 'success'){
+
+    localStorage.removeItem("kdse_token");
+    TOKEN = "";
+
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('loginArea').style.display = 'block';
+
+    alert("Session expired. Please login again.");
+
+    return;
+}
+
+   document.getElementById('loginArea').style.display = 'none';
+   document.getElementById('app').style.display = 'block';
+
     RAW_DATA = d.data || [];
     parseRows();
     applyFilters();
@@ -308,21 +323,28 @@ function buildTeacherAggregate(){
 
 /* Helper to format date - returns YYYY-MM-DD if possible */
 function formatDate(d){
+
   if(!d) return "";
+
   try{
+
     const dt = new Date(d);
+
     if(!isNaN(dt.getTime())){
-      const y = dt.getFullYear();
-      const m = String(dt.getMonth()+1).padStart(2,'0');
+
       const day = String(dt.getDate()).padStart(2,'0');
-      return `${y}-${m}-${day}`;
+      const month = String(dt.getMonth()+1).padStart(2,'0');
+      const year = dt.getFullYear();
+
+      return `${day}-${month}-${year}`;
     }
-    const s = String(d);
-    if(s.includes('T')) return s.split('T')[0];
-    if(s.includes(' ')) return s.split(' ')[0];
-    return s;
-  }catch(e){
+
     return String(d);
+
+  }catch(e){
+
+    return String(d);
+
   }
 }
 
@@ -575,11 +597,27 @@ function escapeHtml(s){ return String(s||"").replace(/[&<>"']/g, function(m){ret
 function escapeAttr(s){ return String(s||"").replace(/'/g,"\\'").replace(/"/g,'\\"'); }
 function escapeForUrl(s){ return encodeURIComponent(String(s||"")); }
 
-function logout(){
+async function logout(){
 
   if(!confirm("Are you sure you want to logout?")){
     return;
   }
+
+  try{
+
+    await fetch(API_BASE,{
+      method:'POST',
+      body:JSON.stringify({
+        action:'logout',
+        token:TOKEN
+      })
+    });
+
+  }catch(err){
+    console.log(err);
+  }
+
+  localStorage.removeItem("kdse_token");
 
   TOKEN = "";
   RAW_DATA = [];
@@ -587,19 +625,29 @@ function logout(){
   FILTERED = [];
   TEACHERS = {};
 
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('loginArea').style.display = 'block';
-  document.getElementById('password').value = '';
+  document.getElementById('app').style.display='none';
+  document.getElementById('loginArea').style.display='block';
+  document.getElementById('password').value='';
 
   if(window._chart){
-    window._chart.destroy();
+      window._chart.destroy();
   }
 
   alert("Logged out successfully");
 }
 
 /* init defaults */
-document.addEventListener('DOMContentLoaded', ()=>{ document.getElementById('rowsPerPage').value = '10'; });
+document.addEventListener('DOMContentLoaded', ()=>{
+
+    document.getElementById('rowsPerPage').value = '10';
+
+    const savedToken = localStorage.getItem("kdse_token");
+
+    if(savedToken){
+        TOKEN = savedToken;
+        load();
+    }
+});
 </script>
 </body>
 </html>
