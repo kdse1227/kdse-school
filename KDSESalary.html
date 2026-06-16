@@ -18,7 +18,23 @@
 
 /* login */
 .login-card{max-width:420px;margin:80px auto;background:linear-gradient(180deg,rgba(255,255,255,0.98),#fff);border-radius:16px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,0.18);text-align:center}
-.logo{width:72px;height:72px;border-radius:14px;background:var(--purple-1);display:inline-flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:24px;margin-bottom:12px}
+.logo{
+  width:72px;
+  height:72px;
+  border-radius:14px;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  margin:0 auto 12px;
+}
+
+.logo img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
 .input{width:100%;padding:12px;border-radius:10px;border:1px solid #e6e6e6;margin-top:10px;font-size:15px}
 .btn{display:inline-block;padding:10px 14px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--purple-1),var(--purple-2));color:white;font-weight:600;cursor:pointer;margin-top:12px;width:100%}
 .hint{color:var(--muted);font-size:13px;margin-top:8px}
@@ -26,7 +42,22 @@
 /* header */
 .header{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.96);padding:14px;border-radius:12px;margin-bottom:16px;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
 .brand{display:flex;gap:12px;align-items:center}
-.logo-sm{width:46px;height:46px;border-radius:10px;background:linear-gradient(180deg,var(--purple-1),var(--purple-2));display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+.logo-sm{
+  width:46px;
+  height:46px;
+  border-radius:10px;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.logo-sm img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
 .title{font-size:18px;font-weight:700}
 .header-right{display:flex;gap:8px;align-items:center}
 
@@ -94,7 +125,9 @@ tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid 
 
   <!-- LOGIN -->
   <div id="loginArea" class="login-card">
-    <div class="logo">KDSE</div>
+    <div class="logo">
+  <img src="images/logo.png" alt="School Logo" class="logo-img">
+  </div>
     <h2>KDSE ADMIN LOGIN</h2>
     <input id="password" class="input" placeholder="Enter admin password" type="password" />
     <button class="btn" onclick="doLogin()">Login</button>
@@ -104,7 +137,9 @@ tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid 
   <div id="app" style="display:none">
     <div class="header">
       <div class="brand">
-        <div class="logo-sm">KD</div>
+        <div class="logo-sm">
+  <img src="images/logo.png" alt="School Logo" class="logo-img">
+  </div>
         <div>
           <div class="title">KALYANI DEVI SCHOOL — Salary Dashboard</div>
           <div class="small">Admin panel — view & manage teacher salaries</div>
@@ -195,6 +230,32 @@ tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid 
 </div>
 
 <script>
+let SCHOOL_LOGO = "";
+
+async function loadLogo() {
+
+  const logoUrl = "images/logo.png";
+
+  try {
+
+    const response = await fetch(logoUrl);
+    const blob = await response.blob();
+
+    const reader = new FileReader();
+
+    reader.onloadend = function () {
+      SCHOOL_LOGO = reader.result;
+    };
+
+    reader.readAsDataURL(blob);
+
+  } catch (err) {
+
+    console.error("Logo load error:", err);
+
+  }
+}
+
 /* CONFIG: replace with your deployed Apps Script URL */
 const API_BASE = "https://script.google.com/macros/s/AKfycbwPO0IZt7RtqmTMjyv425TEV97nU593WO2ldIm3y7gjmx9mWE1uH7qpodtLKFMYoIo/exec";
 let TOKEN = "";
@@ -525,20 +586,40 @@ function downloadSlipForTeacherMonth(id, month){
   if(!data) return alert('No data');
   const md = data.months[month] || { amount:0, status:"Pending", paidDate:"" };
   const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  doc.setFontSize(14);
-  doc.text("KALYANI DEVI SCHOOL OF EDUCATION",14,16);
-  doc.setFontSize(12);
-  doc.text(`Salary Slip`,14,28);
-  doc.setFontSize(10);
-  doc.text(`Name: ${data.name}`,14,42);
-  doc.text(`Designation: ${data.designation}`,14,52);
-  doc.text(`Mobile: ${data.mobile}`,14,62);
-  doc.text(`Month: ${month}`,14,72);
-  doc.text(`Salary: ₹ ${md.amount}`,14,82);
-  doc.text(`Status: ${md.status}`,14,92);
-  if(md.paidDate) doc.text(`Paid Date: ${formatDate(md.paidDate)}`,14,102);
-  doc.save(`${data.name}_${month}_salary.pdf`);
+const doc = new jsPDF();
+
+if(SCHOOL_LOGO){
+    doc.addImage(SCHOOL_LOGO,'PNG',15,8,22,22);
+}
+
+  doc.setFontSize(16);
+  doc.setFont(undefined,'bold');
+  doc.text("KALYANI DEVI SCHOOL OF EDUCATION",45,18);
+
+  doc.setFontSize(11);
+  doc.setFont(undefined,'normal');
+  doc.text("Salary Slip",45,26);
+  doc.text(`Name: ${data.name}`,14,45);
+  doc.text(`Designation: ${data.designation}`,14,55);
+  doc.text(`Mobile: ${data.mobile}`,14,65);
+  doc.text(`Month: ${month}`,14,75);
+  doc.text(`Salary: ₹ ${md.amount}`,14,85);
+  doc.text(`Status: ${md.status}`,14,95);
+
+  if(md.paidDate){
+  doc.text(`Paid Date: ${formatDate(md.paidDate)}`,14,105);
+}
+
+doc.setFontSize(8);
+doc.setTextColor(120);
+doc.text(
+  "Generated by KDSE Salary Management System",
+  doc.internal.pageSize.getWidth()/2,
+  285,
+  { align: "center" }
+);
+
+doc.save(`${data.name}_${month}_salary_slip.pdf`);
 }
 
 /* export teacher PDF from modal */
@@ -548,12 +629,19 @@ function exportTeacherPDF(){
   if(!data) return;
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
-  doc.setFontSize(14);
-  doc.text("KALYANI DEVI SCHOOL OF EDUCATION",14,16);
-  doc.setFontSize(12);
-  doc.text(`Monthly Salary Report — ${data.name}`,14,28);
-  doc.setFontSize(10);
-  let y = 40;
+
+if(SCHOOL_LOGO){
+    doc.addImage(SCHOOL_LOGO,'PNG',15,8,22,22);
+}
+
+doc.setFontSize(16);
+doc.setFont(undefined,'bold');
+doc.text("KALYANI DEVI SCHOOL OF EDUCATION",45,18);
+
+doc.setFontSize(11);
+doc.setFont(undefined,'normal');
+doc.text(`Teacher Salary Report`,45,26);
+  let y = 45;
   ACADEMIC_ORDER.forEach(m=>{
     const md = data.months[m] || { amount:0, status:"Pending", paidDate:"" };
     doc.text(`${m} : ₹ ${md.amount} — ${md.status}${md.paidDate? ' — ' + formatDate(md.paidDate) : ''}`,14,y);
@@ -561,22 +649,51 @@ function exportTeacherPDF(){
     if(y>270){ doc.addPage(); y=20; }
   });
   doc.text(`YTD Total: ₹ ${data.totalYTD}`,14,y+8);
-  doc.save(`${data.name}_year_report.pdf`);
+
+doc.setFontSize(8);
+doc.setTextColor(120);
+doc.text(
+  "Generated by KDSE Salary Management System",
+  doc.internal.pageSize.getWidth()/2,
+  285,
+  { align: "center" }
+);
+
+doc.save(`${data.name}_year_report.pdf`);
 }
 
 /* monthly PDF for all rows */
 function downloadMonthlyPDF(){
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
-  doc.setFontSize(14);
-  doc.text("MONTHLY SALARY REPORT",14,16);
-  doc.setFontSize(10);
-  let y = 28;
+
+if(SCHOOL_LOGO){
+    doc.addImage(SCHOOL_LOGO,'PNG',15,8,22,22);
+}
+
+doc.setFontSize(16);
+doc.setFont(undefined,'bold');
+doc.text("KALYANI DEVI SCHOOL OF EDUCATION",45,18);
+
+doc.setFontSize(11);
+doc.setFont(undefined,'normal');
+doc.text("MONTHLY SALARY REPORT",45,26);
+  let y = 40;
   PARSED.forEach(r=>{
     doc.text(`${r.name} | ${r.mobile} | ${r.month} | ₹ ${r.amount} | ${r.status} | ${r.paidDate?formatDate(r.paidDate):''}`,14,y);
     y += 8;
     if(y>270){ doc.addPage(); y=20; }
   });
+
+doc.setFontSize(8);
+doc.setTextColor(120);
+doc.text(
+  "Generated by KDSE Salary Management System",
+  doc.internal.pageSize.getWidth()/2,
+  285,
+  { align: "center" }
+);
+
   doc.save("monthly_report.pdf");
 }
 
@@ -638,6 +755,8 @@ async function logout(){
 
 /* init defaults */
 document.addEventListener('DOMContentLoaded', ()=>{
+
+    loadLogo();
 
     document.getElementById('rowsPerPage').value = '10';
 
