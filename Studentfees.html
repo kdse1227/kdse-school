@@ -3,42 +3,121 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Student Fees Dashboard — Horizontal Months</title>
+<title>KDSE Salary Dashboard — Redesigned</title>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <style>
-:root{--purple-1:#6d28d9;--purple-2:#7c3aed;--bg-grad:linear-gradient(135deg,#6d28d9 0%,#7c3aed 100%);--card-bg:#fff;--muted:#6b7280;font-family:"Segoe UI",Roboto,Arial,sans-serif}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg-grad);color:#111827}
-.container{max-width:1200px;margin:20px auto;padding:18px}
-/* header/login/cards/table/modal simplified styles (same look as before) */
+:root{
+  --purple-1:#6d28d9;--purple-2:#7c3aed;--bg-grad:linear-gradient(135deg,#6d28d9 0%,#7c3aed 100%);
+  --card-bg:#fff;--muted:#6b7280;--radius:12px;font-family:"Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}html,body{height:100%}body{margin:0;min-height:100vh;background:var(--bg-grad);color:#111827}
+.container{max-width:1200px;margin:24px auto;padding:18px}
+
+/* login */
 .login-card{max-width:420px;margin:80px auto;background:linear-gradient(180deg,rgba(255,255,255,0.98),#fff);border-radius:16px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,0.18);text-align:center}
+.logo{
+  width:72px;
+  height:72px;
+  border-radius:14px;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  margin:0 auto 12px;
+}
+
+.logo img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
 .input{width:100%;padding:12px;border-radius:10px;border:1px solid #e6e6e6;margin-top:10px;font-size:15px}
 .btn{display:inline-block;padding:10px 14px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--purple-1),var(--purple-2));color:white;font-weight:600;cursor:pointer;margin-top:12px;width:100%}
-.header{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.96);padding:14px;border-radius:12px;margin-bottom:16px}
+.hint{color:var(--muted);font-size:13px;margin-top:8px}
+
+/* header */
+.header{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.96);padding:14px;border-radius:12px;margin-bottom:16px;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
+.brand{display:flex;gap:12px;align-items:center}
+.logo-sm{
+  width:46px;
+  height:46px;
+  border-radius:10px;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.logo-sm img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+.title{font-size:18px;font-weight:700}
+.header-right{display:flex;gap:8px;align-items:center}
+
+/* controls */
 .controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
 .select,input.search{padding:8px 10px;border-radius:10px;border:1px solid #e6e6e6}
 .btn-small{padding:8px 10px;border-radius:10px;border:none;background:#eef2ff;color:var(--purple-1);cursor:pointer}
+.logout-btn{
+  background:#ef4444;
+  color:white;
+}
+
+.logout-btn:hover{
+  background:#dc2626;
+}
+
+/* grid & cards */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:16px}
 .card{background:var(--card-bg);padding:16px;border-radius:12px;box-shadow:0 8px 30px rgba(4,4,5,0.06)}
-.accordion{background:var(--card-bg);padding:12px;border-radius:12px;box-shadow:0 8px 30px rgba(4,4,5,0.06);margin-bottom:12px}
-.class-row{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;background:#fafafa;margin-bottom:8px}
+.card h4{margin:0;color:var(--muted);font-weight:600}
+.card p{margin:8px 0 0;font-size:20px;font-weight:700}
+
+/* table */
 .table-wrap{background:transparent;margin-top:8px;overflow:auto;border-radius:10px}
-table{width:100%;border-collapse:collapse;background:transparent;border-radius:10px;overflow:hidden;min-width:900px}
+table{width:100%;border-collapse:collapse;background:transparent;border-radius:10px;overflow:hidden;min-width:800px}
 thead th{background:rgba(255,255,255,0.95);text-align:left;padding:12px;font-weight:700;color:var(--muted)}
 tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid #f3f4f6;vertical-align:middle}
 .name-link{color:var(--purple-1);cursor:pointer;font-weight:700;text-decoration:underline}
 .small{font-size:13px;color:var(--muted)}
-.months-row{display:flex;gap:8px;flex-wrap:nowrap;overflow:auto;padding:8px 4px}
-.month-pill{min-width:92px;padding:8px;border-radius:8px;background:#f8fafc;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px}
-.month-pill.paid{background:linear-gradient(90deg,#ecfdf5,#bbf7d0)}
-.month-pill.pending{background:linear-gradient(90deg,#fff1f2,#fecaca)}
+
+/* pagination */
+.pagination{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:10px}
+
+/* modal */
 .modal-backdrop{position:fixed;inset:0;background:rgba(9,9,11,0.45);display:none;align-items:center;justify-content:center;padding:20px;z-index:60}
-.modal{width:100%;max-width:900px;background:white;border-radius:12px;padding:18px;box-shadow:0 20px 40px rgba(2,6,23,0.5);max-height:90vh;overflow:auto}
+.modal{width:100%;max-width:760px;background:white;border-radius:12px;padding:18px;box-shadow:0 20px 40px rgba(2,6,23,0.5);max-height:90vh;overflow:auto}
+.month-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.month-card{padding:12px;border-radius:10px;background:#f8fafc;display:flex;justify-content:space-between;align-items:center}
+.month-card.paid{background:linear-gradient(90deg,#ecfdf5,#bbf7d0)}
+.month-card.pending{background:linear-gradient(90deg,#fff1f2,#fecaca)}
 .row{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:12px}
 .action-btn{padding:8px 12px;border-radius:10px;border:none;cursor:pointer}
 .action-primary{background:linear-gradient(90deg,var(--purple-1),var(--purple-2));color:white}
 .action-muted{background:#eef2ff;color:var(--purple-1);font-weight:700}
-@media(max-width:900px){table{min-width:700px}}@media(max-width:520px){.header{flex-direction:column;align-items:flex-start;gap:8px}}
+
+/* responsive */
+@media(max-width:900px){
+  .controls{padding:8px;gap:6px}
+  .grid{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+  thead th{font-size:13px}
+  tbody td{font-size:14px;padding:10px}
+  table{min-width:700px}
+}
+@media(max-width:520px){
+  .header{flex-direction:column;align-items:flex-start;gap:8px}
+  .header-right{width:100%;display:flex;justify-content:space-between}
+  .logo-sm{width:40px;height:40px}
+  .month-grid{grid-template-columns:repeat(2,1fr)}
+  table{min-width:600px}
+}
 </style>
 </head>
 <body>
@@ -46,78 +125,88 @@ tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid 
 
   <!-- LOGIN -->
   <div id="loginArea" class="login-card">
-    <div style="font-weight:700;font-size:28px;color:var(--purple-1);margin-bottom:8px">Fees</div>
-    <h3>ADMIN LOGIN</h3>
+    <div class="logo">
+  <img src="images/logo.png" alt="School Logo" class="logo-img">
+  </div>
+    <h2>KDSE ADMIN LOGIN</h2>
     <input id="password" class="input" placeholder="Enter admin password" type="password" />
     <button class="btn" onclick="doLogin()">Login</button>
-    <div class="small" style="margin-top:8px;color:#6b7280">Use your admin password (set in Apps Script)</div>
   </div>
 
   <!-- APP -->
   <div id="app" style="display:none">
     <div class="header">
-      <div style="display:flex;gap:12px;align-items:center">
-        <div style="width:46px;height:46px;border-radius:8px;background:linear-gradient(180deg,var(--purple-1),var(--purple-2));display:flex;align-items:center;justify-content:center;color:white;font-weight:700">SF</div>
+      <div class="brand">
+        <div class="logo-sm">
+  <img src="images/logo.png" alt="School Logo" class="logo-img">
+  </div>
         <div>
-          <div style="font-weight:700">Student Fees — Dashboard</div>
-          <div class="small">Classes → Students → Monthly (Jul→Jun)</div>
+          <div class="title">KALYANI DEVI SCHOOL — Salary Dashboard</div>
+          <div class="small">Admin panel — view & manage teacher salaries</div>
         </div>
       </div>
-      <div style="display:flex;gap:8px;align-items:center">
+      <div class="header-right">
         <button class="btn-small" onclick="refreshData()">Refresh</button>
         <button class="btn-small" onclick="downloadMonthlyPDF()">Export Monthly PDF</button>
         <button class="btn-small" onclick="exportCSV()">Export CSV</button>
+        <button class="btn-small logout-btn" onclick="logout()">Logout</button>
       </div>
     </div>
 
+    <!-- controls -->
     <div class="controls">
       <select id="filterClass" class="select" onchange="applyFilters()">
-        <option value="">All Classes</option>
+  <option value="">All Classes</option>
       </select>
-
       <select id="filterStatus" class="select" onchange="applyFilters()">
-        <option value="">All Status</option><option value="Paid">Paid</option><option value="Pending">Pending</option>
+        <option value="">All Status</option>
+        <option value="Paid">Paid</option>
+        <option value="Pending">Pending</option>
       </select>
 
       <select id="filterMonth" class="select" onchange="applyFilters()">
         <option value="">All Months</option>
-        <option>July</option><option>August</option><option>September</option><option>October</option>
-        <option>November</option><option>December</option><option>January</option><option>February</option>
-        <option>March</option><option>April</option><option>May</option><option>June</option>
+        <option>January</option><option>February</option><option>March</option><option>April</option>
+        <option>May</option><option>June</option><option>July</option><option>August</option>
+        <option>September</option><option>October</option><option>November</option><option>December</option>
       </select>
 
-      <input id="searchInput" class="search" placeholder="Search name / mobile" oninput="applyFilters()" />
+      <input id="searchInput" class="search" placeholder="Search name / mobile / designation" oninput="applyFilters()" />
+
       <label class="small" style="align-self:center">Rows:</label>
-      <select id="rowsPerPage" onchange="renderTable(); renderPagination()" class="select"><option>10</option><option>20</option><option>50</option></select>
+      <select id="rowsPerPage" onchange="renderTable(); renderPagination()" class="select">
+        <option>10</option><option>20</option><option>50</option>
+      </select>
     </div>
 
+    <!-- cards -->
     <div class="grid">
-      <div class="card"><h4>Total Classes</h4><p id="c1">0</p></div>
-      <div class="card"><h4>Total Paid</h4><p id="c2">₹ 0</p></div>
-      <div class="card"><h4>Total Pending</h4><p id="c3">₹ 0</p></div>
-      <div class="card"><h4>Records</h4><p id="c4">0</p></div>
+      <div class="card"><h4>Total Teachers</h4><p id="t1">0</p></div>
+      <div class="card"><h4>Total Paid</h4><p id="t2">0</p></div>
+      <div class="card"><h4>Total Pending</h4><p id="t3">0</p></div>
+      <div class="card"><h4>Records</h4><p id="t4">0</p></div>
     </div>
 
-    <div id="classesAccordion" class="accordion"></div>
-
-    <div class="table-wrap" id="tableArea" style="display:none">
-      <h3 id="tableTitle" style="margin:10px 0 6px">Students</h3>
-      <div style="overflow:auto">
-        <table>
-          <thead>
-            <tr><th>Student / Mobile</th><th>Amount (YTD)</th><th>Latest Month</th><th>Latest Status</th><th>Paid Date</th><th>Months</th><th>Action</th></tr>
-          </thead>
-          <tbody id="tableBody"></tbody>
-        </table>
-      </div>
+    <!-- table -->
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Name / Mobile</th><th>Designation</th><th>Latest Month</th><th>Amount (YTD)</th><th>Latest Status</th><th>Paid Date</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
     </div>
 
     <div class="pagination" id="pagination"></div>
 
-    <div class="chart-box" style="margin-top:16px;background:white;padding:16px;border-radius:12px">
-      <canvas id="chart"></canvas>
-    </div>
+    <!-- chart -->
+    <div class="chart-box" style="margin-top:16px;background:white;padding:16px;border-radius:12px;height:300px;max-width:500px;margin-left:auto;margin-right:auto;">
+   <canvas id="chart"></canvas>
+   </div>
   </div>
+
 </div>
 
 <!-- modal -->
@@ -125,317 +214,689 @@ tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid 
   <div class="modal" role="dialog" aria-modal="true">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
       <div>
-        <h3 id="modalTitle">Student — Monthly Fees</h3>
+        <h3 id="modalTitle">Teacher — Monthly Salary</h3>
         <div class="small" id="modalSub">Mobile: -</div>
-        <div class="small" id="modalClass"></div>
+        <div class="small" id="modalDesignation"></div>
       </div>
       <div style="text-align:right">
         <div class="small" id="modalYTD" style="font-weight:700"></div>
       </div>
     </div>
 
-    <div style="margin-top:12px">
-      <div class="months-row" id="monthGridModal"></div>
-    </div>
+    <div class="month-grid" id="monthGrid" style="margin-top:12px"></div>
 
     <div class="row">
       <button class="action-btn action-muted" onclick="closeModal()">Close</button>
-      <button class="action-btn action-primary" onclick="exportStudentPDF()">Export PDF</button>
+      <button class="action-btn action-primary" onclick="exportTeacherPDF()">Export PDF</button>
     </div>
   </div>
 </div>
 
 <script>
-/* UPDATE this to your deployed Apps Script web app URL */
+let SCHOOL_LOGO = "";
+
+async function loadLogo() {
+
+  const logoUrl = "images/logo.png";
+
+  try {
+
+    const response = await fetch(logoUrl);
+    const blob = await response.blob();
+
+    const reader = new FileReader();
+
+    reader.onloadend = function () {
+      SCHOOL_LOGO = reader.result;
+    };
+
+    reader.readAsDataURL(blob);
+
+  } catch (err) {
+
+    console.error("Logo load error:", err);
+
+  }
+}
+
+/* CONFIG: replace with your deployed Apps Script URL */
 const API_BASE = "https://script.google.com/macros/s/AKfycbx2izsbiq_r5J6iuQ9plFktP6l_mFs9zwY_iioynlYCfOIKh_UQV-PZ6na5Ylof9sjjgg/exec";
 let TOKEN = "";
-let RAW_DATA = [];
-let PARSED = [];
-let CLASSES = {};
-let FILTERED = [];
-let SELECTED_CLASS = null;
-let currentPage = 1;
-const MONTHS=["July","August","September","October","November","December","January","February","March","April","May","June"];
-const ACADEMIC_ORDER = MONTHS.slice(); // already in academic order (July→June)
+let RAW_DATA = []; // array of rows (arrays)
+let PARSED = []; // array of objects
+let FILTERED = []; // filtered array of teacher objects for table
+let TEACHERS = {}; // keyed by id (mobile || name)
 
-/* LOGIN / load */
+/* Months and academic order (July → June) for school session */
+const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+const ACADEMIC_ORDER = ["July","August","September","October","November","December","January","February","March","April","May","June"];
+
+let currentPage = 1;
+
 async function doLogin(){
+
   const pw = document.getElementById('password').value.trim();
-  if(!pw){ alert("Enter password"); return; }
+
+  if(!pw){
+    alert("Enter password");
+    return;
+  }
+
   try{
-    const res = await fetch(API_BASE, { method:'POST', body: JSON.stringify({ action:'login', password: pw }) });
+
+    const res = await fetch(API_BASE,{
+      method:'POST',
+      body:JSON.stringify({
+        action:'login',
+        password:pw
+      })
+    });
+
     const d = await res.json();
-    if(d.status==='success'){ TOKEN = d.token; document.getElementById('loginArea').style.display='none'; document.getElementById('app').style.display='block'; load(); }
-    else alert("Login failed");
-  } catch(e){ alert("Login error"); console.error(e) }
+
+    if(d.status === 'success'){
+
+      TOKEN = d.token;
+
+      localStorage.setItem("kdse_token",TOKEN);
+
+      await load();
+
+    }else{
+      alert("Login failed");
+    }
+
+  }catch(e){
+
+    console.error(e);
+    alert("Login error");
+  }
 }
 
 async function load(){
+
   if(!TOKEN) return;
+
   try{
-    const res = await fetch(API_BASE, { method:'POST', body: JSON.stringify({ action:'getData', token: TOKEN }) });
+
+    // Loading state
+    document.getElementById('loginArea').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+
+    const res = await fetch(API_BASE,{
+      method:'POST',
+      body:JSON.stringify({
+        action:'getData',
+        token:TOKEN
+      })
+    });
+
     const d = await res.json();
-    if(d.status!=='success'){ alert('Load failed: ' + (d.message||'')); return; }
+
+    if(d.status !== 'success'){
+
+      localStorage.removeItem("kdse_token");
+      TOKEN = "";
+
+      document.getElementById('app').style.display = 'none';
+      document.getElementById('loginArea').style.display = 'block';
+
+      alert("Session expired. Please login again.");
+      return;
+    }
+
     RAW_DATA = d.data || [];
-    PARSED = RAW_DATA; // server already returns parsed objects with months
-    buildClassAggregate();
-    buildClassAccordion();
+
+    parseRows();
+    applyFilters();
     renderCards();
     renderChart();
-  }catch(err){ console.error(err); alert('Error loading data') }
+    buildClassFilter();
+
+  }catch(err){
+
+    console.error("Load Error:",err);
+
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('loginArea').style.display = 'block';
+
+    alert("Error loading data");
+  }
+}
+function parseRows(){
+  // expected header order:
+  // teacher name, Designation, mobile number, month, Salary Amount, Status, Paid Date, Payment mode, Remarks
+PARSED = RAW_DATA.map(r => ({
+  name: String(r[0]||"").trim(),
+  className: String(r[1]||"").trim(),   // ✅ NEW ADD
+  mobile: String(r[2]||"").trim(),
+  month: String(r[3]||"").trim(),
+  amount: Number(r[4]||0),
+  status: String(r[5]||"").trim(),
+  paidDate: String(r[6]||"").trim(),
+  paymentMode: String(r[7]||"").trim(),
+  remarks: String(r[8]||"").trim()
+}));
+
+/* try parsing paidDate to timestamp; return null if not parseable */
+function parseToTimestamp(d){
+  if(!d) return null;
+  try{
+    const dt = new Date(d);
+    if(!isNaN(dt.getTime())) return dt.getTime();
+    const s = String(d);
+    if(s.includes('T')) return new Date(s.split('T')[0]).getTime();
+    if(s.includes(' ')) return new Date(s.split(' ')[0]).getTime();
+    return null;
+  }catch(e){ return null; }
 }
 
-/* build CLASSES from PARSED rows */
-function buildClassAggregate(){
-  CLASSES = {};
+/* helper: month index in calendar months */
+function monthIndex(m){
+  const i = MONTHS.indexOf(m);
+  return i<0? -1 : i;
+}
+
+/* Build TEACHERS aggregate and determine latest by:
+   1) paidDate timestamp (preferred)
+   2) fallback: academic order position (July→June) as synthetic ordering across academic year
+*/
+function buildTeacherAggregate(){
+  TEACHERS = {};
   PARSED.forEach(p=>{
-    const cls = p.class || "Unassigned";
-    if(!CLASSES[cls]) CLASSES[cls] = { name: cls, students: {} };
     const id = p.mobile || p.name;
-    if(!CLASSES[cls].students[id]) CLASSES[cls].students[id] = {
-      id, name: p.name||id, class: cls, mobile: p.mobile||'', months: p.months||{}, totalYTD: p.totalYTD||0, latestMonth: p.latestMonth||null, latestStatus: p.latestStatus||null, latestPaidDate: p.latestPaidDate||null
-    };
-    // ensure fields up-to-date if duplicates
-    CLASSES[cls].students[id].months = p.months || CLASSES[cls].students[id].months;
-    CLASSES[cls].students[id].totalYTD = p.totalYTD || CLASSES[cls].students[id].totalYTD;
-    CLASSES[cls].students[id].latestMonth = p.latestMonth || CLASSES[cls].students[id].latestMonth;
-    CLASSES[cls].students[id].latestStatus = p.latestStatus || CLASSES[cls].students[id].latestStatus;
-    CLASSES[cls].students[id].latestPaidDate = p.latestPaidDate || CLASSES[cls].students[id].latestPaidDate;
+    if(!TEACHERS[id]) {
+      TEACHERS[id] = { id, name:p.name||id, designation:p.designation||"", mobile:p.mobile||"", months:{}, totalYTD:0, latestMonth:null, latestAmount:0, latestStatus:null, latestPaidDate:null, latestTs:-Infinity };
+    }
+
+    function buildClassFilter(){
+  const classes = [...new Set(PARSED.map(p => p.className).filter(Boolean))];
+
+  const sel = document.getElementById("filterClass");
+  if(!sel) return;
+
+  sel.innerHTML = `<option value="">All Classes</option>`;
+
+  classes.forEach(c=>{
+    const opt = document.createElement("option");
+    opt.value = c;
+    opt.textContent = c;
+    sel.appendChild(opt);
   });
 }
 
-/* build accordion UI and class filter */
-function buildClassAccordion(){
-  const container = document.getElementById('classesAccordion');
-  container.innerHTML = "";
-  const classNames = Object.keys(CLASSES).sort((a,b)=> a.localeCompare(b));
-  const filterClass = document.getElementById('filterClass');
-  filterClass.innerHTML = '<option value="">All Classes</option>';
-  classNames.forEach(cn=>{
-    const cls = CLASSES[cn];
-    const count = Object.keys(cls.students).length;
-    const div = document.createElement('div'); div.className='class-row';
-    div.innerHTML = `<div><div style="font-weight:700">${escapeHtml(cn)}</div><div class="small">${count} students</div></div>
-      <div><button class="btn-small" onclick="openClass(event,'${escapeAttr(cn)}')">Open</button></div>`;
-    container.appendChild(div);
-    const opt = document.createElement('option'); opt.value = cn; opt.innerText = cn; filterClass.appendChild(opt);
+    // store month entry (overwrite duplicates)
+    TEACHERS[id].months[p.month] = { amount: p.amount, status: p.status, paidDate: p.paidDate, paymentMode: p.paymentMode, remarks: p.remarks };
+    TEACHERS[id].totalYTD += p.amount;
+
+    // determine ordering timestamp:
+    let ts = parseToTimestamp(p.paidDate);
+    if(ts === null){
+      // fallback: use academic month index to produce a monotonic synthetic value
+      const idx = ACADEMIC_ORDER.indexOf(p.month);
+      // produce synthetic increasing number: year component 0, index component
+      ts = 1000 + (idx >= 0 ? idx : (monthIndex(p.month) >= 0 ? monthIndex(p.month) : 0));
+    }
+
+    // update if newer
+    if(ts > TEACHERS[id].latestTs){
+      TEACHERS[id].latestTs = ts;
+      TEACHERS[id].latestMonth = p.month;
+      TEACHERS[id].latestAmount = p.amount;
+      TEACHERS[id].latestStatus = p.status;
+      TEACHERS[id].latestPaidDate = p.paidDate;
+    }
   });
-  document.getElementById('c1').innerText = classNames.length;
-  document.getElementById('c4').innerText = PARSED.length;
 }
 
-/* open a class */
-function openClass(ev,className){
-  ev.stopPropagation();
-  SELECTED_CLASS = className;
-  document.getElementById('tableArea').style.display='block';
-  document.getElementById('tableTitle').innerText = `Class: ${className}`;
-  FILTERED = Object.values(CLASSES[className].students || {}).sort((a,b)=> (a.name||'').localeCompare(b.name||''));
-  currentPage = 1; applyFilters();
+/* Helper to format date - returns YYYY-MM-DD if possible */
+function formatDate(d){
+
+  if(!d) return "";
+
+  try{
+
+    const dt = new Date(d);
+
+    if(!isNaN(dt.getTime())){
+
+      const day = String(dt.getDate()).padStart(2,'0');
+      const month = String(dt.getMonth()+1).padStart(2,'0');
+      const year = dt.getFullYear();
+
+      return `${day}-${month}-${year}`;
+    }
+
+    return String(d);
+
+  }catch(e){
+
+    return String(d);
+
+  }
 }
 
-/* filters */
+/* FILTERS & SEARCH */
+/* Teacher-level filtering: teacher shows if any of their months match the filters */
 function applyFilters(){
   const status = document.getElementById('filterStatus').value;
   const month = document.getElementById('filterMonth').value;
-  const clsFilter = document.getElementById('filterClass').value;
   const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const classFilter = document.getElementById('filterClass')?.value || "";
 
-  if(clsFilter && clsFilter !== SELECTED_CLASS){
-    SELECTED_CLASS = clsFilter;
-    document.getElementById('tableArea').style.display='block';
-    document.getElementById('tableTitle').innerText = `Class: ${clsFilter}`;
-  }
+  const teacherList = Object.values(TEACHERS);
 
-  let baseList = [];
-  if(SELECTED_CLASS){
-    baseList = Object.values(CLASSES[SELECTED_CLASS].students || {});
-  } else {
-    Object.values(CLASSES).forEach(c=> baseList.push(...Object.values(c.students || {})));
-  }
-
-  let filtered = baseList.filter(s=>{
+  FILTERED = teacherList.filter(t => {
     if(q){
-      const baseMatch = (s.name||'').toLowerCase().includes(q) || (s.mobile||'').toLowerCase().includes(q);
+      const baseMatch = (t.name||"").toLowerCase().includes(q) ||
+                        (t.mobile||"").toLowerCase().includes(q) ||
+                        (t.designation||"").toLowerCase().includes(q);
       if(!baseMatch){
-        const mMatch = Object.keys(s.months||{}).some(mn => mn.toLowerCase().includes(q));
-        if(!mMatch) return false;
+        const mMatch = Object.keys(t.months || {}).some(mn => mn.toLowerCase().includes(q));
+        const statusMatch = Object.values(t.months || {}).some(md => (md.status||"").toLowerCase().includes(q));
+        if(!mMatch && !statusMatch) return false;
       }
     }
+
     if(month){
-      if(!s.months || !s.months[month]) return false;
+      if(!t.months || !t.months[month]) return false;
     }
-    if(status){
-      const hasStatus = Object.values(s.months||{}).some(md => (md.status||'').toLowerCase() === status.toLowerCase());
+    if(classFilter){
+    if(!t.className || t.className !== classFilter) return false;
+    }
+      if(status){
+      const hasStatus = Object.values(t.months || {}).some(md => (md.status||"").toLowerCase() === status.toLowerCase());
       if(!hasStatus) return false;
     }
     return true;
   });
 
-  filtered.sort((a,b)=> (a.name||'').localeCompare(b.name||''));
-  FILTERED = filtered;
-  currentPage = 1; renderTable(); renderPagination();
+  FILTERED.sort((a,b)=> (a.name||"").localeCompare(b.name||""));
+  currentPage = 1;
+  renderTable();
+  renderPagination();
 }
 
-/* render table */
+/* TABLE & PAGINATION */
 function renderTable(){
   const perPage = Number(document.getElementById('rowsPerPage').value || 10);
   const start = (currentPage-1)*perPage;
   const pageItems = FILTERED.slice(start, start+perPage);
-  const tbody = document.getElementById('tableBody'); let html = "";
-  pageItems.forEach(s=>{
-    const latestMonth = s.latestMonth||'—';
-    const latestStatus = s.latestStatus||'—';
-    const paidDate = s.latestPaidDate ? formatDate(s.latestPaidDate) : '—';
-    let monthsHtml = '<div style="display:flex;gap:6px;flex-wrap:nowrap;overflow:auto">';
-    ACADEMIC_ORDER.forEach(m=>{
-      const md = s.months[m];
-      const cls = md && (md.status||'').toLowerCase()==='paid' ? 'month-pill paid' : 'month-pill pending';
-      const amt = md ? '₹'+Number(md.amount||0).toLocaleString('en-IN') : '—';
-      monthsHtml += `<div class="${cls}" style="min-width:86px"><div style="font-weight:700">${m}</div><div style="font-size:12px">${amt}</div></div>`;
-    });
-    monthsHtml += '</div>';
+  const tbody = document.getElementById('tableBody');
+  let html = "";
+
+  pageItems.forEach((t,i)=>{
+    const latestMonth = t.latestMonth || "—";
+    const latestStatus = t.latestStatus || "—";
+    const paidDate = t.latestPaidDate ? formatDate(t.latestPaidDate) : "—";
     html += `<tr>
-      <td style="width:30%"><div style="display:flex;flex-direction:column"><span class="name-link" onclick="openModal('${escapeAttr(s.class)}','${escapeAttr(s.id)}')">${escapeHtml(s.name)}</span><span class="small">${escapeHtml(s.mobile)}</span><span class="small">Class: ${escapeHtml(s.class)}</span></div></td>
-      <td style="width:12%">₹ ${Number(s.totalYTD||0).toLocaleString('en-IN')}</td>
+      <td style="width:30%"><div style="display:flex;flex-direction:column"><span class="name-link" onclick="openModal('${escapeAttr(t.id)}')">${escapeHtml(t.name)}</span><span class="small">${escapeHtml(t.mobile)}</span></div></td>
+      <td style="width:15%">${escapeHtml(t.designation)}</td>
       <td style="width:12%">${escapeHtml(latestMonth)}</td>
+      <td style="width:12%">₹ ${Number(t.totalYTD||0).toLocaleString('en-IN')}</td>
       <td style="width:12%">${escapeHtml(latestStatus)}</td>
       <td style="width:12%">${escapeHtml(paidDate)}</td>
-      <td style="width:18%">${monthsHtml}</td>
-      <td style="width:6%"><button class="action-btn action-muted" onclick="openModal('${escapeAttr(s.class)}','${escapeAttr(s.id)}')">View</button></td>
+      <td style="width:7%"><button class="action-btn action-muted" onclick="openModal('${escapeAttr(t.id)}')">View</button></td>
+      <td style="width:7%"><button class="action-btn action-muted" onclick="openStudentList('${escapeAttr(t.className)}')">
+  Class View
+</button></td>
     </tr>`;
   });
+
   tbody.innerHTML = html;
+  document.getElementById('t4').innerText = PARSED.length;
 }
 
-/* pagination */
+/* pagination UI */
 function renderPagination(){
   const perPage = Number(document.getElementById('rowsPerPage').value || 10);
   const total = FILTERED.length;
   const pages = Math.max(1, Math.ceil(total / perPage));
-  const container = document.getElementById('pagination'); container.innerHTML = "";
+  const container = document.getElementById('pagination');
+  container.innerHTML = "";
   const prev = document.createElement('button'); prev.className='btn-small'; prev.innerText='Prev'; prev.onclick = ()=>{ if(currentPage>1){ currentPage--; renderTable(); renderPagination(); } };
   const next = document.createElement('button'); next.className='btn-small'; next.innerText='Next'; next.onclick = ()=>{ if(currentPage<pages){ currentPage++; renderTable(); renderPagination(); } };
   container.appendChild(prev);
   const info = document.createElement('div'); info.className='small'; info.style.alignSelf='center'; info.innerText = `Page ${currentPage} / ${pages}`;
-  container.appendChild(info); container.appendChild(next);
+  container.appendChild(info);
+  container.appendChild(next);
 }
 
-/* cards */
+/* CARDS */
 function renderCards(){
   const totals = PARSED.reduce((acc,p)=>{
     acc.totalRecords++;
-    Object.values(p.months||{}).forEach(md=> { if((md.status||'').toLowerCase()==='paid') acc.paid += Number(md.amount||0); else acc.pending += Number(md.amount||0); });
+    if((p.status||"").toLowerCase() === 'paid') acc.paid += p.amount;
+    else acc.pending += p.amount;
     return acc;
   }, { totalRecords:0, paid:0, pending:0 });
-  document.getElementById('c2').innerText = '₹ ' + totals.paid.toLocaleString('en-IN');
-  document.getElementById('c3').innerText = '₹ ' + totals.pending.toLocaleString('en-IN');
-  document.getElementById('c4').innerText = PARSED.length;
+  document.getElementById('t1').innerText = Object.keys(TEACHERS).length;
+  document.getElementById('t2').innerText = '₹ ' + totals.paid.toLocaleString('en-IN');
+  document.getElementById('t3').innerText = '₹ ' + totals.pending.toLocaleString('en-IN');
+  document.getElementById('t4').innerText = PARSED.length;
 }
 
-/* chart */
+/* CHART */
 function renderChart(){
-  const paid = PARSED.reduce((s,p)=> s + Object.values(p.months||{}).reduce((a,b)=> a + ((b.status||'').toLowerCase()==='paid'?Number(b.amount||0):0),0), 0);
-  const pending = PARSED.reduce((s,p)=> s + Object.values(p.months||{}).reduce((a,b)=> a + ((b.status||'').toLowerCase()!=='paid'?Number(b.amount||0):0),0), 0);
+  const paid = PARSED.reduce((s,p)=> s + ((p.status||"").toLowerCase()==='paid'?p.amount:0), 0);
+  const pending = PARSED.reduce((s,p)=> s + ((p.status||"").toLowerCase()!=='paid'?p.amount:0), 0);
   const ctx = document.getElementById('chart').getContext('2d');
   if(window._chart) window._chart.destroy();
-  window._chart = new Chart(ctx, { type:'doughnut', data:{ labels:['Paid','Pending'], datasets:[{ data:[paid,pending], backgroundColor:['#10b981','#ef4444'] }] }, options:{plugins:{legend:{position:'bottom'}}} });
+  window._chart = new Chart(ctx, {
+    type:'doughnut',
+    data:{ labels:['Paid','Pending'], datasets:[{ data:[paid,pending], backgroundColor:['#10b981','#ef4444'] }] },
+    options:{
+  responsive:true,
+  maintainAspectRatio:false,
+  cutout:'65%',
+  plugins:{
+    legend:{
+      position:'bottom'
+    }
+  }
+}
+  });
 }
 
-/* modal */
-function openModal(className,id){
-  const student = (CLASSES[className] && CLASSES[className].students[id]);
-  if(!student){ alert("No data"); return; }
-  document.getElementById('modalTitle').innerText = student.name;
-  document.getElementById('modalSub').innerText = "Mobile: " + (student.mobile||"-");
-  document.getElementById('modalClass').innerText = "Class: " + (student.class||"-");
-  document.getElementById('modalYTD').innerText = "YTD: ₹ " + (student.totalYTD||0).toLocaleString('en-IN');
-  const grid = document.getElementById('monthGridModal'); grid.innerHTML = "";
+/* MODAL: open teacher months by id (mobile||name) */
+function openModal(id){
+  const data = TEACHERS[id];
+  if(!data){ alert("No data for " + id); return; }
+  document.getElementById('modalTitle').innerText = data.name;
+  document.getElementById('modalDesignation').innerText = "Designation: " + (data.designation||"-");
+  document.getElementById('modalSub').innerText = "Mobile: " + (data.mobile||"-");
+  document.getElementById('modalYTD').innerText = "YTD: ₹ " + (data.totalYTD||0).toLocaleString('en-IN');
+
+  const grid = document.getElementById('monthGrid');
+  grid.innerHTML = "";
+  // show months in academic calendar order (July→June) for intuitive school view
   ACADEMIC_ORDER.forEach(m=>{
-    const md = student.months[m] || { amount:0, status:'Pending', paidDate:'', paymentMode:'' };
-    const cls = (md.status||'').toLowerCase()==='paid' ? 'month-pill paid' : 'month-pill pending';
-    const amt = md.amount ? '₹ ' + Number(md.amount).toLocaleString('en-IN') : '—';
-    const paid = md.paidDate ? escapeHtml(formatDate(md.paidDate)) : '';
-    const card = document.createElement('div'); card.className = cls; card.style.minWidth='120px'; card.style.padding='10px';
-    card.innerHTML = `<div style="font-weight:700">${m}</div><div class="small">${amt}</div><div class="small" style="margin-top:6px">${md.paymentMode?escapeHtml(md.paymentMode):''}</div><div class="small" style="margin-top:6px">${escapeHtml(md.status||'Pending')}</div><div class="small" style="margin-top:4px">${paid}</div>
-      <div style="margin-top:8px;display:flex;gap:6px;justify-content:center">
-        <button class="action-btn action-muted" onclick="downloadSlipForStudent('${escapeAttr(className)}','${escapeAttr(id)}','${escapeAttr(m)}')">Slip</button>
-        <button class="action-btn action-muted" onclick="toggleStatus(event,'${escapeAttr(className)}','${escapeAttr(id)}','${escapeAttr(m)}')">Toggle</button>
+    const mdata = data.months[m] || { amount:0, status:"Pending", paidDate:"", paymentMode:"", remarks:"" };
+    const cls = (mdata.status||"").toLowerCase()==='paid' ? 'month-card paid' : 'month-card pending';
+    const amt = mdata.amount ? "₹ " + Number(mdata.amount).toLocaleString('en-IN') : "—";
+    const paid = mdata.paidDate ? escapeHtml(formatDate(mdata.paidDate)) : "";
+    const card = document.createElement('div');
+    card.className = cls;
+    card.innerHTML = `<div>
+        <div style="font-weight:700">${m}</div>
+        <div class="small">${amt}</div>
+        <div class="small" style="margin-top:6px">${mdata.paymentMode?escapeHtml(mdata.paymentMode):''}</div>
+      </div>
+      <div style="text-align:right">
+        <div class="small">${escapeHtml(mdata.status || "Pending")}</div>
+        <div class="small" style="margin-top:6px">${paid}</div>
+        <div style="margin-top:8px;display:flex;gap:6px;justify-content:flex-end">
+          <button class="action-btn action-muted" onclick="downloadSlipForTeacherMonth('${escapeAttr(data.id)}','${escapeAttr(m)}')">Slip</button>
+          <button class="action-btn action-muted" onclick="toggleStatus(event,'${escapeAttr(data.id)}','${escapeAttr(m)}')">Toggle</button>
+        </div>
       </div>`;
     grid.appendChild(card);
   });
+
   document.getElementById('modalBackdrop').style.display='flex';
 }
 function closeModal(){ document.getElementById('modalBackdrop').style.display='none'; }
 
-/* toggle status -> calls backend updateStatus */
-async function toggleStatus(ev,className,id,month){
+/* toggle status (calls backend) */
+async function toggleStatus(ev,id,month){
   ev.stopPropagation();
-  const student = CLASSES[className].students[id];
-  if(!student) return alert('Student not found');
-  const md = student.months[month] || { status:'Pending', amount:0, paymentMode:'' };
-  const target = ((md.status||'').toLowerCase()==='paid') ? 'Pending' : 'Paid';
-  if(!confirm(`Set ${month} for ${student.name} to ${target}?`)) return;
+  const teacher = TEACHERS[id];
+  if(!teacher) return alert('Teacher not found');
+  const mdata = teacher.months[month] || { status:'Pending' };
+  const target = ((mdata.status||'').toLowerCase() === 'paid') ? 'Pending' : 'Paid';
+  const ok = confirm("Set " + month + " for " + teacher.name + " to " + target + "?");
+  if(!ok) return;
   try{
-    const payload = { action:'updateStatus', token: TOKEN, mobile: student.mobile, name: student.name, class: student.class, month: month, status: target };
-    // Optionally include amount/paymentMode/paidDate if you want
-    const res = await fetch(API_BASE, { method:'POST', body: JSON.stringify(payload) });
+    const res = await fetch(API_BASE, { method:'POST', body: JSON.stringify({ action:'updateStatus', token: TOKEN, mobile: teacher.mobile, name: teacher.name, month: month, status: target }) });
     const d = await res.json();
-    if(d.status==='success'){ alert('Updated'); load(); closeModal(); }
+    if(d.status==='success'){ alert('Updated'); load(); }
     else alert('Update failed: ' + (d.message||''));
-  } catch(err){ console.error(err); alert('Error updating') }
+  }catch(err){ alert('Error'); console.error(err) }
 }
 
-/* downloads and exports */
-function downloadSlipForStudent(className,id, month){
-  const s = CLASSES[className].students[id];
-  if(!s) return alert('No data');
-  const md = s.months[month] || { amount:0, status:'Pending', paidDate:'' };
+/* download slip per teacher + month */
+function downloadSlipForTeacherMonth(id, month){
+  const data = TEACHERS[id];
+  if(!data) return alert('No data');
+  const md = data.months[month] || { amount:0, status:"Pending", paidDate:"" };
+  const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
+
+if(SCHOOL_LOGO){
+    doc.addImage(SCHOOL_LOGO,'PNG',15,8,22,22);
+}
+
+  doc.setFontSize(16);
+  doc.setFont(undefined,'bold');
+  doc.text("KALYANI DEVI SCHOOL OF EDUCATION",45,18);
+
+  doc.setFontSize(11);
+  doc.setFont(undefined,'normal');
+  doc.text("Salary Slip",45,26);
+  doc.text(`Name: ${data.name}`,14,45);
+  doc.text(`Designation: ${data.designation}`,14,55);
+  doc.text(`Mobile: ${data.mobile}`,14,65);
+  doc.text(`Month: ${month}`,14,75);
+  doc.text(`Salary: ₹ ${md.amount}`,14,85);
+  doc.text(`Status: ${md.status}`,14,95);
+
+  if(md.paidDate){
+  doc.text(`Paid Date: ${formatDate(md.paidDate)}`,14,105);
+}
+
+doc.setFontSize(8);
+doc.setTextColor(120);
+doc.text(
+  "Generated by KDSE Salary Management System",
+  doc.internal.pageSize.getWidth()/2,
+  285,
+  { align: "center" }
+);
+
+doc.save(`${data.name}_${month}_salary_slip.pdf`);
+}
+
+/* export teacher PDF from modal */
+function exportTeacherPDF(){
+  const id = Object.keys(TEACHERS).find(k => TEACHERS[k].name === document.getElementById('modalTitle').innerText || k === document.getElementById('modalTitle').innerText);
+  const data = TEACHERS[id];
+  if(!data) return;
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
-  doc.setFontSize(14); doc.text("SCHOOL FEES RECEIPT",14,16);
-  doc.setFontSize(12); doc.text(`Name: ${s.name}`,14,30); doc.text(`Class: ${s.class}`,14,40); doc.text(`Mobile: ${s.mobile}`,14,50);
-  doc.text(`Month: ${month}`,14,60); doc.text(`Amount: ₹ ${md.amount}`,14,70); doc.text(`Status: ${md.status}`,14,80);
-  if(md.paidDate) doc.text(`Paid Date: ${formatDate(md.paidDate)}`,14,90);
-  doc.save(`${s.name}_${month}_fees.pdf`);
+
+if(SCHOOL_LOGO){
+    doc.addImage(SCHOOL_LOGO,'PNG',15,8,22,22);
 }
-function exportStudentPDF(){
-  const title = document.getElementById('modalTitle').innerText;
-  let found = null;
-  outer: for(const cn of Object.keys(CLASSES)){ for(const id of Object.keys(CLASSES[cn].students||{})){ if(CLASSES[cn].students[id].name === title){ found = CLASSES[cn].students[id]; break outer; } } }
-  if(!found) return;
-  const { jsPDF } = window.jspdf; const doc = new jsPDF();
-  doc.setFontSize(14); doc.text("SCHOOL — Student Fees Report",14,16);
-  doc.setFontSize(12); doc.text(`Student: ${found.name}`,14,28); doc.text(`Class: ${found.class}`,14,36);
-  doc.setFontSize(10); let y=46;
-  ACADEMIC_ORDER.forEach(m=>{ const md = found.months[m] || { amount:0, status:'Pending', paidDate:'' }; doc.text(`${m} : ₹ ${md.amount} — ${md.status}${md.paidDate? ' — ' + formatDate(md.paidDate):''}`,14,y); y+=8; if(y>270){ doc.addPage(); y=20; } });
-  doc.text(`YTD Total: ₹ ${found.totalYTD}`,14,y+8); doc.save(`${found.name}_fees_report.pdf`);
-}
-function downloadMonthlyPDF(){
-  const { jsPDF } = window.jspdf; const doc = new jsPDF(); doc.setFontSize(14); doc.text("MONTHLY FEES REPORT",14,16); doc.setFontSize(10);
-  let y=28;
-  PARSED.forEach(r=>{ doc.text(`${r.name} | ${r.class} | ${r.mobile} | ${r.latestMonth||''} | ₹ ${r.totalYTD} | ${r.latestStatus||''}`,14,y); y+=8; if(y>270){ doc.addPage(); y=20; } });
-  doc.save("monthly_fees_report.pdf");
-}
-function exportCSV(){
-  const rows = [['Student Name','Class','Mobile','Month','Amount','Status','Paid Date','Payment mode','Remarks']];
-  PARSED.forEach(r=>{
-    ACADEMIC_ORDER.forEach(m=>{
-      const md = r.months[m] || { amount:0, status:'', paidDate:'', paymentMode:'' };
-      rows.push([r.name,r.class,r.mobile,m,md.amount,md.status,md.paidDate,md.paymentMode,r.remarks||'']);
-    });
+
+doc.setFontSize(16);
+doc.setFont(undefined,'bold');
+doc.text("KALYANI DEVI SCHOOL OF EDUCATION",45,18);
+
+doc.setFontSize(11);
+doc.setFont(undefined,'normal');
+doc.text(`Teacher Salary Report`,45,26);
+  let y = 45;
+  ACADEMIC_ORDER.forEach(m=>{
+    const md = data.months[m] || { amount:0, status:"Pending", paidDate:"" };
+    doc.text(`${m} : ₹ ${md.amount} — ${md.status}${md.paidDate? ' — ' + formatDate(md.paidDate) : ''}`,14,y);
+    y += 8;
+    if(y>270){ doc.addPage(); y=20; }
   });
-  const csv = rows.map(r => r.map(c => '"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
-  const a = document.createElement('a'); a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv); a.download = 'student_fees_export.csv'; document.body.appendChild(a); a.click(); a.remove();
+  doc.text(`YTD Total: ₹ ${data.totalYTD}`,14,y+8);
+
+doc.setFontSize(8);
+doc.setTextColor(120);
+doc.text(
+  "Generated by KDSE Salary Management System",
+  doc.internal.pageSize.getWidth()/2,
+  285,
+  { align: "center" }
+);
+
+doc.save(`${data.name}_year_report.pdf`);
 }
 
-/* utilities */
-function formatDate(d){ if(!d) return ""; try{ const dt=new Date(d); if(!isNaN(dt.getTime())){ const y=dt.getFullYear(), m=String(dt.getMonth()+1).padStart(2,'0'), day=String(dt.getDate()).padStart(2,'0'); return `${y}-${m}-${day}` } const s=String(d); if(s.includes('T')) return s.split('T')[0]; if(s.includes(' ')) return s.split(' ')[0]; return s; }catch(e){ return String(d); } }
-function escapeHtml(s){ return String(s||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
-function escapeAttr(s){ return String(s||"").replace(/'/g,"\\'").replace(/"/g,'\\"'); }
-function refreshData(){ load(); }
+/* monthly PDF for all rows */
+function downloadMonthlyPDF(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
 
-document.addEventListener('DOMContentLoaded', ()=>{ document.getElementById('rowsPerPage').value='10'; });
+if(SCHOOL_LOGO){
+    doc.addImage(SCHOOL_LOGO,'PNG',15,8,22,22);
+}
+
+doc.setFontSize(16);
+doc.setFont(undefined,'bold');
+doc.text("KALYANI DEVI SCHOOL OF EDUCATION",45,18);
+
+doc.setFontSize(11);
+doc.setFont(undefined,'normal');
+doc.text("MONTHLY SALARY REPORT",45,26);
+  let y = 40;
+  PARSED.forEach(r=>{
+    doc.text(`${r.name} | ${r.mobile} | ${r.month} | ₹ ${r.amount} | ${r.status} | ${r.paidDate?formatDate(r.paidDate):''}`,14,y);
+    y += 8;
+    if(y>270){ doc.addPage(); y=20; }
+  });
+
+doc.setFontSize(8);
+doc.setTextColor(120);
+doc.text(
+  "Generated by KDSE Salary Management System",
+  doc.internal.pageSize.getWidth()/2,
+  285,
+  { align: "center" }
+);
+
+  doc.save("monthly_report.pdf");
+}
+
+/* export CSV */
+function exportCSV(){
+  const rows = [['teacher name','Designation','mobile number','month','Salary Amount','Status','Paid Date','Payment mode','Remarks']];
+  PARSED.forEach(r => rows.push([r.name,r.designation,r.mobile,r.month,r.amount,r.status,r.paidDate,r.paymentMode,r.remarks]));
+  const csv = rows.map(r => r.map(c => '"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'kdse_salary_export.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* refresh & utilities */
+function refreshData(){ load(); }
+function escapeHtml(s){ return String(s||"").replace(/[&<>"']/g, function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];}); }
+function escapeAttr(s){ return String(s||"").replace(/'/g,"\\'").replace(/"/g,'\\"'); }
+function escapeForUrl(s){ return encodeURIComponent(String(s||"")); }
+
+async function logout(){
+
+  if(!confirm("Are you sure you want to logout?")){
+    return;
+  }
+
+  try{
+
+    await fetch(API_BASE,{
+      method:'POST',
+      body:JSON.stringify({
+        action:'logout',
+        token:TOKEN
+      })
+    });
+
+  }catch(err){
+    console.log(err);
+  }
+
+  localStorage.removeItem("kdse_token");
+
+  TOKEN = "";
+  RAW_DATA = [];
+  PARSED = [];
+  FILTERED = [];
+  TEACHERS = {};
+
+  document.getElementById('app').style.display='none';
+  document.getElementById('loginArea').style.display='block';
+  document.getElementById('password').value='';
+
+  if(window._chart){
+      window._chart.destroy();
+  }
+
+  alert("Logged out successfully");
+}
+
+function openStudentList(className){
+
+  const students = PARSED.filter(p => p.className === className);
+
+  const grouped = {};
+
+  students.forEach(s=>{
+    if(!grouped[s.name]){
+      grouped[s.name] = { total:0, paid:0, pending:0 };
+    }
+
+    grouped[s.name].total += s.amount;
+
+    if((s.status||"").toLowerCase()==='paid'){
+      grouped[s.name].paid += s.amount;
+    } else {
+      grouped[s.name].pending += s.amount;
+    }
+  });
+
+  let html = `<h3>Class: ${className}</h3>
+  <div class="table-wrap">
+  <table>
+  <thead>
+    <tr>
+      <th>Student</th>
+      <th>Total</th>
+      <th>Paid</th>
+      <th>Pending</th>
+    </tr>
+  </thead>
+  <tbody>`;
+
+  Object.keys(grouped).forEach(name=>{
+    const g = grouped[name];
+    html += `<tr>
+      <td>${name}</td>
+      <td>₹${g.total}</td>
+      <td style="color:green">₹${g.paid}</td>
+      <td style="color:red">₹${g.pending}</td>
+    </tr>`;
+  });
+
+  html += `</tbody></table></div>`;
+
+  document.getElementById("modalTitle").innerHTML = html;
+  document.getElementById("modalBackdrop").style.display = "flex";
+}
+
+/* init defaults */
+document.addEventListener('DOMContentLoaded', ()=>{
+
+    loadLogo();
+
+    document.getElementById('rowsPerPage').value = '10';
+
+    // Enter key login
+    document.getElementById("password").addEventListener("keypress", function(e){
+        if(e.key === "Enter"){
+            doLogin();
+        }
+    });
+
+    const savedToken = localStorage.getItem("kdse_token");
+
+    if(savedToken){
+        TOKEN = savedToken;
+        load();
+    }
+});
 </script>
 </body>
 </html>
