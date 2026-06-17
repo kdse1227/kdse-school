@@ -3,83 +3,38 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>KDSE Student Fee Dashboard — Fixed</title>
-
+<title>KDSE Student Fee Dashboard — Fixed (PaidDate, search, modals)</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <style>
-:root{
-  --purple-1:#6d28d9;--purple-2:#7c3aed;--bg-grad:linear-gradient(135deg,#6d28d9 0%,#7c3aed 100%);
-  --card-bg:#fff;--muted:#6b7280;--radius:12px;font-family:"Segoe UI",Roboto,Arial,sans-serif;
-}
+:root{--purple-1:#6d28d9;--purple-2:#7c3aed;--bg-grad:linear-gradient(135deg,#6d28d9 0%,#7c3aed 100%);--card-bg:#fff;--muted:#6b7280;--radius:12px;font-family:"Segoe UI",Roboto,Arial,sans-serif}
 *{box-sizing:border-box}html,body{height:100%}body{margin:0;min-height:100vh;background:var(--bg-grad);color:#111827}
 .container{max-width:1200px;margin:24px auto;padding:18px}
-
 /* login */
 .login-card{max-width:420px;margin:80px auto;background:linear-gradient(180deg,rgba(255,255,255,0.98),#fff);border-radius:16px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,0.18);text-align:center}
-.logo{
-  width:72px;
-  height:72px;
-  border-radius:14px;
-  background:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-  margin:0 auto 12px;
-}
-
-.logo img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-}
+.logo{width:72px;height:72px;border-radius:14px;background:white;display:flex;align-items:center;justify-content:center;overflow:hidden;margin:0 auto 12px}
+.logo img{width:100%;height:100%;object-fit:contain}
 .input{width:100%;padding:12px;border-radius:10px;border:1px solid #e6e6e6;margin-top:10px;font-size:15px}
 .btn{display:inline-block;padding:10px 14px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--purple-1),var(--purple-2));color:white;font-weight:600;cursor:pointer;margin-top:12px;width:100%}
 .hint{color:var(--muted);font-size:13px;margin-top:8px}
-
 /* header */
 .header{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.96);padding:14px;border-radius:12px;margin-bottom:16px;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
 .brand{display:flex;gap:12px;align-items:center}
-.logo-sm{
-  width:46px;
-  height:46px;
-  border-radius:10px;
-  background:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-}
-
-.logo-sm img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-}
+.logo-sm{width:46px;height:46px;border-radius:10px;background:white;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.logo-sm img{width:100%;height:100%;object-fit:contain}
 .title{font-size:18px;font-weight:700}
 .header-right{display:flex;gap:8px;align-items:center}
-
 /* controls */
 .controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
 .select,input.search{padding:8px 10px;border-radius:10px;border:1px solid #e6e6e6}
 .btn-small{padding:8px 10px;border-radius:10px;border:none;background:#eef2ff;color:var(--purple-1);cursor:pointer}
-.logout-btn{
-  background:#ef4444;
-  color:white;
-}
-
-.logout-btn:hover{
-  background:#dc2626;
-}
-
+.logout-btn{background:#ef4444;color:white}
+.logout-btn:hover{background:#dc2626}
 /* grid & cards */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:16px}
 .card{background:var(--card-bg);padding:16px;border-radius:12px;box-shadow:0 8px 30px rgba(4,4,5,0.06)}
 .card h4{margin:0;color:var(--muted);font-weight:600}
 .card p{margin:8px 0 0;font-size:20px;font-weight:700}
-
 /* table */
 .table-wrap{background:transparent;margin-top:8px;overflow:auto;border-radius:10px}
 table{width:100%;border-collapse:collapse;background:transparent;border-radius:10px;overflow:hidden;min-width:800px}
@@ -87,10 +42,6 @@ thead th{background:rgba(255,255,255,0.95);text-align:left;padding:12px;font-wei
 tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid #f3f4f6;vertical-align:middle}
 .name-link{color:var(--purple-1);cursor:pointer;font-weight:700;text-decoration:underline}
 .small{font-size:13px;color:var(--muted)}
-
-/* pagination */
-.pagination{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:10px}
-
 /* modal */
 .modal-backdrop{position:fixed;inset:0;background:rgba(9,9,11,0.45);display:none;align-items:center;justify-content:center;padding:20px;z-index:60}
 .modal{width:100%;max-width:760px;background:white;border-radius:12px;padding:18px;box-shadow:0 20px 40px rgba(2,6,23,0.5);max-height:90vh;overflow:auto}
@@ -102,32 +53,19 @@ tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid 
 .action-btn{padding:8px 12px;border-radius:10px;border:none;cursor:pointer}
 .action-primary{background:linear-gradient(90deg,var(--purple-1),var(--purple-2));color:white}
 .action-muted{background:#eef2ff;color:var(--purple-1);font-weight:700}
-
+/* ensure student modal sits above class modal */
+#modalBackdrop{z-index:120}
+#classModalBackdrop{z-index:80}
 /* responsive */
-@media(max-width:900px){
-  .controls{padding:8px;gap:6px}
-  .grid{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
-  thead th{font-size:13px}
-  tbody td{font-size:14px;padding:10px}
-  table{min-width:700px}
-}
-@media(max-width:520px){
-  .header{flex-direction:column;align-items:flex-start;gap:8px}
-  .header-right{width:100%;display:flex;justify-content:space-between}
-  .logo-sm{width:40px;height:40px}
-  .month-grid{grid-template-columns:repeat(2,1fr)}
-  table{min-width:600px}
-}
+@media(max-width:900px){.controls{padding:8px;gap:6px}.grid{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}thead th{font-size:13px}tbody td{font-size:14px;padding:10px}table{min-width:700px}}
+@media(max-width:520px){.header{flex-direction:column;align-items:flex-start;gap:8px}.header-right{width:100%;display:flex;justify-content:space-between}.logo-sm{width:40px;height:40px}.month-grid{grid-template-columns:repeat(2,1fr)}table{min-width:600px}}
 </style>
 </head>
 <body>
 <div class="container">
-
   <!-- LOGIN -->
   <div id="loginArea" class="login-card" aria-hidden="false">
-    <div class="logo">
-      <img src="images/logo.png" alt="School Logo" class="logo-img" onerror="this.style.display='none'">
-    </div>
+    <div class="logo"><img src="images/logo.png" alt="School Logo" class="logo-img" onerror="this.style.display='none'"></div>
     <h2>KDSE ADMIN LOGIN</h2>
     <input id="password" class="input" placeholder="Enter admin password" type="password" aria-label="password" />
     <button id="loginBtn" class="btn" onclick="doLogin()">Login</button>
@@ -138,9 +76,7 @@ tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid 
   <div id="app" style="display:none">
     <div class="header" role="banner">
       <div class="brand">
-        <div class="logo-sm">
-          <img src="images/logo.png" alt="School Logo" class="logo-img" onerror="this.style.display='none'">
-        </div>
+        <div class="logo-sm"><img src="images/logo.png" alt="School Logo" class="logo-img" onerror="this.style.display='none'"></div>
         <div>
           <div class="title">KALYANI DEVI SCHOOL — Student Fee Dashboard</div>
           <div class="small">Admin panel — view & manage student fees</div>
@@ -157,71 +93,32 @@ tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid 
     <!-- controls -->
     <div class="controls" role="region" aria-label="filters">
       <select id="filterStatus" class="select" onchange="applyFilters()">
-        <option value="">All Status</option>
-        <option value="Paid">Paid</option>
-        <option value="Unpaid">Unpaid</option>
+        <option value="">All Status</option><option value="Paid">Paid</option><option value="Unpaid">Unpaid</option>
       </select>
 
       <select id="filterMonth" class="select" onchange="applyFilters()">
         <option value="">All Months</option>
-
-        <option>July</option>
-        <option>August</option>
-        <option>September</option>
-        <option>October</option>
-        <option>November</option>
-        <option>December</option>
-
-        <option>January</option>
-        <option>February</option>
-        <option>March</option>
-        <option>April</option>
-        <option>May</option>
-        <option>June</option>
+        <option>July</option><option>August</option><option>September</option><option>October</option><option>November</option><option>December</option>
+        <option>January</option><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option>
       </select>
 
-      <input id="searchInput" class="search" placeholder="Search Class" oninput="applyFilters()" />
-
-      <select id="rowsPerPage" onchange="renderTable(); renderPagination()" class="select">
-        <option>10</option><option>20</option><option>50</option>
-      </select>
+      <input id="searchInput" class="search" placeholder="Search class / name / mobile" oninput="applyFilters()" />
+      <select id="rowsPerPage" onchange="renderTable(); renderPagination()" class="select"><option>10</option><option>20</option><option>50</option></select>
     </div>
 
     <!-- cards -->
     <div class="grid">
-
-      <div class="card">
-        <h4>Total Classes</h4>
-        <p id="t1">0</p>
-      </div>
-
-      <div class="card">
-        <h4>Total Students</h4>
-        <p id="t2">0</p>
-      </div>
-
-      <div class="card">
-        <h4>Collected Amount</h4>
-        <p id="t3">₹ 0</p>
-      </div>
-
-      <div class="card">
-        <h4>Expected Amount</h4>
-        <p id="t4">₹ 0</p>
-      </div>
-
+      <div class="card"><h4>Total Classes</h4><p id="t1">0</p></div>
+      <div class="card"><h4>Total Students</h4><p id="t2">0</p></div>
+      <div class="card"><h4>Collected Amount</h4><p id="t3">₹ 0</p></div>
+      <div class="card"><h4>Expected Amount</h4><p id="t4">₹ 0</p></div>
     </div>
 
     <!-- table -->
     <div class="table-wrap">
       <table>
         <thead>
-          <tr>
-            <th>Class</th>
-            <th>Students</th>
-            <th>Amount (YTD)</th>
-            <th>Action</th>
-          </tr>
+          <tr><th>Class</th><th>Students</th><th>Amount (YTD)</th><th>Action</th></tr>
         </thead>
         <tbody id="tableBody"></tbody>
       </table>
@@ -234,16 +131,15 @@ tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid 
       <canvas id="chart"></canvas>
     </div>
   </div>
-
 </div>
 
-<!-- modal -->
+<!-- student modal (month cards) -->
 <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true">
+  <div class="modal" role="dialog" aria-modal="true" id="studentModal">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
       <div>
         <h3 id="modalTitle">Student — Fee Details</h3>
-        <div class="small" id="modalSub">Guardian: -</div>
+        <div class="small" id="modalSub">Mobile : -</div>
         <div class="small" id="modalClass"></div>
       </div>
       <div style="text-align:right">
@@ -260,9 +156,9 @@ tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid 
   </div>
 </div>
 
-<!-- CLASS MODAL -->
+<!-- class modal (list of students) -->
 <div id="classModalBackdrop" class="modal-backdrop" aria-hidden="true">
-  <div class="modal">
+  <div class="modal" role="dialog" id="classModal">
     <div style="display:flex;justify-content:space-between;align-items:center">
       <h3 id="classModalTitle">Class Students</h3>
       <button class="action-btn action-muted" onclick="closeClassModal()">Close</button>
@@ -272,11 +168,11 @@ tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid 
       <table>
         <thead>
           <tr>
-            <th>Student Name</th>
-            <th>Mobile</th>
+            <th>Name / Mobile</th>
             <th>Latest Month</th>
             <th>Amount (YTD)</th>
-            <th>Status</th>
+            <th>Latest Status</th>
+            <th>Paid Date</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -287,499 +183,380 @@ tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid 
 </div>
 
 <script>
-let SCHOOL_LOGO = "";
-
-async function loadLogo() {
-  const logoUrl = "images/logo.png";
-  try {
-    const response = await fetch(logoUrl);
-    if (!response.ok) return;
-    const blob = await response.blob();
-    const reader = new FileReader();
-    reader.onloadend = function () {
-      SCHOOL_LOGO = reader.result;
-    };
-    reader.readAsDataURL(blob);
-  } catch (err) {
-    console.warn("Logo load error:", err);
-  }
-}
-
-/* CONFIG: replace with your deployed Apps Script URL or API */
+/* CONFIG: change API_BASE to your deployed Apps Script URL */
 const API_BASE = "https://script.google.com/macros/s/AKfycbx2izsbiq_r5J6iuQ9plFktP6l_mFs9zwY_iioynlYCfOIKh_UQV-PZ6na5Ylof9sjjgg/exec";
-let TOKEN = "";
-let RAW_DATA = []; // array of rows (arrays)
-let PARSED = []; // array of objects
-let FILTERED = []; // filtered array of student objects for table
-let FILTERED_CLASSES = [];
-let FILTER_ACTIVE = false;
-let STUDENTS = {}; // keyed by mobile
-let CLASSES = {};
-let currentPage = 1;
 
+const MONTHS = ["July","August","September","October","November","December","January","February","March","April","May","June"];
+
+let TOKEN = "";
+let RAW_DATA = [];
+let PARSED = [];
+let CLASSES = {};
+let STUDENTS = {};
+let FILTER_ACTIVE = false;
+let FILTERED_CLASSES = [];
+
+function escapeHtml(s){ if(s==null) return ""; return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;'); }
+function escapeAttr(s){ return escapeHtml(String(s||"")).replaceAll("'", "\\'"); }
+
+/* --- LOGIN & LOAD (form-encoded POST to avoid preflight) --- */
 async function doLogin(){
   const pw = document.getElementById('password').value.trim();
-  if(!pw){
-    alert("Enter password");
-    return;
-  }
+  if(!pw){ alert("Enter password"); return; }
   document.getElementById('loginBtn').disabled = true;
   document.getElementById('loginHint').innerText = 'Logging in...';
-
   try{
-    const res = await fetch(API_BASE, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        action: 'login',
-        password: pw
-      })
-    });
-
+    const body = new URLSearchParams({ action:'login', password: pw }).toString();
+    const res = await fetch(API_BASE, { method:'POST', headers:{ 'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8' }, body });
     const text = await res.text();
-    try{
-      const d = JSON.parse(text);
-      if(d.status === 'success' && d.token){
-        TOKEN = d.token;
-        localStorage.setItem("kdse_token", TOKEN);
-        document.getElementById('loginHint').innerText = 'Login successful';
-        await load();
-      } else {
-        console.warn('Login failed response:', d);
-        alert("Login failed: " + (d.message || 'Invalid credentials'));
-        document.getElementById('loginHint').innerText = 'Enter password and press Login';
-      }
-    }catch(parseErr){
-      console.error('Login: invalid JSON response', text);
-      alert('Login error: invalid response from server (check console).');
-      document.getElementById('loginHint').innerText = 'Enter password and press Login';
-    }
-  }catch(e){
-    console.error('Login fetch error:', e);
-    alert('Login error: ' + (e.message || e));
-    document.getElementById('loginHint').innerText = 'Enter password and press Login';
-  } finally {
-    document.getElementById('loginBtn').disabled = false;
-  }
+    let d=null; try{ d = JSON.parse(text); }catch(e){ console.error('Login invalid JSON', text); }
+    if(d && d.status === 'success' && d.token){ TOKEN = d.token; localStorage.setItem('kdse_token', TOKEN); await load(); }
+    else { alert("Login failed: " + (d && d.message ? d.message : 'Invalid response')); document.getElementById('loginHint').innerText='Enter password and press Login'; }
+  }catch(e){ console.error(e); alert('Login error: '+(e.message||e)); document.getElementById('loginHint').innerText='Enter password and press Login'; }
+  finally{ document.getElementById('loginBtn').disabled = false; }
 }
 
 async function load(){
-  if(!TOKEN){
-    // show login
-    document.getElementById('app').style.display = 'none';
-    document.getElementById('loginArea').style.display = 'block';
-    return;
-  }
-
+  const saved = localStorage.getItem('kdse_token');
+  if(!TOKEN && saved) TOKEN = saved;
+  if(!TOKEN){ document.getElementById('app').style.display='none'; document.getElementById('loginArea').style.display='block'; return; }
   try{
-    // Loading state
-    document.getElementById('loginArea').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-
-    const res = await fetch(API_BASE, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + TOKEN
-      },
-      body: JSON.stringify({
-        action: 'getData',
-        token: TOKEN
-      })
-    });
-
+    document.getElementById('loginArea').style.display='none';
+    document.getElementById('app').style.display='block';
+    const body = new URLSearchParams({ action:'getData', token: TOKEN }).toString();
+    const res = await fetch(API_BASE, { method:'POST', headers:{ 'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8' }, body });
     const text = await res.text();
-    let d;
-    try {
-      d = JSON.parse(text);
-    } catch(e){
-      console.error('getData: invalid JSON', text);
-      alert('Error loading data: invalid response from server (see console).');
-      return;
-    }
-
-    if(d.status !== 'success' || !Array.isArray(d.data)){
-      console.warn('Session invalid or no data', d);
-      localStorage.removeItem("kdse_token");
-      TOKEN = "";
-      document.getElementById('app').style.display = 'none';
-      document.getElementById('loginArea').style.display = 'block';
-      alert("Session expired or invalid data. Please login again.");
-      return;
-    }
-
+    let d; try{ d = JSON.parse(text); }catch(e){ console.error('getData invalid JSON', text); alert('Invalid response from server'); return; }
+    if(d.status !== 'success' || !Array.isArray(d.data)){ localStorage.removeItem('kdse_token'); TOKEN=''; document.getElementById('app').style.display='none'; document.getElementById('loginArea').style.display='block'; alert('Session expired or invalid data. Please login again.'); return; }
     RAW_DATA = d.data || [];
-    parseRows();
-    FILTER_ACTIVE = false;
-    renderTable();
-    renderCards();
-    renderChart();
-
-  }catch(err){
-    console.error("Load Error:",err);
-    alert("Error loading data (check console).");
-    document.getElementById('app').style.display = 'none';
-    document.getElementById('loginArea').style.display = 'block';
-  }
+    parseRows(); FILTER_ACTIVE=false; renderTable(); renderCards(); renderChart();
+  }catch(err){ console.error('Load error', err); alert('Error loading data (see console).'); document.getElementById('app').style.display='none'; document.getElementById('loginArea').style.display='block'; }
 }
 
-const MONTHS = [
-"July","August","September","October","November","December",
-"January","February","March","April","May","June"
-];
-
+/* --- PARSE: treat any non-empty month cell as Paid; store status+paidDate --- */
 function parseRows(){
-  PARSED = RAW_DATA.map(r => ({
-    class: r[0],
-    student: r[1],
-    mobile: String(r[2] || ''),
-    monthlyFee: Number(r[3] || 0),
-    months: {
-      July: r[4], August: r[5], September: r[6], October: r[7], November: r[8], December: r[9],
-      January: r[10], February: r[11], March: r[12], April: r[13], May: r[14], June: r[15]
-    }
-  }));
+  PARSED = RAW_DATA.map(r=>{
+    const monthlyFee = Number(r[3] || 0);
+    const monthCells = [r[4],r[5],r[6],r[7],r[8],r[9],r[10],r[11],r[12],r[13],r[14],r[15]];
+    const monthsObj = {};
+    MONTHS.forEach((m,i)=>{
+      const cell = monthCells[i];
+      if(cell !== undefined && cell !== null && String(cell).trim() !== ""){
+        // If Apps Script returned a Date object, it becomes something like Tue Jul ...; stringify below
+        const paidDateRaw = cell;
+        const paidDateStr = formatDateFromAny(paidDateRaw);
+        monthsObj[m] = { status: "Paid", paidDate: paidDateStr, raw: paidDateRaw };
+      } else {
+        monthsObj[m] = { status: "Unpaid", paidDate: "", raw: "" };
+      }
+    });
+    return {
+      class: r[0],
+      student: r[1],
+      mobile: String(r[2] || ''),
+      monthlyFee,
+      months: monthsObj
+    };
+  });
 
-  // build class map
-  CLASSES = {};
-  PARSED.forEach(s => {
+  // build CLASSES & STUDENTS maps
+  CLASSES = {}; STUDENTS = {};
+  PARSED.forEach(s=>{
     if(!CLASSES[s.class]) CLASSES[s.class] = { name: s.class, students: [] };
     CLASSES[s.class].students.push(s);
     STUDENTS[s.mobile] = s;
   });
 }
 
-/* Helper to format date - returns DD-MM-YYYY if possible */
-function formatDate(d){
-  if(!d) return "";
+/* convert various cell values (Date object, string, serial) to DD-MM-YYYY */
+function formatDateFromAny(v){
+  if(!v && v !== 0) return "";
+  // If it's already a string that looks like a date, try Date parsing
   try{
-    const dt = new Date(d);
-    if(!isNaN(dt.getTime())){
-      const day = String(dt.getDate()).padStart(2,'0');
-      const month = String(dt.getMonth()+1).padStart(2,'0');
-      const year = dt.getFullYear();
-      return `${day}-${month}-${year}`;
+    // If v is a Date object (Apps Script returns Date -> becomes string when serialized on frontend though),
+    // attempt to create Date from it.
+    const maybeDate = (v instanceof Date) ? v : new Date(v);
+    if(!isNaN(maybeDate.getTime())){
+      const d = String(maybeDate.getDate()).padStart(2,'0');
+      const m = String(maybeDate.getMonth()+1).padStart(2,'0');
+      const y = maybeDate.getFullYear();
+      return `${d}-${m}-${y}`;
     }
-    return String(d);
-  }catch(e){
-    return String(d);
+  }catch(e){}
+  // fallback: if it's string like "01-Jul-2026" or "01/07/2026", try to normalize by splitting non-digits
+  const s = String(v).trim();
+  const digits = s.match(/\d{1,4}/g);
+  if(digits && digits.length>=3){
+    // pick day, month, year from digits; best-effort
+    let d = digits[0], m = digits[1], y = digits[2];
+    if(y.length===2) y = '20'+y;
+    d = String(d).padStart(2,'0'); m = String(m).padStart(2,'0');
+    return `${d}-${m}-${y}`;
   }
+  return s;
 }
 
-/* TABLE & PAGINATION */
-function escapeHtml(s){
-  if(!s) return "";
-  return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');
-}
-function escapeAttr(s){
-  return escapeHtml(String(s||"")).replaceAll("'", "\\'");
-}
-
-function renderTable(){
-  const tbody = document.getElementById("tableBody");
-  let html = "";
-  const classesToShow = FILTER_ACTIVE ? FILTERED_CLASSES : Object.values(CLASSES);
-
-  if(classesToShow.length === 0){
-    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;font-weight:bold">No Records Found</td></tr>`;
-    return;
-  }
-
-  classesToShow.forEach(cls=>{
-    let totalAmount = 0;
-    cls.students.forEach(student=>{
-      MONTHS.forEach(month=>{
-        if(student.months[month] === "Paid"){
-          totalAmount += student.monthlyFee;
-        }
-      });
-    });
-
-    html += `
-      <tr>
-        <td><span class="name-link" onclick="openClass('${escapeAttr(cls.name)}')">${escapeHtml(cls.name)}</span></td>
-        <td>${cls.students.length}</td>
-        <td>₹ ${totalAmount.toLocaleString('en-IN')}</td>
-        <td><button class="action-btn action-muted" onclick="openClass('${escapeAttr(cls.name)}')">View</button></td>
-      </tr>
-    `;
-  });
-
-  tbody.innerHTML = html;
-}
-
+/* --- HELPERS for calculations --- */
 function getStudentCollected(student){
   let total = 0;
   MONTHS.forEach(month=>{
-    if(student.months[month] === "Paid"){
+    if(student.months[month] && student.months[month].status === "Paid"){
       total += student.monthlyFee;
     }
   });
   return total;
 }
-
 function getLatestMonth(student){
   let latest = "-";
+  // iterate in order to find last paid
   MONTHS.forEach(month=>{
-    if(student.months[month] === "Paid"){
+    if(student.months[month] && student.months[month].status === "Paid"){
       latest = month;
     }
   });
   return latest;
 }
-
 function getLatestStatus(student){
-  const latestMonth = getLatestMonth(student);
-  if(latestMonth === "-") return "Unpaid";
-  return student.months[latestMonth] || "Unpaid";
+  const lm = getLatestMonth(student);
+  if(lm === "-") return "Unpaid";
+  return student.months[lm].status || "Unpaid";
+}
+function getLatestPaidDate(student){
+  const lm = getLatestMonth(student);
+  if(lm === "-") return "";
+  return student.months[lm].paidDate || "";
 }
 
+/* --- TABLE RENDER --- */
+function renderTable(){
+  const tbody = document.getElementById('tableBody');
+  const classesToShow = FILTER_ACTIVE ? FILTERED_CLASSES : Object.values(CLASSES);
+  if(!classesToShow || classesToShow.length===0){
+    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;font-weight:bold">No Records Found</td></tr>`;
+    return;
+  }
+  let html = '';
+  classesToShow.forEach(cls=>{
+    let totalAmount = 0;
+    cls.students.forEach(student=>{
+      totalAmount += getStudentCollected(student);
+    });
+    html += `<tr>
+      <td><span class="name-link" onclick="openClass('${escapeAttr(cls.name)}')">${escapeHtml(cls.name)}</span></td>
+      <td>${cls.students.length}</td>
+      <td>₹ ${totalAmount.toLocaleString('en-IN')}</td>
+      <td><button class="action-btn action-muted" onclick="openClass('${escapeAttr(cls.name)}')">View</button></td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+}
+
+/* --- CLASS MODAL: list students with name/mobile stacked & Paid Date column --- */
 function openClass(className){
   const cls = CLASSES[className];
   if(!cls) return;
-
-  document.getElementById("classModalTitle").innerText = `${className} - Students`;
-  const tbody = document.getElementById("classStudentBody");
-  let html = "";
-
-  if(!cls.students || cls.students.length === 0){
+  document.getElementById('classModalTitle').innerText = `${className} - Students`;
+  const tbody = document.getElementById('classStudentBody');
+  if(!cls.students || cls.students.length===0){
     tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;font-weight:bold">No Records Found</td></tr>`;
-    return;
-  }
-
-  cls.students.forEach(student=>{
-    const amount = getStudentCollected(student);
-    const latestMonth = getLatestMonth(student);
-    const status = getLatestStatus(student);
-
-    html += `
-      <tr>
-        <td><span class="name-link" onclick="openStudent('${escapeAttr(student.mobile)}')">${escapeHtml(student.student)}</span></td>
-        <td>${escapeHtml(student.mobile)}</td>
+  } else {
+    let html = '';
+    cls.students.forEach(student=>{
+      const amount = getStudentCollected(student);
+      const latestMonth = getLatestMonth(student);
+      const status = getLatestStatus(student);
+      const paidDate = getLatestPaidDate(student);
+      html += `<tr>
+        <td>
+          <div style="font-weight:700"><span class="name-link" onclick="openStudent('${escapeAttr(student.mobile)}')">${escapeHtml(student.student)}</span></div>
+          <div style="color:var(--muted);margin-top:6px">${escapeHtml(student.mobile)}</div>
+        </td>
         <td>${escapeHtml(latestMonth)}</td>
         <td>₹ ${amount.toLocaleString('en-IN')}</td>
         <td>${escapeHtml(status)}</td>
+        <td>${escapeHtml(paidDate)}</td>
         <td><button class="action-btn action-muted" onclick="openStudent('${escapeAttr(student.mobile)}')">View</button></td>
-      </tr>
-    `;
-  });
-
-  tbody.innerHTML = html;
-  document.getElementById("classModalBackdrop").style.display = "flex";
-  document.getElementById("classModalBackdrop").setAttribute('aria-hidden','false');
+      </tr>`;
+    });
+    tbody.innerHTML = html;
+  }
+  document.getElementById('classModalBackdrop').style.display = 'flex';
+  document.getElementById('classModalBackdrop').setAttribute('aria-hidden','false');
 }
 
+/* close class modal */
 function closeClassModal(){
-  document.getElementById("classModalBackdrop").style.display = "none";
-  document.getElementById("classModalBackdrop").setAttribute('aria-hidden','true');
+  document.getElementById('classModalBackdrop').style.display = 'none';
+  document.getElementById('classModalBackdrop').setAttribute('aria-hidden','true');
 }
 
-function applyFilters(){
-  FILTER_ACTIVE = true;
-  const search = document.getElementById("searchInput").value.toLowerCase();
-  const month = document.getElementById("filterMonth").value;
-  const status = document.getElementById("filterStatus").value;
-
- FILTERED_CLASSES = Object.values(CLASSES).filter(cls=>{
-    if(search && !cls.name.toLowerCase().includes(search)) return false;
-
-    if(month){
-      let found = false;
-      cls.students.forEach(student=>{
-        const value = student.months[month];
-        if(status){
-          if(value && value.toString().toLowerCase() === status.toLowerCase()){
-            found = true;
-          }
-        } else {
-          if(value){
-            found = true;
-          }
-        }
-      });
-      if(!found) return false;
-    }
-    return true;
-  });
-
-  renderTable();
-}
-
-/* CARDS */
-function renderCards(){
-  const totalClasses = Object.keys(CLASSES).length;
-  const totalStudents = PARSED.length;
-  let collected = 0;
-  let expected = 0;
-
-  PARSED.forEach(student=>{
-    expected += student.monthlyFee * 12;
-    MONTHS.forEach(month=>{
-      if(student.months[month] === "Paid"){
-        collected += student.monthlyFee;
-      }
-    });
-  });
-
-  document.getElementById("t1").innerText = totalClasses;
-  document.getElementById("t2").innerText = totalStudents;
-  document.getElementById("t3").innerText = "₹ " + collected.toLocaleString('en-IN');
-  document.getElementById("t4").innerText = "₹ " + expected.toLocaleString('en-IN');
-}
-
-/* CHART */
-function renderChart(){
-  let collected = 0;
-  let pending = 0;
-
-  PARSED.forEach(student=>{
-    MONTHS.forEach(month=>{
-      if(student.months[month] === "Paid"){
-        collected += student.monthlyFee;
-      }else{
-        pending += student.monthlyFee;
-      }
-    });
-  });
-
-  const ctx = document.getElementById("chart").getContext("2d");
-  if(window._chart) window._chart.destroy();
-
-  window._chart = new Chart(ctx,{
-    type:"doughnut",
-    data:{
-      labels:["Collected","Pending"],
-      datasets:[{
-        data:[collected,pending],
-        backgroundColor:["#10b981","#ef4444"]
-      }]
-    },
-    options:{responsive:true,maintainAspectRatio:false}
-  });
-}
-
-/* Modal (student details) */
+/* --- STUDENT DETAIL modal (month cards) --- */
 function openStudent(mobile){
   const student = PARSED.find(s => s.mobile == mobile);
   if(!student) return;
+  // show student modal on top - keep class modal open behind it
+  document.getElementById('modalTitle').innerText = `${student.student} — Fee Details`;
+  document.getElementById('modalSub').innerText = `Mobile : ${student.mobile}`;
+  document.getElementById('modalClass').innerText = `Class : ${student.class}`;
+  document.getElementById('modalYTD').innerText = `Collected : ₹ ${getStudentCollected(student).toLocaleString('en-IN')}`;
 
-  document.getElementById("modalTitle").innerText = student.student + " - Fee Details";
-  document.getElementById("modalSub").innerText = "Mobile : " + student.mobile;
-  document.getElementById("modalClass").innerText = "Class : " + student.class;
-  const collected = getStudentCollected(student);
-  document.getElementById("modalYTD").innerText = "Collected : ₹ " + collected.toLocaleString('en-IN');
-
-  const grid = document.getElementById("monthGrid");
-  grid.innerHTML = "";
-
+  const grid = document.getElementById('monthGrid');
+  grid.innerHTML = '';
   MONTHS.forEach(month=>{
-    const status = student.months[month];
-    const div = document.createElement("div");
-    div.className = "month-card " + (status === "Paid" ? "paid" : "pending");
-    div.innerHTML = `
-      <div><strong>${month}</strong><br>₹ ${student.monthlyFee}</div>
-      <div><strong>${status || "Unpaid"}</strong></div>
-    `;
+    const entry = student.months[month] || { status: 'Unpaid', paidDate: '' };
+    const status = entry.status || 'Unpaid';
+    const paidDate = entry.paidDate || '';
+    const div = document.createElement('div');
+    div.className = 'month-card ' + (status === 'Paid' ? 'paid' : 'pending');
+    div.innerHTML = `<div><strong>${month}</strong><br>₹ ${student.monthlyFee}</div><div><strong>${status}${paidDate ? ' — ' + paidDate : ''}</strong></div>`;
     grid.appendChild(div);
   });
 
-  document.getElementById("modalBackdrop").style.display = "flex";
-  document.getElementById("modalBackdrop").setAttribute('aria-hidden','false');
+  // ensure student modal is visible on top
+  document.getElementById('modalBackdrop').style.display = 'flex';
+  document.getElementById('modalBackdrop').setAttribute('aria-hidden','false');
+  // add small timeout to scroll modal into view
+  setTimeout(()=>{ document.getElementById('studentModal').scrollIntoView({behavior:'smooth', block:'center'}); }, 50);
 }
 
+/* close student modal */
 function closeModal(){
   document.getElementById('modalBackdrop').style.display = 'none';
   document.getElementById('modalBackdrop').setAttribute('aria-hidden','true');
 }
 
-/* Export: CSV of all students */
+/* --- Export / CSV / PDF helpers (unchanged except small safety) --- */
 function exportCSV(){
   const rows = [];
   rows.push(["Class","Student Name","Mobile","Monthly Fee",...MONTHS]);
-  PARSED.forEach(student=>{
-    rows.push([
-      student.class, student.student, student.mobile, student.monthlyFee,
-      student.months.July,student.months.August,student.months.September,student.months.October,student.months.November,student.months.December,
-      student.months.January,student.months.February,student.months.March,student.months.April,student.months.May,student.months.June
+  PARSED.forEach(s=>{
+    rows.push([s.class,s.student,s.mobile,s.monthlyFee,
+      s.months.July.raw || s.months.July.paidDate || '',
+      s.months.August.raw || s.months.August.paidDate || '',
+      s.months.September.raw || s.months.September.paidDate || '',
+      s.months.October.raw || s.months.October.paidDate || '',
+      s.months.November.raw || s.months.November.paidDate || '',
+      s.months.December.raw || s.months.December.paidDate || '',
+      s.months.January.raw || s.months.January.paidDate || '',
+      s.months.February.raw || s.months.February.paidDate || '',
+      s.months.March.raw || s.months.March.paidDate || '',
+      s.months.April.raw || s.months.April.paidDate || '',
+      s.months.May.raw || s.months.May.paidDate || '',
+      s.months.June.raw || s.months.June.paidDate || ''
     ]);
   });
-  const csv = rows.map(r=>r.map(c=>`"${String(c||'').replaceAll('"','""')}"`).join(",")).join("\n");
+  const csv = rows.map(r=>r.map(c=>`"${String(c||'').replaceAll('"','""')}"`).join(',')).join('\n');
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  const a = document.createElement("a");
+  const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = "KDSE_Students.csv";
+  a.download = 'KDSE_Students.csv';
   a.click();
 }
 
-/* Export single student PDF (simple using jsPDF) */
 function exportStudentPDF(){
-  const title = document.getElementById("modalTitle").innerText;
+  const title = document.getElementById('modalTitle').innerText;
   const pdf = new jspdf.jsPDF();
-  pdf.setFontSize(16);
-  pdf.text(title,15,20);
-  pdf.setFontSize(11);
-  pdf.text(document.getElementById("modalSub").innerText,15,30);
-  pdf.text(document.getElementById("modalClass").innerText,15,38);
+  pdf.setFontSize(16); pdf.text(title,15,20);
+  pdf.setFontSize(11); pdf.text(document.getElementById('modalSub').innerText,15,30);
+  pdf.text(document.getElementById('modalClass').innerText,15,38);
   let y = 55;
-  const grid = document.getElementById("monthGrid");
+  const grid = document.getElementById('monthGrid');
   Array.from(grid.children).forEach(card=>{
-    pdf.text(card.innerText.replace(/\n/g," "),15,y);
+    pdf.text(card.innerText.replace(/\n/g,' '),15,y);
     y += 10;
     if(y > 270){ pdf.addPage(); y = 20; }
   });
-  pdf.save(title.replaceAll(" ","_") + ".pdf");
+  pdf.save(title.replaceAll(' ','_') + '.pdf');
 }
 
-/* Export monthly PDF (summary) */
+/* monthly summary PDF */
 function downloadMonthlyPDF(){
   const pdf = new jspdf.jsPDF();
-  pdf.setFontSize(16);
-  pdf.text("KDSE Fee Summary",15,20);
+  pdf.setFontSize(16); pdf.text('KDSE Fee Summary',15,20);
   let y = 35;
   Object.values(CLASSES).forEach(cls=>{
     pdf.text(`${cls.name} : ${cls.students.length} Students`,15,y);
     y += 10;
     if(y > 270){ pdf.addPage(); y = 20; }
   });
-  pdf.save("KDSE_Class_Summary.pdf");
+  pdf.save('KDSE_Class_Summary.pdf');
 }
 
-/* Refresh: re-load from API */
-async function refreshData(){
-  if(!TOKEN){ alert('Not logged in'); return; }
-  await load();
+/* refresh & logout */
+async function refreshData(){ if(!TOKEN){ alert('Not logged in'); return; } await load(); }
+function logout(){ localStorage.removeItem('kdse_token'); TOKEN=''; CLASSES={}; PARSED=[]; RAW_DATA=[]; document.getElementById('app').style.display='none'; document.getElementById('loginArea').style.display='block'; document.getElementById('password').value=''; if(window._chart) window._chart.destroy(); alert('Logged out successfully'); }
+
+/* --- Chart and cards --- */
+function renderCards(){
+  const totalClasses = Object.keys(CLASSES).length;
+  const totalStudents = PARSED.length;
+  let collected = 0, expected = 0;
+  PARSED.forEach(student=>{ expected += student.monthlyFee * 12; collected += getStudentCollected(student); });
+  document.getElementById('t1').innerText = totalClasses;
+  document.getElementById('t2').innerText = totalStudents;
+  document.getElementById('t3').innerText = '₹ ' + collected.toLocaleString('en-IN');
+  document.getElementById('t4').innerText = '₹ ' + expected.toLocaleString('en-IN');
 }
 
-/* Logout */
-function logout(){
-  localStorage.removeItem("kdse_token");
-  TOKEN = "";
-  FILTERED = [];
-  CLASSES = {};
-  PARSED = [];
-  RAW_DATA = [];
-  document.getElementById('app').style.display='none';
-  document.getElementById('loginArea').style.display='block';
-  document.getElementById('password').value='';
-  if(window._chart) window._chart.destroy();
-  alert("Logged out successfully");
-}
-
-/* init defaults */
-document.addEventListener('DOMContentLoaded', ()=>{
-    loadLogo();
-    document.getElementById('rowsPerPage').value = '10';
-    // Enter key login
-    document.getElementById("password").addEventListener("keypress", function(e){
-        if(e.key === "Enter"){ doLogin(); }
+function renderChart(){
+  let collected = 0, pending = 0;
+  PARSED.forEach(student=>{
+    MONTHS.forEach(month=>{
+      if(student.months[month] && student.months[month].status === 'Paid') collected += student.monthlyFee;
+      else pending += student.monthlyFee;
     });
-    const savedToken = localStorage.getItem("kdse_token");
-    if(savedToken){
-        TOKEN = savedToken;
-        load();
+  });
+  const ctx = document.getElementById('chart').getContext('2d');
+  if(window._chart) window._chart.destroy();
+  window._chart = new Chart(ctx, { type:'doughnut', data:{ labels:['Collected','Pending'], datasets:[{ data:[collected,pending], backgroundColor:['#10b981','#ef4444'] }] }, options:{ responsive:true, maintainAspectRatio:false } });
+}
+
+/* --- FILTER / SEARCH (class, name, mobile) --- */
+function applyFilters(){
+  FILTER_ACTIVE = true;
+  const search = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+  const month = document.getElementById('filterMonth').value;
+  const status = document.getElementById('filterStatus').value;
+
+  FILTERED_CLASSES = Object.values(CLASSES).filter(cls=>{
+    // search: match class name OR any student name OR any student mobile
+    if(search){
+      const classMatch = String(cls.name || '').toLowerCase().includes(search);
+      let studentMatch = false;
+      cls.students.forEach(s=>{
+        if(String(s.student || '').toLowerCase().includes(search)) studentMatch = true;
+        if(String(s.mobile || '').toLowerCase().includes(search)) studentMatch = true;
+      });
+      if(!classMatch && !studentMatch) return false;
     }
+
+    // month+status filtering: keep class only if at least one student matches
+    if(month){
+      let found = false;
+      cls.students.forEach(student=>{
+        const entry = student.months[month];
+        const entryStatus = entry ? entry.status : 'Unpaid';
+        if(status){
+          if(entryStatus && entryStatus.toLowerCase() === status.toLowerCase()) found = true;
+        } else {
+          if(entryStatus && entryStatus.toLowerCase() === 'paid') found = true;
+        }
+      });
+      if(!found) return false;
+    }
+
+    return true;
+  });
+
+  renderTable();
+}
+
+/* --- init --- */
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.getElementById('rowsPerPage').value = '10';
+  document.getElementById('password').addEventListener('keypress', function(e){ if(e.key === 'Enter') doLogin(); });
+  const saved = localStorage.getItem('kdse_token');
+  if(saved){ TOKEN = saved; load(); }
 });
 </script>
 </body>
