@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>KDSE Student Fee Dashboard — Redesigned</title>
+<title>KDSE Student Fee Dashboard — Fixed</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -124,22 +124,23 @@ tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid 
 <div class="container">
 
   <!-- LOGIN -->
-  <div id="loginArea" class="login-card">
+  <div id="loginArea" class="login-card" aria-hidden="false">
     <div class="logo">
-  <img src="images/logo.png" alt="School Logo" class="logo-img">
-  </div>
+      <img src="images/logo.png" alt="School Logo" class="logo-img" onerror="this.style.display='none'">
+    </div>
     <h2>KDSE ADMIN LOGIN</h2>
-    <input id="password" class="input" placeholder="Enter admin password" type="password" />
-    <button class="btn" onclick="doLogin()">Login</button>
+    <input id="password" class="input" placeholder="Enter admin password" type="password" aria-label="password" />
+    <button id="loginBtn" class="btn" onclick="doLogin()">Login</button>
+    <div class="hint" id="loginHint">Enter password and press Login</div>
   </div>
 
   <!-- APP -->
   <div id="app" style="display:none">
-    <div class="header">
+    <div class="header" role="banner">
       <div class="brand">
         <div class="logo-sm">
-  <img src="images/logo.png" alt="School Logo" class="logo-img">
-  </div>
+          <img src="images/logo.png" alt="School Logo" class="logo-img" onerror="this.style.display='none'">
+        </div>
         <div>
           <div class="title">KALYANI DEVI SCHOOL — Student Fee Dashboard</div>
           <div class="small">Admin panel — view & manage student fees</div>
@@ -154,7 +155,7 @@ tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid 
     </div>
 
     <!-- controls -->
-    <div class="controls">
+    <div class="controls" role="region" aria-label="filters">
       <select id="filterStatus" class="select" onchange="applyFilters()">
         <option value="">All Status</option>
         <option value="Paid">Paid</option>
@@ -177,12 +178,9 @@ tbody td{background:rgba(255,255,255,0.98);padding:12px;border-bottom:1px solid 
         <option>April</option>
         <option>May</option>
         <option>June</option>
-        </select>
+      </select>
 
-      <input id="searchInput"
-class="search"
-placeholder="Search Class"
-oninput="applyFilters()" />
+      <input id="searchInput" class="search" placeholder="Search Class" oninput="applyFilters()" />
 
       <select id="rowsPerPage" onchange="renderTable(); renderPagination()" class="select">
         <option>10</option><option>20</option><option>50</option>
@@ -192,27 +190,27 @@ oninput="applyFilters()" />
     <!-- cards -->
     <div class="grid">
 
-<div class="card">
-<h4>Total Classes</h4>
-<p id="t1">0</p>
-</div>
+      <div class="card">
+        <h4>Total Classes</h4>
+        <p id="t1">0</p>
+      </div>
 
-<div class="card">
-<h4>Total Students</h4>
-<p id="t2">0</p>
-</div>
+      <div class="card">
+        <h4>Total Students</h4>
+        <p id="t2">0</p>
+      </div>
 
-<div class="card">
-<h4>Collected Amount</h4>
-<p id="t3">₹ 0</p>
-</div>
+      <div class="card">
+        <h4>Collected Amount</h4>
+        <p id="t3">₹ 0</p>
+      </div>
 
-<div class="card">
-<h4>Expected Amount</h4>
-<p id="t4">₹ 0</p>
-</div>
+      <div class="card">
+        <h4>Expected Amount</h4>
+        <p id="t4">₹ 0</p>
+      </div>
 
-</div>
+    </div>
 
     <!-- table -->
     <div class="table-wrap">
@@ -233,14 +231,14 @@ oninput="applyFilters()" />
 
     <!-- chart -->
     <div class="chart-box" style="margin-top:16px;background:white;padding:16px;border-radius:12px;height:300px;max-width:500px;margin-left:auto;margin-right:auto;">
-   <canvas id="chart"></canvas>
-   </div>
+      <canvas id="chart"></canvas>
+    </div>
   </div>
 
 </div>
 
 <!-- modal -->
-<div id="modalBackdrop" class="modal-backdrop">
+<div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
   <div class="modal" role="dialog" aria-modal="true">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
       <div>
@@ -263,59 +261,29 @@ oninput="applyFilters()" />
 </div>
 
 <!-- CLASS MODAL -->
+<div id="classModalBackdrop" class="modal-backdrop" aria-hidden="true">
+  <div class="modal">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h3 id="classModalTitle">Class Students</h3>
+      <button class="action-btn action-muted" onclick="closeClassModal()">Close</button>
+    </div>
 
-<div id="classModalBackdrop"
-class="modal-backdrop">
-
-<div class="modal">
-
-<div style="display:flex;
-justify-content:space-between;
-align-items:center">
-
-<h3 id="classModalTitle">
-Class Students
-</h3>
-
-<button
-class="action-btn action-muted"
-onclick="closeClassModal()">
-
-Close
-
-</button>
-
-</div>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Student Name</th>
-<th>Mobile</th>
-<th>Latest Month</th>
-<th>Amount (YTD)</th>
-<th>Status</th>
-<th>Action</th>
-
-</tr>
-
-</thead>
-
-<tbody id="classStudentBody">
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Student Name</th>
+            <th>Mobile</th>
+            <th>Latest Month</th>
+            <th>Amount (YTD)</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="classStudentBody"></tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -325,6 +293,7 @@ async function loadLogo() {
   const logoUrl = "images/logo.png";
   try {
     const response = await fetch(logoUrl);
+    if (!response.ok) return;
     const blob = await response.blob();
     const reader = new FileReader();
     reader.onloadend = function () {
@@ -332,7 +301,7 @@ async function loadLogo() {
     };
     reader.readAsDataURL(blob);
   } catch (err) {
-    console.error("Logo load error:", err);
+    console.warn("Logo load error:", err);
   }
 }
 
@@ -344,9 +313,8 @@ let PARSED = []; // array of objects
 let FILTERED = []; // filtered array of student objects for table
 let FILTERED_CLASSES = [];
 let FILTER_ACTIVE = false;
-let STUDENTS = {}; // keyed by id (roll || name)
+let STUDENTS = {}; // keyed by mobile
 let CLASSES = {};
-
 let currentPage = 1;
 
 async function doLogin(){
@@ -355,121 +323,132 @@ async function doLogin(){
     alert("Enter password");
     return;
   }
+  document.getElementById('loginBtn').disabled = true;
+  document.getElementById('loginHint').innerText = 'Logging in...';
+
   try{
-    const res = await fetch(API_BASE,{
-      method:'POST',
-      body:JSON.stringify({
-        action:'login',
-        password:pw
+    const res = await fetch(API_BASE, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        action: 'login',
+        password: pw
       })
     });
-    const d = await res.json();
-    if(d.status === 'success'){
-      TOKEN = d.token;
-      localStorage.setItem("kdse_token",TOKEN);
-      await load();
-    }else{
-      alert("Login failed");
+
+    const text = await res.text();
+    try{
+      const d = JSON.parse(text);
+      if(d.status === 'success' && d.token){
+        TOKEN = d.token;
+        localStorage.setItem("kdse_token", TOKEN);
+        document.getElementById('loginHint').innerText = 'Login successful';
+        await load();
+      } else {
+        console.warn('Login failed response:', d);
+        alert("Login failed: " + (d.message || 'Invalid credentials'));
+        document.getElementById('loginHint').innerText = 'Enter password and press Login';
+      }
+    }catch(parseErr){
+      console.error('Login: invalid JSON response', text);
+      alert('Login error: invalid response from server (check console).');
+      document.getElementById('loginHint').innerText = 'Enter password and press Login';
     }
   }catch(e){
-    console.error(e);
-    alert("Login error");
+    console.error('Login fetch error:', e);
+    alert('Login error: ' + (e.message || e));
+    document.getElementById('loginHint').innerText = 'Enter password and press Login';
+  } finally {
+    document.getElementById('loginBtn').disabled = false;
   }
 }
 
 async function load(){
-  if(!TOKEN) return;
+  if(!TOKEN){
+    // show login
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('loginArea').style.display = 'block';
+    return;
+  }
+
   try{
     // Loading state
     document.getElementById('loginArea').style.display = 'none';
     document.getElementById('app').style.display = 'block';
 
-    const res = await fetch(API_BASE,{
-      method:'POST',
-      body:JSON.stringify({
-        action:'getData',
-        token:TOKEN
+    const res = await fetch(API_BASE, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + TOKEN
+      },
+      body: JSON.stringify({
+        action: 'getData',
+        token: TOKEN
       })
     });
 
-    const d = await res.json();
+    const text = await res.text();
+    let d;
+    try {
+      d = JSON.parse(text);
+    } catch(e){
+      console.error('getData: invalid JSON', text);
+      alert('Error loading data: invalid response from server (see console).');
+      return;
+    }
 
-    if(d.status !== 'success'){
+    if(d.status !== 'success' || !Array.isArray(d.data)){
+      console.warn('Session invalid or no data', d);
       localStorage.removeItem("kdse_token");
       TOKEN = "";
       document.getElementById('app').style.display = 'none';
       document.getElementById('loginArea').style.display = 'block';
-      alert("Session expired. Please login again.");
+      alert("Session expired or invalid data. Please login again.");
       return;
     }
 
     RAW_DATA = d.data || [];
-
     parseRows();
-
     FILTER_ACTIVE = false;
-
     renderTable();
-
     renderCards();
-
     renderChart();
 
   }catch(err){
     console.error("Load Error:",err);
+    alert("Error loading data (check console).");
     document.getElementById('app').style.display = 'none';
     document.getElementById('loginArea').style.display = 'block';
-    alert("Error loading data");
   }
 }
 
 const MONTHS = [
-"July",
-"August",
-"September",
-"October",
-"November",
-"December",
-"January",
-"February",
-"March",
-"April",
-"May",
-"June"
+"July","August","September","October","November","December",
+"January","February","March","April","May","June"
 ];
 
 function parseRows(){
+  PARSED = RAW_DATA.map(r => ({
+    class: r[0],
+    student: r[1],
+    mobile: String(r[2] || ''),
+    monthlyFee: Number(r[3] || 0),
+    months: {
+      July: r[4], August: r[5], September: r[6], October: r[7], November: r[8], December: r[9],
+      January: r[10], February: r[11], March: r[12], April: r[13], May: r[14], June: r[15]
+    }
+  }));
 
-PARSED = RAW_DATA.map(r => ({
-
-class:r[0],
-student:r[1],
-mobile:r[2],
-
-monthlyFee:Number(r[3] || 0),
-
-months:{
-
-July:r[4],
-August:r[5],
-September:r[6],
-October:r[7],
-November:r[8],
-December:r[9],
-
-January:r[10],
-February:r[11],
-March:r[12],
-April:r[13],
-May:r[14],
-June:r[15]
-
-}
-
-}));
-
-buildClasses();
-
+  // build class map
+  CLASSES = {};
+  PARSED.forEach(s => {
+    if(!CLASSES[s.class]) CLASSES[s.class] = { name: s.class, students: [] };
+    CLASSES[s.class].students.push(s);
+    STUDENTS[s.mobile] = s;
+  });
 }
 
 /* Helper to format date - returns DD-MM-YYYY if possible */
@@ -499,715 +478,277 @@ function escapeAttr(s){
 }
 
 function renderTable(){
+  const tbody = document.getElementById("tableBody");
+  let html = "";
+  const classesToShow = FILTER_ACTIVE ? FILTERED_CLASSES : Object.values(CLASSES);
 
-const tbody =
-document.getElementById("tableBody");
+  if(classesToShow.length === 0){
+    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;font-weight:bold">No Records Found</td></tr>`;
+    return;
+  }
 
-let html = "";
+  classesToShow.forEach(cls=>{
+    let totalAmount = 0;
+    cls.students.forEach(student=>{
+      MONTHS.forEach(month=>{
+        if(student.months[month] === "Paid"){
+          totalAmount += student.monthlyFee;
+        }
+      });
+    });
 
-const classesToShow =
+    html += `
+      <tr>
+        <td><span class="name-link" onclick="openClass('${escapeAttr(cls.name)}')">${escapeHtml(cls.name)}</span></td>
+        <td>${cls.students.length}</td>
+        <td>₹ ${totalAmount.toLocaleString('en-IN')}</td>
+        <td><button class="action-btn action-muted" onclick="openClass('${escapeAttr(cls.name)}')">View</button></td>
+      </tr>
+    `;
+  });
 
-FILTER_ACTIVE
-? FILTERED_CLASSES
-: Object.values(CLASSES);
-
-classesToShow.forEach(cls=>{
-
-let totalAmount = 0;
-
-cls.students.forEach(student=>{
-
-MONTHS.forEach(month=>{
-
-if(student.months[month] === "Paid"){
-
-totalAmount += student.monthlyFee;
-
-}
-
-});
-
-});
-
-html += `
-
-<tr>
-
-<td>
-
-<span class="name-link"
-onclick="openClass('${cls.name}')">
-
-${cls.name}
-
-</span>
-
-</td>
-
-<td>
-
-${cls.students.length}
-
-</td>
-
-<td>
-
-₹ ${totalAmount.toLocaleString('en-IN')}
-
-</td>
-
-<td>
-
-<button
-class="action-btn action-muted"
-onclick="openClass('${cls.name}')">
-
-View
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-});
-
-tbody.innerHTML = html;
-
+  tbody.innerHTML = html;
 }
 
 function getStudentCollected(student){
-
-let total = 0;
-
-MONTHS.forEach(month=>{
-
-if(student.months[month] === "Paid"){
-
-total += student.monthlyFee;
-
-}
-
-});
-
-return total;
-
+  let total = 0;
+  MONTHS.forEach(month=>{
+    if(student.months[month] === "Paid"){
+      total += student.monthlyFee;
+    }
+  });
+  return total;
 }
 
 function getLatestMonth(student){
-
-let latest = "-";
-
-MONTHS.forEach(month=>{
-
-if(student.months[month] === "Paid"){
-
-latest = month;
-
-}
-
-});
-
-return latest;
-
+  let latest = "-";
+  MONTHS.forEach(month=>{
+    if(student.months[month] === "Paid"){
+      latest = month;
+    }
+  });
+  return latest;
 }
 
 function getLatestStatus(student){
-
-const latestMonth =
-getLatestMonth(student);
-
-if(latestMonth === "-")
-return "Unpaid";
-
-return student.months[latestMonth];
-
+  const latestMonth = getLatestMonth(student);
+  if(latestMonth === "-") return "Unpaid";
+  return student.months[latestMonth] || "Unpaid";
 }
 
 function openClass(className){
+  const cls = CLASSES[className];
+  if(!cls) return;
 
-const cls = CLASSES[className];
+  document.getElementById("classModalTitle").innerText = `${className} - Students`;
+  const tbody = document.getElementById("classStudentBody");
+  let html = "";
 
-if(!cls) return;
+  if(!cls.students || cls.students.length === 0){
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;font-weight:bold">No Records Found</td></tr>`;
+    return;
+  }
 
-document
-.getElementById("classModalTitle")
-.innerText =
-`${className} - Students`;
+  cls.students.forEach(student=>{
+    const amount = getStudentCollected(student);
+    const latestMonth = getLatestMonth(student);
+    const status = getLatestStatus(student);
 
-const tbody =
-document.getElementById(
-"classStudentBody"
-);
+    html += `
+      <tr>
+        <td><span class="name-link" onclick="openStudent('${escapeAttr(student.mobile)}')">${escapeHtml(student.student)}</span></td>
+        <td>${escapeHtml(student.mobile)}</td>
+        <td>${escapeHtml(latestMonth)}</td>
+        <td>₹ ${amount.toLocaleString('en-IN')}</td>
+        <td>${escapeHtml(status)}</td>
+        <td><button class="action-btn action-muted" onclick="openStudent('${escapeAttr(student.mobile)}')">View</button></td>
+      </tr>
+    `;
+  });
 
-let html = "";
-
-cls.students.forEach(student=>{
-
-const amount =
-getStudentCollected(student);
-
-const latestMonth =
-getLatestMonth(student);
-
-const status =
-getLatestStatus(student);
-
-html += `
-
-<tr>
-
-<td>
-
-<span
-class="name-link"
-onclick="openStudent('${student.mobile}')">
-
-${student.student}
-
-</span>
-
-</td>
-
-<td>
-
-${student.mobile}
-
-</td>
-
-<td>
-
-${latestMonth}
-
-</td>
-
-<td>
-
-₹ ${amount.toLocaleString('en-IN')}
-
-</td>
-
-<td>
-
-${status}
-
-</td>
-
-<td>
-
-<button
-class="action-btn action-muted"
-onclick="openStudent('${student.mobile}')">
-
-View
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-});
-
-if(classesToShow.length === 0){
-
-tbody.innerHTML = `
-
-<tr>
-
-<td colspan="4"
-style="text-align:center;
-font-weight:bold">
-
-No Records Found
-
-</td>
-
-</tr>
-
-`;
-
-return;
-
-}
-
-tbody.innerHTML = html;
-
-document
-.getElementById(
-"classModalBackdrop"
-)
-.style.display = "flex";
-
+  tbody.innerHTML = html;
+  document.getElementById("classModalBackdrop").style.display = "flex";
+  document.getElementById("classModalBackdrop").setAttribute('aria-hidden','false');
 }
 
 function closeClassModal(){
-
-document
-.getElementById(
-"classModalBackdrop"
-)
-.style.display = "none";
-
+  document.getElementById("classModalBackdrop").style.display = "none";
+  document.getElementById("classModalBackdrop").setAttribute('aria-hidden','true');
 }
 
 function applyFilters(){
+  FILTER_ACTIVE = true;
+  const search = document.getElementById("searchInput").value.toLowerCase();
+  const month = document.getElementById("filterMonth").value;
+  const status = document.getElementById("filterStatus").value;
 
-FILTER_ACTIVE = true;
+ FILTERED_CLASSES = Object.values(CLASSES).filter(cls=>{
+    if(search && !cls.name.toLowerCase().includes(search)) return false;
 
-const search =
-document.getElementById("searchInput")
-.value
-.toLowerCase();
+    if(month){
+      let found = false;
+      cls.students.forEach(student=>{
+        const value = student.months[month];
+        if(status){
+          if(value && value.toString().toLowerCase() === status.toLowerCase()){
+            found = true;
+          }
+        } else {
+          if(value){
+            found = true;
+          }
+        }
+      });
+      if(!found) return false;
+    }
+    return true;
+  });
 
-const month =
-document.getElementById("filterMonth")
-.value;
-
-const status =
-document.getElementById("filterStatus")
-.value;
-
-FILTERED_CLASSES =
-Object.values(CLASSES).filter(cls=>{
-
-/* Search */
-
-if(
-search &&
-!cls.name.toLowerCase().includes(search)
-){
-return false;
-}
-
-/* Month + Status */
-
-if(month){
-
-let found = false;
-
-cls.students.forEach(student=>{
-
-const value =
-student.months[month];
-
-if(status){
-
-if(
-value &&
-value.toString().toLowerCase()
-=== status.toLowerCase()
-){
-found = true;
-}
-
-}else{
-
-if(value){
-found = true;
-}
-
-}
-
-});
-
-if(!found){
-return false;
-}
-
-}
-
-return true;
-
-});
-
-renderTable();
-
+  renderTable();
 }
 
 /* CARDS */
 function renderCards(){
+  const totalClasses = Object.keys(CLASSES).length;
+  const totalStudents = PARSED.length;
+  let collected = 0;
+  let expected = 0;
 
-const totalClasses =
-Object.keys(CLASSES).length;
+  PARSED.forEach(student=>{
+    expected += student.monthlyFee * 12;
+    MONTHS.forEach(month=>{
+      if(student.months[month] === "Paid"){
+        collected += student.monthlyFee;
+      }
+    });
+  });
 
-const totalStudents =
-PARSED.length;
-
-let collected = 0;
-let expected = 0;
-
-PARSED.forEach(student=>{
-
-expected += student.monthlyFee * 12;
-
-MONTHS.forEach(month=>{
-
-if(student.months[month] === "Paid"){
-
-collected += student.monthlyFee;
-
-}
-
-});
-
-});
-
-document.getElementById("t1").innerText =
-totalClasses;
-
-document.getElementById("t2").innerText =
-totalStudents;
-
-document.getElementById("t3").innerText =
-"₹ " + collected.toLocaleString('en-IN');
-
-document.getElementById("t4").innerText =
-"₹ " + expected.toLocaleString('en-IN');
-
+  document.getElementById("t1").innerText = totalClasses;
+  document.getElementById("t2").innerText = totalStudents;
+  document.getElementById("t3").innerText = "₹ " + collected.toLocaleString('en-IN');
+  document.getElementById("t4").innerText = "₹ " + expected.toLocaleString('en-IN');
 }
 
 /* CHART */
 function renderChart(){
+  let collected = 0;
+  let pending = 0;
 
-let collected = 0;
-let pending = 0;
+  PARSED.forEach(student=>{
+    MONTHS.forEach(month=>{
+      if(student.months[month] === "Paid"){
+        collected += student.monthlyFee;
+      }else{
+        pending += student.monthlyFee;
+      }
+    });
+  });
 
-PARSED.forEach(student=>{
+  const ctx = document.getElementById("chart").getContext("2d");
+  if(window._chart) window._chart.destroy();
 
-MONTHS.forEach(month=>{
-
-if(student.months[month] === "Paid"){
-
-collected += student.monthlyFee;
-
-}else{
-
-pending += student.monthlyFee;
-
-}
-
-});
-
-});
-
-const ctx =
-document.getElementById("chart")
-.getContext("2d");
-
-if(window._chart){
-window._chart.destroy();
-}
-
-window._chart =
-new Chart(ctx,{
-
-type:"doughnut",
-
-data:{
-labels:["Collected","Pending"],
-
-datasets:[{
-data:[collected,pending],
-backgroundColor:[
-"#10b981",
-"#ef4444"
-]
-}]
-},
-
-options:{
-responsive:true,
-maintainAspectRatio:false
-}
-
-});
-
+  window._chart = new Chart(ctx,{
+    type:"doughnut",
+    data:{
+      labels:["Collected","Pending"],
+      datasets:[{
+        data:[collected,pending],
+        backgroundColor:["#10b981","#ef4444"]
+      }]
+    },
+    options:{responsive:true,maintainAspectRatio:false}
+  });
 }
 
 /* Modal (student details) */
 function openStudent(mobile){
+  const student = PARSED.find(s => s.mobile == mobile);
+  if(!student) return;
 
-const student =
-PARSED.find(
-s => s.mobile == mobile
-);
+  document.getElementById("modalTitle").innerText = student.student + " - Fee Details";
+  document.getElementById("modalSub").innerText = "Mobile : " + student.mobile;
+  document.getElementById("modalClass").innerText = "Class : " + student.class;
+  const collected = getStudentCollected(student);
+  document.getElementById("modalYTD").innerText = "Collected : ₹ " + collected.toLocaleString('en-IN');
 
-if(!student) return;
+  const grid = document.getElementById("monthGrid");
+  grid.innerHTML = "";
 
-document
-.getElementById("modalTitle")
-.innerText =
-student.student + " - Fee Details";
-
-document
-.getElementById("modalSub")
-.innerText =
-"Mobile : " + student.mobile;
-
-document
-.getElementById("modalClass")
-.innerText =
-"Class : " + student.class;
-
-const collected =
-getStudentCollected(student);
-
-document
-.getElementById("modalYTD")
-.innerText =
-"Collected : ₹ " +
-collected.toLocaleString('en-IN');
-
-const grid =
-document.getElementById("monthGrid");
-
-grid.innerHTML = "";
-
-MONTHS.forEach(month=>{
-
-const status =
-student.months[month];
-
-const div =
-document.createElement("div");
-
-div.className =
-"month-card " +
-(
-status === "Paid"
-? "paid"
-: "pending"
-);
-
-div.innerHTML = `
-
-<div>
-
-<strong>${month}</strong>
-
-<br>
-
-₹ ${student.monthlyFee}
-
-</div>
-
-<div>
-
-<strong>
-
-${status || "Unpaid"}
-
-</strong>
-
-</div>
-
-`;
-
-grid.appendChild(div);
-
-});
-
-document
-.getElementById("modalBackdrop")
-.style.display =
-"flex";
-
-}
-
-function getLatestReceipt(s){
-  if(!s) return '';
-  // try to find latest paid month receipt
-  let receipt = '';
-  let bestTs = -Infinity;
-  Object.entries(s.months || {}).forEach(([m,entry])=>{
-    const ts = parseToTimestamp(entry.paidDate) || 0;
-    if(ts > bestTs){
-      bestTs = ts;
-      receipt = entry.receipt || '';
-    }
+  MONTHS.forEach(month=>{
+    const status = student.months[month];
+    const div = document.createElement("div");
+    div.className = "month-card " + (status === "Paid" ? "paid" : "pending");
+    div.innerHTML = `
+      <div><strong>${month}</strong><br>₹ ${student.monthlyFee}</div>
+      <div><strong>${status || "Unpaid"}</strong></div>
+    `;
+    grid.appendChild(div);
   });
-  return receipt;
+
+  document.getElementById("modalBackdrop").style.display = "flex";
+  document.getElementById("modalBackdrop").setAttribute('aria-hidden','false');
 }
 
 function closeModal(){
   document.getElementById('modalBackdrop').style.display = 'none';
+  document.getElementById('modalBackdrop').setAttribute('aria-hidden','true');
 }
 
-/* Export: CSV of filtered students */
+/* Export: CSV of all students */
 function exportCSV(){
-
-let rows = [];
-
-rows.push([
-"Class",
-"Student Name",
-"Mobile",
-"Monthly Fee",
-...MONTHS
-]);
-
-PARSED.forEach(student=>{
-
-rows.push([
-
-student.class,
-student.student,
-student.mobile,
-student.monthlyFee,
-
-student.months.July,
-student.months.August,
-student.months.September,
-student.months.October,
-student.months.November,
-student.months.December,
-
-student.months.January,
-student.months.February,
-student.months.March,
-student.months.April,
-student.months.May,
-student.months.June
-
-]);
-
-});
-
-const csv =
-rows.map(r=>r.join(","))
-.join("\n");
-
-const blob =
-new Blob([csv]);
-
-const a =
-document.createElement("a");
-
-a.href =
-URL.createObjectURL(blob);
-
-a.download =
-"KDSE_Students.csv";
-
-a.click();
-
+  const rows = [];
+  rows.push(["Class","Student Name","Mobile","Monthly Fee",...MONTHS]);
+  PARSED.forEach(student=>{
+    rows.push([
+      student.class, student.student, student.mobile, student.monthlyFee,
+      student.months.July,student.months.August,student.months.September,student.months.October,student.months.November,student.months.December,
+      student.months.January,student.months.February,student.months.March,student.months.April,student.months.May,student.months.June
+    ]);
+  });
+  const csv = rows.map(r=>r.map(c=>`"${String(c||'').replaceAll('"','""')}"`).join(",")).join("\n");
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "KDSE_Students.csv";
+  a.click();
 }
 
 /* Export single student PDF (simple using jsPDF) */
 function exportStudentPDF(){
-
-const title =
-document.getElementById("modalTitle")
-.innerText;
-
-const pdf =
-new jspdf.jsPDF();
-
-pdf.setFontSize(16);
-pdf.text(title,15,20);
-
-pdf.setFontSize(11);
-
-pdf.text(
-document.getElementById("modalSub").innerText,
-15,
-30
-);
-
-pdf.text(
-document.getElementById("modalClass").innerText,
-15,
-38
-);
-
-let y = 55;
-
-const grid =
-document.getElementById("monthGrid");
-
-Array.from(grid.children)
-.forEach(card=>{
-
-pdf.text(
-card.innerText.replace(/\n/g," "),
-15,
-y
-);
-
-y += 10;
-
-if(y > 270){
-
-pdf.addPage();
-
-y = 20;
-
-}
-
-});
-
-pdf.save(
-title.replaceAll(" ","_") +
-".pdf"
-);
-
+  const title = document.getElementById("modalTitle").innerText;
+  const pdf = new jspdf.jsPDF();
+  pdf.setFontSize(16);
+  pdf.text(title,15,20);
+  pdf.setFontSize(11);
+  pdf.text(document.getElementById("modalSub").innerText,15,30);
+  pdf.text(document.getElementById("modalClass").innerText,15,38);
+  let y = 55;
+  const grid = document.getElementById("monthGrid");
+  Array.from(grid.children).forEach(card=>{
+    pdf.text(card.innerText.replace(/\n/g," "),15,y);
+    y += 10;
+    if(y > 270){ pdf.addPage(); y = 20; }
+  });
+  pdf.save(title.replaceAll(" ","_") + ".pdf");
 }
 
 /* Export monthly PDF (summary) */
 function downloadMonthlyPDF(){
-
-const pdf =
-new jspdf.jsPDF();
-
-pdf.setFontSize(16);
-
-pdf.text(
-"KDSE Fee Summary",
-15,
-20
-);
-
-let y = 35;
-
-Object.values(CLASSES)
-.forEach(cls=>{
-
-pdf.text(
-
-`${cls.name} : ${cls.students.length} Students`,
-
-15,
-
-y
-
-);
-
-y += 10;
-
-if(y > 270){
-
-pdf.addPage();
-
-y = 20;
-
-}
-
-});
-
-pdf.save(
-"KDSE_Class_Summary.pdf"
-);
-
+  const pdf = new jspdf.jsPDF();
+  pdf.setFontSize(16);
+  pdf.text("KDSE Fee Summary",15,20);
+  let y = 35;
+  Object.values(CLASSES).forEach(cls=>{
+    pdf.text(`${cls.name} : ${cls.students.length} Students`,15,y);
+    y += 10;
+    if(y > 270){ pdf.addPage(); y = 20; }
+  });
+  pdf.save("KDSE_Class_Summary.pdf");
 }
 
 /* Refresh: re-load from API */
 async function refreshData(){
-  if(!TOKEN) { alert('Not logged in'); return; }
+  if(!TOKEN){ alert('Not logged in'); return; }
   await load();
 }
 
@@ -1232,9 +773,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     document.getElementById('rowsPerPage').value = '10';
     // Enter key login
     document.getElementById("password").addEventListener("keypress", function(e){
-        if(e.key === "Enter"){
-            doLogin();
-        }
+        if(e.key === "Enter"){ doLogin(); }
     });
     const savedToken = localStorage.getItem("kdse_token");
     if(savedToken){
