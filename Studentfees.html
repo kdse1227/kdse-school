@@ -489,43 +489,6 @@ function formatDate(d){
   }
 }
 
-/* FILTERS & SEARCH */
-function applyFilters(){
-  const status = document.getElementById('filterStatus').value;
-  const month = document.getElementById('filterMonth').value;
-  const q = document.getElementById('searchInput').value.trim().toLowerCase();
-
-  const studentList = Object.values(STUDENTS);
-
-  FILTERED = studentList.filter(t => {
-    if(q){
-      const baseMatch = (t.student||"").toLowerCase().includes(q) ||
-                        (t.roll||"").toLowerCase().includes(q) ||
-                        (t.guardian||"").toLowerCase().includes(q) ||
-                        (t.class||"").toLowerCase().includes(q);
-      if(!baseMatch){
-        const mMatch = Object.keys(t.months || {}).some(mn => mn.toLowerCase().includes(q));
-        const statusMatch = Object.values(t.months || {}).some(md => (md.status||"").toLowerCase().includes(q));
-        if(!mMatch && !statusMatch) return false;
-      }
-    }
-
-    if(month){
-      if(!t.months || !t.months[month]) return false;
-    }
-    if(status){
-      const hasStatus = Object.values(t.months || {}).some(md => (md.status||"").toLowerCase() === status.toLowerCase());
-      if(!hasStatus) return false;
-    }
-    return true;
-  });
-
-  FILTERED.sort((a,b)=> (a.student||"").localeCompare(b.student||""));
-  currentPage = 1;
-  renderTable();
-  renderPagination();
-}
-
 /* TABLE & PAGINATION */
 function escapeHtml(s){
   if(!s) return "";
