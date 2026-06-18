@@ -858,20 +858,22 @@ table {
                onkeyup="filterTable()">
 
         <select id="classFilter" onchange="filterTable()">
-          <option value="">All Classes</option>
-          <option value="KG">KG</option>
-          <option value="I">I</option>
-          <option value="II">II</option>
-          <option value="III">III</option>
-          <option value="IV">IV</option>
-          <option value="V">V</option>
-          <option value="VI">VI</option>
-          <option value="VII">VII</option>
-          <option value="VIII">VIII</option>
-          <option value="IX">IX</option>
-          <option value="X">X</option>
-          <option value="XI">XI</option>
-          <option value="XII">XII</option>
+        <option value="">All Classes</option>
+        <option value="Nursery">Nursery</option>
+        <option value="KG-1">KG-1</option>
+        <option value="KG-2">KG-2</option>
+        <option value="I">I</option>
+        <option value="II">II</option>
+        <option value="III">III</option>
+        <option value="IV">IV</option>
+        <option value="V">V</option>
+        <option value="VI">VI</option>
+        <option value="VII">VII</option>
+        <option value="VIII">VIII</option>
+        <option value="IX">IX</option>
+        <option value="X">X</option>
+        <option value="XI">XI</option>
+        <option value="XII">XII</option>
         </select>
 
         <select id="genderFilter" onchange="filterTable()">
@@ -993,9 +995,10 @@ table {
     all_genders: "All Genders",
 
     male: "Male",
-    female: "Female",
+   female: "Female",
+    other: "Other",
 
-    total_submissions: "Total Submissions",
+   total_submissions: "Total Submissions",
 
     updated: "Updated",
 
@@ -1046,10 +1049,10 @@ table {
     all_genders: "सभी जेंडर",
 
     male: "पुरुष",
-    female: "महिला",
+female: "महिला",
+other: "अन्य",
 
-    total_submissions: "कुल सबमिशन",
-
+total_submissions: "कुल सबमिशन",
     updated: "अपडेट",
 
     student_name: "छात्र का नाम",
@@ -1462,10 +1465,9 @@ function calculateStats(data) {
   return stats;
 }
 
-// ========== GENDER CHART (Chart.js) ==========
 function displayGenderChart(stats) {
-  const canvas = document.getElementById('genderChart');
 
+  const canvas = document.getElementById('genderChart');
   if (!canvas) return;
 
   const ctx = canvas.getContext('2d');
@@ -1476,18 +1478,30 @@ function displayGenderChart(stats) {
   }
 
   const total = stats.total;
+  if (total === 0) return;
 
-  if (total === 0) {
-    return;
-  }
+  // Current language
+  const lang = localStorage.getItem('language') || 'en';
 
   chartInstances.gender = new Chart(ctx, {
     type: 'doughnut',
     data: {
-      labels: ['Male', 'Female', 'Other'],
+      labels: [
+        translations[lang].male,
+        translations[lang].female,
+        translations[lang].other
+      ],
       datasets: [{
-        data: [stats.male, stats.female, stats.other],
-        backgroundColor: ['#3498db', '#e74c3c', '#f39c12'],
+        data: [
+          stats.male,
+          stats.female,
+          stats.other
+        ],
+        backgroundColor: [
+          '#3498db',
+          '#e74c3c',
+          '#f39c12'
+        ],
         borderWidth: 2
       }]
     },
@@ -1505,8 +1519,8 @@ function displayGenderChart(stats) {
 
 // ========== CLASS CHART (Chart.js) ==========
 function displayClassChart(classWise) {
-  const canvas = document.getElementById('classChart');
 
+  const canvas = document.getElementById('classChart');
   if (!canvas) return;
 
   const ctx = canvas.getContext('2d');
@@ -1518,18 +1532,20 @@ function displayClassChart(classWise) {
 
   if (Object.keys(classWise).length === 0) return;
 
-  const order = ['KG', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+  const order = ['Nursery','KG-1','KG-2','I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
 
-  const sorted = Object.entries(classWise).sort(
-    (a, b) => order.indexOf(a[0]) - order.indexOf(b[0])
-  );
+  const sorted = Object.entries(classWise)
+    .sort((a, b) => order.indexOf(a[0]) - order.indexOf(b[0]));
+
+  // 🔥 language fix here
+  const lang = localStorage.getItem('language') || 'en';
 
   chartInstances.class = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: sorted.map(([key]) => key),
       datasets: [{
-        label: 'Students',
+        label: lang === 'hi' ? 'विद्यार्थी' : 'Students',   // ✅ FIX HERE
         data: sorted.map(([, val]) => val),
         backgroundColor: '#228B22',
         borderRadius: 6
@@ -1550,7 +1566,7 @@ function displayClassChart(classWise) {
 function displayClassStats(classWise) {
   const container = document.getElementById('classStats');
   const total = Object.values(classWise).reduce((a, b) => a + b, 0);
-  const order = ['KG', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+  const order = [ 'Nursery','KG-1','KG-2', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
   
   if (total === 0) {
     container.innerHTML = '<p style="text-align: center; color: #999;">No data available</p>';
@@ -1812,6 +1828,13 @@ if (mainSwitcher) mainSwitcher.value = lang;
     const el = document.getElementById(id);
     if (el) el.textContent = translations[lang][key];
   });
+
+  if (allData.length > 0) {
+  const stats = calculateStats(allData);
+
+  displayGenderChart(stats);
+  displayClassChart(stats.classWise);
+}
 }
 
 function escapeHTML(str) {
