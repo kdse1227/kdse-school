@@ -1,237 +1,192 @@
-<!doctype html>
-<html lang="hi">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Director Desk — Dashboard Modals</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KDSE School - Director Message</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --accent1:#7c3aed;
-    --accent2:#2563eb;
-    --bg1:#f8fafc;
-    --card-bg:linear-gradient(180deg,#ffffff,#fbfdff);
-    --glass: rgba(2,6,23,0.06);
-  }
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
+body{
+background:linear-gradient(135deg,#08152f,#102b63,#0b1c44);
+color:#fff;min-height:100vh;transition:.4s;
+}
+body.light-theme{background:#eef3ff;color:#111}
+#particles{position:fixed;inset:0;z-index:-1;overflow:hidden}
+.dot{position:absolute;width:4px;height:4px;border-radius:50%;background:gold;opacity:.6;animation:float 18s linear infinite}
+@keyframes float{from{transform:translateY(110vh)}to{transform:translateY(-10vh)}}
+header{display:flex;justify-content:space-between;align-items:center;padding:20px 30px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:15px}
+.logo-circle{width:70px;height:70px;border-radius:50%;background:gold;color:#08152f;font-weight:700;display:flex;align-items:center;justify-content:center}
+.btns button{padding:10px 16px;margin:4px;border:none;border-radius:30px;cursor:pointer}
+.hero,.card{max-width:1200px;margin:20px auto;padding:25px}
+.card{
+background:rgba(255,215,0,.08);
+border:1px solid rgba(255,215,0,.25);
+backdrop-filter:blur(10px);
+border-radius:24px;
+}
+.director{display:grid;grid-template-columns:280px 1fr;gap:30px;align-items:center}
+.photo{
+height:320px;border-radius:20px;background:#1b2d5a;position:relative;
+display:flex;align-items:center;justify-content:center;font-size:70px
+}
 
-  /* Page */
-  body{ margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; background:linear-gradient(120deg,var(--bg1),#eef2ff); color:#071133; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+.photo:before{
+content:"";
+position:absolute;
+inset:-4px;
+border-radius:24px;
+background:linear-gradient(
+135deg,
+rgba(255,215,0,.35),
+rgba(37,99,235,.25)
+);
+filter:blur(10px);
+z-index:-1;
+animation:softGlow 4s ease-in-out infinite;
+}
 
-  /* Container */
-  .wrap{ max-width:1100px; margin:36px auto; padding:20px; }
+@keyframes softGlow{
+0%,100%{
+opacity:.5;
+transform:scale(1);
+}
+50%{
+opacity:.8;
+transform:scale(1.02);
+}
+}
 
-  /* Director Desk Card */
-  .director-card{ display:flex; gap:28px; align-items:center; background:var(--card-bg); border-radius:18px; padding:28px; box-shadow:0 18px 40px rgba(2,6,23,0.06); transition:transform .25s ease; transform-style:preserve-3d; }
-  .director-card:hover{ transform:translateY(-6px); }
-
-  /* Photo */
-  .photo-wrap{ position:relative; width:220px; height:220px; border-radius:16px; overflow:hidden; box-shadow:0 12px 30px rgba(124,58,237,0.12); flex:0 0 220px; }
-  .photo-wrap img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .9s cubic-bezier(.2,.9,.3,1); }
-  .photo-wrap:hover img{ transform:scale(1.08) rotate(-1deg); }
-  .glow{ position:absolute; inset:0; pointer-events:none; background:
-    radial-gradient(600px 200px at 10% 20%, rgba(124,58,237,0.14), transparent 12%),
-    linear-gradient(120deg, rgba(79,70,229,0.04), transparent); mix-blend-mode:screen; }
-
-  /* Info */
-  .info{ flex:1; min-width:0; }
-  .name{ margin:0; font-size:22px; color:#071133; font-weight:700; }
-  .title{ margin:6px 0 18px; color:#475569; font-weight:600; }
-
-  /* Quote slider */
-  .quote-slider{ position:relative; height:62px; overflow:hidden; margin-bottom:6px; }
-  .quote{ position:absolute; left:0; right:0; top:0; opacity:0; transform:translateY(10px) scale(.99); transition:all .6s cubic-bezier(.2,.9,.3,1); color:#0f172a; font-style:italic; font-weight:600; font-size:16px; }
-  .quote.active{ opacity:1; transform:translateY(0) scale(1); }
-
-  /* Buttons */
-  .buttons{ margin-top:18px; display:flex; gap:12px; flex-wrap:wrap; }
-  .dash-btn{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; border:0; padding:12px 18px; border-radius:12px; cursor:pointer; font-weight:700; letter-spacing:.2px; box-shadow:0 10px 30px rgba(37,99,235,0.16); transition:transform .18s ease, box-shadow .18s ease, opacity .12s; }
-  .dash-btn:hover{ transform:translateY(-6px) rotate(-1deg); box-shadow:0 22px 48px rgba(37,99,235,0.22); }
-  .dash-btn:active{ transform:translateY(-3px); }
-
-  /* Modal */
-  .dash-modal{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:1200; }
-  .dash-modal[aria-hidden="false"]{ display:flex; }
-  .dash-backdrop{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(2,6,23,0.45), rgba(2,6,23,0.35)); backdrop-filter: blur(6px); opacity:0; transition:opacity .28s ease; }
-  .dash-modal[aria-hidden="false"] .dash-backdrop{ opacity:1; }
-
-  .dash-panel{ width:90%; max-width:1100px; height:78vh; max-height:820px; background:var(--card-bg); border-radius:14px; box-shadow:0 30px 80px rgba(2,6,23,0.45); transform:translateY(24px) scale(.98); transition:transform .32s cubic-bezier(.2,.9,.3,1), opacity .28s; opacity:0; position:relative; overflow:auto; }
-  .dash-modal[aria-hidden="false"] .dash-panel{ transform:translateY(0) scale(1); opacity:1; }
-
-  .dash-header{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 18px; border-bottom:1px solid rgba(15,23,42,0.04); background:linear-gradient(90deg, rgba(124,58,237,0.03), transparent); position:sticky; top:0; z-index:2; }
-  #dash-title{ margin:0; font-size:18px; color:#071133; font-weight:700; }
-  .dash-close{ background:transparent; border:0; font-size:28px; line-height:1; cursor:pointer; color:#0b1220; padding:4px 8px; border-radius:8px; transition:background .12s; }
-  .dash-close:hover{ background:var(--glass); }
-
-  .dash-body{ height:calc(78vh - 64px); max-height:740px; background:linear-gradient(180deg,#fff,#f8fbff); padding:18px; overflow:auto; }
-  .dash-loader{ display:flex; align-items:center; justify-content:center; height:100%; font-weight:600; color:#334155; font-size:16px; }
-
-  /* Responsive */
-  @media (max-width:720px){
-    .director-card{ flex-direction:column; align-items:center; text-align:center; padding:20px; }
-    .photo-wrap{ width:150px; height:150px; }
-    .dash-panel{ width:96%; height:86vh; }
-    .dash-body{ padding:12px; }
-  }
-
-  /* Tiny enhancement for injected content scroll area */
-  .dash-body :where(h1,h2,h3,p,table,form,section){ max-width:100%; box-sizing:border-box; }
+@keyframes spin{to{transform:rotate(360deg)}}
+.quote{font-size:1.4rem;color:gold;margin-bottom:15px}
+.type{font-size:1.2rem;min-height:40px}
+.actions{display:flex;gap:15px;flex-wrap:wrap;justify-content:center}
+.actions a{
+text-decoration:none;color:#fff;padding:16px 28px;border-radius:16px;
+background:#163a84;transition:.3s
+}
+.actions a:hover,.q:hover{transform:translateY(-8px)}
+.counter-wrap,.quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.counter,.q{text-align:center;padding:20px;border-radius:20px;background:rgba(255,255,255,.05)}
+.num{font-size:2.2rem;color:gold;font-weight:700}
+.q{transition:.4s;transform-style:preserve-3d}
+footer{text-align:center;padding:30px}
+.hidden{display:none}
+@media(max-width:768px){.director{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
+<div id="particles"></div>
 
-<div class="wrap">
-  <div class="director-card" role="region" aria-label="Director Desk">
-    <div class="photo-wrap" aria-hidden="false">
-      <!-- Replace src with your director image -->
-      <img src="images/director.jpg" alt="Director photo" id="director-photo">
-      <div class="glow" aria-hidden="true"></div>
-    </div>
+<header>
+<div class="logo">
+<div class="logo-circle">KDSE</div>
+<div>
+<h2>KDSE SCHOOL</h2>
+<small>Empowering Minds • Building Character</small>
+</div>
+</div>
+<div class="btns">
+<button onclick="showEnglish()">English</button>
+<button onclick="showHindi()">हिन्दी</button>
+<button onclick="toggleTheme()">🌙 Theme</button>
+</div>
+</header>
 
-    <div class="info">
-      <h2 class="name">Mr. Paras Ram Kashyap</h2> <!-- change name -->
-      <p class="title">Director & Founder</p>
-
-      <div class="quote-slider" id="quote-slider" aria-live="polite">
-        <div class="quote active">"Shiksha hi sabse bada dhan hai — har din kuch naya seekho."</div>
-        <div class="quote">"Humara lakshya: har chhatra mein vishwas aur samarthya jagana."</div>
-        <div class="quote">"Mehnat + lagan = safalta — humsaath sab sambhav hai."</div>
-      </div>
-
-      <div class="buttons">
-        <!-- Replace data-href with your actual page URLs (same-origin) -->
-        <button class="dash-btn" data-href="analytics.html" data-title="Analytics Dashboard">Analytics</button>
-        <button class="dash-btn" data-href="Studentfees.html" data-title="Students Fee">Students Fee</button>
-        <button class="dash-btn" data-href="KDSESalary.html" data-title="Teachers Salary">Teachers Salary</button>
-      </div>
-    </div>
-  </div>
+<div id="english">
+<div class="card">
+<div class="director">
+<div class="photo">🎓</div>
+<div>
+<div class="type" id="typewriter"></div>
+<p class="quote">"Education is not the filling of a bucket, but the lighting of a fire."</p>
+<p>Welcome to KDSE School. Our mission is to nurture confident, responsible and successful students through quality education, values, discipline and innovation. We believe every child has unique potential and deserves opportunities to shine.</p>
+<br><b>— Director, KDSE School</b>
+</div>
+</div>
 </div>
 
-<!-- Modal markup (SPA loader) -->
-<div id="dash-modal" class="dash-modal" aria-hidden="true" role="dialog" aria-modal="true">
-  <div class="dash-backdrop" data-close></div>
-  <div class="dash-panel" role="document" aria-labelledby="dash-title">
-    <header class="dash-header">
-      <h3 id="dash-title">Title</h3>
-      <button id="dash-close" class="dash-close" aria-label="Close">&times;</button>
-    </header>
-    <div class="dash-body" id="dash-body">
-      <div class="dash-loader">Waiting for content…</div>
-    </div>
-  </div>
+<div class="card">
+<div class="actions">
+<a href="analytics.html">🎓 Admission</a>
+<a href="KDSESalary.html">💰 Salary Portal</a>
+<a href="Studentfees.html">📚 Student Fee</a>
 </div>
+</div>
+</div>
+
+<div id="hindi" class="hidden">
+<div class="card">
+<div class="director">
+<div class="photo">🎓</div>
+<div>
+<p class="quote">"शिक्षा केवल ज्ञान नहीं, बल्कि चरित्र निर्माण की प्रक्रिया है।"</p>
+<p>केडीएसई विद्यालय में आपका स्वागत है। हमारा उद्देश्य गुणवत्तापूर्ण शिक्षा, संस्कार, अनुशासन और नवाचार के माध्यम से विद्यार्थियों का सर्वांगीण विकास करना है।</p>
+<br><b>— निदेशक, केडीएसई विद्यालय</b>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="actions">
+<a href="analytics.html">🎓 प्रवेश</a>
+<a href="KDSESalary.html">💰 वेतन पोर्टल</a>
+<a href="Studentfees.html">📚 छात्र शुल्क</a>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="counter-wrap">
+<div class="counter"><div class="num" data-target="2500">0</div>Students</div>
+<div class="counter"><div class="num" data-target="120">0</div>Staff</div>
+<div class="counter"><div class="num" data-target="98">0</div>Result %</div>
+</div>
+</div>
+
+<div class="card">
+<div class="quotes">
+<div class="q">The future belongs to those who prepare for it today.</div>
+<div class="q">विद्या वह धन है जिसे कोई चुरा नहीं सकता।</div>
+<div class="q">Learning never exhausts the mind.</div>
+</div>
+</div>
+
+<footer>KDSE School © 2026</footer>
 
 <script>
-(function(){
-  // Quote rotation
-  const quotes = document.querySelectorAll('#quote-slider .quote');
-  let qi = 0;
-  const rotateQuotes = () => {
-    if (!quotes.length) return;
-    quotes.forEach(q=>q.classList.remove('active'));
-    quotes[qi].classList.add('active');
-    qi = (qi + 1) % quotes.length;
-  };
-  rotateQuotes();
-  setInterval(rotateQuotes, 4200);
+for(let i=0;i<80;i++){
+let d=document.createElement('div');
+d.className='dot';
+d.style.left=Math.random()*100+'vw';
+d.style.animationDuration=(10+Math.random()*15)+'s';
+d.style.opacity=Math.random();
+document.getElementById('particles').appendChild(d);
+}
 
-  // Modal SPA loader
-  const modal = document.getElementById('dash-modal');
-  const backdrop = modal.querySelector('.dash-backdrop');
-  const panel = modal.querySelector('.dash-panel');
-  const titleEl = document.getElementById('dash-title');
-  const bodyEl = document.getElementById('dash-body');
-  const closeBtn = document.getElementById('dash-close');
-
-  // Basic focus trap helper (small, not full-featured)
-  let lastFocused = null;
-  function trapFocus() {
-    lastFocused = document.activeElement;
-    closeBtn.focus();
-  }
-  function restoreFocus(){
-    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
-    lastFocused = null;
-  }
-
-  async function openModal(url, title){
-    titleEl.textContent = title || 'Dashboard';
-    modal.setAttribute('aria-hidden','false');
-    trapFocus();
-    bodyEl.innerHTML = '<div class="dash-loader">Loading…</div>';
-
-    try{
-      const res = await fetch(url, { credentials: 'same-origin' });
-      if (!res.ok) throw new Error('Failed to load ('+res.status+')');
-      const text = await res.text();
-
-      // Extract <body> content if present
-      const bodyMatch = text.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-      const content = bodyMatch ? bodyMatch[1] : text;
-
-      // Insert content
-      bodyEl.innerHTML = content;
-
-      // Execute inline scripts from fetched content
-      const scripts = bodyEl.querySelectorAll('script');
-      scripts.forEach(oldScript => {
-        const newScript = document.createElement('script');
-        if (oldScript.src){
-          newScript.src = oldScript.src;
-          newScript.async = false;
-        } else {
-          newScript.textContent = oldScript.textContent;
-        }
-        oldScript.parentNode.replaceChild(newScript, oldScript);
-      });
-
-      // Scroll top of panel
-      panel.scrollTop = 0;
-
-    } catch(err){
-      console.error(err);
-      bodyEl.innerHTML = '<div style="padding:24px;color:#7f1d1d;font-weight:700">Content load failed. Check URL or CORS. ('+ (err.message || 'error') +')</div>';
-    }
-  }
-
-  function closeModal(){
-    modal.setAttribute('aria-hidden','true');
-    // optional: clear body to free memory
-    bodyEl.innerHTML = '';
-    restoreFocus();
-  }
-
-  // Button click handlers
-  document.querySelectorAll('.dash-btn').forEach(btn=>{
-    btn.addEventListener('click', ()=> {
-      const href = btn.dataset.href;
-      const title = btn.dataset.title || btn.textContent.trim();
-      if (!href) {
-        console.warn('No data-href on button');
-        return;
-      }
-      openModal(href, title);
-    });
-  });
-
-  // Close interactions
-  closeBtn.addEventListener('click', closeModal);
-  backdrop.addEventListener('click', closeModal);
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') closeModal();
-    // basic focus trap: keep focus inside modal on Tab
-    if (modal.getAttribute('aria-hidden') === 'false' && e.key === 'Tab') {
-      e.preventDefault();
-      // cycle focus between close button and panel
-      if (document.activeElement === closeBtn) {
-        panel.querySelector('a,button,input,select,textarea, [tabindex]')?.focus();
-      } else {
-        closeBtn.focus();
-      }
-    }
-  });
-
+const txt="Education is the most powerful weapon to change the world.";
+let i=0;
+(function type(){
+ if(i<txt.length){document.getElementById('typewriter').innerHTML+=txt[i++];setTimeout(type,50);}
 })();
-</script>
 
+function showEnglish(){english.classList.remove('hidden');hindi.classList.add('hidden');}
+function showHindi(){hindi.classList.remove('hidden');english.classList.add('hidden');}
+function toggleTheme(){document.body.classList.toggle('light-theme');}
+
+window.onload=()=>{
+let lang=navigator.language||'en';
+if(lang.startsWith('hi')) showHindi();
+document.querySelectorAll('.num').forEach(el=>{
+ let t=+el.dataset.target,c=0;
+ let iv=setInterval(()=>{
+  c+=Math.ceil(t/60);
+  if(c>=t){c=t;clearInterval(iv);}
+  el.textContent=c;
+ },25);
+});
+}
+</script>
 </body>
 </html>
