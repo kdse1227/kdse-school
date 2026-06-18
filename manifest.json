@@ -1,0 +1,23 @@
+{
+  "name": "KDSE School",
+  "short_name": "KDSE",
+  "description": "KDSE School Official App",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#08152f",
+  "theme_color": "#08152f",
+  "icons": [
+    {
+      "src": "images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
