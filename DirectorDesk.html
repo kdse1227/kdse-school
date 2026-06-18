@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Director Desk — Dashboard Modals</title>
+<style>
+  :root{
+    --accent1:#7c3aed;
+    --accent2:#2563eb;
+    --bg1:#f8fafc;
+    --card-bg:linear-gradient(180deg,#ffffff,#fbfdff);
+    --glass: rgba(2,6,23,0.06);
+  }
+
+  /* Page */
+  body{ margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; background:linear-gradient(120deg,var(--bg1),#eef2ff); color:#071133; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+
+  /* Container */
+  .wrap{ max-width:1100px; margin:36px auto; padding:20px; }
+
+  /* Director Desk Card */
+  .director-card{ display:flex; gap:28px; align-items:center; background:var(--card-bg); border-radius:18px; padding:28px; box-shadow:0 18px 40px rgba(2,6,23,0.06); transition:transform .25s ease; transform-style:preserve-3d; }
+  .director-card:hover{ transform:translateY(-6px); }
+
+  /* Photo */
+  .photo-wrap{ position:relative; width:220px; height:220px; border-radius:16px; overflow:hidden; box-shadow:0 12px 30px rgba(124,58,237,0.12); flex:0 0 220px; }
+  .photo-wrap img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .9s cubic-bezier(.2,.9,.3,1); }
+  .photo-wrap:hover img{ transform:scale(1.08) rotate(-1deg); }
+  .glow{ position:absolute; inset:0; pointer-events:none; background:
+    radial-gradient(600px 200px at 10% 20%, rgba(124,58,237,0.14), transparent 12%),
+    linear-gradient(120deg, rgba(79,70,229,0.04), transparent); mix-blend-mode:screen; }
+
+  /* Info */
+  .info{ flex:1; min-width:0; }
+  .name{ margin:0; font-size:22px; color:#071133; font-weight:700; }
+  .title{ margin:6px 0 18px; color:#475569; font-weight:600; }
+
+  /* Quote slider */
+  .quote-slider{ position:relative; height:62px; overflow:hidden; margin-bottom:6px; }
+  .quote{ position:absolute; left:0; right:0; top:0; opacity:0; transform:translateY(10px) scale(.99); transition:all .6s cubic-bezier(.2,.9,.3,1); color:#0f172a; font-style:italic; font-weight:600; font-size:16px; }
+  .quote.active{ opacity:1; transform:translateY(0) scale(1); }
+
+  /* Buttons */
+  .buttons{ margin-top:18px; display:flex; gap:12px; flex-wrap:wrap; }
+  .dash-btn{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; border:0; padding:12px 18px; border-radius:12px; cursor:pointer; font-weight:700; letter-spacing:.2px; box-shadow:0 10px 30px rgba(37,99,235,0.16); transition:transform .18s ease, box-shadow .18s ease, opacity .12s; }
+  .dash-btn:hover{ transform:translateY(-6px) rotate(-1deg); box-shadow:0 22px 48px rgba(37,99,235,0.22); }
+  .dash-btn:active{ transform:translateY(-3px); }
+
+  /* Modal */
+  .dash-modal{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:1200; }
+  .dash-modal[aria-hidden="false"]{ display:flex; }
+  .dash-backdrop{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(2,6,23,0.45), rgba(2,6,23,0.35)); backdrop-filter: blur(6px); opacity:0; transition:opacity .28s ease; }
+  .dash-modal[aria-hidden="false"] .dash-backdrop{ opacity:1; }
+
+  .dash-panel{ width:90%; max-width:1100px; height:78vh; max-height:820px; background:var(--card-bg); border-radius:14px; box-shadow:0 30px 80px rgba(2,6,23,0.45); transform:translateY(24px) scale(.98); transition:transform .32s cubic-bezier(.2,.9,.3,1), opacity .28s; opacity:0; position:relative; overflow:auto; }
+  .dash-modal[aria-hidden="false"] .dash-panel{ transform:translateY(0) scale(1); opacity:1; }
+
+  .dash-header{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 18px; border-bottom:1px solid rgba(15,23,42,0.04); background:linear-gradient(90deg, rgba(124,58,237,0.03), transparent); position:sticky; top:0; z-index:2; }
+  #dash-title{ margin:0; font-size:18px; color:#071133; font-weight:700; }
+  .dash-close{ background:transparent; border:0; font-size:28px; line-height:1; cursor:pointer; color:#0b1220; padding:4px 8px; border-radius:8px; transition:background .12s; }
+  .dash-close:hover{ background:var(--glass); }
+
+  .dash-body{ height:calc(78vh - 64px); max-height:740px; background:linear-gradient(180deg,#fff,#f8fbff); padding:18px; overflow:auto; }
+  .dash-loader{ display:flex; align-items:center; justify-content:center; height:100%; font-weight:600; color:#334155; font-size:16px; }
+
+  /* Responsive */
+  @media (max-width:720px){
+    .director-card{ flex-direction:column; align-items:center; text-align:center; padding:20px; }
+    .photo-wrap{ width:150px; height:150px; }
+    .dash-panel{ width:96%; height:86vh; }
+    .dash-body{ padding:12px; }
+  }
+
+  /* Tiny enhancement for injected content scroll area */
+  .dash-body :where(h1,h2,h3,p,table,form,section){ max-width:100%; box-sizing:border-box; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="director-card" role="region" aria-label="Director Desk">
+    <div class="photo-wrap" aria-hidden="false">
+      <!-- Replace src with your director image -->
+      <img src="path/to/director.jpg" alt="Director photo" id="director-photo">
+      <div class="glow" aria-hidden="true"></div>
+    </div>
+
+    <div class="info">
+      <h2 class="name">Mr. Paras Ram Kashyap</h2> <!-- change name -->
+      <p class="title">Director & Founder</p>
+
+      <div class="quote-slider" id="quote-slider" aria-live="polite">
+        <div class="quote active">"Shiksha hi sabse bada dhan hai — har din kuch naya seekho."</div>
+        <div class="quote">"Humara lakshya: har chhatra mein vishwas aur samarthya jagana."</div>
+        <div class="quote">"Mehnat + lagan = safalta — humsaath sab sambhav hai."</div>
+      </div>
+
+      <div class="buttons">
+        <!-- Replace data-href with your actual page URLs (same-origin) -->
+        <button class="dash-btn" data-href="/analytics.html" data-title="Analytics Dashboard">Analytics</button>
+        <button class="dash-btn" data-href="/Studentfees.html" data-title="Students Fee">Students Fee</button>
+        <button class="dash-btn" data-href="/KDSESalary.html" data-title="Teachers Salary">Teachers Salary</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal markup (SPA loader) -->
+<div id="dash-modal" class="dash-modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="dash-backdrop" data-close></div>
+  <div class="dash-panel" role="document" aria-labelledby="dash-title">
+    <header class="dash-header">
+      <h3 id="dash-title">Title</h3>
+      <button id="dash-close" class="dash-close" aria-label="Close">&times;</button>
+    </header>
+    <div class="dash-body" id="dash-body">
+      <div class="dash-loader">Waiting for content…</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Quote rotation
+  const quotes = document.querySelectorAll('#quote-slider .quote');
+  let qi = 0;
+  const rotateQuotes = () => {
+    if (!quotes.length) return;
+    quotes.forEach(q=>q.classList.remove('active'));
+    quotes[qi].classList.add('active');
+    qi = (qi + 1) % quotes.length;
+  };
+  rotateQuotes();
+  setInterval(rotateQuotes, 4200);
+
+  // Modal SPA loader
+  const modal = document.getElementById('dash-modal');
+  const backdrop = modal.querySelector('.dash-backdrop');
+  const panel = modal.querySelector('.dash-panel');
+  const titleEl = document.getElementById('dash-title');
+  const bodyEl = document.getElementById('dash-body');
+  const closeBtn = document.getElementById('dash-close');
+
+  // Basic focus trap helper (small, not full-featured)
+  let lastFocused = null;
+  function trapFocus() {
+    lastFocused = document.activeElement;
+    closeBtn.focus();
+  }
+  function restoreFocus(){
+    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+    lastFocused = null;
+  }
+
+  async function openModal(url, title){
+    titleEl.textContent = title || 'Dashboard';
+    modal.setAttribute('aria-hidden','false');
+    trapFocus();
+    bodyEl.innerHTML = '<div class="dash-loader">Loading…</div>';
+
+    try{
+      const res = await fetch(url, { credentials: 'same-origin' });
+      if (!res.ok) throw new Error('Failed to load ('+res.status+')');
+      const text = await res.text();
+
+      // Extract <body> content if present
+      const bodyMatch = text.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+      const content = bodyMatch ? bodyMatch[1] : text;
+
+      // Insert content
+      bodyEl.innerHTML = content;
+
+      // Execute inline scripts from fetched content
+      const scripts = bodyEl.querySelectorAll('script');
+      scripts.forEach(oldScript => {
+        const newScript = document.createElement('script');
+        if (oldScript.src){
+          newScript.src = oldScript.src;
+          newScript.async = false;
+        } else {
+          newScript.textContent = oldScript.textContent;
+        }
+        oldScript.parentNode.replaceChild(newScript, oldScript);
+      });
+
+      // Scroll top of panel
+      panel.scrollTop = 0;
+
+    } catch(err){
+      console.error(err);
+      bodyEl.innerHTML = '<div style="padding:24px;color:#7f1d1d;font-weight:700">Content load failed. Check URL or CORS. ('+ (err.message || 'error') +')</div>';
+    }
+  }
+
+  function closeModal(){
+    modal.setAttribute('aria-hidden','true');
+    // optional: clear body to free memory
+    bodyEl.innerHTML = '';
+    restoreFocus();
+  }
+
+  // Button click handlers
+  document.querySelectorAll('.dash-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> {
+      const href = btn.dataset.href;
+      const title = btn.dataset.title || btn.textContent.trim();
+      if (!href) {
+        console.warn('No data-href on button');
+        return;
+      }
+      openModal(href, title);
+    });
+  });
+
+  // Close interactions
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') closeModal();
+    // basic focus trap: keep focus inside modal on Tab
+    if (modal.getAttribute('aria-hidden') === 'false' && e.key === 'Tab') {
+      e.preventDefault();
+      // cycle focus between close button and panel
+      if (document.activeElement === closeBtn) {
+        panel.querySelector('a,button,input,select,textarea, [tabindex]')?.focus();
+      } else {
+        closeBtn.focus();
+      }
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>
