@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KDSE School | Director's Message</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#08152f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="images/icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
@@ -129,6 +135,13 @@ width:100%;
 height:100%;
 object-fit:cover;
 }
+
+.logo{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
 .btns button{padding:10px 16px;margin:4px;border:none;border-radius:30px;cursor:pointer}
 .hero,.card{max-width:1200px;margin:20px auto;padding:25px}
 .card{
@@ -588,6 +601,18 @@ updateThemeButton();
 }
 
 window.onload = () => {
+
+const savedTheme = localStorage.getItem("theme");
+
+if(savedTheme === "light"){
+ document.body.classList.add("light-theme");
+}
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js')
+      .then(() => console.log('Service Worker Registered'))
+      .catch(err => console.log('SW Error', err));
+}
 
 let lang=navigator.language||'en';
 
