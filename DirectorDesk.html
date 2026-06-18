@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KDSE School - Director Message</title>
+<title>KDSE School | Director's Message</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
@@ -11,20 +11,129 @@ body{
 background:linear-gradient(135deg,#08152f,#102b63,#0b1c44);
 color:#fff;min-height:100vh;transition:.4s;
 }
-body.light-theme{background:#eef3ff;color:#111}
+body.light-theme{
+background:linear-gradient(
+135deg,
+#f8fbff,
+#edf4ff,
+#dfeeff
+);
+color:#1a1a1a;
+}
+
+body.light-theme .card{
+background:rgba(255,255,255,.85);
+border:1px solid rgba(37,99,235,.15);
+backdrop-filter:blur(15px);
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+body.light-theme .quote{
+color:#d4a017;
+}
+
+body.light-theme .counter,
+body.light-theme .q{
+background:#ffffff;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+body.light-theme .actions a{
+background:linear-gradient(
+135deg,
+#1e40af,
+#2563eb
+);
+color:white;
+box-shadow:0 8px 20px rgba(37,99,235,.25);
+}
+
+body.light-theme .actions a:hover{
+box-shadow:0 15px 35px rgba(37,99,235,.35);
+}
+
+.btns button{
+padding:10px 16px;
+margin:4px;
+border:none;
+border-radius:30px;
+cursor:pointer;
+font-weight:600;
+transition:.3s;
+}
+
+.actions a{
+position:relative;
+overflow:hidden;
+}
+
+.actions a::before{
+content:'';
+position:absolute;
+top:0;
+left:-100%;
+width:100%;
+height:100%;
+background:rgba(255,255,255,.15);
+transition:.6s;
+}
+
+.actions a:hover::before{
+left:100%;
+}
+
+body.light-theme .btns button{
+background:white;
+color:#1e40af;
+box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+body.light-theme .photo{
+background:#f4f7ff;
+color:#1e40af;
+border:1px solid rgba(37,99,235,.15);
+}
+
+body.light-theme .photo:before{
+background:linear-gradient(
+135deg,
+rgba(255,215,0,.15),
+rgba(37,99,235,.12)
+);
+filter:blur(8px);
+}
 #particles{position:fixed;inset:0;z-index:-1;overflow:hidden}
 .dot{position:absolute;width:4px;height:4px;border-radius:50%;background:gold;opacity:.6;animation:float 18s linear infinite}
 @keyframes float{from{transform:translateY(110vh)}to{transform:translateY(-10vh)}}
-header{display:flex;justify-content:space-between;align-items:center;padding:20px 30px;flex-wrap:wrap}
-.logo{display:flex;align-items:center;gap:15px}
-.logo-circle{width:70px;height:70px;border-radius:50%;background:gold;color:#08152f;font-weight:700;display:flex;align-items:center;justify-content:center}
+header{
+position:sticky;
+top:0;
+z-index:1000;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 30px;
+flex-wrap:wrap;
+backdrop-filter:blur(15px);
+background:rgba(8,21,47,.75);
+border-bottom:1px solid rgba(255,215,0,.15);
+}
+
+body.light-theme header{
+background:rgba(255,255,255,.85);
+border-bottom:1px solid rgba(37,99,235,.15);
+}
+
+.logo-circle img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
 .btns button{padding:10px 16px;margin:4px;border:none;border-radius:30px;cursor:pointer}
 .hero,.card{max-width:1200px;margin:20px auto;padding:25px}
 .card{
-background:rgba(255,215,0,.08);
-border:1px solid rgba(255,215,0,.25);
-backdrop-filter:blur(10px);
-border-radius:24px;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,215,0,.18);
 }
 .director{display:grid;grid-template-columns:280px 1fr;gap:30px;align-items:center}
 .photo{
@@ -58,7 +167,37 @@ transform:scale(1.02);
 }
 }
 
-@keyframes spin{to{transform:rotate(360deg)}}
+.logo-circle{
+box-shadow:0 0 20px rgba(255,215,0,.35);
+}
+body.light-theme .logo-circle{
+box-shadow:0 8px 20px rgba(255,215,0,.35);
+}
+.director{
+transition:.4s;
+}
+
+.photo img{
+width:100%;
+height:100%;
+object-fit:cover;
+border-radius:20px;
+}
+
+.fade-up{
+opacity:0;
+transform:translateY(50px);
+transition:all .8s ease;
+}
+
+.fade-up.show{
+opacity:1;
+transform:translateY(0);
+}
+
+.card:hover .director{
+transform:translateY(-3px);
+}
 .quote{font-size:1.4rem;color:gold;margin-bottom:15px}
 .type{font-size:1.2rem;min-height:40px}
 .actions{display:flex;gap:15px;flex-wrap:wrap;justify-content:center}
@@ -69,11 +208,209 @@ background:#163a84;transition:.3s
 .actions a:hover,.q:hover{transform:translateY(-8px)}
 .counter-wrap,.quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
 .counter,.q{text-align:center;padding:20px;border-radius:20px;background:rgba(255,255,255,.05)}
-.num{font-size:2.2rem;color:gold;font-weight:700}
+.num{
+font-size:2.2rem;
+font-weight:700;
+background:linear-gradient(
+135deg,
+#FFD700,
+#FFA500
+);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
 .q{transition:.4s;transform-style:preserve-3d}
 footer{text-align:center;padding:30px}
 .hidden{display:none}
 @media(max-width:768px){.director{grid-template-columns:1fr}}
+
+/* PREMIUM LIGHT THEME */
+
+.card{
+max-width:1200px;
+margin:20px auto;
+padding:25px;
+border-radius:24px;
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(20px);
+-webkit-backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,.12);
+box-shadow:
+0 8px 32px rgba(0,0,0,.15),
+0 0 0 1px rgba(255,255,255,.05);
+transition:.4s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+box-shadow:
+0 15px 40px rgba(255,215,0,.15);
+}
+
+body.light-theme .counter,
+body.light-theme .q{
+background:#ffffff;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.logo-circle{
+width:70px;
+height:70px;
+border-radius:50%;
+overflow:hidden;
+background:white;
+}
+
+.photo{
+overflow:hidden;
+}
+
+.photo img{
+transition:transform .6s ease;
+}
+
+.photo:hover img{
+transform:scale(1.08);
+}
+
+.logo-circle img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+footer{
+text-align:center;
+padding:35px;
+margin-top:30px;
+border-top:1px solid rgba(255,255,255,.1);
+background:rgba(255,255,255,.03);
+backdrop-filter:blur(10px);
+}
+
+body.light-theme header h2{
+color:#0f172a;
+}
+
+body.light-theme header small{
+color:#475569;
+}
+
+body.light-theme .actions a{
+background:linear-gradient(
+135deg,
+#1e40af,
+#2563eb
+);
+color:white;
+box-shadow:0 8px 20px rgba(37,99,235,.25);
+}
+
+body.light-theme .actions a:hover{
+box-shadow:0 15px 35px rgba(37,99,235,.35);
+}
+
+body.light-theme .photo{
+background:#f4f7ff;
+color:#1e40af;
+border:1px solid rgba(37,99,235,.15);
+}
+
+body.light-theme .photo:before{
+background:linear-gradient(
+135deg,
+rgba(255,215,0,.15),
+rgba(37,99,235,.12)
+);
+filter:blur(8px);
+}
+
+body.light-theme .btns button{
+background:white;
+color:#1e40af;
+box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+body.light-theme .logo-circle{
+background:linear-gradient(
+135deg,
+#FFD700,
+#FFA500
+);
+color:#08152f;
+}
+
+body{
+animation:pageLoad .8s ease;
+}
+
+@keyframes pageLoad{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+.director-name{
+font-size:1.7rem;
+font-weight:700;
+margin-top:15px;
+margin-bottom:8px;
+background:linear-gradient(
+135deg,
+#FFD700,
+#FFF5A5,
+#FFA500
+);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+text-shadow:0 0 15px rgba(255,215,0,.25);
+letter-spacing:1px;
+}
+
+#liveClock{
+margin-left:15px;
+padding:10px 18px;
+border-radius:14px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.12);
+font-size:.9rem;
+font-weight:600;
+color:#FFD700;
+white-space:nowrap;
+}
+
+body.light-theme #liveClock{
+background:white;
+color:#1e40af;
+box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+.num{
+font-size:2.2rem;
+font-weight:700;
+background:linear-gradient(
+135deg,
+#FFD700,
+#FFA500
+);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.btns button{
+font-weight:600;
+transition:.3s;
+}
+
+.btns button:hover{
+transform:translateY(-3px);
+}
 </style>
 </head>
 <body>
@@ -81,7 +418,9 @@ footer{text-align:center;padding:30px}
 
 <header>
 <div class="logo">
-<div class="logo-circle">KDSE</div>
+<div class="logo-circle">
+<img src="images/logo.png" alt="KDSE Logo">
+</div>
 <div>
 <h2>KDSE SCHOOL</h2>
 <small>Empowering Minds • Building Character</small>
@@ -90,24 +429,31 @@ footer{text-align:center;padding:30px}
 <div class="btns">
 <button onclick="showEnglish()">English</button>
 <button onclick="showHindi()">हिन्दी</button>
-<button onclick="toggleTheme()">🌙 Theme</button>
+<button id="themeBtn" onclick="toggleTheme()">🌙 Theme</button>
+<div id="liveClock"></div>
 </div>
 </header>
 
 <div id="english">
-<div class="card">
+<div class="card fade-up">
 <div class="director">
-<div class="photo">🎓</div>
+<div class="photo">
+<img src="images/director.jpg" alt="Director">
+</div>
 <div>
 <div class="type" id="typewriter"></div>
 <p class="quote">"Education is not the filling of a bucket, but the lighting of a fire."</p>
 <p>Welcome to KDSE School. Our mission is to nurture confident, responsible and successful students through quality education, values, discipline and innovation. We believe every child has unique potential and deserves opportunities to shine.</p>
-<br><b>— Director, KDSE School</b>
+<div class="director-name">
+Mr. Paras Ram Kashyap
+</div>
+
+<b>Director, KDSE School</b>
 </div>
 </div>
 </div>
 
-<div class="card">
+<div class="card fade-up">
 <div class="actions">
 <a href="analytics.html">🎓 Admission</a>
 <a href="KDSESalary.html">💰 Salary Portal</a>
@@ -117,18 +463,24 @@ footer{text-align:center;padding:30px}
 </div>
 
 <div id="hindi" class="hidden">
-<div class="card">
+<div class="card fade-up">
 <div class="director">
-<div class="photo">🎓</div>
+<div class="photo">
+<img src="images/director.jpg" alt="Director">
+</div>
 <div>
 <p class="quote">"शिक्षा केवल ज्ञान नहीं, बल्कि चरित्र निर्माण की प्रक्रिया है।"</p>
 <p>केडीएसई विद्यालय में आपका स्वागत है। हमारा उद्देश्य गुणवत्तापूर्ण शिक्षा, संस्कार, अनुशासन और नवाचार के माध्यम से विद्यार्थियों का सर्वांगीण विकास करना है।</p>
-<br><b>— निदेशक, केडीएसई विद्यालय</b>
+<div class="director-name">
+श्री परसराम कश्यप
+</div>
+
+<b>निदेशक, केडीएसई विद्यालय</b>
 </div>
 </div>
 </div>
 
-<div class="card">
+<div class="card fade-up">
 <div class="actions">
 <a href="analytics.html">🎓 प्रवेश</a>
 <a href="KDSESalary.html">💰 वेतन पोर्टल</a>
@@ -137,15 +489,15 @@ footer{text-align:center;padding:30px}
 </div>
 </div>
 
-<div class="card">
+<div class="card fade-up">
 <div class="counter-wrap">
-<div class="counter"><div class="num" data-target="2500">0</div>Students</div>
-<div class="counter"><div class="num" data-target="120">0</div>Staff</div>
-<div class="counter"><div class="num" data-target="98">0</div>Result %</div>
+<div class="counter"><div class="num" data-target="400">0</div>Students</div>
+<div class="counter"><div class="num" data-target="15">0</div>Staff</div>
+<div class="counter"><div class="num" data-target="95">0</div>Result %</div>
 </div>
 </div>
 
-<div class="card">
+<div class="card fade-up">
 <div class="quotes">
 <div class="q">The future belongs to those who prepare for it today.</div>
 <div class="q">विद्या वह धन है जिसे कोई चुरा नहीं सकता।</div>
@@ -153,7 +505,10 @@ footer{text-align:center;padding:30px}
 </div>
 </div>
 
-<footer>KDSE School © 2026</footer>
+<footer>
+<p>© 2026 KDSE School. All Rights Reserved.</p>
+<p>Director: Mr. Paras Ram Kashyap</p>
+</footer>
 
 <script>
 for(let i=0;i<80;i++){
@@ -171,22 +526,111 @@ let i=0;
  if(i<txt.length){document.getElementById('typewriter').innerHTML+=txt[i++];setTimeout(type,50);}
 })();
 
-function showEnglish(){english.classList.remove('hidden');hindi.classList.add('hidden');}
-function showHindi(){hindi.classList.remove('hidden');english.classList.add('hidden');}
-function toggleTheme(){document.body.classList.toggle('light-theme');}
+function showEnglish(){
 
-window.onload=()=>{
+document.getElementById('english').classList.remove('hidden');
+document.getElementById('hindi').classList.add('hidden');
+
+}
+
+function showHindi(){
+
+document.getElementById('hindi').classList.remove('hidden');
+document.getElementById('english').classList.add('hidden');
+
+}
+
+function updateClock(){
+
+const now = new Date();
+
+const date =
+now.toLocaleDateString('en-IN',{
+day:'2-digit',
+month:'short',
+year:'numeric'
+});
+
+const time =
+now.toLocaleTimeString('en-IN',{
+hour:'2-digit',
+minute:'2-digit',
+second:'2-digit'
+});
+
+document.getElementById("liveClock").innerHTML =
+"📅 " + date + " | 🕒 " + time;
+
+}
+function updateThemeButton(){
+
+const btn = document.getElementById("themeBtn");
+
+btn.innerHTML =
+document.body.classList.contains("light-theme")
+? "☀️ Theme"
+: "🌙 Theme";
+
+}
+function toggleTheme(){
+
+document.body.classList.toggle("light-theme");
+
+localStorage.setItem(
+"theme",
+document.body.classList.contains("light-theme")
+? "light"
+: "dark"
+);
+
+updateThemeButton();
+
+}
+
+window.onload = () => {
+
 let lang=navigator.language||'en';
+
 if(lang.startsWith('hi')) showHindi();
+
+updateThemeButton();
+
+updateClock();
+setInterval(updateClock,1000);
+
 document.querySelectorAll('.num').forEach(el=>{
  let t=+el.dataset.target,c=0;
+
  let iv=setInterval(()=>{
   c+=Math.ceil(t/60);
-  if(c>=t){c=t;clearInterval(iv);}
+
+  if(c>=t){
+   c=t;
+   clearInterval(iv);
+  }
+
   el.textContent=c;
+
  },25);
 });
+
+const observer = new IntersectionObserver(entries => {
+
+entries.forEach(entry => {
+
+if(entry.isIntersecting){
+entry.target.classList.add("show");
 }
+
+});
+
+},{threshold:.15});
+
+document.querySelectorAll(".fade-up").forEach(el=>{
+observer.observe(el);
+});
+
+}; 
 </script>
 </body>
 </html>
