@@ -784,13 +784,16 @@ function exportTeacherPDF() {
     head: [["Month", "Amount", "Status", "Paid Date"]],
     body: monthlyRows,
 
+    theme: "grid",
+
     styles: {
+        fontSize: 10,
         textColor: [0,0,0]
     },
 
     headStyles: {
-        fillColor: [255,255,255],
-        textColor: [0,0,0],
+        fillColor: [109,40,217],
+        textColor: [255,255,255],
         fontStyle: "bold"
     },
 
@@ -798,8 +801,15 @@ function exportTeacherPDF() {
         textColor: [0,0,0]
     },
 
-    theme: "grid"
-  });
+    didParseCell: function(data){
+
+        if(data.column.index === 1){
+            data.cell.styles.fontStyle = "bold";
+            data.cell.styles.textColor = [0,0,0];
+        }
+
+    }
+});
 
     let finalY = doc.lastAutoTable.finalY + 20;
 
