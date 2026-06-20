@@ -722,6 +722,22 @@ function exportTeacherPDF() {
     doc.autoTable({
     startY: 50,
 
+    styles: {
+        fontSize: 10,
+        cellPadding: 4,
+        textColor: [0,0,0]
+    },
+
+    headStyles: {
+        fillColor: [109,40,217],
+        textColor: [255,255,255],
+        fontStyle: "bold"
+    },
+
+    bodyStyles: {
+        textColor: [0,0,0]
+    },
+
     head: [[
         "Name / Mobile",
         "Designation",
@@ -732,25 +748,8 @@ function exportTeacherPDF() {
     ]],
 
     body: tableData,
-    theme: "grid",
-
-    styles: {
-        fontSize: 9,
-        textColor: [0,0,0],
-        lineColor: [0,0,0]
-    },
-
-    headStyles: {
-        fillColor: [255,255,255],
-        textColor: [0,0,0],
-        fontStyle: "bold",
-        lineColor: [0,0,0]
-    },
-
-    bodyStyles: {
-        textColor: [0,0,0]
-    }
- });
+    theme: "grid"
+});
 
     let y = doc.lastAutoTable.finalY + 10;
 
@@ -854,6 +853,22 @@ function downloadMonthlyPDF() {
     doc.autoTable({
     startY: 50,
 
+    styles: {
+        fontSize: 10,
+        cellPadding: 4,
+        textColor: [0,0,0]
+    },
+
+    headStyles: {
+        fillColor: [109,40,217],
+        textColor: [255,255,255],
+        fontStyle: "bold"
+    },
+
+    bodyStyles: {
+        textColor: [0,0,0]
+    },
+
     head: [[
         "Name / Mobile",
         "Designation",
@@ -864,23 +879,7 @@ function downloadMonthlyPDF() {
     ]],
 
     body: tableData,
-    theme: 'grid',
-
-    styles: {
-        fontSize: 10,
-        cellPadding: 4,
-        textColor: [0,0,0]
-    },
-
-    headStyles: {
-        fillColor: [255,255,255],
-        textColor: [0,0,0],
-        fontStyle: 'bold'
-    },
-
-    bodyStyles: {
-        textColor: [0,0,0]
-    }
+    theme: "grid"
 });
 
     let finalY = doc.lastAutoTable.finalY + 20;
