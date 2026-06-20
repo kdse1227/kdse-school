@@ -758,7 +758,7 @@ function exportTeacherPDF() {
 
         monthlyRows.push([
             m,
-            `₹ ${Number(md.amount).toLocaleString('en-IN')}`,
+            "Rs. " + Number(md.amount).toLocaleString('en-IN'),
             md.status,
             md.paidDate ? formatDate(md.paidDate) : "-"
         ]);
@@ -766,22 +766,118 @@ function exportTeacherPDF() {
     });
 
     doc.autoTable({
-        startY: y,
-        head: [["Month", "Amount", "Status", "Paid Date"]],
-        body: monthlyRows,
-        theme: 'striped'
-    });
+    startY: y,
+    head: [["Month", "Amount", "Status", "Paid Date"]],
+    body: monthlyRows,
+    theme: "striped",
+
+    didParseCell: function(data){
+
+        // Amount Column
+        if(data.column.index === 1){
+
+            data.cell.styles.fontStyle = "bold";
+            data.cell.styles.textColor = [0,0,0];
+
+        }
+
+    }
+   });
 
     let finalY = doc.lastAutoTable.finalY + 20;
 
-    doc.setFontSize(11);
-    doc.setFont(undefined, 'bold');
-    doc.text("Founder & Director Signature", 220, finalY);
-
-    doc.line(220, finalY + 5, 280, finalY + 5);
-
-    doc.save(`${data.name}_Salary_Report.pdf`);
+   if(finalY > 180){
+    doc.addPage();
+    finalY = 30;
 }
+
+    doc.setFontSize(11);
+    doc.setFont(undefined,"bold");
+
+    doc.text("Founder & Director Signature",14,finalY);
+doc.line(14,finalY+4,80,finalY+4);
+
+doc.save(`${data.name}_Salary_Report.pdf`);
+}
+
+function downloadMonthlyPDF() {
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('landscape');
+
+    if (SCHOOL_LOGO) {
+        doc.addImage(SCHOOL_LOGO, 'PNG', 10, 8, 22, 22);
+    }
+
+    doc.setFontSize(16);
+    doc.setFont(undefined, 'bold');
+    doc.text("KALYANI DEVI SCHOOL OF EDUCATION", 148, 15, { align: "center" });
+
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'normal');
+    doc.text("Piparkhunta, Dewarhat, Lormi, Mungeli, Chhattisgarh – 495115", 148, 22, { align: "center" });
+    doc.text("Mobile: 8224821843 | Email: kdse1227@gmail.com", 148, 28, { align: "center" });
+    doc.text("UDISE Code: 22191213904", 148, 34, { align: "center" });
+
+    doc.setFontSize(13);
+    doc.setFont(undefined, 'bold');
+    doc.text("MONTHLY SALARY REPORT", 148, 43, { align: "center" });
+
+    const tableData = Object.values(TEACHERS).map(t => [
+        `${t.name}\n${t.mobile}`,
+        t.designation,
+        t.latestMonth || "-",
+        "₹ " + Number(t.totalYTD || 0).toLocaleString('en-IN'),
+        t.latestStatus || "-",
+        t.latestPaidDate ? formatDate(t.latestPaidDate) : "-"
+    ]);
+
+    doc.autoTable({
+    startY: 50,
+    head: [[
+        "Name / Mobile",
+        "Designation",
+        "Latest Month",
+        "Amount (YTD)",
+        "Latest Status",
+        "Paid Date"
+    ]],
+    body: tableData,
+    theme: "grid",
+
+    styles: {
+        fontSize: 9
+    },
+
+    didParseCell: function(data){
+
+        // Amount (YTD) Column
+        if(data.column.index === 3){
+
+            data.cell.styles.fontStyle = "bold";
+            data.cell.styles.textColor = [0,0,0];
+
+        }
+
+    }
+});
+
+    let finalY = doc.lastAutoTable.finalY + 20;
+    if(finalY > 180){
+    doc.addPage();
+    finalY = 30;
+}
+
+    doc.setFontSize(11);
+    doc.setFont(undefined, "bold");
+
+    // LEFT SIDE SIGNATURE
+    doc.text("Founder & Director Signature", 14, finalY);
+    doc.line(14, finalY + 4, 80, finalY + 4);
+
+    doc.save("Monthly_Salary_Report.pdf");
+}
+
 /* export CSV */
 function exportCSV(){
   const rows = [['teacher name','Designation','mobile number','month','Salary Amount','Status','Paid Date','Payment mode','Remarks']];
