@@ -827,7 +827,7 @@ function downloadMonthlyPDF() {
         `${t.name}\n${t.mobile}`,
         t.designation,
         t.latestMonth || "-",
-        "₹ " + Number(t.totalYTD || 0).toLocaleString('en-IN'),
+        "Rs. " + Number(t.totalYTD || 0).toLocaleString('en-IN'),
         t.latestStatus || "-",
         t.latestPaidDate ? formatDate(t.latestPaidDate) : "-"
     ]);
