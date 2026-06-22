@@ -1050,15 +1050,16 @@ table {
 
           <thead>
             <tr>
-              <th>ID</th>
-              <th id="thTimestamp">Timestamp</th>
-              <th id="thStudent">Student Name</th>
-              <th id="thFather">Father Name</th>
-              <th id="thClass">Class</th>
-              <th id="thDob">DOB</th>
-              <th id="thGender">Gender</th>
-              <th id="thCaste">Caste</th>
-              <th id="thBlood">Blood Group</th>
+            <th>ID</th>
+            <th>Timestamp</th>
+            <th>Student Name</th>
+            <th>Father Name</th>
+            <th>Class</th>
+            <th>DOB</th>
+            <th>Gender</th>
+            <th>Caste</th>
+            <th>Blood Group</th>
+            <th>Photo</th>
             </tr>
           </thead>
 
@@ -1253,7 +1254,8 @@ const COLUMN_MAP = {
   dob: 9,
   gender: 10,
   caste: 11,
-  bloodGroup: 12
+  bloodGroup: 12,
+  photo: 13 // <-- image column
 };
 
 // ========== STATE MANAGEMENT ==========
@@ -1585,13 +1587,27 @@ function updateColumnMap(headers) {
     if (h.includes('form id')) COLUMN_MAP.id = index;
     if (h.includes('timestamp')) COLUMN_MAP.timestamp = index;
     if (h.includes('student name (english)')) COLUMN_MAP.name = index;
-    if (h.includes('father name (english')) COLUMN_MAP.fatherName = index; // fix
+    if (h.includes('father name (english')) COLUMN_MAP.fatherName = index;
     if (h === 'class') COLUMN_MAP.class = index;
     if (h.includes('dob')) COLUMN_MAP.dob = index;
     if (h.includes('gender')) COLUMN_MAP.gender = index;
     if (h.includes('caste')) COLUMN_MAP.caste = index;
     if (h.includes('blood')) COLUMN_MAP.bloodGroup = index;
+
+    // ✅ Photo/Image Column Detection
+    if (
+      h.includes('photo') ||
+      h.includes('image') ||
+      h.includes('student photo') ||
+      h.includes('student image') ||
+      h.includes('upload photo') ||
+      h.includes('passport photo')
+    ) {
+      COLUMN_MAP.photo = index;
+    }
   });
+
+  console.log("Detected Columns:", COLUMN_MAP);
 }
 
 function displayAnalytics() {
@@ -2019,16 +2035,17 @@ function displayRecentSubmissions(data) {
   container.innerHTML =
     displayData.map(row => `
       <tr>
-        <td><strong>${escapeHTML(row[COLUMN_MAP.id] || '-')}</strong></td>
-        <td>${escapeHTML(formatTimestamp(row[COLUMN_MAP.timestamp]))}</td>
-        <td>${escapeHTML(row[COLUMN_MAP.name] || '-')}</td>
-        <td>${escapeHTML(row[COLUMN_MAP.fatherName] || '-')}</td>
-        <td>${escapeHTML(row[COLUMN_MAP.class] || '-')}</td>
-        <td>${escapeHTML(formatDOB(row[COLUMN_MAP.dob]))}</td>
-        <td>${escapeHTML(row[COLUMN_MAP.gender] || '-')}</td>
-        <td>${escapeHTML(row[COLUMN_MAP.caste] || '-')}</td>
-        <td>${escapeHTML(row[COLUMN_MAP.bloodGroup] || '-')}</td>
-      </tr>
+  <td><strong>${escapeHTML(row[COLUMN_MAP.id] || '-')}</strong></td>
+  <td>${escapeHTML(formatTimestamp(row[COLUMN_MAP.timestamp]))}</td>
+  <td>${escapeHTML(row[COLUMN_MAP.name] || '-')}</td>
+  <td>${escapeHTML(row[COLUMN_MAP.fatherName] || '-')}</td>
+  <td>${escapeHTML(row[COLUMN_MAP.class] || '-')}</td>
+  <td>${escapeHTML(formatDOB(row[COLUMN_MAP.dob]))}</td>
+  <td>${escapeHTML(row[COLUMN_MAP.gender] || '-')}</td>
+  <td>${escapeHTML(row[COLUMN_MAP.caste] || '-')}</td>
+  <td>${escapeHTML(row[COLUMN_MAP.bloodGroup] || '-')}</td>
+  <td>${getPhotoHTML(row[COLUMN_MAP.photo])}</td>
+  </tr>
     `).join('');
 
   updatePaginationInfo(reversed.length);
@@ -2051,6 +2068,27 @@ function updateLastUpdated() {
   const now = new Date();
   const time = now.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
   document.getElementById('lastUpdated').textContent = time;
+}
+
+function getPhotoHTML(fileId) {
+
+  if (!fileId) return '-';
+
+  const imageUrl =
+    `https://drive.google.com/thumbnail?id=${fileId}&sz=w150`;
+
+  return `
+    <a href="https://drive.google.com/file/d/${fileId}/view"
+       target="_blank">
+      <img src="${imageUrl}"
+           style="
+             width:50px;
+             height:50px;
+             object-fit:cover;
+             border-radius:6px;
+             border:1px solid #ddd;">
+    </a>
+  `;
 }
 
 // ========== AUTO-REFRESH ==========
